@@ -23,12 +23,27 @@ https://aws.amazon.com/ko/getting-started/projects/?pg=ln&p=s3
 ```
 
 <hr/>
+### Amazon EC2
+##Ubuntu
+-elastic ip  
+https://blog.naver.com/jogilsang/221380379924
+
+-Domain DNS Setting  
+https://blog.naver.com/jogilsang/221369907088
+
+-dnsmasq, ns server  
+https://blog.naver.com/jogilsang/221370424937
+
+-timezone, korea  
+https://blog.naver.com/jogilsang/221375057555
 
 ### Amazon EBS
 EC2 인스턴스 디스크용량 확장하기(Free tier 에서 30GB 까지 가능)  
 https://blog.naver.com/jogilsang/221370362752
 
-### Amazon S3 Summary
+### Amazon LAMDA
+
+### Amazon S3 
 
 IAM (Identity and Access Management) 사용자를 만든다.  
 Programmatic access를 체크한다  
