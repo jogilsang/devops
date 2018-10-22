@@ -23,7 +23,9 @@ https://aws.amazon.com/ko/getting-started/projects/?pg=ln&p=s3
 ```
 
 <hr/>
+
 ### Amazon EC2
+
 Ubuntu
 -elastic ip  
 https://blog.naver.com/jogilsang/221380379924
