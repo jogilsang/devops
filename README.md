@@ -47,6 +47,10 @@ https://blog.naver.com/jogilsang/221370362752
 ```
 
 ### Amazon LAMDA
+```
+Hello, World! with Python
+https://blog.naver.com/jogilsang/221382977003
+```
 
 ### Amazon S3 
 
