@@ -40,6 +40,32 @@ https://blog.naver.com/jogilsang/221370424937
 https://blog.naver.com/jogilsang/221375057555
 ```
 
+### Amazon Developer Tool
+```
+Build a Serverless Application
+https://aws.amazon.com/ko/getting-started/tutorials/build-serverless-app-codestar-cloud9/?trk=gs_card
+
+codestar
+cloud 9
+codepipeline
+CodeCommit
+CodeBuild
+CodeFormation
+
+cd /home/ec2-user/environment/nodejs-serverle
+```
+
+```
+Integrate Your IDE with AWS CodeStar
+https://docs.aws.amazon.com/ko_kr/codestar/latest/userguide/setting-up-ide.html
+
+Working with AWS CodeStar Teams
+https://docs.aws.amazon.com/ko_kr/codestar/latest/userguide/working-with-teams.html
+
+customize the Cloud9
+https://docs.aws.amazon.com/ko_kr/cloud9/latest/user-guide/ide.html
+```
+
 ### Amazon EBS
 ```
 EC2 인스턴스 디스크용량 확장하기(Free tier 에서 30GB 까지 가능)  
