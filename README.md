@@ -44,6 +44,7 @@ https://blog.naver.com/jogilsang/221375057555
 
 - Build a Serverless Application  
 ```
+https://blog.naver.com/jogilsang/221384240449
 https://aws.amazon.com/ko/getting-started/tutorials/build-serverless-app-codestar-cloud9/?trk=gs_card
 
 codestar
