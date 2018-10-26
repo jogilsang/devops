@@ -22,6 +22,11 @@ https://aws.amazon.com/ko/getting-started/tutorials/?pg=ln&p=s3
 https://aws.amazon.com/ko/getting-started/projects/?pg=ln&p=s3
 ```
 
+- AWS 무료 교육 및 자격증  
+```
+https://www.aws.training/
+```
+
 <hr/>
 
 ### Amazon EC2
