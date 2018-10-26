@@ -26,6 +26,20 @@ https://aws.amazon.com/ko/getting-started/projects/?pg=ln&p=s3
 
 ### Amazon EC2
 ```
+window 2012 R2 Server
+-Default Setting
+https://aws.amazon.com/ko/getting-started/tutorials/launch-windows-vm/?trk=gs_card
+
+-WordPress Deploy
+https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/WindowsGuide/EC2Win_CreateWordPressBlog.html
+
+-Instance Connect
+https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html
+
+```
+
+
+```
 Ubuntu
 -elastic ip  
 https://blog.naver.com/jogilsang/221380379924
