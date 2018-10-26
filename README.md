@@ -25,8 +25,8 @@ https://aws.amazon.com/ko/getting-started/projects/?pg=ln&p=s3
 <hr/>
 
 ### Amazon EC2
+window 2012 R2 Server  
 ```
-window 2012 R2 Server
 -Default Setting
 https://aws.amazon.com/ko/getting-started/tutorials/launch-windows-vm/?trk=gs_card
 
@@ -38,9 +38,8 @@ https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/WindowsGuide/connecting_to_windo
 
 ```
 
-
+Ubuntu Server 16.0.4  
 ```
-Ubuntu
 -elastic ip  
 https://blog.naver.com/jogilsang/221380379924
 
