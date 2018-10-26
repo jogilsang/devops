@@ -33,7 +33,8 @@ https://www.aws.training/
 window 2012 R2 Server  
 ```
 -Default Setting
-https://aws.amazon.com/ko/getting-started/tutorials/launch-windows-vm/?trk=gs_card
+https://blog.naver.com/jogilsang/221385508604
+(자습서 : https://aws.amazon.com/ko/getting-started/tutorials/launch-windows-vm/?trk=gs_card)
 
 -WordPress Deploy
 https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/WindowsGuide/EC2Win_CreateWordPressBlog.html
