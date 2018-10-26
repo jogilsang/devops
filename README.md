@@ -98,8 +98,8 @@ https://blog.naver.com/jogilsang/221370362752
 ```
 
 ### Amazon LAMDA
--Free tier
-1GB, 40 ten thousand Second
+-Free tier  
+1GB, 40 ten thousand Second  
 One millon Request
 ```
 Hello, World! with Python
