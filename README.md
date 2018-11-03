@@ -92,6 +92,12 @@ https://docs.aws.amazon.com/ko_kr/codestar/latest/userguide/working-with-teams.h
 https://docs.aws.amazon.com/ko_kr/cloud9/latest/user-guide/ide.html
 ```
 
+### Amazon RDS
+```
+Microsoft SQL Server DB
+https://www.microsoft.com/en-us/download/confirmation.aspx?id=22985
+```
+
 ### Amazon EBS
 ```
 EC2 인스턴스 디스크용량 확장하기(Free tier 에서 30GB 까지 가능)  
