@@ -6,6 +6,11 @@ Amazon Web Service for me.
 
 <hr/>
 
+### LAMP 설치
+https://webnautes.tistory.com/1185    
+
+Document Root : /var/www/html   
+
 ### 사이트주소
 - 프리티어 설명서
 ```
