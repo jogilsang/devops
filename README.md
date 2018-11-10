@@ -7,7 +7,10 @@ Amazon Web Service for me.
 <hr/>
 
 ### LAMP 설치
-https://webnautes.tistory.com/1185    
+https://webnautes.tistory.com/1185  
+
+Android php mysql 예제 :  
+https://webnautes.tistory.com/828
 
 Document Root : /var/www/html   
 
