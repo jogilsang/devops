@@ -65,6 +65,12 @@ https://www.aws.training/
 
 <hr/>
 
+### linux command
+
+sudo : 관리자권한  
+touch : 파일생성  
+vi : 편집  
+
 ### Amazon EC2
 window 2012 R2 Server  
 ```
