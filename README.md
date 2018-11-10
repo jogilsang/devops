@@ -11,14 +11,14 @@ https://webnautes.tistory.com/1185
 
 Document Root : /var/www/html   
 
-sudo apt update && sudo apt upgrade
-sudo apt install apache2
-sudo apt install mysql-server
+sudo apt update && sudo apt upgrade  
+sudo apt install apache2  
+sudo apt install mysql-server  
 
-sudo mysql
-create database db DEFAULT CHARACTER SET utf8;
-create user 'jogilsang' identified by 'password';
-GRANT ALL PRIVILEGES ON db.* TO 'jogilsang'@'localhost' identified by 'password';
+sudo mysql  
+create database db DEFAULT CHARACTER SET utf8;  
+create user 'jogilsang' identified by 'password';  
+GRANT ALL PRIVILEGES ON db.* TO 'jogilsang'@'localhost' identified by 'password';  
 
 adminer :  
 ```
