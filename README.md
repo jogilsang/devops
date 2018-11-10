@@ -37,6 +37,10 @@ echo "Alias /adminer.php /usr/share/adminer/adminer.php" | sudo tee /etc/apache2
 sudo a2enconf adminer.conf
 sudo service apache2 restart
 ```
+ 
+cd /var/www/html  
+sudo touch dbcon.php  
+sudo touch insert.php  
 
 ### 사이트주소
 - 프리티어 설명서
