@@ -11,6 +11,22 @@ https://webnautes.tistory.com/1185
 
 Document Root : /var/www/html   
 
+
+adminer :  
+```
+http://www.ubuntuboss.com/how-to-install-adminer-on-ubuntu/
+
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install apache2 php5 php5-curl php5-cli php5-mysql php5-gd mysql-client mysql-server
+
+sudo mkdir /usr/share/adminer
+sudo wget "http://www.adminer.org/latest.php" -O /usr/share/adminer/latest.php
+sudo ln -s /usr/share/adminer/latest.php /usr/share/adminer/adminer.php
+echo "Alias /adminer.php /usr/share/adminer/adminer.php" | sudo tee /etc/apache2/conf-available/adminer.conf
+sudo a2enconf adminer.conf
+sudo service apache2 restart
+```
+
 ### 사이트주소
 - 프리티어 설명서
 ```
