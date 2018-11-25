@@ -42,6 +42,19 @@ cd /var/www/html
 sudo touch dbcon.php  
 sudo touch insert.php  
 
+### jar 만들기 생성
+```
+sudo vi manifest.txt
+(Main-Class: MainClass <--- main 함수 있는 클래스)
+
+jar -cvmf manifest.txt [jar파일명] [클래스1] [클래스2] or 
+jar -cvmf manifest.txt [jar파일명] *.class
+
+java -jar 파일명.jar
+
+출처: http://ra2kstar.tistory.com/125 [초보개발자 이야기.]
+```
+
 ### 사이트주소
 - 프리티어 설명서
 ```
