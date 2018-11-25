@@ -42,6 +42,20 @@ cd /var/www/html
 sudo touch dbcon.php  
 sudo touch insert.php  
 
+### 리눅스 명령어
+```
+삭제 :  
+sudo rm - r [forder-name]  
+```
+
+### java 파일 실행하기
+```
+eclipse로 만든거 git에 올리기
+git으로 다운받기
+bin,src 중에서 bin으로 들어가기
+java -cp 패키지명.메인클래스
+```
+
 ### jar 만들기 생성
 ```
 sudo vi manifest.txt
