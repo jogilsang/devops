@@ -44,6 +44,9 @@ sudo touch insert.php
 
 ### 리눅스 명령어
 ```
+환경변수 수정 :
+sudo vi /etc/environment
+
 삭제 :  
 sudo rm - r [forder-name]  
 ```
