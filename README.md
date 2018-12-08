@@ -1,6 +1,10 @@
 # manual-aws
 Amazon Web Service for me.
 
+###
+winscp : ec2랑 파일교환 가능하게함  
+https://winscp.net/eng/download.php
+
 ### 연혁
 2018/10/21, AWS S3 자습서 10분을 진행하다
 
