@@ -13,6 +13,11 @@ https://winscp.net/eng/download.php
 ### 패스워드설정
 passwd  
 
+### winSCP
+다운로드 :  
+https://winscp.net/download/WinSCP-5.9-Setup.exe  
+(putty 설정도 다가져옴)  
+
 ### pscp
 pscp -i C:\Users\user\Downloads\jogilsang.ppk C:\Users\user\Downloads\wpbox-woocommerce-korean-20180527\woocommerce-ko_KR.mo ec2-user@ec2-13-125-69-120.ap-northeast-2.compute.amazonaws.com:/home/ec2-user/woocommerce-ko_KR.mo  
 -> 양식은 이런대 안됨...ㅡㅡ  
