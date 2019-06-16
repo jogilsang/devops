@@ -1,6 +1,11 @@
 # manual-aws
 Amazon Web Service for me.
 
+### 시간서버
+```
+time2.kriss.re.kr
+```
+
 ###
 winscp : ec2랑 파일교환 가능하게함  
 https://winscp.net/eng/download.php
