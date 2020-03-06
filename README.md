@@ -18,6 +18,15 @@ https://winscp.net/eng/download.php
 ### 패스워드설정
 passwd  
 
+### PUTTY
+```
+로깅 LOGGING : 
+&H-&Y&M&D_&T.putty.log
+
+PEM -> PPK
+https://blog.naver.com/jogilsang/221432071928
+```
+
 ### winSCP
 다운로드 :  
 https://winscp.net/download/WinSCP-5.9-Setup.exe  
