@@ -179,6 +179,12 @@ https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/WindowsGuide/connecting_to_windo
 ```
 
 Ubuntu Server 16.0.4  
+1. 시작
+```
+sudo apt-get update
+```
+
+2. 그 외 정보들
 ```
 -elastic ip  
 https://blog.naver.com/jogilsang/221380379924
@@ -191,6 +197,40 @@ https://blog.naver.com/jogilsang/221370424937
 
 -timezone, korea  
 https://blog.naver.com/jogilsang/221375057555
+```
+3. docker
+```
+1. Docker 다운받기
+sudo apt-get update
+sudo apt-get remove docker docker-engine docker.io
+sudo apt install docker.io
+
+2. Mariadb 도커 이미지 다운받기
+sudo docker pull mariadb
+sudo docker images
+
+3. 컨테이너 실행
+sudo docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1234 --name mariadb mariadb
+-d : detached mode : 컨테이너를 백그라운드에서 동작하는 어플리케이션으로 실행
+-p 3306:3306 : 외부의 3306요청을 컨테이너의 포트 3306과 연동
+--name : 컨테이너의 이름
+
+4. 도커 확인
+sudo docker container ls
+sudo docker ps
+
+5. 접속, 해당 컨테이너 실행
+sudo docker exec -i -t mariadb bash (exit)
+mysql -uroot -p1234 (ctrl + c)
+
+6. VI 편집기 설치, 컨피그 수정
+apt-get update
+apt-get install vim 
+vi /etc/mysql/my.cnf 
+
+7. 컨테이너 재시작
+sudo docker stop mariadb
+sudo docker start mariadb
 ```
 
 
