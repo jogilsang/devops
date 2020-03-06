@@ -242,6 +242,13 @@ sudo apt-get update
 sudo apt-get install git-core
 ```
 
+5. nodejs
+```
+sudo apt-get install nodejs
+sudo apt-get install npm
+nodejs -v
+```
+
 
 ### Amazon Developer Tool
 
