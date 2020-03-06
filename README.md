@@ -46,7 +46,13 @@ Full screen on Alt - Enter
 
 Window Translation
 UTF-8
+```
 
+3. config down and backup
+```
+regedit
+내 컴퓨터 - HKEY_CURRENT_USER - SOFTWARE - SimonTatham - PuTTY - Sessions
+right mouse - 내보내기
 ```
 
 ### winSCP
