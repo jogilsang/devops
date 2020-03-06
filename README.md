@@ -198,7 +198,7 @@ https://blog.naver.com/jogilsang/221370424937
 -timezone, korea  
 https://blog.naver.com/jogilsang/221375057555
 ```
-3. docker
+3. docker 
 ```
 1. Docker 다운받기
 sudo apt-get update
@@ -231,6 +231,15 @@ vi /etc/mysql/my.cnf
 7. 컨테이너 재시작
 sudo docker stop mariadb
 sudo docker start mariadb
+```
+
+4. git 깃 설치
+```
+sudo apt-get install python-software-properties
+sudo apt-get install software-properties-common
+sudo add-apt-repository ppa:git-core/ppa
+sudo apt-get update
+sudo apt-get install git-core
 ```
 
 
