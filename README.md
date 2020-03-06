@@ -178,6 +178,16 @@ https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/WindowsGuide/connecting_to_windo
 
 ```
 
+Ubuntu Server 18.0.4
+1. nodejs
+```
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
+node -v
+npm -v
+sudo apt-get install build-essential
+```
+
 Ubuntu Server 16.0.4  
 1. 시작
 ```
