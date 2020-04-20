@@ -23,6 +23,14 @@ https://devconnected.com/how-to-install-grafana-on-ubuntu-18-04/
 https://has3ong.tistory.com/626
 ```
 
+### 그라파나
+```
+설치위치 : /usr/sbin/grafana-server ( init 파일 : /etc/init.d/grafana-server )
+설정파일 : /etc/grafana/grafana.ini
+로그위치 : /var/log/grafana/grafana.log
+환경파일 : /etc/sysconfig/grafana-server
+```
+
 ### 시간서버
 ```
 time2.kriss.re.kr
