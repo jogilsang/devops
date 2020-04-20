@@ -1,6 +1,24 @@
 # manual-aws
 Amazon Web Service for me.
 
+### 그라파나 ubuntu 18.04
+```
+sudo apt-get update
+sudo apt-get upgrade
+apt-get install -y software-properties-common
+sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
+wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install grafana
+sudo apt-get install -y apt-transport-https
+sudo ls /usr/lib/systemd/system/grafana-server.service
+cat /usr/lib/systemd/system/grafana-server.service
+sudo systemctl start grafana-server
+sudo systemctl status grafana-server
+localhost:3000
+// id : admin, password : admin
+```
+
 ### 시간서버
 ```
 time2.kriss.re.kr
