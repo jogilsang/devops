@@ -17,6 +17,10 @@ sudo systemctl start grafana-server
 sudo systemctl status grafana-server
 localhost:3000
 // id : admin, password : admin
+
+source of link : 
+https://devconnected.com/how-to-install-grafana-on-ubuntu-18-04/
+https://has3ong.tistory.com/626
 ```
 
 ### 시간서버
