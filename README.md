@@ -1,6 +1,11 @@
 # manual-aws
 Amazon Web Service for me.
 
+### 리눅스 포트 linux port
+```
+netstat -nap | grep :4000
+```
+
 ### 그라파나 ubuntu 18.04
 ```
 sudo apt-get update
