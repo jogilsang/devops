@@ -1,6 +1,20 @@
 # manual-aws
 Amazon Web Service for me.
 
+### AWS DIscovery Book
+```
+자격증 취득을 위한 교육
+시험비용 지원, 합격하는경우 축하금
+
+AWS 트레이닝 코스
+
+aws 한국어 기술 백서목록
+https://aws.amazon.com/ko/blogs/korea/ko-whitepapers
+
+www.aws.trainning
+
+```
+
 ### AWS
 ```
 AWS Cloud Practitioner
