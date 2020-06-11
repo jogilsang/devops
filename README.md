@@ -1,6 +1,10 @@
 # manual-aws
 Amazon Web Service for me.
 
+### AWS 한국백서
+https://aws.amazon.com/ko/blogs/korea/ko-whitepapers/  
+
+
 ### AWS 용어
 ```
 AWS Trusted Advisor는 AWS 모범 사례에 따라 리소스를 프로비저닝하는 데 도움이 되도록 실시간 지침을 제공하는 온라인 도구
