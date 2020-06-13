@@ -4,6 +4,12 @@ Amazon Web Service for me.
 ### AWS 한국백서
 https://aws.amazon.com/ko/blogs/korea/ko-whitepapers/  
 
+### AWS Udemy
+```
+
+https://www.udemy.com/course/aws-certified-cloud-practitioner-390-practice-questions/
+```
+
 
 ### AWS 용어
 ```
