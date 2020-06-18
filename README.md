@@ -3,7 +3,6 @@ Amazon Web Service for me.
 
 ### AWS 로드벨런서
 ```
-
 클래식 로드벨런서
 어플리케이션 로드벨런서
 경로 및 호스트 기반 라우팅
@@ -22,6 +21,8 @@ alb사용시 AZ 2개필요
 
 ### AWS 한국백서
 https://aws.amazon.com/ko/blogs/korea/ko-whitepapers/  
+
+https://www.aws.training/
 
 ### AWS Udemy
 ```
