@@ -486,7 +486,7 @@ aws s3 cp s3://jogilsang-bucket-1.0/test.txt ./
 폴더 업로드
 ```
 동일한 파일이 있는경우 덮어씀. 신규파일들도 추가됨
-aws s3 cp mx s3://test-jogilsang/mx --recursive
+aws s3 cp mx s3://test-jogilsang/mx --acl public-read --recursive
 동일한 파일이 있는경우 덮어쓰지않음. 신규파일들만 추가됨
 aws s3 sync sp s3://test-jogilsang/sp --acl public-read
 ```
