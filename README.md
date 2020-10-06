@@ -468,15 +468,29 @@ Default output format [None]: json (자습서참고)
 aws s3 mb s3://jogilsang-bucket-1.0
 ```
 
+버킷의 dir
+```
+aws s3 ls s3://mybucket --human-readable --summarize
+```
+
 test.txt 파일 업로드
 ```
-aws s3 cp s3://jogilsang-bucket-1.0/test.txt ./
+aws s3 cp test.txt s3://jogilsang-bucket-1.0
 ```
 
 test.txt 파일 다운로드
 ```
-aws s3 cp test.txt s3://jogilsang-bucket-1.0/
+aws s3 cp s3://jogilsang-bucket-1.0/test.txt ./ 
 ```
+
+폴더 업로드
+```
+동일한 파일이 있는경우 덮어씀. 신규파일들도 추가됨
+aws s3 cp mx s3://test-jogilsang/mx --recursive
+동일한 파일이 있는경우 덮어쓰지않음. 신규파일들만 추가됨
+aws s3 sync sp s3://test-jogilsang/sp --acl public-read
+```
+
 ### Amazon API Gateway
 
 - sample
