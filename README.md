@@ -1,6 +1,11 @@
 # manual-aws
 Amazon Web Service for me.
 
+### ssh 접속
+```
+ssh -i EC2key.pem ubuntu @ EC2-Public-IP
+```
+
 ### AWS 로드벨런서
 ```
 클래식 로드벨런서
