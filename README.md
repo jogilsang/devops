@@ -1,6 +1,10 @@
 # manual-aws
 Amazon Web Service for me.
 
+
+### 시간 타임존 한국시간
+sudo ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime   
+
 ### ssh 접속
 ```
 ssh -i EC2key.pem ubuntu @ EC2-Public-IP
