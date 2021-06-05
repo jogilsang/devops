@@ -9,6 +9,12 @@
 클라우드 : AWS,Azure,GCP 등
 ```
 
+# Reference
+- [devops의 정의](https://www.atlassian.com/devops)
+- [애자일 선언문](https://ko.wikipedia.org/wiki/%EC%95%A0%EC%9E%90%EC%9D%BC_%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4_%EA%B0%9C%EB%B0%9C#%EC%95%A0%EC%9E%90%EC%9D%BC_%EC%84%A0%EC%96%B8%EB%AC%B8)
+- [12 factors](https://12factor.net/ko/)
+
+
 ### 시간 타임존 한국시간
 sudo ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime   
 
