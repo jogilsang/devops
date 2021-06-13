@@ -11,4 +11,17 @@ curl http://169.254.169.254/latest/meta-data/local-ipv4;echo
 #### 로컬IP - PING
 ping `curl http://169.254.169.254/latest/meta-data/local-ipv4`
 
+#### AccountID 
+`curl http://169.254.169.254/latest/meta-data/identity-credentials/ec2/info;echo`
+```JSON
+{
+  "Code" : "Success",
+  "LastUpdated" : "2021-06-13T04:18:50Z",
+  "AccountId" : "932351445346"
+}
+```
+`curl http://169.254.169.254/latest/meta-data/identity-credentials/ec2/security-credentials;echo`
+```
+ec2-instance
+```
 ---
