@@ -10,7 +10,8 @@
 
 ### network
 - #### tcpdump
-  `tcpdump는 CLI에서 실행하는 패킷캡쳐 프로그램 like wireshark`
+  `tcpdump는 CLI에서 실행하는 패킷캡쳐 프로그램 like wireshark, winDump`   
+  
   ```bash
   -- TCP/UDP만 캡쳐
   sudo tcpdump tcp
