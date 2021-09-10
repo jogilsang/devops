@@ -12,7 +12,12 @@
 - #### tcpdump
   `tcpdump는 CLI에서 실행하는 패킷캡쳐 프로그램 like wireshark`
   ```bash
-  tcpdump tcp
+  -- TCP/UDP만 캡쳐
+  sudo tcpdump tcp
+  sudo tcpdump udp
+  
+  -- src/dst 지정
+  
   ```
 
 
