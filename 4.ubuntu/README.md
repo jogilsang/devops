@@ -3,16 +3,17 @@
 
 ## INDEX
 ### - Learn to live Terminal
-- network
-  - tcpdump
+- ### [network](#network)
+  - #### [tcpdump](#tcpdump)
 
 ---
 
 ### network
 - #### tcpdump
-```
-tcpdump는 명령 줄에서 실행하는 일반적인 패킷 가로채기 소프트웨어이다.
-```
+  `tcpdump는 CLI에서 실행하는 패킷캡쳐 프로그램 like wireshark`
+  ```bash
+  tcpdump tcp
+  ```
 
 
 ```bash
