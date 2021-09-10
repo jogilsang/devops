@@ -26,6 +26,8 @@
   sudo tcpdump src port 8080 and tcp
   -- src의 ip가 192.168.0.1이면서 dst의 포트가 8080 또는 8000 인경우
   sudo tcpdump 'src 192.168.0.1 and (dst port 8080 or 8000)'
+  -- www.naver.com로 접속요청한 패킷
+  sudo tcpdump host www.naver.com
   
   -- 파일읽기/쓰기
   sudo tcpdump -w dump.log
