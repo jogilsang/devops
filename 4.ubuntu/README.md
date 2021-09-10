@@ -14,8 +14,8 @@
   
   ```bash
   -- TCP/UDP만 캡쳐
-  $ sudo tcpdump tcp
-  $ sudo tcpdump udp
+  sudo tcpdump tcp
+  sudo tcpdump udp
   
   -- 옵션 : 출력카운트 10개
   -c 10
