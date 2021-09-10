@@ -2,7 +2,7 @@
 # 4.linux
 
 ## Learn to live Terminal
-```
+```bash
 System Performance
 nmon, iostat, sar, vmstat
 
