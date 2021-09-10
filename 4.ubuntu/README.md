@@ -25,6 +25,9 @@
   -q
   -- 옵션 : 주소번역 제거
   -n
+ -- 옵션 : 타임스탬프, 전체정보, host및 port 출력
+  -ttttvvvnn
+  sudo tcpdump src 61.74.251.71 -ttttnnvvvc 5
   
   -- src의 ip가 192.168.0.1 이면서 port가 80인경우
   sudo tcpdump src port 80 and src 192.168.0.1
