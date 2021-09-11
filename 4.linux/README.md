@@ -75,6 +75,12 @@ nmap -v
 nmap 172.31.36.*/32
 nmap 172.31.36.1-254
 
+### port
+TCP 포트스캐닝
+sudo nmap -sT www.naver.com
+대상 호스트의 특정 포트를 스캔하거나, 스캔할 포트의 범위를 지정
+sudo nmap -p 1-1024 www.naver.com
+
 ### ping
 #### 1. ICMP ping 확인
 nmap -sP localhost
@@ -88,9 +94,7 @@ sudo nmap -PT localhost
 #### 4.ping (SYN 패킷 송신)
 sudo nmap -PS localhost
 
-### port
-대상 호스트의 특정 포트를 스캔하거나, 스캔할 포트의 범위를 지정
-sudo nmap -p 1-1024 www.naver.com
+
 ```   
 - #### mtr
 - #### traceroute
