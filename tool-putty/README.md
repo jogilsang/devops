@@ -6,6 +6,9 @@
 
 ### PEM -> PPK
 https://blog.naver.com/jogilsang/221432071928
+
+### 테마 꾸미기
+https://blog.naver.com/jogilsang/221853657930
 ```
 
 2. config
