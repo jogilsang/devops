@@ -17,6 +17,10 @@
 - #### mtr
 - #### traceroute
 - #### ping
+  ```
+  -- 로컬IP - PING
+  ping `curl http://169.254.169.254/latest/meta-data/local-ipv4`
+  ```
 - #### tcpdump
   `tcpdump는 CLI에서 실행하는 패킷캡쳐 프로그램 like wireshark, winDump`   
   `option`
