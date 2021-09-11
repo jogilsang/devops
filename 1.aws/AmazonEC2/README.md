@@ -7,6 +7,23 @@
 
 ---
 
+## CLI
+```bash
+## 시간 타임존 한국시간
+sudo ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime   
+
+## ssh 접속
+ssh -i EC2key.pem ubuntu @ EC2-Public-IP
+
+
+### 시간서버
+time2.kriss.re.kr
+
+### 파일복사 이동 윈도우 -> 리눅스 pscp 
+pscp -i C:\Users\user\Downloads\jogilsang.ppk C:\Users\user\Downloads\wpbox-woocommerce-korean-20180527\woocommerce-ko_KR.mo ec2-user@ec2-13-125-69-120.ap-northeast-2.compute.amazonaws.com:/home/ec2-user/woocommerce-ko_KR.mo  
+
+```
+
 ## meta-data
 ```
 curl http://169.254.169.254/latest/meta-data/local-ipv4;echo
