@@ -4,11 +4,19 @@
 ## INDEX
 ### - Learn to live Terminal
 - ### [network](#network)
+  - #### [nmap](#nmap)
+  - #### [mtr](#mtr)
+  - #### [traceroute](#traceroute)
+  - #### [ping](#ping)
   - #### [tcpdump](#tcpdump)
-
+  
 ---
 
 ### network
+- #### nmap
+- #### mtr
+- #### traceroute
+- #### ping
 - #### tcpdump
   `tcpdump는 CLI에서 실행하는 패킷캡쳐 프로그램 like wireshark, winDump`   
   `option`
