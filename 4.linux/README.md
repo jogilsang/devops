@@ -2,7 +2,8 @@
 # 4.linux
 
 ## INDEX
-### - Learn to live Terminal
+- ### [install](#install)
+  - #### [lamp](#lamp)
 - ### [network](#network)
   - #### [nmap](#nmap)
   - #### [mtr](#mtr)
@@ -11,6 +12,44 @@
   - #### [tcpdump](#tcpdump)
   
 ---
+### install
+- #### lamp
+  ```
+  ### LAMP 설치
+  https://webnautes.tistory.com/1185  
+
+  Android php mysql 예제 :  
+  https://webnautes.tistory.com/828
+
+  Document Root : /var/www/html   
+
+  sudo apt update && sudo apt upgrade  
+  sudo apt install apache2  
+  sudo apt install mysql-server  
+
+  sudo mysql  
+  create database db DEFAULT CHARACTER SET utf8;  
+  create user 'jogilsang' identified by 'password';  
+  GRANT ALL PRIVILEGES ON db.* TO 'jogilsang'@'localhost' identified by 'password';  
+
+  adminer :  
+  ```
+  http://www.ubuntuboss.com/how-to-install-adminer-on-ubuntu/
+
+  sudo apt-get update && sudo apt-get upgrade
+  sudo apt-get install apache2 php5 php5-curl php5-cli php5-mysql php5-gd mysql-client mysql-server
+
+  sudo mkdir /usr/share/adminer
+  sudo wget "http://www.adminer.org/latest.php" -O /usr/share/adminer/latest.php
+  sudo ln -s /usr/share/adminer/latest.php /usr/share/adminer/adminer.php
+  echo "Alias /adminer.php /usr/share/adminer/adminer.php" | sudo tee /etc/apache2/conf-available/adminer.conf
+  sudo a2enconf adminer.conf
+  sudo service apache2 restart
+  
+  cd /var/www/html  
+  sudo touch dbcon.php  
+  sudo touch insert.php  
+  ```
 
 ### network
 - #### nmap
