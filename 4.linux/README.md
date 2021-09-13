@@ -4,6 +4,17 @@
 ## INDEX
 - ### [install](#install)
   - #### [lamp](#lamp)
+- ### [process](#process)
+  - #### ps
+  - #### top
+  - #### htop
+  - #### atop
+  - #### lsof
+- ### [system](#system)
+  - #### [nmon](#nmon)
+  - #### iostat
+  - #### sar
+  - #### vmstat
 - ### [network](#network)
   - #### [nmap](#nmap)
   - #### [mtr](#mtr)
@@ -50,7 +61,15 @@
   sudo touch dbcon.php  
   sudo touch insert.php  
   ```
-
+### system
+- #### nmon
+  `nmon는 로컬 시스템 정보를 표시하고 기록`
+  `option`
+  ```
+  ```
+  `use`
+  ```
+  ```
 ### network
 - #### nmap
 - #### mtr
