@@ -65,6 +65,15 @@
 - #### nmon
   `nmon는 로컬 시스템 정보를 표시하고 기록. 서버 성능모니터링 분석`
   `IBM AIX OS 분석용으로 제작됬지만, 리눅스용 제공됨`
+  `install`
+  1. [nmon16m_x86_64_rhel8 다운로드](http://nmon.sourceforge.net/pmwiki.php?n=Site.Download)
+  2. 폴더만들기, sudo mkdir scp
+  3. 윈도우에서 리눅스로 파일옮기기
+  ```bash
+  scp -i C:\Users\user\Downloads\key\ec2_cho_gilsangelandcokr.pem C:\Users\user\Downloads\nmon16m_x86_64_rhel8 ec2-user@ec2-13-124-146-48.ap-northeast-2.compute.amazonaws.com:/home/ec2-user/scp
+  4. sudo chmod +x nmon16m_x86_64_rhel8
+  5. ./nmon16m_x86_64_rhel8
+  ```
   `option`
   ```
   ```
