@@ -20,6 +20,8 @@ ssh -i EC2key.pem ubuntu @ EC2-Public-IP
 time2.kriss.re.kr
 
 ### 파일복사 이동 윈도우 -> 리눅스 pscp 
+*** scp -i [pem파일경로] [보낼려는파일경로] [사용자계정]@[AWS-EC2주소]:[받으려는위치]
+*** [받으려는위치]는 mkdir 등으로 리눅스 서버에 미리 생성해야한다.
 scp -i C:\Users\user\Downloads\key\ec2_cho_gilsangelandcokr.pem C:\Users\user\Downloads\nmon16j.tar.gz ec2-user@ec2-13-124-146-48.ap-northeast-2.compute.amazonaws.com:/home/ec2-user/scp
 pscp -i C:\Users\user\Downloads\jogilsang.ppk C:\Users\user\Downloads\wpbox-woocommerce-korean-20180527\woocommerce-ko_KR.mo ec2-user@ec2-13-125-69-120.ap-northeast-2.compute.amazonaws.com:/home/ec2-user/woocommerce-ko_KR.mo  
 
