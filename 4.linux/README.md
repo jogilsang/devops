@@ -6,6 +6,7 @@
 - ### [install](#install)
   - #### [lamp](#lamp)
 - ### [crontab](#crontab)
+- ### [uname](#uname)
 - ### [bc](#bc)
 - ### [free](#free)
 - ### [process](#process)
@@ -94,6 +95,18 @@ ctrl + l : 화면지우기
   # 평일에만 스크립트 실행
   * * * * 1-5
   ```
+### uname
+   `uname은 시스템 정보를 표시합니다`
+   `example`
+   ```
+   # 전체정보
+   uname -a
+   Linux ip-10-253-97-240 4.9.32-15.41.amzn1.x86_64 #1 SMP Thu Jun 22 06:20:54 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+   
+   # 부분정보
+   uname -a | awk '{print $1}'
+   Linux
+   ```
 ### bc
   `example`
   ```
