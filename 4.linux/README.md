@@ -190,6 +190,15 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
   $ echo $?
   1
   ```
+- #### telnet
+  - `원격지의 호스트나 IP에 해당 포트가 열려있는지 확인할 수 있는 명령어` 
+  ```
+  # 192.168.1.20주소의 80번 포트에 접속 
+  telnet 192.168.1.20 80
+  
+  # https://www.naver.com의 443번 포트에 접속 
+  telnet www.naver.com 443
+  ```
 - #### mtr
 - #### traceroute
 - #### ping
