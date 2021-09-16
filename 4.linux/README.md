@@ -223,6 +223,7 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
 
 ### Reference
 Advanced Bash-Scripting Guide : https://tldp.org/LDP/abs/html/devref1.html        
+Bash 쉘스크립트 개발 시작하기 : https://wikidocs.net/book/2370   
 
 <!-- bash
 System Performance
