@@ -5,13 +5,26 @@
 - ### [keymap](#keymap)
 - ### [install](#install)
   - #### [lamp](#lamp)
+- ### [crontab](#crontab)
+- ### [process](#process)
+  - #### ps
+  - #### top
+  - #### htop
+  - #### atop
+  - #### lsof
+- ### [system](#system)
+  - #### [nmon](#nmon)
+  - #### iostat
+  - #### sar
+  - #### vmstat
 - ### [network](#network)
+  - #### [echo > /dev/tcp/](#echo%20>%20/dev/tcp/)
   - #### [nmap](#nmap)
   - #### [mtr](#mtr)
   - #### [traceroute](#traceroute)
   - #### [ping](#ping)
   - #### [tcpdump](#tcpdump)
-  
+ - ### [Reference](#Reference)
 ---
 ### keymap
 ```
@@ -61,8 +74,29 @@ ctrl + l : 화면지우기
   sudo touch dbcon.php  
   sudo touch insert.php  
   ```
-
+### crontab
+### process
+### system
+- #### nmon
+  `nmon는 로컬 시스템 정보를 표시하고 기록. 서버 성능모니터링 분석`
+  `IBM AIX OS 분석용으로 제작됬지만, 리눅스용 제공됨`
+  `install`
+  1. [nmon16m_x86_64_rhel8 다운로드](http://nmon.sourceforge.net/pmwiki.php?n=Site.Download)
+  2. 폴더만들기, sudo mkdir scp
+  3. 윈도우에서 리눅스로 파일옮기기
+  ```bash
+  scp -i C:\Users\user\Downloads\key\ec2_cho_gilsangelandcokr.pem C:\Users\user\Downloads\nmon16m_x86_64_rhel8 ec2-user@ec2-13-124-146-48.ap-northeast-2.compute.amazonaws.com:/home/ec2-user/scp
+  4. sudo chmod +x nmon16m_x86_64_rhel8
+  5. ./nmon16m_x86_64_rhel8
+  ```
+  `option`
+  ```
+  ```
+  `use`
+  ```
+  ```
 ### network
+<<<<<<< HEAD
 - #### nmap
 `네트워크 보안 스캐너, Nmap(Network Mapper)`   
 `option`   
@@ -96,6 +130,22 @@ sudo nmap -PS localhost
 sudo nmap -vv -PT localhost --reason
 sudo nmap -vv -dd -PT localhost --reason > test.txt
 ```   
+=======
+- #### echo > /dev/tcp/
+  ```
+  // 성공
+  $ echo > /dev/tcp/127.0.0.1/22
+  $ echo $?
+  0
+  
+  // 실패
+  $ echo > /dev/tcp/127.0.0.1/10002
+  bash: connect: 연결이 거부됨
+  bash: /dev/tcp/127.0.0.1/10002: 연결이 거부됨
+  $ echo $?
+  1
+  ```
+>>>>>>> 46ae033bce59feb5b4ee010644da1ce17d33387b
 - #### mtr
 - #### traceroute
 - #### ping
@@ -139,6 +189,9 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
   sudo tcpdump -w dump.log
   sudo tcpdump -r dump.log
   ```
+
+### Reference
+Advanced Bash-Scripting Guide : https://tldp.org/LDP/abs/html/devref1.html        
 
 <!-- bash
 System Performance
