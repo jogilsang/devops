@@ -75,6 +75,23 @@ ctrl + l : 화면지우기
   sudo touch insert.php  
   ```
 ### crontab
+  `example`
+  ```
+  # 매일 1시에 log 로 끝나는 파일을 찾아서 find.log 파일로 저장
+  0 1 * * *
+
+  # 5분 마다 program.sh 실행
+  */5 * * * *
+
+  # 4-10 시 사이에 1시간마다 program.sh 실행
+  0 4-10/1 * * *
+
+  # 매일 1시, 3시에 program.sh 를 실행하고 로그를 저장
+  0 1,3 * *
+
+  # 평일에만 스크립트 실행
+  * * * * 1-5
+  ```
 ### process
 ### system
 - #### nmon
@@ -96,7 +113,6 @@ ctrl + l : 화면지우기
   ```
   ```
 ### network
-<<<<<<< HEAD
 - #### nmap
 `네트워크 보안 스캐너, Nmap(Network Mapper)`   
 `option`   
@@ -130,7 +146,6 @@ sudo nmap -PS localhost
 sudo nmap -vv -PT localhost --reason
 sudo nmap -vv -dd -PT localhost --reason > test.txt
 ```   
-=======
 - #### echo > /dev/tcp/
   ```
   // 성공
@@ -145,7 +160,6 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
   $ echo $?
   1
   ```
->>>>>>> 46ae033bce59feb5b4ee010644da1ce17d33387b
 - #### mtr
 - #### traceroute
 - #### ping
