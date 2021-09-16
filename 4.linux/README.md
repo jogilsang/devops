@@ -84,7 +84,7 @@
 ### network
 - #### echo > /dev/tcp/
   ```
-  // 
+  // 성공
   $ echo > /dev/tcp/127.0.0.1/22
   $ echo $?
   0
