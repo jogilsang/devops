@@ -6,6 +6,7 @@
 - ### [install](#install)
   - #### [lamp](#lamp)
 - ### [crontab](#crontab)
+- ### [bc](#bc)
 - ### [free](#free)
 - ### [process](#process)
   - #### ps
@@ -92,6 +93,12 @@ ctrl + l : 화면지우기
 
   # 평일에만 스크립트 실행
   * * * * 1-5
+  ```
+### bc
+  `example`
+  ```
+  # 해당값의 90%를 구하기
+  echo "($value / 10) * 9" | bc
   ```
 ### free
   `example`
