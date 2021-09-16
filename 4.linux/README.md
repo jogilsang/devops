@@ -16,6 +16,7 @@
   - #### sar
   - #### vmstat
 - ### [network](#network)
+  - #### [echo > /dev/tcp/](#echo > /dev/tcp/)
   - #### [nmap](#nmap)
   - #### [mtr](#mtr)
   - #### [traceroute](#traceroute)
@@ -81,7 +82,20 @@
   ```
   ```
 ### network
-- #### nmap
+- #### echo > /dev/tcp/
+  ```
+  // 
+  $ echo > /dev/tcp/127.0.0.1/22
+  $ echo $?
+  0
+  
+  // 실패
+  $ echo > /dev/tcp/127.0.0.1/10002
+  bash: connect: 연결이 거부됨
+  bash: /dev/tcp/127.0.0.1/10002: 연결이 거부됨
+  $ echo $?
+  1
+  ```
 - #### mtr
 - #### traceroute
 - #### ping
