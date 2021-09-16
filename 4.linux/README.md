@@ -6,6 +6,7 @@
 - ### [install](#install)
   - #### [lamp](#lamp)
 - ### [crontab](#crontab)
+- ### [free](#free)
 - ### [process](#process)
   - #### ps
   - #### top
@@ -91,6 +92,15 @@ ctrl + l : 화면지우기
 
   # 평일에만 스크립트 실행
   * * * * 1-5
+  ```
+### free
+  `example`
+  ```
+  # 전체(total)의 메모리 구하기 (정수)
+  free -h | sed -n 2p | awk '{print $2}' | sed -r 's/M//g'
+  
+  # 사용중(used)의 메모리 구하기 (정수)
+  free -h | sed -n 2p | awk '{print $3}' | sed -r 's/M//g'
   ```
 ### process
 ### system
