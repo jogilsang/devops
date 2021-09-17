@@ -9,6 +9,7 @@
 - ### [uname](#uname)
 - ### [bc](#bc)
 - ### [free](#free)
+- ### [sort](#sort)
 - ### [form](#form)
   - #### [json(jq)](#json(jq))
   - #### [xml(xmllint)](#xml(xmllint))
@@ -140,6 +141,13 @@ ctrl + l : 화면지우기
   # 메모리 할당을 받으려고 하면 즉시 버퍼/캐시가 공간을 빌려 그 응용 프로그램에 
   # 할당을 해줍니다.
   # -/+ buffers/cache에 used와 free가 실제 사용량과 실제 남은 메모리양이다.
+  ```
+
+### sort
+- `출력을 정렬한다`
+  ```
+  # 출력결과를 뒤집는다.
+  free -h | sort -r
   ```
 ### form
 - #### json(jq)
