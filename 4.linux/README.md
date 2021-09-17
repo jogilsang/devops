@@ -9,6 +9,7 @@
 - ### [uname](#uname)
 - ### [bc](#bc)
 - ### [free](#free)
+- ### [tr](#tr)
 - ### [sort](#sort)
 - ### [form](#form)
   - #### [json(jq)](#json(jq))
@@ -142,7 +143,17 @@ ctrl + l : 화면지우기
   # 할당을 해줍니다.
   # -/+ buffers/cache에 used와 free가 실제 사용량과 실제 남은 메모리양이다.
   ```
-
+### tr
+- `text replace`
+  ```
+  # 대상문자를 다른 문자로 변경한다. 
+  echo "a:a" | tr ":" " " (= echo "a:a" | sed -r 's/:/ /g')
+  a a
+  
+  # 대상문자를 다른 문자로 삭제한다. 
+  echo "a:a" | tr -d ":" (= echo "a:a" | sed -r 's/://g')
+  aa
+  ```
 ### sort
 - `출력을 정렬한다`
   ```
