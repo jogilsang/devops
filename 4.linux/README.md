@@ -9,6 +9,9 @@
 - ### [uname](#uname)
 - ### [bc](#bc)
 - ### [free](#free)
+- ### [form](#form)
+  - #### [json(jq)](#json(jq))
+  - #### [xml(xmllint)](#xml(xmllint))
 - ### [process](#process)
   - #### ps
   - #### top
@@ -121,6 +124,18 @@ ctrl + l : 화면지우기
   
   # 사용중(used)의 메모리 구하기 (정수)
   free -h | sed -n 2p | awk '{print $3}' | sed -r 's/M//g'
+  ```
+### form
+- #### json(jq)
+- #### xml(xmllint)
+  - `xml 형식에 맞게 출력하거나 데이터 추출`
+  `example`
+  ```
+  # curl이나 파일 등을 읽고, xml 형식으로 beautify
+  $ echo "<xml><key>A</key><value>B</value></xml>" | xmllint --format -
+  
+  # xml의 데이터를 추출
+  $ 
   ```
 ### process
 ### system
