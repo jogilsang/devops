@@ -118,13 +118,28 @@ ctrl + l : 화면지우기
   echo "($value / 10) * 9" | bc
   ```
 ### free
-  `example`
+  `example1`
   ```
   # 전체(total)의 메모리 구하기 (정수)
   free -h | sed -n 2p | awk '{print $2}' | sed -r 's/M//g'
   
   # 사용중(used)의 메모리 구하기 (정수)
   free -h | sed -n 2p | awk '{print $3}' | sed -r 's/M//g'
+  ```
+  `example2`
+  ```
+  free -m
+              total       used       free     shared    buffers     cached
+  Mem:          3901       3711        189          0        118        741
+  -/+ buffers/cache:       2851       1049
+  Swap:            0          0          0
+
+  # 
+  # 리눅스는 사용하고 있지 않은 메모리를 빌려 디스크 캐싱에
+  # 사용하기 때문에 메모리 여유공간이 없을 때 특정 프로그램의
+  # 메모리 할당을 받으려고 하면 즉시 버퍼/캐시가 공간을 빌려 그 응용 프로그램에 
+  # 할당을 해줍니다.
+  # -/+ buffers/cache에 used와 free가 실제 사용량과 실제 남은 메모리양이다.
   ```
 ### form
 - #### json(jq)
