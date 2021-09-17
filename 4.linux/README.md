@@ -263,7 +263,6 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
   `네트워크 명령을 전송하는 도구`
   `example`
   ```bash
-  ```
   # healthcheck - 200, 4xx, 5xx
   curl --write-out %{http_code} --silent --output /dev/null -L ${website}
   
