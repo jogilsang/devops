@@ -30,6 +30,7 @@
   - #### [traceroute](#traceroute)
   - #### [ping](#ping)
   - #### [tcpdump](#tcpdump)
+  - #### [curl](#curl)
  - ### [Reference](#Reference)
 ---
 ### keymap
@@ -256,6 +257,31 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
   -- 3. 파일읽기/쓰기
   sudo tcpdump -w dump.log
   sudo tcpdump -r dump.log
+  ```
+
+- #### curl
+  `네트워크 명령을 전송하는 도구`
+  `example`
+  ```bash
+  ```
+  # healthcheck - 200, 4xx, 5xx
+  curl --write-out %{http_code} --silent --output /dev/null -L ${website}
+  
+  # 쿠키를 파일로 저장
+  curl -v -I  -c cookiejar.txt https://www.example.com
+  # 파일 또는 문자열에서 쿠키 읽기
+  curl -v -I  -b cookiejar.txt https://www.example.com
+  
+  # 파일다운로드 
+  curl -O http://apache.mirror.cdnetworks.com/oozie/4.3.1/oozie-4.3.1.tar.gz
+  
+  # 쉘 스크립트에서 백틱``으로 curl 명령어 호출 시, $변수사용하기
+  $site_no => (X)
+  ${site_no} => (X)
+  "$site_no" => (X)
+  \"$site_no\" => (X)
+  "$((site_no))" => (X)
+  '"$site_no"' => (O)
   ```
 
 ### Reference
