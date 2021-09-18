@@ -3,6 +3,7 @@
 
 ## INDEX
 - ### [keymap](#keymap)
+- ### [vim](#vim)
 - ### [install](#install)
   - #### [lamp](#lamp)
 - ### [crontab](#crontab)
@@ -44,6 +45,22 @@ alt + l : 오른쪽으로
 ctrl + u : 라인삭제
 alt + backspace : 삭제
 ctrl + l : 화면지우기
+```
+### [vim](https://vim.rtorr.com/lang/ko/)
+```
+H - 현재화면 상단으로 점프
+M - 현재화면 중단으로 점프
+L - 현재화면 하단으로 점프
+
+E - 다음 단어 끝으로 점프 (특수문자 포함)
+B - 이전 단어 시작으로 점프 (특수문자 포함)
+% - 현재 괄호의 짝으로 점프
+
+^ - 현재 행 시작으로 점프
+$ - 현재 행 끝으로 점프 (공백 포함)
+
+gd - 지역변수 선언위치로 점프
+gD - 전역변수 선언위치로 점프
 ```
 ### install
 - #### lamp
