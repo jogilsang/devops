@@ -12,6 +12,8 @@
 - ### [free](#free)
 - ### [tr](#tr)
 - ### [sort](#sort)
+- ### [awk](#awk)
+- ### [sed](#sed)
 - ### [form](#form)
   - #### [json(jq)](#json(jq))
   - #### [xml(xmllint)](#xml(xmllint))
@@ -216,6 +218,16 @@ $ ls -l /usr/share/vim/vim*/colors/
   ```
   # 출력결과를 뒤집는다.
   free -h | sort -r
+  ```
+### awk
+- `입력을 분리하여 처리할 수 있다.`
+  ```
+
+  ```
+### sed
+- `패턴을 매칭하여 처리할 수 있다.`
+  ```
+
   ```
 ### form
 - #### json(jq)
