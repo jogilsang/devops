@@ -221,7 +221,27 @@ $ ls -l /usr/share/vim/vim*/colors/
   ```
 ### awk
 - `입력을 분리하여 처리할 수 있다.`
-  ```
+  ```bash
+  # 기본사용 : default
+  [ec2-user@ip-172-31-36-232 ~]$ echo "hello world" | awk '{print $1}'
+  hello
+  [ec2-user@ip-172-31-36-232 ~]$ echo "hello world" | awk '{print $2}'
+  world
+
+  # -F 옵션 : 구분자(split 문자를 이용) 
+  [ec2-user@ip-172-31-36-232 ~]$ echo "hello world" | awk -F " " '{print $1}'
+  hello
+  [ec2-user@ip-172-31-36-232 ~]$ echo "hello world" | awk -F " " '{print $2}'
+  world
+  [ec2-user@ip-172-31-36-232 ~]$ echo "hello,world" | awk -F "," '{print $1}'
+  hello
+  [ec2-user@ip-172-31-36-232 ~]$ echo "hello,world" | awk -F "," '{print $2}'
+  world
+  [ec2-user@ip-172-31-36-232 ~]$ r=","
+  [ec2-user@ip-172-31-36-232 ~]$ echo "hello,world" | awk -F "$r" '{print $1}'
+  hello
+  [ec2-user@ip-172-31-36-232 ~]$ echo "hello,world" | awk -F "$r" '{print $2}'
+  world
 
   ```
 ### sed
