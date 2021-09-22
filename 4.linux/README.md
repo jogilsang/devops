@@ -9,6 +9,7 @@
 - ### [crontab](#crontab)
 - ### [file](#file)
 - ### [cut](#cut)
+- ### [grep](#grep)
 - ### [pgrep](#pgrep)
 - ### [lynx](#lynx)
 - ### [date](#date)
@@ -188,6 +189,24 @@ $ ls -l /usr/share/vim/vim*/colors/
   hello
   echo "hello,world" | cut -d "," -f 2
   world
+  ```
+### grep
+  `특정 문자열이나 정규식을 포함하고 있는 행이나 파일을 검색하는 명령어`
+  `example`
+  ```bash
+  # -n, --line-number
+  # -i, --ignore-case
+  # -l, --files-with-matches 
+  # -L, --files-without-match
+  
+  # 문자가 포함된 행번호
+  [ec2-user@ip-172-31-36-232 scripts]$ grep -n "echo" memory_check.sh
+  6:echo "TotalMemory : ${TotalMemory}"
+  8:echo "CurrentUsedMemory : ${CurrentUsedMemory}"
+  
+  # 문자가 포함된 파일목록
+  [ec2-user@ip-172-31-36-232 scripts]$ grep -l "echo" *
+  memory_check.sh
   ```
 ### pgrep
   `ps와 grep을 합친 명령어. -f 옵션과 같이 사용해서 프로세스명으로 pid를 반환`
