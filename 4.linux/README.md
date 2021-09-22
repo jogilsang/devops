@@ -7,6 +7,7 @@
 - ### [install](#install)
   - #### [lamp](#lamp)
 - ### [crontab](#crontab)
+- ### [pgrep](#pgrep)
 - ### [lynx](#lynx)
 - ### [date](#date)
 - ### [uname](#uname)
@@ -162,10 +163,30 @@ $ ls -l /usr/share/vim/vim*/colors/
   # 평일에만 스크립트 실행
   * * * * 1-5
   ```
+
+### pgrep
+  `ps와 grep을 합친 명령어. -f 옵션과 같이 사용해서 프로세스명으로 pid를 반환`
+  `example`
+  ```bash
+  # 프로세스의 PID 출력
+  [ec2-user@ip-172-31-36-232 ~]$ ps
+  PID TTY          TIME CMD
+  31831 pts/0    00:00:00 bash
+  31858 pts/0    00:00:00 ps
+  [ec2-user@ip-172-31-36-232 ~]$ pgrep -f bash
+  31831
+  [ec2-user@ip-172-31-36-232 ~]$ pgrep -f bas
+  31831
+  [ec2-user@ip-172-31-36-232 ~]$ pgrep -f bas | xargs echo
+  31831
+  # 프로세스 바로 죽임
+  pgrep -f HiveMetaStore | xargs kill
+  ```
+
 ### lynx
    `lynx는 텍스트 기반의 웹브라우저입니다.`
    `example`
-   ```
+   ```bash
    sudo lynx https://www.naver.com
    sudo lynx https://www.google.com
    ```
