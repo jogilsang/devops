@@ -229,6 +229,7 @@ $ ls -l /usr/share/vim/vim*/colors/
   # -c, --count, 매칭되는 행의개수
   # -x, --line-regexp, 라인전체가 일치
   # -w, --word-regexp, 단어가 정확히 일치해야함
+  #  -o, --only-matching
   # -A NUM, --after-context=NUM, 패턴이 매칭된 라인 이후 몇라인
   # -B NUM, --before-context=NUM, 패턴이 매칭된 라인 이전 몇라인
   # -C NUM, -NUM, --context=NUM, 패턴이 매칭된 라인 전후 몇라인
@@ -267,6 +268,17 @@ $ ls -l /usr/share/vim/vim*/colors/
   [ec2-user@ip-172-31-36-232 logs]$ grep -i -w -c ' \[notice\]' Apache_2k.log
   1405
   
+  # 2.2. 단어의 개수
+  [ec2-user@ip-172-31-36-232 logs]$ grep -o -w -c notice Apache_2k.log
+  1405
+  [ec2-user@ip-172-31-36-232 logs]$ grep -o -w notice Apache_2k.log | wc -w
+  1405
+
+  # 2.3. 로그통계 추출하기 (awk 이용)
+  [ec2-user@ip-172-31-36-232 logs]$ cat Apache_2k.log | awk '{arr[$6]+=1} END {for(i in arr){print i, arr[i]}}'
+  [notice] 1405
+  [error] 595
+
   # 문자가 포함된 파일목록
   [ec2-user@ip-172-31-36-232 scripts]$ grep -l -w "echo" *
   memory_check.sh
@@ -580,9 +592,12 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
   ```
 
 ### Reference
-Advanced Bash-Scripting Guide : https://tldp.org/LDP/abs/html/devref1.html        
-Bash 쉘스크립트 개발 시작하기 : https://wikidocs.net/book/2370   
-dummy 시스템로그 다운받기 : https://github.com/logpai/loghub
+- Advanced Bash-Scripting Guide : https://tldp.org/LDP/abs/html/devref1.html        
+- Bash 쉘스크립트 개발 시작하기 : https://wikidocs.net/book/2370   
+- dummy 시스템로그 다운받기 : https://github.com/logpai/loghub
+
+### Tip
+[[Linux 팁] grep, awk를 이용한 access로그 통계 추출하기](https://blog.naver.com/PostView.nhn?isHttpsRedirect=true&blogId=kibani&logNo=220963537520)
 
 <!-- bash
 System Performance
