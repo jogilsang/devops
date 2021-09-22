@@ -7,6 +7,7 @@
 - ### [install](#install)
   - #### [lamp](#lamp)
 - ### [crontab](#crontab)
+- ### [file](#file)
 - ### [cut](#cut)
 - ### [pgrep](#pgrep)
 - ### [lynx](#lynx)
@@ -164,7 +165,19 @@ $ ls -l /usr/share/vim/vim*/colors/
   # 평일에만 스크립트 실행
   * * * * 1-5
   ```
+### file
+  `파일의 타입을 확인한다`
+  `example`
+  ```bash
+  # 단일 파일이나 디렉토리에 대한 타입확인
+  [ec2-user@ip-172-31-36-232 scripts]$ file memory_check.sh
+  memory_check.sh: Bourne-Again shell script, UTF-8 Unicode text executable
 
+  # 디렉토리 내 모든 파일과 디렉토리의 파일타입확인
+  [ec2-user@ip-172-31-36-232 ~]$ file *
+  scp:     directory
+  scripts: directory
+  ```
 ### cut
   `구분자(Delimiter)를 이용하여 출력. awk -F 와 동일`
   `example`
