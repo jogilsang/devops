@@ -7,6 +7,7 @@
 - ### [install](#install)
   - #### [lamp](#lamp)
 - ### [crontab](#crontab)
+- ### [wc](#wc)
 - ### [file](#file)
 - ### [cut](#cut)
 - ### [grep](#grep)
@@ -166,6 +167,17 @@ $ ls -l /usr/share/vim/vim*/colors/
   # 평일에만 스크립트 실행
   * * * * 1-5
   ```
+  
+### wc -l
+  `라인이 몇라인인지 출력한다. grep과 같이 활용가능하다.`
+  `example`
+  ```bash
+  [ec2-user@ip-172-31-36-232 logs]$ wc -l Apache_2k.log
+  2000 Apache_2k.log
+  [ec2-user@ip-172-31-36-232 logs]$ wc -l Apache_2k.log | awk '{print $1}'
+  2000
+  ```
+  
 ### file
   `파일의 타입을 확인한다`
   `example`
@@ -198,13 +210,22 @@ $ ls -l /usr/share/vim/vim*/colors/
   # -i, --ignore-case
   # -l, --files-with-matches 
   # -L, --files-without-match
+  # -c, --count
   
   # 문자가 포함된 행번호
   [ec2-user@ip-172-31-36-232 scripts]$ grep -n "echo" memory_check.sh
   6:echo "TotalMemory : ${TotalMemory}"
   8:echo "CurrentUsedMemory : ${CurrentUsedMemory}"
+
+  # 문자가 포함된 행의갯수
+  [ec2-user@ip-172-31-36-232 scripts]$ grep -c "echo" memory_check.sh
+  6
   
   # 문자가 포함된 파일목록
+  [ec2-user@ip-172-31-36-232 scripts]$ grep -l "echo" *
+  memory_check.sh
+
+  # 정규식
   [ec2-user@ip-172-31-36-232 scripts]$ grep -l "echo" *
   memory_check.sh
   ```
@@ -518,6 +539,7 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
 ### Reference
 Advanced Bash-Scripting Guide : https://tldp.org/LDP/abs/html/devref1.html        
 Bash 쉘스크립트 개발 시작하기 : https://wikidocs.net/book/2370   
+dummy 시스템로그 다운받기 : https://github.com/logpai/loghub
 
 <!-- bash
 System Performance
