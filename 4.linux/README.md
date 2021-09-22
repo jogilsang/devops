@@ -193,14 +193,13 @@ $ ls -l /usr/share/vim/vim*/colors/
     sunday=`date -d 'this sunday'`
 
     # 예전,미래
-    1_min_ago=`date -d '1 min ago' +%Y-%m-%d`
-    1_sec_ago=`date -d '1 sec ago' +%Y-%m-%d`
-    1_hour_ago=`date -d '1 hour ago' +%Y-%m-%d`
-    1_day_ago=`date -d '1 day ago' +%Y-%m-%d`
-    1_week_ago=`date -d '1 week ago' +%Y-%m-%d`
-    1_mon_ago=`date -d '1 mon ago' +%Y-%m-%d`
-    1_month_ago=`date -d '1 month ago' +%Y-%m-%d`
-    1_year_ago=`date -d '1 year ago' +%Y-%m-%d`
+    1_min_ago=`date -d '1 min ago' +%Y-%m-%d` # 1분전
+    1_sec_ago=`date -d '1 sec ago' +%Y-%m-%d` # 1초전
+    1_hour_ago=`date -d '1 hour ago' +%Y-%m-%d` # 1시간전
+    1_day_ago=`date -d '1 day ago' +%Y-%m-%d` # 1일전
+    1_week_ago=`date -d '1 week ago' +%Y-%m-%d` # 1주전
+    1_month_ago=`date -d '1 month ago' +%Y-%m-%d` # 1달전
+    1_year_ago=`date -d '1 year ago' +%Y-%m-%d` # 1년전
 
     # 문서
     info coreutils 'date invocation'
