@@ -7,6 +7,7 @@
 - ### [install](#install)
   - #### [lamp](#lamp)
 - ### [crontab](#crontab)
+- ### [cut](#cut)
 - ### [pgrep](#pgrep)
 - ### [lynx](#lynx)
 - ### [date](#date)
@@ -164,6 +165,17 @@ $ ls -l /usr/share/vim/vim*/colors/
   * * * * 1-5
   ```
 
+### cut
+  `구분자(Delimiter)를 이용하여 출력. awk -F 와 동일`
+  `example`
+  ```bash
+  # -d : delimiter
+  # -f : fields
+  echo "hello,world" | cut -d "," -f 1
+  hello
+  echo "hello,world" | cut -d "," -f 2
+  world
+  ```
 ### pgrep
   `ps와 grep을 합친 명령어. -f 옵션과 같이 사용해서 프로세스명으로 pid를 반환`
   `example`
