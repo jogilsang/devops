@@ -250,16 +250,20 @@ $ ls -l /usr/share/vim/vim*/colors/
   16-  echo "현재 사용중인 메모리(${CurrentUsedMemory}) 는 전체 메모리(${TotalMemory})의 90%이상입니다."
   17-else
 
-  # 문자가 포함된 행의갯수
+  # 2. 문자가 포함된 행의갯수
   [ec2-user@ip-172-31-36-232 scripts]$ grep -c -w "echo" memory_check.sh
   6
   [ec2-user@ip-172-31-36-232 logs]$ grep -w -c '\[notice\]' Apache_2k.log
   1405
   [ec2-user@ip-172-31-36-232 logs]$ grep -w -c notice Apache_2k.log
   1405
-  # 문자가 포함된 행의갯수
-  [ec2-user@ip-172-31-36-232 scripts]$ grep -c "echo" memory_check.sh
-  6
+  # 2.1. 공백문자과 지정문자가 포함된 행의갯수 (걸러지지않으면, 공백이 아닌거임)
+  [ec2-user@ip-172-31-36-232 logs]$ grep -i -w -c '[[:space:]]\[notice\]' Apache_2k.log
+  1405
+  [ec2-user@ip-172-31-36-232 logs]$ grep -i -w -c '\s\[notice\]' Apache_2k.log
+  1405
+  [ec2-user@ip-172-31-36-232 logs]$ grep -i -w -c ' \[notice\]' Apache_2k.log
+  1405
   
   # 문자가 포함된 파일목록
   [ec2-user@ip-172-31-36-232 scripts]$ grep -l -w "echo" *
