@@ -221,28 +221,43 @@ $ ls -l /usr/share/vim/vim*/colors/
   `특정 문자열이나 정규식을 포함하고 있는 행이나 파일을 검색하는 명령어`
   `example`
   ```bash
-  # -n, --line-number
-  # -i, --ignore-case
-  # -l, --files-with-matches 
-  # -L, --files-without-match
-  # -c, --count
+  # -n, --line-number, 행 번호를 기재해서 표기
+  # -i, --ignore-case, 대소문자 무시
+  # -l, --files-with-matches, 포함되는 파일목록
+  # -L, --files-without-match, 포함되지않는 파일목록
+  # -c, --count, 매칭되는 행의개수
+  # -x, --line-regexp, 라인전체가 일치
+  # -w, --word-regexp, 단어가 정확히 일치해야함
+  # -A NUM, --after-context=NUM, 패턴이 매칭된 라인 이후 몇라인
+  # -B NUM, --before-context=NUM, 패턴이 매칭된 라인 이전 몇라인
+  # -C NUM, -NUM, --context=NUM, 패턴이 매칭된 라인 전후 몇라인
   
-  # 문자가 포함된 행번호
-  [ec2-user@ip-172-31-36-232 scripts]$ grep -n "echo" memory_check.sh
+  # 1. 문자가 포함된 행을 출력
+  # 1.1 행번호 포함
+  [ec2-user@ip-172-31-36-232 scripts]$ grep -n -w "echo" memory_check.sh
   6:echo "TotalMemory : ${TotalMemory}"
   8:echo "CurrentUsedMemory : ${CurrentUsedMemory}"
 
+  # 1.2 before, after 전후 라인까지 출력
+  [ec2-user@ip-172-31-36-232 scripts]$ grep -C 2 -n -w 'then' memory_check.sh
+  13-
+  14-# 한계값 이상인 경우, 알람
+  15:if [ ${CurrentUsedMemory} -gt ${limit} ]; then
+  16-  echo "현재 사용중인 메모리(${CurrentUsedMemory}) 는 전체 메모리(${TotalMemory})의 90%이상입니다."
+  17-else
+
   # 문자가 포함된 행의갯수
-  [ec2-user@ip-172-31-36-232 scripts]$ grep -c "echo" memory_check.sh
+  [ec2-user@ip-172-31-36-232 scripts]$ grep -c -w "echo" memory_check.sh
   6
+  [ec2-user@ip-172-31-36-232 logs]$ grep -w -c '\[notice\]' Apache_2k.log
+  1405
+  [ec2-user@ip-172-31-36-232 logs]$ grep -w -c notice Apache_2k.log
+  1405
   
   # 문자가 포함된 파일목록
-  [ec2-user@ip-172-31-36-232 scripts]$ grep -l "echo" *
+  [ec2-user@ip-172-31-36-232 scripts]$ grep -l -w "echo" *
   memory_check.sh
 
-  # 정규식
-  [ec2-user@ip-172-31-36-232 scripts]$ grep -l "echo" *
-  memory_check.sh
   ```
 ### pgrep
   `ps와 grep을 합친 명령어. -f 옵션과 같이 사용해서 프로세스명으로 pid를 반환`
