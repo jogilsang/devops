@@ -280,7 +280,7 @@ $ ls -l /usr/share/vim/vim*/colors/
   # -/+ buffers/cache에 used와 free가 실제 사용량과 실제 남은 메모리양이다.
   ```
 ### tr
-- `text replace`
+- `tr - translate or delete characters`
   ```
   # 대상문자를 다른 문자로 변경한다. 
   echo "a:a" | tr ":" " " (= echo "a:a" | sed -r 's/:/ /g')
