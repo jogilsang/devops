@@ -163,7 +163,48 @@ $ ls -l /usr/share/vim/vim*/colors/
   * * * * 1-5
   ```
 ### lynx
+   `lynx는 텍스트 기반의 웹브라우저입니다.`
+   `example`
+   ```
+   sudo lynx https://www.naver.com
+   sudo lynx https://www.google.com
+   ```
 ### date
+   `date는 날짜형식을 출력합니다.`
+   `example`
+   ```bash
+    # 당일
+    year=`date +%Y` # 2021
+    month=`date +%m` # 09
+    day=`date +%d` # 22
+    date=`date +%Y-%m-%d` # 2021-09-22
+
+    # 어제, 내일
+    yesterday=`date -d yesterday +%Y-%m-%d` # 2021-09-21
+    tomorrow=`date -d tomorrow +%Y-%m-%d` # 2021-09-23
+
+    # 요일
+    monday=`date -d 'this monday'`
+    tuesday=`date -d 'this tuesday'`
+    wednesday=`date -d 'this wednesday'`
+    thursday=`date -d 'this thursday'`
+    friday=`date -d 'this friday'`
+    saturday=`date -d 'this saturday'`
+    sunday=`date -d 'this sunday'`
+
+    # 예전,미래
+    1_min_ago=`date -d '1 min ago' +%Y-%m-%d`
+    1_sec_ago=`date -d '1 sec ago' +%Y-%m-%d`
+    1_hour_ago=`date -d '1 hour ago' +%Y-%m-%d`
+    1_day_ago=`date -d '1 day ago' +%Y-%m-%d`
+    1_week_ago=`date -d '1 week ago' +%Y-%m-%d`
+    1_mon_ago=`date -d '1 mon ago' +%Y-%m-%d`
+    1_month_ago=`date -d '1 month ago' +%Y-%m-%d`
+    1_year_ago=`date -d '1 year ago' +%Y-%m-%d`
+
+    # 문서
+    info coreutils 'date invocation'
+   ```
 ### uname
    `uname은 시스템 정보를 표시합니다`
    `example`
@@ -227,24 +268,24 @@ $ ls -l /usr/share/vim/vim*/colors/
 - `입력을 분리하여 처리할 수 있다.`
   ```bash
   # 기본사용 : default
-  [ec2-user@ip-172-31-36-232 ~]$ echo "hello world" | awk '{print $1}'
+  $ echo "hello world" | awk '{print $1}'
   hello
-  [ec2-user@ip-172-31-36-232 ~]$ echo "hello world" | awk '{print $2}'
+  $ echo "hello world" | awk '{print $2}'
   world
 
   # -F 옵션 : 구분자(split 문자를 이용) 
-  [ec2-user@ip-172-31-36-232 ~]$ echo "hello world" | awk -F " " '{print $1}'
+  $ echo "hello world" | awk -F " " '{print $1}'
   hello
-  [ec2-user@ip-172-31-36-232 ~]$ echo "hello world" | awk -F " " '{print $2}'
+  $ echo "hello world" | awk -F " " '{print $2}'
   world
-  [ec2-user@ip-172-31-36-232 ~]$ echo "hello,world" | awk -F "," '{print $1}'
+  $ echo "hello,world" | awk -F "," '{print $1}'
   hello
-  [ec2-user@ip-172-31-36-232 ~]$ echo "hello,world" | awk -F "," '{print $2}'
+  $ echo "hello,world" | awk -F "," '{print $2}'
   world
-  [ec2-user@ip-172-31-36-232 ~]$ r=","
-  [ec2-user@ip-172-31-36-232 ~]$ echo "hello,world" | awk -F "$r" '{print $1}'
+  $ r=","
+  $ echo "hello,world" | awk -F "$r" '{print $1}'
   hello
-  [ec2-user@ip-172-31-36-232 ~]$ echo "hello,world" | awk -F "$r" '{print $2}'
+  $ echo "hello,world" | awk -F "$r" '{print $2}'
   world
 
   ```
