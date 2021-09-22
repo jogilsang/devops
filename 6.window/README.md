@@ -37,7 +37,7 @@ cd %systemdrive%\users\%username%\desktop
 ```
 ### ren
 - `파일 및 폴더 이름변경`
-  example
+  `example`
   ```
   ren folder_a folder_b
   ```
