@@ -4,6 +4,7 @@
 ### [meta-data](#meta-data)
 ### [EBS](#EBS)
 ### [SecurityGroup](#SecurityGroup)
+### [jar 만들기 생성 :: java](#jar%20만들기%20생성%20::%20java)
 
 ---
 
@@ -93,6 +94,17 @@ MYSQL/Aurora	TCP	3306	::/0	mariaDB
 사용자 지정 TCP	TCP	5228	::/0	FCM
 사용자 지정 TCP	TCP	3690	0.0.0.0/0	SVN
 사용자 지정 TCP	TCP	3690	::/0	SVN
+```
+
+### jar 만들기 생성 :: java
+```bash
+sudo vi manifest.txt
+(Main-Class: MainClass <--- main 함수 있는 클래스)
+
+jar -cvmf manifest.txt [jar파일명] [클래스1] [클래스2] or 
+jar -cvmf manifest.txt [jar파일명] *.class
+
+java -jar 파일명.jar
 ```
 
 ---

@@ -7,6 +7,8 @@
 - ### [install](#install)
   - #### [lamp](#lamp)
 - ### [crontab](#crontab)
+- ### [lynx](#lynx)
+- ### [date](#date)
 - ### [uname](#uname)
 - ### [bc](#bc)
 - ### [free](#free)
@@ -160,6 +162,8 @@ $ ls -l /usr/share/vim/vim*/colors/
   # 평일에만 스크립트 실행
   * * * * 1-5
   ```
+### lynx
+### date
 ### uname
    `uname은 시스템 정보를 표시합니다`
    `example`
