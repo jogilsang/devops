@@ -598,6 +598,7 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
 
 ### Tip
 [[Linux 팁] grep, awk를 이용한 access로그 통계 추출하기](https://blog.naver.com/PostView.nhn?isHttpsRedirect=true&blogId=kibani&logNo=220963537520)
+[[VIM] 1. VIM 을 이용한 코드 정리 정규 표현식](https://doitnow-man.tistory.com/160?category=676183)
 
 <!-- bash
 System Performance
