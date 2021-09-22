@@ -36,7 +36,7 @@ cmd /U : 파이프 또는 파일로의 내부 명령어 출력을 유니코드�
 cd %systemdrive%\users\%username%\desktop
 ```
 ### ren
-- `파일 및 폴더 이름변경`
+- `파일 및 폴더 이름변경`   
   `example`
   ```
   ren folder_a folder_b
