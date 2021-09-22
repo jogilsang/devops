@@ -167,6 +167,7 @@ $ ls -l /usr/share/vim/vim*/colors/
   # 평일에만 스크립트 실행
   * * * * 1-5
   ```
+<<<<<<< HEAD
 
 ### wc -l
   `wc - print newline, word, and byte counts for each file`
@@ -178,10 +179,18 @@ $ ls -l /usr/share/vim/vim*/colors/
   -L, --max-line-length, print the length of the longest line
 
   # 문서나 파일의 라인이 몇개인지 출력
+=======
+  
+### wc -l
+  `라인이 몇라인인지 출력한다. grep과 같이 활용가능하다.`
+  `example`
+  ```bash
+>>>>>>> 5d01112596f1a6ca2ba25770ee4cd4a43f1d52e5
   [ec2-user@ip-172-31-36-232 logs]$ wc -l Apache_2k.log
   2000 Apache_2k.log
   [ec2-user@ip-172-31-36-232 logs]$ wc -l Apache_2k.log | awk '{print $1}'
   2000
+<<<<<<< HEAD
 
   # 문서나 파일의 최대길이는 몇글자인지 출력
   # EX : 가장 긴 행의길이가 얼마일경우 
@@ -191,6 +200,8 @@ $ ls -l /usr/share/vim/vim*/colors/
   # 문서나 파일의 단어가 몇개인지 출력
   [ec2-user@ip-172-31-36-232 logs]$ wc -w Apache_2k.log
   24568 Apache_2k.log
+=======
+>>>>>>> 5d01112596f1a6ca2ba25770ee4cd4a43f1d52e5
   ```
   
 ### file
@@ -231,6 +242,11 @@ $ ls -l /usr/share/vim/vim*/colors/
   # -A NUM, --after-context=NUM, 패턴이 매칭된 라인 이후 몇라인
   # -B NUM, --before-context=NUM, 패턴이 매칭된 라인 이전 몇라인
   # -C NUM, -NUM, --context=NUM, 패턴이 매칭된 라인 전후 몇라인
+  # -n, --line-number
+  # -i, --ignore-case
+  # -l, --files-with-matches 
+  # -L, --files-without-match
+  # -c, --count
   
   # 1. 문자가 포함된 행을 출력
   # 1.1 행번호 포함
@@ -253,11 +269,20 @@ $ ls -l /usr/share/vim/vim*/colors/
   1405
   [ec2-user@ip-172-31-36-232 logs]$ grep -w -c notice Apache_2k.log
   1405
+  # 문자가 포함된 행의갯수
+  [ec2-user@ip-172-31-36-232 scripts]$ grep -c "echo" memory_check.sh
+  6
   
   # 문자가 포함된 파일목록
   [ec2-user@ip-172-31-36-232 scripts]$ grep -l -w "echo" *
   memory_check.sh
 
+<<<<<<< HEAD
+=======
+  # 정규식
+  [ec2-user@ip-172-31-36-232 scripts]$ grep -l "echo" *
+  memory_check.sh
+>>>>>>> 5d01112596f1a6ca2ba25770ee4cd4a43f1d52e5
   ```
 ### pgrep
   `ps와 grep을 합친 명령어. -f 옵션과 같이 사용해서 프로세스명으로 pid를 반환`
