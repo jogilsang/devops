@@ -2,13 +2,28 @@
 # 4.linux
 
 ## INDEX
-- ### [keymap](#keymap)
+- ### [console(keymap)](#console(keymap))
+- ### [vim](#vim)
 - ### [install](#install)
   - #### [lamp](#lamp)
 - ### [crontab](#crontab)
+- ### [chmod](#chmod)
+- ### [chown](#chown)
+- ### [param](#param)
+- ### [wc](#wc)
+- ### [file](#file)
+- ### [cut](#cut)
+- ### [grep](#grep)
+- ### [pgrep](#pgrep)
+- ### [lynx](#lynx)
+- ### [date](#date)
 - ### [uname](#uname)
 - ### [bc](#bc)
 - ### [free](#free)
+- ### [tr](#tr)
+- ### [sort](#sort)
+- ### [awk](#awk)
+- ### [sed](#sed)
 - ### [form](#form)
   - #### [json(jq)](#json(jq))
   - #### [xml(xmllint)](#xml(xmllint))
@@ -33,15 +48,91 @@
   - #### [curl](#curl)
  - ### [Reference](#Reference)
 ---
-### keymap
+### console(keymap)
 ```
-ctrl + a : 처음으로
-ctrl + e : 끝으로
-alt + b : 왼쪽으로
-alt + l : 오른쪽으로
-ctrl + u : 라인삭제
-alt + backspace : 삭제
-ctrl + l : 화면지우기
+Tab : 자동 완성
+Ctrl + D : 로그아웃
+Ctrl + R : 히스토리 찾기
+Ctrl + S : 키보드 잠그기
+Ctrl + Q : 잠긴 키보드 풀기
+Ctrl + M : Enter
+Ctrl + P : 이전 명령어 (Up)
+Ctrl + N : 다음 명령어 (Down)
+Ctrl + L : 화면 지우기 (clear)
+Ctrl + Y : 버퍼의 내용 붙여넣기
+Ctrl + A : 입력 라인의 처음으로 이동 (Home)
+Ctrl + E : 입력 라인의 끝으로 이동 (End)
+Ctrl + B : 커서를 왼쪽으로 이동 (Left)
+Ctrl + F : 커서를 오른쪽으로 이동 (Right)
+Ctrl + XX : 커서를 이전 위치로 이동
+Ctrl + U : 커서 왼쪽의 문자들을 버퍼에 저장 후 삭제
+Ctrl + K : 커서 오른쪽의 문자들을 버퍼에 저장 후 삭제
+Alt + L : 커서 위치에서 문자열 끝까지 소문자로 변환
+Alt + U : 커서 위치에서 문자열 끝까지 대문자로 변환
+Alt + T : 두 단어 위치 바꾸기
+Alt + B : 커서를 다음 단어로 이동
+Alt + F : 커서를 이전 단어로 이동
+
+Alt + D : 커서기준 오른쪽삭제 (공백 이전까지)
+Alt + Backspace : 커서기준 왼쪽삭제 (공백 이전까지)
+```
+### [vim](https://vim.rtorr.com/lang/ko/)
+```
+gg - 문서 첫 줄 시작으로 점프, 첫 라인으로
+G - 문서 끝 줄 시작으로 점프, 마지막 라인으로
+5G - 5번째 행 시작으로 점프
+Ctrl + f - 한 화면 아래로 조정 (다음 페이지)
+Ctrl + b - 한 화면 위로 조정 (이전 페이지)
+H - 현재화면 상단으로 점프
+M - 현재화면 중단으로 점프
+L - 현재화면 하단으로 점프
+
+e - 다음 단어 끝으로 점프 
+b - 이전 단어 시작으로 점프 
+% - 현재 괄호의 짝으로 점프
+
+^ - 현재 행 시작으로 점프
+$ - 현재 행 끝으로 점프 (공백 포함)
+
+gd - 지역변수 선언위치로 점프
+gD - 전역변수 선언위치로 점프
+
+} - 다음 단락으로 점프
+{ - 이전 단락으로 점프
+
+Ctrl + e - 한 줄 아래로 화면 조정
+Ctrl + y - 한 줄 위로 화면 조정
+
+/pattern - 패턴 검색 (순방향)
+n - 다음 검색항목으로 점프
+N - 이전 검색항목으로 점프
+
+u - 실행취소
+Ctrl + r - 다시실행
+
+yy - 한 행 복사하기
+2yy - 한 행 복사하기
+dd - 한 행 잘라내기
+2dd - 2줄 잘라내기
+D - 한 행 끝까지 잘라내기
+yw - 다음 단어까지 복사하기
+dw - 다음 단어까지 잘라내기
+P - 커서 앞에 붙여넣기
+
+V - 비주얼 라인
+
+---------------------------------------------
+
+# 테마 설정 
+colorscheme jellybeans
+
+# 기본 테마 확인 
+$ ls -l /usr/share/vim/vim*/colors/
+
+# 전체 사용자 환경설정
+/etc/vimrc
+# 사용자 설정 환경설정
+~/.vimrc
 ```
 ### install
 - #### lamp
@@ -99,6 +190,238 @@ ctrl + l : 화면지우기
   # 평일에만 스크립트 실행
   * * * * 1-5
   ```
+
+### chown
+  `change owner, 즉 파일, 또는 폴더의 소유권을 변경하는 명령어`
+  ```bash
+  sudo chown ec2-user:ec2-user param_test.sh
+  ```
+
+### chmod
+  `change mode, 파일이나 폴더의 권한(읽기, 쓰기, 실행)를 변경`
+  `소유자(owner), group, others, r = 4, w = 2, x = 1`
+  ```bash
+  sudo chmod +x param_test.sh
+
+  sudo chmod ug+rw test.txt
+  sudo chmod u=rwx,g+x sample
+  sudo chmod g+w test.txt
+  sudo chmod o-rwx test.txt
+  ```
+
+### param
+  `스크립트 파일에 사용자가 전달하는 변수. 매개변수는 공백으로 전달한다`
+  `example`
+  ```bash
+  #!/bin/bash
+  # param_test.sh
+  # param의 길이
+  length=$#
+  echo "length : $length"
+
+  # 파일이름
+  fileName=$0
+  echo "fileName : $fileName"
+
+  # 파라미터
+  param1=$1
+  echo "param1 : $param1"
+
+  # 파라미터 전부
+  all_param=$*
+  echo "all_param : $all_param"
+
+  # pid
+  pid=$$
+  echo "pid : $pid"
+
+  # exit param
+  exit_param=$?
+  echo "exit_param : $exit_param"
+
+  [ec2-user@ip-172-31-36-232 scripts]$ ./param_test.sh a b c
+  length : 3
+  fileName : ./param_test.sh
+  param1 : a
+  all_param : a b c
+  pid : 8657
+  exit_param : 0
+  ```
+### wc -l
+  `wc - print newline, word, and byte counts for each file`
+  `라인이 몇라인인지 출력한다. grep과 같이 활용가능하다.`
+  `example`
+  ```bash
+  -l, --lines, print the newline counts
+  -w, --words, print the word counts
+  -L, --max-line-length, print the length of the longest line
+  
+  [ec2-user@ip-172-31-36-232 logs]$ wc -l Apache_2k.log
+  2000 Apache_2k.log
+  [ec2-user@ip-172-31-36-232 logs]$ wc -l Apache_2k.log | awk '{print $1}'
+  2000
+
+  # 문서나 파일의 최대길이는 몇글자인지 출력
+  # EX : 가장 긴 행의길이가 얼마일경우 
+  [ec2-user@ip-172-31-36-232 logs]$ wc -L Apache_2k.log
+  109 Apache_2k.log
+
+  # 문서나 파일의 단어가 몇개인지 출력
+  [ec2-user@ip-172-31-36-232 logs]$ wc -w Apache_2k.log
+  24568 Apache_2k.log
+  ```
+  
+### file
+  `파일의 타입을 확인한다`
+  `example`
+  ```bash
+  # 단일 파일이나 디렉토리에 대한 타입확인
+  [ec2-user@ip-172-31-36-232 scripts]$ file memory_check.sh
+  memory_check.sh: Bourne-Again shell script, UTF-8 Unicode text executable
+
+  # 디렉토리 내 모든 파일과 디렉토리의 파일타입확인
+  [ec2-user@ip-172-31-36-232 ~]$ file *
+  scp:     directory
+  scripts: directory
+  ```
+### cut
+  `구분자(Delimiter)를 이용하여 출력. awk -F 와 동일`
+  `example`
+  ```bash
+  # -d : delimiter
+  # -f : fields
+  echo "hello,world" | cut -d "," -f 1
+  hello
+  echo "hello,world" | cut -d "," -f 2
+  world
+  ```
+### grep
+  `특정 문자열이나 정규식을 포함하고 있는 행이나 파일을 검색하는 명령어`
+  `example`
+  ```bash
+  # -n, --line-number, 행 번호를 기재해서 표기
+  # -i, --ignore-case, 대소문자 무시
+  # -l, --files-with-matches, 포함되는 파일목록
+  # -L, --files-without-match, 포함되지않는 파일목록
+  # -c, --count, 매칭되는 행의개수
+  # -x, --line-regexp, 라인전체가 일치
+  # -w, --word-regexp, 단어가 정확히 일치해야함
+  #  -o, --only-matching
+  # -A NUM, --after-context=NUM, 패턴이 매칭된 라인 이후 몇라인
+  # -B NUM, --before-context=NUM, 패턴이 매칭된 라인 이전 몇라인
+  # -C NUM, -NUM, --context=NUM, 패턴이 매칭된 라인 전후 몇라인
+  # -n, --line-number
+  # -i, --ignore-case
+  # -l, --files-with-matches 
+  # -L, --files-without-match
+  # -c, --count
+  
+  # 1. 문자가 포함된 행을 출력
+  # 1.1 행번호 포함
+  [ec2-user@ip-172-31-36-232 scripts]$ grep -n -w "echo" memory_check.sh
+  6:echo "TotalMemory : ${TotalMemory}"
+  8:echo "CurrentUsedMemory : ${CurrentUsedMemory}"
+
+  # 1.2 before, after 전후 라인까지 출력
+  [ec2-user@ip-172-31-36-232 scripts]$ grep -C 2 -n -w 'then' memory_check.sh
+  13-
+  14-# 한계값 이상인 경우, 알람
+  15:if [ ${CurrentUsedMemory} -gt ${limit} ]; then
+  16-  echo "현재 사용중인 메모리(${CurrentUsedMemory}) 는 전체 메모리(${TotalMemory})의 90%이상입니다."
+  17-else
+
+  # 2. 문자가 포함된 행의갯수
+  [ec2-user@ip-172-31-36-232 scripts]$ grep -c -w "echo" memory_check.sh
+  6
+  [ec2-user@ip-172-31-36-232 logs]$ grep -w -c '\[notice\]' Apache_2k.log
+  1405
+  [ec2-user@ip-172-31-36-232 logs]$ grep -w -c notice Apache_2k.log
+  1405
+  # 2.1. 공백문자과 지정문자가 포함된 행의갯수 (걸러지지않으면, 공백이 아닌거임)
+  [ec2-user@ip-172-31-36-232 logs]$ grep -i -w -c '[[:space:]]\[notice\]' Apache_2k.log
+  1405
+  [ec2-user@ip-172-31-36-232 logs]$ grep -i -w -c '\s\[notice\]' Apache_2k.log
+  1405
+  [ec2-user@ip-172-31-36-232 logs]$ grep -i -w -c ' \[notice\]' Apache_2k.log
+  1405
+  
+  # 2.2. 단어의 개수
+  [ec2-user@ip-172-31-36-232 logs]$ grep -o -w -c notice Apache_2k.log
+  1405
+  [ec2-user@ip-172-31-36-232 logs]$ grep -o -w notice Apache_2k.log | wc -w
+  1405
+
+  # 2.3. 로그통계 추출하기 (awk 이용)
+  [ec2-user@ip-172-31-36-232 logs]$ cat Apache_2k.log | awk '{arr[$6]+=1} END {for(i in arr){print i, arr[i]}}'
+  [notice] 1405
+  [error] 595
+
+  # 문자가 포함된 파일목록
+  [ec2-user@ip-172-31-36-232 scripts]$ grep -l -w "echo" *
+  memory_check.sh
+
+  ```
+### pgrep
+  `ps와 grep을 합친 명령어. -f 옵션과 같이 사용해서 프로세스명으로 pid를 반환`
+  `example`
+  ```bash
+  # 프로세스의 PID 출력
+  [ec2-user@ip-172-31-36-232 ~]$ ps
+  PID TTY          TIME CMD
+  31831 pts/0    00:00:00 bash
+  31858 pts/0    00:00:00 ps
+  [ec2-user@ip-172-31-36-232 ~]$ pgrep -f bash
+  31831
+  [ec2-user@ip-172-31-36-232 ~]$ pgrep -f bas
+  31831
+  [ec2-user@ip-172-31-36-232 ~]$ pgrep -f bas | xargs echo
+  31831
+  # 프로세스 바로 죽임
+  pgrep -f HiveMetaStore | xargs kill
+  ```
+
+### lynx
+   `lynx는 텍스트 기반의 웹브라우저입니다.`
+   `example`
+   ```bash
+   sudo lynx https://www.naver.com
+   sudo lynx https://www.google.com
+   ```
+### date
+   `date는 날짜형식을 출력합니다.`
+   `example`
+   ```bash
+    # 당일
+    year=`date +%Y` # 2021
+    month=`date +%m` # 09
+    day=`date +%d` # 22
+    date=`date +%Y-%m-%d` # 2021-09-22
+
+    # 어제, 내일
+    yesterday=`date -d yesterday +%Y-%m-%d` # 2021-09-21
+    tomorrow=`date -d tomorrow +%Y-%m-%d` # 2021-09-23
+
+    # 요일
+    monday=`date -d 'this monday'`
+    tuesday=`date -d 'this tuesday'`
+    wednesday=`date -d 'this wednesday'`
+    thursday=`date -d 'this thursday'`
+    friday=`date -d 'this friday'`
+    saturday=`date -d 'this saturday'`
+    sunday=`date -d 'this sunday'`
+
+    # 예전,미래
+    1_min_ago=`date -d '1 min ago' +%Y-%m-%d` # 1분전
+    1_sec_ago=`date -d '1 sec ago' +%Y-%m-%d` # 1초전
+    1_hour_ago=`date -d '1 hour ago' +%Y-%m-%d` # 1시간전
+    1_day_ago=`date -d '1 day ago' +%Y-%m-%d` # 1일전
+    1_week_ago=`date -d '1 week ago' +%Y-%m-%d` # 1주전
+    1_month_ago=`date -d '1 month ago' +%Y-%m-%d` # 1달전
+    1_year_ago=`date -d '1 year ago' +%Y-%m-%d` # 1년전
+
+    # 문서
+    info coreutils 'date invocation'
+   ```
 ### uname
    `uname은 시스템 정보를 표시합니다`
    `example`
@@ -141,6 +464,56 @@ ctrl + l : 화면지우기
   # 할당을 해줍니다.
   # -/+ buffers/cache에 used와 free가 실제 사용량과 실제 남은 메모리양이다.
   ```
+<<<<<<< HEAD
+=======
+### tr
+- `tr - translate or delete characters`
+  ```
+  # 대상문자를 다른 문자로 변경한다. 
+  echo "a:a" | tr ":" " " (= echo "a:a" | sed -r 's/:/ /g')
+  a a
+  
+  # 대상문자를 다른 문자로 삭제한다. 
+  echo "a:a" | tr -d ":" (= echo "a:a" | sed -r 's/://g')
+  aa
+  ```
+### sort
+- `출력을 정렬한다`
+  ```
+  # 출력결과를 뒤집는다.
+  free -h | sort -r
+  ```
+### awk
+- `입력을 분리하여 처리할 수 있다.`
+  ```bash
+  # 기본사용 : default
+  $ echo "hello world" | awk '{print $1}'
+  hello
+  $ echo "hello world" | awk '{print $2}'
+  world
+
+  # -F 옵션 : 구분자(split 문자를 이용) 
+  $ echo "hello world" | awk -F " " '{print $1}'
+  hello
+  $ echo "hello world" | awk -F " " '{print $2}'
+  world
+  $ echo "hello,world" | awk -F "," '{print $1}'
+  hello
+  $ echo "hello,world" | awk -F "," '{print $2}'
+  world
+  $ r=","
+  $ echo "hello,world" | awk -F "$r" '{print $1}'
+  hello
+  $ echo "hello,world" | awk -F "$r" '{print $2}'
+  world
+
+  ```
+### sed
+- `패턴을 매칭하여 처리할 수 있다.`
+  ```
+
+  ```
+>>>>>>> 8b14683fb8236ecac40a61869ce282003aa8913f
 ### form
 - #### json(jq)
 - #### xml(xmllint)
@@ -173,6 +546,36 @@ ctrl + l : 화면지우기
   `use`
   ```
   ```
+- #### iostat
+  `disk IO의 지표를 측정하는 명령어`
+- #### sar
+  `System Active Report, 시스템 운영정보를 확인하는 명령어`   
+  -S XDISK : disk io 및 파일 시스템 지표 추출   
+  -S SNMP : network 지표 중 icmp,ip,tcp 등의 지표를 추출
+
+  `example`
+  ```bash
+  # [ -s [ <hh:mm:ss> ] ] [ -e [ <hh:mm:ss> ] ]
+  sar -n SOCK -s 00:00:00 -e 01:00:00
+
+  # CPU 사용률
+  sar -u
+  # 메모리 사용률
+  sar -r
+  # 소켓 사용률
+  # DEV : 네트워크 장치   
+  # EDEV : 네트워크 장치 (오류)   
+  # SOCK : 소켓 (v4)   
+  sar -n SOCK
+  
+  # example1 : 메모리가 부족해서 swap을 하면 disk io에 부하가 생김
+  sar -W -S
+  # example2 : bad sector 카운트가 올라가면서 순간 io가 멈추는 경우가 생김.
+  #            ioutil이나 await 항목 확인
+  sar -d
+  ```
+- #### vmstat
+
 ### network
 - #### nmap
 `네트워크 보안 스캐너, Nmap(Network Mapper)`   
@@ -299,8 +702,13 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
   ```
 
 ### Reference
-Advanced Bash-Scripting Guide : https://tldp.org/LDP/abs/html/devref1.html        
-Bash 쉘스크립트 개발 시작하기 : https://wikidocs.net/book/2370   
+- Advanced Bash-Scripting Guide : https://tldp.org/LDP/abs/html/devref1.html        
+- Bash 쉘스크립트 개발 시작하기 : https://wikidocs.net/book/2370   
+- dummy 시스템로그 다운받기 : https://github.com/logpai/loghub
+
+### Tip
+[[Linux 팁] grep, awk를 이용한 access로그 통계 추출하기](https://blog.naver.com/PostView.nhn?isHttpsRedirect=true&blogId=kibani&logNo=220963537520)
+[[VIM] 1. VIM 을 이용한 코드 정리 정규 표현식](https://doitnow-man.tistory.com/160?category=676183)
 
 <!-- bash
 System Performance
@@ -319,4 +727,12 @@ ps, top, htop, atop,lsof
 
 Text Manipulation TOols
 awk, sed, grep, sort, uniq, cat, cut, echo, fmt, tr, nl ,egrep, frep,wc -->
+
+<!-- keyword
+network :
+  Possible  keywords  are  DEV,  EDEV,  NFS, NFSD, SOCK, IP, EIP, ICMP, EICMP, TCP, ETCP, UDP, SOCK6, IP6, EIP6, ICMP6, EICMP6 and UDP6.
+
+https://github.com/netdata/netdata/wiki
+
+ -->
 
