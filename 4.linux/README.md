@@ -2,11 +2,14 @@
 # 4.linux
 
 ## INDEX
-- ### [keymap](#keymap)
+- ### [console keymap](#console%20keymap)
 - ### [vim](#vim)
 - ### [install](#install)
   - #### [lamp](#lamp)
 - ### [crontab](#crontab)
+- ### [chmod](#chmod)
+- ### [chown](#chown)
+- ### [param](#param)
 - ### [wc](#wc)
 - ### [file](#file)
 - ### [cut](#cut)
@@ -45,15 +48,30 @@
   - #### [curl](#curl)
  - ### [Reference](#Reference)
 ---
-### keymap
+### console keymap
 ```
-ctrl + a : 처음으로
-ctrl + e : 끝으로
-alt + b : 왼쪽으로
-alt + l : 오른쪽으로
-ctrl + u : 라인삭제
-alt + backspace : 삭제
-ctrl + l : 화면지우기
+Tab : 자동 완성
+Ctrl + D : 로그아웃
+Ctrl + R : 히스토리 찾기
+Ctrl + S : 키보드 잠그기
+Ctrl + Q : 잠긴 키보드 풀기
+Ctrl + M : Enter
+Ctrl + P : 이전 명령어 (Up)
+Ctrl + N : 다음 명령어 (Down)
+Ctrl + L : 화면 지우기 (clear)
+Ctrl + Y : 버퍼의 내용 붙여넣기
+Ctrl + A : 입력 라인의 처음으로 이동 (Home)
+Ctrl + E : 입력 라인의 끝으로 이동 (End)
+Ctrl + B : 커서를 왼쪽으로 이동 (Left)
+Ctrl + F : 커서를 오른쪽으로 이동 (Right)
+Ctrl + XX : 커서를 이전 위치로 이동
+Ctrl + U : 커서 왼쪽의 문자들을 버퍼에 저장 후 삭제
+Ctrl + K : 커서 오른쪽의 문자들을 버퍼에 저장 후 삭제
+Alt + L : 커서 위치에서 문자열 끝까지 소문자로 변환
+Alt + U : 커서 위치에서 문자열 끝까지 대문자로 변환
+Alt + T : 두 단어 위치 바꾸기
+Alt + B : 커서를 다음 단어로 이동
+Alt + F : 커서를 이전 단어로 이동
 ```
 ### [vim](https://vim.rtorr.com/lang/ko/)
 ```
@@ -170,6 +188,62 @@ $ ls -l /usr/share/vim/vim*/colors/
   * * * * 1-5
   ```
 
+### chown
+  `change owner, 즉 파일, 또는 폴더의 소유권을 변경하는 명령어`
+  ```bash
+  sudo chown ec2-user:ec2-user param_test.sh
+  ```
+
+### chmod
+  `change mode, 파일이나 폴더의 권한(읽기, 쓰기, 실행)를 변경`
+  `소유자(owner), group, others, r = 4, w = 2, x = 1`
+  ```bash
+  sudo chmod +x param_test.sh
+
+  sudo chmod ug+rw test.txt
+  sudo chmod u=rwx,g+x sample
+  sudo chmod g+w test.txt
+  sudo chmod o-rwx test.txt
+  ```
+
+### param
+  `스크립트 파일에 사용자가 전달하는 변수. 매개변수는 공백으로 전달한다`
+  `example`
+  ```bash
+  #!/bin/bash
+  # param_test.sh
+  # param의 길이
+  length=$#
+  echo "length : $length"
+
+  # 파일이름
+  fileName=$0
+  echo "fileName : $fileName"
+
+  # 파라미터
+  param1=$1
+  echo "param1 : $param1"
+
+  # 파라미터 전부
+  all_param=$*
+  echo "all_param : $all_param"
+
+  # pid
+  pid=$$
+  echo "pid : $pid"
+
+  # exit param
+  exit_param=$?
+  echo "exit_param : $exit_param"
+
+  [ec2-user@ip-172-31-36-232 scripts]$ ./param_test.sh a b c
+  length : 3
+  fileName : ./param_test.sh
+  param1 : a
+  all_param : a b c
+  pid : 8657
+  exit_param : 0
+  ```
 ### wc -l
   `wc - print newline, word, and byte counts for each file`
   `라인이 몇라인인지 출력한다. grep과 같이 활용가능하다.`
