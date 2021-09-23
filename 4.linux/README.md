@@ -7,6 +7,9 @@
 - ### [install](#install)
   - #### [lamp](#lamp)
 - ### [crontab](#crontab)
+- ### [chmod](#chmod)
+- ### [chown](#chown)
+- ### [param](#param)
 - ### [wc](#wc)
 - ### [file](#file)
 - ### [cut](#cut)
@@ -170,6 +173,62 @@ $ ls -l /usr/share/vim/vim*/colors/
   * * * * 1-5
   ```
 
+### chown
+  `change owner, 즉 파일, 또는 폴더의 소유권을 변경하는 명령어`
+  ```bash
+  sudo chown ec2-user:ec2-user param_test.sh
+  ```
+
+### chmod
+  `change mode, 파일이나 폴더의 권한(읽기, 쓰기, 실행)를 변경`
+  `소유자(owner), group, others, r = 4, w = 2, x = 1`
+  ```bash
+  sudo chmod +x param_test.sh
+
+  sudo chmod ug+rw test.txt
+  sudo chmod u=rwx,g+x sample
+  sudo chmod g+w test.txt
+  sudo chmod o-rwx test.txt
+  ```
+
+### param
+  `스크립트 파일에 사용자가 전달하는 변수. 매개변수는 공백으로 전달한다`
+  `example`
+  ```bash
+  #!/bin/bash
+  # param_test.sh
+  # param의 길이
+  length=$#
+  echo "length : $length"
+
+  # 파일이름
+  fileName=$0
+  echo "fileName : $fileName"
+
+  # 파라미터
+  param1=$1
+  echo "param1 : $param1"
+
+  # 파라미터 전부
+  all_param=$*
+  echo "all_param : $all_param"
+
+  # pid
+  pid=$$
+  echo "pid : $pid"
+
+  # exit param
+  exit_param=$?
+  echo "exit_param : $exit_param"
+
+  [ec2-user@ip-172-31-36-232 scripts]$ ./param_test.sh a b c
+  length : 3
+  fileName : ./param_test.sh
+  param1 : a
+  all_param : a b c
+  pid : 8657
+  exit_param : 0
+  ```
 ### wc -l
   `wc - print newline, word, and byte counts for each file`
   `라인이 몇라인인지 출력한다. grep과 같이 활용가능하다.`
