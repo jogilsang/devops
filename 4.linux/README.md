@@ -72,6 +72,9 @@ Alt + U : 커서 위치에서 문자열 끝까지 대문자로 변환
 Alt + T : 두 단어 위치 바꾸기
 Alt + B : 커서를 다음 단어로 이동
 Alt + F : 커서를 이전 단어로 이동
+
+Alt + D : 커서기준 오른쪽삭제 (공백 이전까지)
+Alt + Backspace : 커서기준 왼쪽삭제 (공백 이전까지)
 ```
 ### [vim](https://vim.rtorr.com/lang/ko/)
 ```
