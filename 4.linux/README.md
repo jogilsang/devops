@@ -77,6 +77,8 @@ Alt + D : 커서기준 오른쪽삭제 (공백 이전까지)
 Alt + Backspace : 커서기준 왼쪽삭제 (공백 이전까지)
 ```
 ### [vim](https://vim.rtorr.com/lang/ko/)
+
+- vim에서 dd또는 yy로 복사한 텍스트를 크롬, 메모장, 워드와 같은 다른 프로그램으로 복사하고 싶을 때 복사가 되지않는다. vim은 os의 클립보드를 사용하는 것이 아닌, x11이라는 별도의 클립보드를 사용하기 때문이다. 시스템 클립보드를 지원하는 vim-huge 버전인  gvim 또는 vim-gtk, vim-gnome을 설치해야 시스템 클립보드를 사용할 수 있다
 ```
 gg - 문서 첫 줄 시작으로 점프, 첫 라인으로
 G - 문서 끝 줄 시작으로 점프, 마지막 라인으로
@@ -464,8 +466,6 @@ $ ls -l /usr/share/vim/vim*/colors/
   # 할당을 해줍니다.
   # -/+ buffers/cache에 used와 free가 실제 사용량과 실제 남은 메모리양이다.
   ```
-<<<<<<< HEAD
-=======
 ### tr
 - `tr - translate or delete characters`
   ```
@@ -513,7 +513,6 @@ $ ls -l /usr/share/vim/vim*/colors/
   ```
 
   ```
->>>>>>> 8b14683fb8236ecac40a61869ce282003aa8913f
 ### form
 - #### json(jq)
 - #### xml(xmllint)
