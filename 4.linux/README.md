@@ -2,7 +2,7 @@
 # 4.linux
 
 ## INDEX
-- ### [console keymap](#console%20keymap)
+- ### [console(keymap)](#console(keymap))
 - ### [vim](#vim)
 - ### [install](#install)
   - #### [lamp](#lamp)
@@ -48,7 +48,7 @@
   - #### [curl](#curl)
  - ### [Reference](#Reference)
 ---
-### console keymap
+### console(keymap)
 ```
 Tab : 자동 완성
 Ctrl + D : 로그아웃
@@ -543,6 +543,36 @@ $ ls -l /usr/share/vim/vim*/colors/
   `use`
   ```
   ```
+- #### iostat
+  `disk IO의 지표를 측정하는 명령어`
+- #### sar
+  `System Active Report, 시스템 운영정보를 확인하는 명령어`   
+  -S XDISK : disk io 및 파일 시스템 지표 추출   
+  -S SNMP : network 지표 중 icmp,ip,tcp 등의 지표를 추출
+
+  `example`
+  ```bash
+  # [ -s [ <hh:mm:ss> ] ] [ -e [ <hh:mm:ss> ] ]
+  sar -n SOCK -s 00:00:00 -e 01:00:00
+
+  # CPU 사용률
+  sar -u
+  # 메모리 사용률
+  sar -r
+  # 소켓 사용률
+  # DEV : 네트워크 장치   
+  # EDEV : 네트워크 장치 (오류)   
+  # SOCK : 소켓 (v4)   
+  sar -n SOCK
+  
+  # example1 : 메모리가 부족해서 swap을 하면 disk io에 부하가 생김
+  sar -W -S
+  # example2 : bad sector 카운트가 올라가면서 순간 io가 멈추는 경우가 생김.
+  #            ioutil이나 await 항목 확인
+  sar -d
+  ```
+- #### vmstat
+
 ### network
 - #### nmap
 `네트워크 보안 스캐너, Nmap(Network Mapper)`   
@@ -694,4 +724,12 @@ ps, top, htop, atop,lsof
 
 Text Manipulation TOols
 awk, sed, grep, sort, uniq, cat, cut, echo, fmt, tr, nl ,egrep, frep,wc -->
+
+<!-- keyword
+network :
+  Possible  keywords  are  DEV,  EDEV,  NFS, NFSD, SOCK, IP, EIP, ICMP, EICMP, TCP, ETCP, UDP, SOCK6, IP6, EIP6, ICMP6, EICMP6 and UDP6.
+
+https://github.com/netdata/netdata/wiki
+
+ -->
 
