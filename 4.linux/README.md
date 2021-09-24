@@ -505,7 +505,23 @@ $ ls -l /usr/share/vim/vim*/colors/
   $ echo "hello,world" | awk -F "$r" '{print $2}'
   world
 
-  ```
+  # example
+  1. get column info
+  2. {print} {print $0} is mean everything
+  3. awk -F ":" '{print $1}' /etc/passwd
+  4. awk -F ":" '{print $1"\t"$6"\t"}' /etc/passwd
+  5. awk BEGIN
+  6. awk -F "/" '/^\// {print $NF}' /etc/shells | uniq | sort
+  7. df | awk '/\/dev\/loop/ {print $1"\t"$2"\t"$3}'
+  8. df | awk '/\/dev\/loop/ {print $1"\t"$2 + $3}'
+  9. df | awk '/\/dev\/loop/ {print $1"\t"$2 - $3}'
+  10. awk 'length($0) > 7' /etc/shells
+  11. ps -ef | awk '{ if($NF == "[md]") print $0}'
+  12. awk 'BEGIN { for(i=1; i<=10 ; i++) print "The square root of", i, "is", i*i;}'
+  13. df | awk 'NR==7, NR==11 {print NR, $0}'
+  14. awk 'END {print NR}' /etc/shells
+  15. awk match
+    ```
 ### sed
 - `패턴을 매칭하여 처리할 수 있다.`
   ```
@@ -699,15 +715,23 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
   ```
 
 ### Reference
+#### doc
 - Advanced Bash-Scripting Guide : https://tldp.org/LDP/abs/html/devref1.html        
 - Bash 쉘스크립트 개발 시작하기 : https://wikidocs.net/book/2370   
 - dummy 시스템로그 다운받기 : https://github.com/logpai/loghub
+
+#### video
+- [Learning Sed Is Beneficial For Linux Users](https://www.youtube.com/watch?v=EACe7aiGczw)
+- [Learning Awk Is Essential For Linux Users](https://www.youtube.com/watch?v=9YOZmI-zWok)
 
 ### Tip
 [[Linux 팁] grep, awk를 이용한 access로그 통계 추출하기](https://blog.naver.com/PostView.nhn?isHttpsRedirect=true&blogId=kibani&logNo=220963537520)
 [[VIM] 1. VIM 을 이용한 코드 정리 정규 표현식](https://doitnow-man.tistory.com/160?category=676183)
 
 <!-- bash
+su : substitute user
+sudo : substitute user do
+
 System Performance
 nmon, iostat, sar, vmstat
 
