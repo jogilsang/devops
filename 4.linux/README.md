@@ -524,11 +524,29 @@ $ ls -l /usr/share/vim/vim*/colors/
   14. awk 'END {print NR}' /etc/shells
   15. awk match
     ```
+
 ### sed
 - `패턴을 매칭하여 처리할 수 있다.`
+- `example`
+  ```bash
+  # 출력결과에 2번째 행만 보여준다
+  free -m | sed -n 2p
+  # 출력결과의 글자를 다른글자로 바꿔준다
+  free -m | sed -n 1p | sed -r 's/total/totalValue/g'
+
+  # example
+  sed -i 's/Taylor/Tyler/g' .bashrc
+  cat /etc/shells | sed -e 's/usr/u/g' -e 's/bin/b/g'
+  cat /etc/shells | sed -e 's|usr|u|g' -e 's#bin#b#g'
+  cat /etc/shells | sed -n '/usr/p'
+  sed -i 's/ *$//' test.sh
+  sed -i 's/[[:space:]]*$//' test.sh
+  sed '/^$/d' # 비어있는줄 제거 (empty line gone)
+  sed 's/[a-z]/\U&/g' test.sh # 소문자 -> 대문자
+  sed 's/[a-z]/\L&/g' test.sh # 대문자 -> 소문자 
+  sed 11q .bashrc
   ```
 
-  ```
 ### form
 - #### json(jq)
 - #### xml(xmllint)
@@ -721,10 +739,6 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
 - Advanced Bash-Scripting Guide : https://tldp.org/LDP/abs/html/devref1.html        
 - Bash 쉘스크립트 개발 시작하기 : https://wikidocs.net/book/2370   
 - dummy 시스템로그 다운받기 : https://github.com/logpai/loghub
-
-#### video
-- [Learning Sed Is Beneficial For Linux Users](https://www.youtube.com/watch?v=EACe7aiGczw)
-- [Learning Awk Is Essential For Linux Users](https://www.youtube.com/watch?v=9YOZmI-zWok)
 
 ### Tip
 [[Linux 팁] grep, awk를 이용한 access로그 통계 추출하기](https://blog.naver.com/PostView.nhn?isHttpsRedirect=true&blogId=kibani&logNo=220963537520)
