@@ -6,6 +6,7 @@
 - ### [vim](#vim)
 - ### [install](#install)
   - #### [lamp](#lamp)
+- ### [shell](#shell)
 - ### [crontab](#crontab)
 - ### [chmod](#chmod)
 - ### [chown](#chown)
@@ -173,6 +174,25 @@ $ ls -l /usr/share/vim/vim*/colors/
   cd /var/www/html  
   sudo touch dbcon.php  
   sudo touch insert.php  
+  ```
+### shell
+  `command나 script 작성을 위한 내용`
+  ```
+  su : substitute user
+  sudo : substitute user do
+
+  | : pipe는 표준출력을 표준입력으로 전달하며, |&로 사용할경우 표준에러도 함께 전달한다.
+  > : redirection은 표준출력을 파일로 저장한다.
+
+  0 : 표준입력 디스크립터(색인어)
+  1 : 표준출력 디스크립터(색인어)
+  2 : 표준에러 디스크립터(색인어)
+
+  - /dev/null : 표준출력을 버리기위한 디스크립터(색인어)
+  - 2>&1 : 표준에러를 표준출력으로 리다이렉션
+  - example : 
+    sample.sh > /dev/null
+    sample.sh > /dev/null 2>&1
   ```
 ### crontab
   `example`
@@ -745,9 +765,6 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
 [[VIM] 1. VIM 을 이용한 코드 정리 정규 표현식](https://doitnow-man.tistory.com/160?category=676183)
 
 <!-- bash
-su : substitute user
-sudo : substitute user do
-
 System Performance
 nmon, iostat, sar, vmstat
 
