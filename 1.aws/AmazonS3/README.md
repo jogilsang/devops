@@ -1,12 +1,21 @@
 
 ### Amazon S3 
-
-IAM (Identity and Access Management) 사용자를 만든다.  
+> IAM (Identity and Access Management) 사용자를 만든다.  
 Programmatic access를 체크한다  
 Attach existing policies directly - AdministratorAccess  
 그리고 credentials.csv 파일에 access key랑 secret key를 잘 보관한다  
 
-AWSCLI64.msi를 설치한뒤, CMD를 킨다
+## INDEX
+### - [Install](#%20-%20Install)
+### - [dir](%20-%20dir)
+### - [Upload](%20-%20Upload)
+### - [Download](%20-%20Download)
+### - [Upload Folder](#%20-%20Upload%20Folder)
+
+---
+
+### - Install
+`AWSCLI64.msi를 설치한뒤, CMD를 킨다`
 ```
 aws configure
 AWS Access Key ID [None]: 액세스키를 넣는다
@@ -20,23 +29,27 @@ Default output format [None]: json (자습서참고)
 aws s3 mb s3://jogilsang-bucket-1.0
 ```
 
-버킷의 dir
+### - dir
 ```
+// 버킷의 디렉토리
 aws s3 ls s3://mybucket --human-readable --summarize
 ```
 
-test.txt 파일 업로드
+### - Upload
 ```
+// test.txt 파일 업로드
 aws s3 cp test.txt s3://jogilsang-bucket-1.0
 ```
 
-test.txt 파일 다운로드
+### - Download
 ```
+// test.txt 파일 다운로드
 aws s3 cp s3://jogilsang-bucket-1.0/test.txt ./ 
 ```
 
-폴더 업로드
+### - Upload Folder
 ```
+// 폴더를 업로드
 동일한 파일이 있는경우 덮어씀. 신규파일들도 추가됨
 aws s3 cp mx s3://test-jogilsang/mx --acl public-read --recursive
 동일한 파일이 있는경우 덮어쓰지않음. 신규파일들만 추가됨
