@@ -177,7 +177,7 @@ $ ls -l /usr/share/vim/vim*/colors/
   ```
 ### shell
   `command나 script 작성을 위한 내용`
-  ```
+  ```bash
   su : substitute user
   sudo : substitute user do
 
@@ -193,6 +193,21 @@ $ ls -l /usr/share/vim/vim*/colors/
   - example : 
     sample.sh > /dev/null
     sample.sh > /dev/null 2>&1
+  
+  # 문자열의 길이가 0이라면?
+  param=""
+  [ -z $param ] && echo "blank"
+
+  # 디렉토리라면
+  [ -d /home/ec2-user/scripts/ ] && echo "directory exist"
+  exist
+  [ -d /home/ec2-user/scripts ] && echo "directory exist"
+  exist
+  [ -d /home/ec2-user/scripts/empty ] && echo "directory exist"
+
+  # 파일이 존재하면
+  [ -e /home/ec2-user/scripts/memory_check.sh ] && echo "file exist"
+
   ```
 ### crontab
   `example`
