@@ -3,6 +3,7 @@
 
 ## INDEX
 - ## [인텔리제이(Intellij)](#Intellij)
+- ## [서브라임 텍스트(Sublime)](#Sublime)
 - ## [접속도구(PUTTY)]](#PUTTY)
 
 ---
@@ -14,6 +15,14 @@
 - psvm : public static void main(String args[]) 
 - iter : for-each 구문생성
 - fori: for문 생성
+```
+
+---
+
+### Sublime
+- keymap
+```
+- ctrl + shift + d : 한줄복사해서 아래 붙여넣기(like ctrl + d)
 ```
 
 ---
