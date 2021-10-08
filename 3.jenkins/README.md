@@ -24,12 +24,15 @@ https://aws.amazon.com/ko/getting-started/hands-on/setup-jenkins-build-server/
 
 ## Slack-plugin
 ### Slack 메세지의 changes는 어떻게 처리되는가 
-```
+```java
 // AbstractBuild의 getChangeSet()의 getMsg()와 getAuthor().getDisplayName() 로 구현
-1. hudson.model.AbstractBuild
-2. src/main/java/jenkins/plugins/slack/SlackNotifier.java - perform Method
-3. src/main/java/jenkins/plugins/slack/ActiveNotifier.java - completed(AbstractBuild r) Method
-4. 
+// 1. 
+hudson.model.AbstractBuild
+// 2. 
+src/main/java/jenkins/plugins/slack/SlackNotifier.java - perform Method
+// 3. 
+src/main/java/jenkins/plugins/slack/ActiveNotifier.java - completed(AbstractBuild r) Method
+// 4. 
 message = message + "\n" + getCommitList(r);
 AbstractBuild r
 String buildKey = BuildKey.format(r);
