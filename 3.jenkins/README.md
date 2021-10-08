@@ -4,7 +4,7 @@
 ## INDEX
 - #### [My Posting](#My%20Posting)
 - #### [비용](#비용)
-
+- #### [slack-plugin](#Slack-plugin)
 ---
 
 ## My Posting
@@ -22,5 +22,24 @@ EBS 드라이브에서 Jenkins를 호스팅하는 데 월별 89 USD가 발생합
 https://aws.amazon.com/ko/getting-started/hands-on/setup-jenkins-build-server/
 ```
 
+## Slack-plugin
+### Slack 메세지의 changes는 어떻게 처리되는가 
+```
+// AbstractBuild의 getChangeSet()의 getMsg()와 getAuthor().getDisplayName() 로 구현
+1. hudson.model.AbstractBuild
+2. src/main/java/jenkins/plugins/slack/SlackNotifier.java - perform Method
+3. src/main/java/jenkins/plugins/slack/ActiveNotifier.java - completed(AbstractBuild r) Method
+4. 
+message = message + "\n" + getCommitList(r);
+AbstractBuild r
+String buildKey = BuildKey.format(r);
+ChangeLogSet changeSet = r.getChangeSet();
+List<Entry> entries = new LinkedList<>();
+log.debug(buildKey, "adding changeset entry: %s", o);
+entry.getMsg()
+entry.getAuthor().getDisplayName()
+```
+
 ## Reference
 - [Jenkins 환경변수](https://wiki.jenkins.io/display/JENKINS/Building+a+software+project#Buildingasoftwareproject-JenkinsSetEnvironmentVariables)
+- [jenkinsci/slack-plugin](https://github.com/jenkinsci/slack-plugin)
