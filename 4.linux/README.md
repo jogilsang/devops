@@ -777,9 +777,9 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
 - 고급 Bash 스크립팅 가이드 : https://wiki.kldp.org/HOWTO/html/Adv-Bash-Scr-HOWTO/index.html
 
 ### Tip
-[[Linux 팁] grep, awk를 이용한 access로그 통계 추출하기](https://blog.naver.com/PostView.nhn?isHttpsRedirect=true&blogId=kibani&logNo=220963537520)
-[[VIM] 1. VIM 을 이용한 코드 정리 정규 표현식](https://doitnow-man.tistory.com/160?category=676183)
-[](https://wiki.kldp.org/HOWTO/html/Adv-Bash-Scr-HOWTO/index.html)
+[[Linux 팁] grep, awk를 이용한 access로그 통계 추출하기](https://blog.naver.com/PostView.nhn?isHttpsRedirect=true&blogId=kibani&logNo=220963537520)   
+[[VIM] 1. VIM 을 이용한 코드 정리 정규 표현식](https://doitnow-man.tistory.com/160?category=676183)   
+[고급 Bash 스크립팅 가이드](https://wiki.kldp.org/HOWTO/html/Adv-Bash-Scr-HOWTO/index.html)
 
 <!-- bash
 System Performance

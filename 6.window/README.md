@@ -2,6 +2,13 @@
 
 ## INDEX
 ### [cmd](#cmd)
+- #### [comp](#comp)
+- #### [del](#del)
+- #### [find](#find)
+- #### [mkdir](#mkdir)
+- #### [rmdir](#rmdir)
+- #### [type](#type)
+- #### [xcopy](#xcopy)
 - #### [chcp](#chcp)
 - #### [ren(파일 및 폴더 이름변경](#ren)
 - #### [desktop](#desktop)
@@ -14,6 +21,20 @@
 ---
 
 ### cmd
+- #### comp 
+`파일비교`
+- #### del
+`삭제`
+- #### find 
+`파일안에서 문자열 찾기`
+- #### mkdir 
+`디렉토리 생성`
+- #### rmdir 
+`디렉토리 삭제`
+- #### type 
+`파일을 표준출력으로 출력`
+- #### xcopy 
+`파일복사`
 - #### chcp
 ```
 utf-8 을 cmd 에서 출력하기
