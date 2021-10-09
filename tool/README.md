@@ -23,6 +23,7 @@
 - keymap
 ```
 - ctrl + shift + d : 한줄복사해서 아래 붙여넣기(like ctrl + d)
+- shift + delete : 한줄 지우기 (like ctrl + y)
 ```
 
 ---
