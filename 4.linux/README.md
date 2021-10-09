@@ -13,6 +13,7 @@
 - ### [PARAM](#param)
 - ### [WC](#wc)
 - ### [FILE](#file)
+- ### [Tar](#tar)
 - ### [CUT](#cut)
 - ### [FIND](#find)
 - ### [GREP](#grep)
@@ -209,6 +210,18 @@ $ ls -l /usr/share/vim/vim*/colors/
   # 파일이 존재하면
   [ -e /home/ec2-user/scripts/memory_check.sh ] && echo "file exist"
 
+  # 자기 자신을 지우는 스크립트.
+  #!/bin/rm
+  # 이 스크립트를 실행시키면 이 파일이 지워지는 것 말고는 아무일도 안 생깁니다.
+  # 파일의 권한을 단순 실행만 주면 자동삭제안됨
+
+  # 매개변수 체크하기
+  if [ $# -ne 원하는_매개변수_갯수 ]
+  then
+    echo "사용법: `basename $0` 어쩌구저쩌구"
+    exit $WRONG_ARGS
+  fi
+
   ```
 ### crontab
   `example`
@@ -321,6 +334,32 @@ $ ls -l /usr/share/vim/vim*/colors/
   [ec2-user@ip-172-31-36-232 ~]$ file *
   scp:     directory
   scripts: directory
+  ```
+### tar
+  `Tape ARchiver의 줄임말. 여러개 파일을 compress하거나 extract할 떄 사용` 
+  `example`
+  ```bash
+  # 기본 extract
+  tar zxvf T.tar.gz
+  
+  # Option
+  # -f     : 대상 tar 아카이브 지정. (기본 옵션)
+  # -c     : tar 아카이브 생성. 기존 아카이브 덮어 쓰기. (파일 묶을 때 사용)
+  # -x     : tar 아카이브에서 파일 추출. (파일 풀 때 사용)
+  # -v     : 처리되는 과정(파일 정보)을 자세하게 나열.
+  # -z     : gzip 압축 적용 옵션.
+  # -j     : bzip2 압축 적용 옵션.
+  # -t     : tar 아카이브에 포함된 내용 확인.
+  # -C     : 대상 디렉토리 경로 지정.
+  # -A     : 지정된 파일을 tar 아카이브에 추가.
+  # -d     : tar 아카이브와 파일 시스템 간 차이점 검색.
+  # -r     : tar 아카이브의 마지막에 파일들 추가.
+  # -u     : tar 아카이브의 마지막에 파일들 추가.
+  # -k     : tar 아카이브 추출 시, 기존 파일 유지.
+  # -U     : tar 아카이브 추출 전, 기존 파일 삭제.
+  # -w     : 모든 진행 과정에 대해 확인 요청. (interactive)
+  # -e     : 첫 번째 에러 발생 시 중지.
+
   ```
 ### cut
   `구분자(Delimiter)를 이용하여 출력. awk -F 와 동일`
