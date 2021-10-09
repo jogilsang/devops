@@ -9,7 +9,7 @@
 - ### [SHELL](#shell)
 - ### [CRONTAB](#crontab)
 - ### [CHMOD](#chmod)
-- ### [CHOWN](#chown)
+- ### [Chown](#chown)
 - ### [PARAM](#param)
 - ### [WC](#wc)
 - ### [FILE](#file)
@@ -49,6 +49,7 @@
   - #### [TCPDUMP](#tcpdump)
   - #### [CURL](#curl)
  - ### [REFERENCE](#Reference)
+ - ### [Disadvantage](#Disadvantage)
 ---
 ### console(keymap)
 ```
@@ -811,6 +812,27 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
 [[Linux 팁] grep, awk를 이용한 access로그 통계 추출하기](https://blog.naver.com/PostView.nhn?isHttpsRedirect=true&blogId=kibani&logNo=220963537520)   
 [[VIM] 1. VIM 을 이용한 코드 정리 정규 표현식](https://doitnow-man.tistory.com/160?category=676183)   
 [고급 Bash 스크립팅 가이드](https://wiki.kldp.org/HOWTO/html/Adv-Bash-Scr-HOWTO/index.html)
+
+### disadvantage
+```
+쉘 스크립트를 쓰면 안 될 때
+- 리소스에 민감한 작업들, 특히 속도가 중요한 요소일 때(정렬, 해쉬 등등)
+- 강력한 산술 연산 작업들, 특히 임의의 정밀도 연산(arbitrary precision)이나 복소수를 써야 할 때(C++이나 포트란을 쓰세요)
+- 플랫폼간 이식성이 필요할 때(C를 쓰세요)
+- 구조적 프로그래밍이 필요한 복잡한 어플리케이션(변수의 타입체크나 함수 프로토타입등이 필요할 때)
+- 업무에 아주 중요하거나 회사의 미래가 걸렸다는 확신이 드는 어플리케이션
+- 보안상 중요해서, 여러분 시스템의 무결성을 보장하기 위해 외부의 침입이나 크래킹, 파괴등을 막아야 할 필요가 있을 때
+- 서로 의존적인 관계에 있는 여러 콤포넌트로 이루어진 프로젝트
+- 과도한 파일 연산이 필요할 때(Bash는 제한적인 직렬적 파일 접근을 하고 , 특히나 불편하고 불충분한 줄단위 접근만 가능)
+- 다차원 배열이 필요할 때
+- 링크드 리스트나 트리같은 데이타 구조가 필요할 때
+- 그래픽이나 GUI를 만들고 변경하는 등의 일이 필요할 때
+- 시스템 하드웨어에 직접 접근해야 할 때
+- 포트나 소켓 I/O가 필요할 때
+- 예전에 쓰던 코드를 사용하는 라이브러리나 인터페이스를 써야 할 필요가 있을 때
+- 독점적이고 소스 공개를 안 하는 어플리케이션을 짜야 할 때(쉘 스크립트는 필연적으로 오픈 소스입니다.)
+출처 : https://wiki.kldp.org/HOWTO/html/Adv-Bash-Scr-HOWTO/why-shell.html
+```
 
 <!-- bash
 System Performance
