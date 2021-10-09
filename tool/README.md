@@ -4,6 +4,7 @@
 ## INDEX
 - ## [인텔리제이(Intellij)](#Intellij)
 - ## [서브라임 텍스트(Sublime)](#Sublime)
+- ## [VSCODE]](#vscode)
 - ## [접속도구(PUTTY)]](#PUTTY)
 
 ---
@@ -24,6 +25,21 @@
 ```
 - ctrl + shift + d : 한줄복사해서 아래 붙여넣기(like ctrl + d)
 - shift + delete : 한줄 지우기 (like ctrl + y)
+```
+---
+### vscode
+- keymap
+```
+- ctrl + shift + d : 한줄복사해서 아래 붙여넣기(like ctrl + d)
+- shift + delete : 한줄 지우기 (like ctrl + y)
+```
+- keymap 중복단축키 변경하기(when 설정)
+```bash
+# 대문자변경으로 바꾸기(uppercase)
+# ctrl + shift + u
+
+upper -> when -> editorHasSelection
+output -> when -> !editorHasSelection && editorFocus
 ```
 
 ---

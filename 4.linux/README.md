@@ -2,52 +2,53 @@
 # 4.linux
 
 ## INDEX
-- ### [console(keymap)](#console(keymap))
-- ### [vim](#vim)
-- ### [install](#install)
-  - #### [lamp](#lamp)
-- ### [shell](#shell)
-- ### [crontab](#crontab)
-- ### [chmod](#chmod)
-- ### [chown](#chown)
-- ### [param](#param)
-- ### [wc](#wc)
-- ### [file](#file)
-- ### [cut](#cut)
-- ### [grep](#grep)
-- ### [pgrep](#pgrep)
-- ### [lynx](#lynx)
-- ### [date](#date)
-- ### [uname](#uname)
-- ### [bc](#bc)
-- ### [free](#free)
-- ### [tr](#tr)
-- ### [sort](#sort)
-- ### [awk](#awk)
-- ### [sed](#sed)
-- ### [form](#form)
-  - #### [json(jq)](#json(jq))
-  - #### [xml(xmllint)](#xml(xmllint))
-- ### [process](#process)
+- ### [CONSOLE(KEYMAP)](#console(keymap))
+- ### [VIM](#vim)
+- ### [INSTALL](#install)
+  - #### [LAMP](#lamp)
+- ### [SHELL](#shell)
+- ### [CRONTAB](#crontab)
+- ### [CHMOD](#chmod)
+- ### [CHOWN](#chown)
+- ### [PARAM](#param)
+- ### [WC](#wc)
+- ### [FILE](#file)
+- ### [CUT](#cut)
+- ### [FIND](#find)
+- ### [GREP](#grep)
+- ### [PGREP](#pgrep)
+- ### [LYNX](#lynx)
+- ### [DATE](#date)
+- ### [UNAME](#uname)
+- ### [BC](#bc)
+- ### [FREE](#free)
+- ### [TR](#tr)
+- ### [SORT](#sort)
+- ### [AWK](#awk)
+- ### [SED](#sed)
+- ### [FORM](#form)
+  - #### [JSON(JQ)](#json(jq))
+  - #### [XML(XMLLINT)](#xml(xmllint))
+- ### [PROCESS](#process)
   - #### ps
   - #### top
   - #### htop
   - #### atop
   - #### lsof
-- ### [system](#system)
-  - #### [nmon](#nmon)
+- ### [SYSTEM](#system)
+  - #### [NMON](#nmon)
   - #### iostat
   - #### sar
   - #### vmstat
-- ### [network](#network)
-  - #### [echo > /dev/tcp/](#echo%20>%20/dev/tcp/)
-  - #### [nmap](#nmap)
-  - #### [mtr](#mtr)
-  - #### [traceroute](#traceroute)
-  - #### [ping](#ping)
-  - #### [tcpdump](#tcpdump)
-  - #### [curl](#curl)
- - ### [Reference](#Reference)
+- ### [NETWORK](#network)
+  - #### [ECHO > /DEV/TCP/](#echo%20>%20/dev/tcp/)
+  - #### [NMAP](#nmap)
+  - #### [MTR](#mtr)
+  - #### [TRACEROUTE](#traceroute)
+  - #### [PING](#ping)
+  - #### [TCPDUMP](#tcpdump)
+  - #### [CURL](#curl)
+ - ### [REFERENCE](#Reference)
 ---
 ### console(keymap)
 ```
@@ -330,6 +331,13 @@ $ ls -l /usr/share/vim/vim*/colors/
   hello
   echo "hello,world" | cut -d "," -f 2
   world
+  ```
+### find
+  `디렉토리 상에 있는 파일을 찾는다.`
+  `example`
+  ```bash
+  # 현재 경로부터 하위경로까지 단어를 포함한 파일을 찾는다.
+  sudo find . -name "*file*"
   ```
 ### grep
   `특정 문자열이나 정규식을 포함하고 있는 행이나 파일을 검색하는 명령어`
