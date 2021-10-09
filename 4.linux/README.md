@@ -565,6 +565,10 @@ $ ls -l /usr/share/vim/vim*/colors/
   13. df | awk 'NR==7, NR==11 {print NR, $0}'
   14. awk 'END {print NR}' /etc/shells
   15. awk match
+
+  #Sample
+  온라인 연결 상태 (pid 가 없다면 그 프로세스는 실행중이 아님)
+  https://wiki.kldp.org/HOWTO/html/Adv-Bash-Scr-HOWTO/procref1.html#CONSTAT
     ```
 
 ### sed
@@ -576,17 +580,36 @@ $ ls -l /usr/share/vim/vim*/colors/
   # 출력결과의 글자를 다른글자로 바꿔준다
   free -m | sed -n 1p | sed -r 's/total/totalValue/g'
 
+  # option
+  # -n : 패턴이 일치할경우에만 줄 출력
+
   # example
   sed -i 's/Taylor/Tyler/g' .bashrc
   cat /etc/shells | sed -e 's/usr/u/g' -e 's/bin/b/g'
   cat /etc/shells | sed -e 's|usr|u|g' -e 's#bin#b#g'
-  cat /etc/shells | sed -n '/usr/p'
+  cat /etc/shells | sed -n '/usr/p' # usr을 포함하는 줄 출력
   sed -i 's/ *$//' test.sh
   sed -i 's/[[:space:]]*$//' test.sh
-  sed '/^$/d' # 비어있는줄 제거 (empty line gone)
   sed 's/[a-z]/\U&/g' test.sh # 소문자 -> 대문자
   sed 's/[a-z]/\L&/g' test.sh # 대문자 -> 소문자 
   sed 11q .bashrc
+  s/00*/0/g # 연속적인 모든 0을 하나의 0으로 압축하라.
+  s/00*/0/ # 처음나오는 연속적인 0을 하나의 0으로 압축하라.
+  sed '/^$/d' # 비어있는줄 제거 (empty line gone)
+  sed '/GUI/d' 	"GUI"를 포함하는 모든 줄을 지워라.
+  sed 's/GUI//d' 	"GUI"가 나오는 줄에서 "GUI"만 지워라
+
+  # sample
+  파일에서 빈 줄을 지워주는 간단한 스크립트
+  파일에서 어떤 패턴을 다른 패턴으로 바꿔주는 스크립트
+  https://wiki.kldp.org/HOWTO/html/Adv-Bash-Scr-HOWTO/textproc.html#WF  
+
+  파일 이름에 일반적이지 않은 문자나 공백 문자를 포함하는 파일을 지우기.
+  https://wiki.kldp.org/HOWTO/html/Adv-Bash-Scr-HOWTO/moreadv.html#EX57
+
+  낱말 빈도수 분석
+  https://wiki.kldp.org/HOWTO/html/Adv-Bash-Scr-HOWTO/textproc.html#WF
+
   ```
 
 ### form
