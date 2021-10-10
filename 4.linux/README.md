@@ -7,6 +7,7 @@
 - ### [INSTALL](#install)
   - #### [LAMP](#lamp)
 - ### [SHELL](#shell)
+
 - ### [CRONTAB](#crontab)
 - ### [CHMOD](#chmod)
 - ### [Chown](#chown)
@@ -19,7 +20,7 @@
 - ### [GREP](#grep)
 - ### [PGREP](#pgrep)
 - ### [LYNX](#lynx)
-- ### [DATE](#date)
+- ### [DATE,TIMEZONE](#date,timezon)
 - ### [UNAME](#uname)
 - ### [BC](#bc)
 - ### [FREE](#free)
@@ -182,6 +183,8 @@ $ ls -l /usr/share/vim/vim*/colors/
   ```bash
   su : substitute user
   sudo : substitute user do
+
+  /usr/local/bin : 스크립트 파일을 이동할경우 스크립트 이름만으로 실행
 
   | : pipe는 표준출력을 표준입력으로 전달하며, |&로 사용할경우 표준에러도 함께 전달한다.
   > : redirection은 표준출력을 파일로 저장한다.
@@ -471,7 +474,15 @@ $ ls -l /usr/share/vim/vim*/colors/
    sudo lynx https://www.naver.com
    sudo lynx https://www.google.com
    ```
-### date
+### date,timezon
+   `timezone은 영국의 그리니치 천문대(본초 자오선, 경도 0도)를 기준으로 지역에 따른 시간의 차이` 
+   ```bash
+    ### TIMEZONE이 틀릴경우 (AWS ami 기준)
+    sudo vi /etc/sysconfig/clock
+    ZONE="Asia/Seoul"
+    sudo ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+    sudo reboot
+   ```
    `date는 날짜형식을 출력합니다.`
    `example`
    ```bash
