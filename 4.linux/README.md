@@ -8,6 +8,8 @@
   - #### [LAMP](#lamp)
 - ### [SHELL](#shell)
 
+- ### [WHO](#who)
+- ### [UPTIME](#uptime)
 - ### [CRONTAB](#crontab)
 - ### [CHMOD](#chmod)
 - ### [Chown](#chown)
@@ -225,6 +227,60 @@ $ ls -l /usr/share/vim/vim*/colors/
     exit $WRONG_ARGS
   fi
 
+  ```
+
+### who,w,ac,users,last
+  `시스템에 현재 로그인해 있는 모든 사용자를 보여줍니다.`
+  `example`
+  ```bash
+  # 전체 사용자들의 이름과 접속시간, IP정보
+  [ec2-user@ip-172-31-36-232 ~]$ who
+  ec2-user pts/0        2021-10-10 13:08 (61.74.251.71)
+
+  # 현재 사용자의 이름과 접속시간, IP정보
+  [ec2-user@ip-172-31-36-232 ~]$ who -m
+  ec2-user pts/0        2021-10-10 13:08 (61.74.251.71)
+
+  # 로그인하고있는 모든사용자
+  [ec2-user@ip-172-31-36-232 ~]$ who -q
+  ec2-user
+  # users=1
+
+  # 사용자이름만
+  [ec2-user@ip-172-31-36-232 ~]$ whoami
+  ec2-user
+
+  # 로그인되어 있는 사용자와 관련된 모든 프로세스
+  [ec2-user@ip-172-31-36-232 ~]$ w
+  13:11:32 up 3 min,  1 user,  load average: 0.01, 0.03, 0.00
+  USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+  ec2-user pts/0    61.74.251.71     13:08    2.00s  0.02s  0.00s w
+
+  # ac :  GNU 계정 유틸리티(accounting utility)
+  # 사용자가 로그인 해 있던 시간을 /var/log/wtmp 에서 읽어서 보여줍니다
+  [ec2-user@ip-172-31-36-232 ~]$ ac -d
+  Sep 10  total        3.21
+  Sep 11  total        4.95
+  Sep 12  total        4.34
+  Sep 14  total        2.89
+  Sep 16  total        4.03
+  Sep 18  total        2.30
+
+  # 사용자가 마지막으로 로그인 한 시간을 /var/log/wtmp
+  [ec2-user@ip-172-31-36-232 ~]$ last
+  ec2-user pts/0        61.74.251.71     Sun Oct 10 13:08   still logged in
+  reboot   system boot  4.14.243-185.433 Sun Oct 10 13:07 - 13:21  (00:13)
+  ec2-user pts/1        61.74.251.71     Sun Oct 10 13:00 - 13:05  (00:04)
+  ec2-user pts/0        61.74.251.71     Sun Oct 10 10:23 - 13:01  (02:38)
+
+  ```
+### uptime
+  `시스템이 얼마나 오랫동안 돌고 있었는지 나타내주는 시간`   
+  `example`
+  ```bash
+  # 재부팅 후 켜져있는시간
+  [ec2-user@ip-172-31-36-232 ~]$ uptime -p
+  up 1 minute
   ```
 ### crontab
   `example`
