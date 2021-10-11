@@ -336,6 +336,9 @@ Surface 허브
 환영 화면	ms-settings:surfacehub-welcome
 ```
 
+
+
+### 윈도우에서 리눅스를 쓰고싶다면, WSL 검색
 ### fun
 ```
 (_   _)( )                  ( )       ( )   ( )           ( )  
