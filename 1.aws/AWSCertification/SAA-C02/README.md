@@ -148,15 +148,133 @@
 ### [public-load-balancer-private-ec2](https://aws.amazon.com/premiumsupport/knowledge-center/public-load-balancer-private-ec2/)
 
 ### cheat
+#### [amazon-vpc](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/networking-and-content-delivery/amazon-vpc/)
+```
+amazon-vpc
+- 가상 네트워크
+- AWS 리소스 격리된 섹션을 프로비저닝
+- VPC는 AWS의 다른 VPC와 논리적으로 격리됩니다.
+기본 VPC는 ​​각 AZ에 서브넷이 있는 각 지역에 생성됩니다.
+기본적으로 리전당 최대 5개의 VPC를 생성할 수 있습니다.
+기본 VPC에는 모든 퍼블릭 서브넷이 있습니다.
+- 서브넷 라우팅 테이블에는 연결된 인터넷 게이트웨이가 있습니다.
+- "공용 IPv4 주소 자동 할당"이 "예"로 설정되었습니다.
+
+가상 프라이빗 게이트웨이:  VPN 연결의 Amazon VPC 측.
+인터넷 게이트웨이:  공용 인터넷 연결의 Amazon VPC 측입니다.
+서브넷:  격리된 리소스 그룹을 배치할 수 있는 VPC IP 주소 범위의 세그먼트입니다(AZ에 매핑, 1:1).
+피어링 연결:  피어링 연결을 사용하면 피어링된 두 VPC 간에 프라이빗 IP 주소를 통해 트래픽을 라우팅할 수 있습니다.
+
+
+---------------
+VPC 라우터는 서로 다른 AZ를 함께 연결하고 VPC를 인터넷 게이트웨이에 연결합니다.
+VPC 라우터는 리전 내의 AZ 간에 라우팅을 수행합니다.
+각 서브넷에는 라우터가 VPC 내에서 트래픽을 전달하는 데 사용하는 라우팅 테이블이 있습니다.
+각 서브넷은 하나의 라우팅 테이블에만 연결할 수 있습니다.
+하나의 라우팅 테이블을 여러 서브넷에 할당할 수 있습니다.
+모든 VPC 서브넷이 서로 통신하도록 허용하는 기본 규칙이 있습니다. 이 규칙은 삭제하거나 수정할 수 없습니다.
+서브넷 간의 라우팅은 이 규칙 때문에 항상 가능합니다. 통신 문제는 보안 그룹 또는 NACL일 가능성이 더 큽니다.
+---------------
+
+서브넷 유형:
+
+서브넷의 트래픽이 인터넷 게이트웨이로 라우팅되는 경우 서브넷을  퍼블릭 서브넷이라고 합니다.
+서브넷에 인터넷 게이트웨이에 대한 경로가 없으면 서브넷을  프라이빗 서브넷이라고 합니다.
+서브넷에 인터넷 게이트웨이에 대한 경로가 없지만 VPN 연결을 위해 트래픽이 가상 프라이빗 게이트웨이로 라우팅되는  경우 서브넷을 VPN 전용 서브넷이라고 합니다.
+
+VPC가 생성되면 CIDR 블록을 변경할 수 없습니다.
+기존 CIDR 블록과 겹치는 추가 CIDR 블록을 생성할 수 없습니다.
+다른 RFC 1918 범위에서 추가 CIDR 블록을 생성할 수 없습니다.
+IP 주소 범위가 겹치는 서브넷을 만들 수 없습니다.
+서브넷의 처음 4개와 마지막 1개의 IP 주소는 예약되어 있습니다.
+
+각 서브넷은 완전히 하나의 가용 영역 내에 있어야 하며 여러 영역에 걸쳐 있을 수 없습니다.
+
+---------------
+IGW(인터넷 게이트웨이)는 두 가지 용도로 사용됩니다. .
+- 인터넷 라우팅 가능한 트래픽에 대해 VPC 라우팅 테이블에 대상을 제공합니다.
+- 퍼블릭 IPv4 주소가 할당된 인스턴스에 대해 개인 IPv4 주소와 공용 IPv4 주소 간에 NAT(네트워크 주소 변환)를 수행합니다.
+
+IGW를 가리키도록 서브넷 라우팅 테이블을 업데이트해야 합니다.
+- 모든 대상으로(예: IPv4의 경우 0.0.0.0/0 또는 IPv6의 경우 ::/0).
+- 특정 퍼블릭 IPv4 주소(예: AWS 외부에 있는 회사의 퍼블릭 엔드포인트).
+
+VPC 서브넷의 인스턴스에 대해 인터넷 액세스를 활성화하려면 다음을 수행해야 합니다.
+
+인터넷 게이트웨이를 VPC에 연결합니다.
+서브넷의 라우팅 테이블이 인터넷 게이트웨이를 가리키는지 확인하십시오(아래 참조).
+서브넷의 인스턴스에 전역적으로 고유한 IP 주소(퍼블릭 IPv4 주소, 탄력적 IP 주소 또는 IPv6 주소)가 있는지 확인합니다.
+네트워크 액세스 제어 및 보안 그룹 규칙이 관련 트래픽이 인스턴스로 들어오고 나가는 것을 허용하는지 확인하십시오.
+
+---------------
+단일 퍼블릭 서브넷이 있는 VPC:
+퍼블릭 및 프라이빗 서브넷이 있는 VPC:
+퍼블릭 및 프라이빗 서브넷과 하드웨어 VPN 액세스가 있는 VPC:
+프라이빗 서브넷만 있고 하드웨어 VPN 액세스가 가능한 VPC:
+
+----------------
+NAT 인스턴스에 대한 보안 그룹은 프라이빗 서브넷에서 HTTP/HTTPS 인바운드 및 0.0.0.0/0으로 아웃바운드를 허용해야 합니다.
+여러 서브넷에서 여러 NAT를 사용하여 확장할 수 있습니다.
+배스천(점프) 호스트로 사용할 수 있습니다.
+NAT 인스턴스는 인터넷 게이트웨이에 대한 경로가 있는 퍼블릭 서브넷에 있어야 합니다.
+NAT 게이트웨이를 사용하여 VPC 피어링, VPN 또는 Direct Connect에 액세스할 수 없으므로 라우팅 테이블에 특정 경로를 포함해야 합니다.
+보안 그룹과 연결되어 있지 않습니다.
+라우팅 테이블을 업데이트하고 게이트웨이를 가리키는 것을 잊지 마십시오.
+
+----------------
+
+보안 그룹 끝에 암시적 거부 규칙이 있습니다.
+모든 규칙은 허가가 발생할 때까지 평가되거나 암시적 거부가 될 때까지 계속됩니다.
+
+----------------
+보안그룹은 인스턴스 레벨에서 실행
+기본적으로 사용자 지정 보안 그룹에는 인바운드 허용 규칙이 없습니다(모든 인바운드 트래픽은 기본적으로 거부됨).
+기본적으로 기본 보안 그룹에는 인바운드 허용 규칙(그룹 내에서 오는 트래픽 허용)이 있습니다.
+모든 아웃바운드 트래픽은 기본적으로 사용자 지정 및 기본 보안 그룹에서 허용됩니다.
+
+----------------
+서브넷 수준에서 네트워크 ACL의 기능.
+VPC 라우터는 네트워크 ACL 기능을 호스팅합니다.
+NACL은 서브넷 내 트래픽이 아닌 서브넷으로 수신 또는 송신되는 트래픽에만 적용됩니다.
+VPC는 모든 인바운드/아웃바운드 트래픽을 허용하는 기본 네트워크 ACL과 함께 자동으로 제공됩니다.
+네트워크 ACL은 동일한 서브넷에 있는 인스턴스 간의 트래픽을 필터링하지 않습니다.
+NACL은 특정 IP 또는 범위를 차단하는 데 선호되는 옵션입니다.
+보안 그룹은 특정 범위의 IP를 차단하는 데 사용할 수 없습니다.
+NACL은 첫 번째 방어선이고 보안 그룹은 두 번째 방어선입니다.
+
+-----------------
+VPN은 클라이언트 쪽 VPN GateWay랑 AWS 쪽 VGW(가상 프라이빗 게이트웨이)가 필요
+
+
+AWS Direct Connect를 사용하면 온프레미스 네트워크에서 Amazon VPC로의 전용 연결을 쉽게 설정할 수 있습니다.
+업계 표준 VLAN을 사용하여 프라이빗 IP 주소를 사용하여 Amazon VPC 내에서 실행되는 Amazon Elastic Compute Cloud(Amazon EC2) 인스턴스에 액세스합니다.
+
+-----------------
+VPC 피어링
+두 VPC의 인스턴스는 마치 동일한 네트워크 내에 있는 것처럼 서로 통신할 수 있습니다.
+VPC는 다른 리전에 있을 수 있습니다(리전 간 VPC 피어링 연결이라고도 함).
+한 번에 두 VPC 간에 피어링 연결을 하나만 가질 수 있습니다.
+다른 계정과 피어링할 수 있습니다(지역 내 또는 지역 간).
+
+-------------------
+
+모든 트래픽이 모니터링되는 것은 아닙니다. 예를 들어 다음 트래픽은 제외됩니다.
+
+Route53으로 가는 트래픽.
+Windows 라이선스 활성화를 위해 생성된 트래픽입니다.
+169.254.169.254(인스턴스 메타데이터)를 오가는 트래픽.
+Amazon Time Sync Service에 대해 169.254.169.123을 오가는 트래픽.
+DHCP 트래픽.
+기본 VPC 라우터에 대해 예약된 IP 주소에 대한 트래픽입니다.
+```
+#### [aws-auto-scaling](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/aws-auto-scaling/)
+#### [elastic-load-balancing](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/elastic-load-balancing/)
 #### [amazon-ec2](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/amazon-ec2/)
 #### [amazon-s3](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/storage/amazon-s3/)
 #### [amazon-rds](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/database/amazon-rds/)
 #### [amazon-ebs](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/amazon-ebs/)
 #### [amazon-lambda](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/aws-lambda/)
 #### [amazon-kinesis](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/analytics/amazon-kinesis/)
-#### [amazon-vpc](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/networking-and-content-delivery/amazon-vpc/)
-#### [aws-Auto-scaling](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/aws-auto-scaling/)
-#### [elastic-load-balancing](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/elastic-load-balancing/)
 #### [aws-storage-gateway](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/storage/aws-storage-gateway/)
 #### [aws-organizations](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/management-tools/aws-organizations/)
 
