@@ -268,7 +268,118 @@ DHCP 트래픽.
 기본 VPC 라우터에 대해 예약된 IP 주소에 대한 트래픽입니다.
 ```
 #### [aws-auto-scaling](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/aws-auto-scaling/)
+```
+WHAT : 인스턴스에 대한 수평적 확장
+WHY : 애플리케이션의 로드를 처리하는 데 사용할 수 있는 적절한 Amazon EC2 가용 인스턴스의 수를 확보한다
+HOW : 
+- Auto Scaling은 동일한 AWS 리전 내의 여러 AZ에 걸쳐 있을 수 있습니다.
+- Auto Scaling은 ELB, CloudWatch 및 CloudTrail과 함께 작동합니다.
+- EC2 인스턴스 태그 및 인스턴스 시작 후에 생성된 추가 블록 스토어 볼륨은 고려되지 않습니다.
+
+ASG(Auto Scaling Groups)
+- 편집가능
+다음 조건이 충족되는 경우 실행 중인 인스턴스를 ASG에 추가할 수 있습니다.
+1. 인스턴스가 실행 중 상태입니다.
+2. 인스턴스를 시작하는 데 사용된 AMI가 여전히 존재합니다.
+3. 인스턴스가 다른 ASG의 일부가 아닙니다.
+4. 인스턴스는 ASG에 대해 동일한 AZ에 있습니다.
+
+- 병합가능
+1. 여러 단일 AZ Auto Scaling 그룹을 단일 다중 AZ ASG로 병합할 수 있습니다.
+2. 병합은 CLI를 통해서만 수행할 수 있습니다.
+3. 프로세스는 다른 ASG에 대해 다른 AZ를 커버/스팬하도록 그룹 중 하나의 영역을 조정하는 것입니다.
+   그런 다음 다른 ASG를 삭제합니다.
+5. 결과 ASG는 기존 ASG 중 하나여야 합니다.
+
+스케일링에는 네 가지 크기 조정 옵션이 있습니다.
+1. 유지 – 특정 또는 최소 인스턴스 수를 실행 상태로 유지합니다.
+    EX : Scaling 정책이 최소 인스턴스 1개, 원하는 용량 2개, 최대 4개 인스턴스로 설정
+2. 수동 – 최대, 최소 또는 특정 수의 인스턴스를 사용합니다.
+3. 예약됨 – 일정에 따라 인스턴스 수를 늘리거나 줄입니다.
+4. 동적 – 실시간 시스템 지표(예: CloudWatch 지표)를 기반으로 확장합니다.
+
+그 외
+- Amazon Simple Queue Service(SQS) 대기열을 기반으로 확장할 수도 있습니다.
+- 인스턴스는 ELB에 의해 서비스에서 제거되지만 Auto Scaling에 의해 종료되지는 않습니다.
+
+CLI 
+// command can be issued to set the instance’s status to unhealthy, 
+aws autoscaling set–instance-health –instance-id i-123abc45d –health-status Unhealthy
+
+
+-----------------------------------
+```
 #### [elastic-load-balancing](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/elastic-load-balancing/)
+```
+WHAT : 수신된 애플리케이션 트래픽을 자동으로 분산합니다.
+WHY : 
+    1. 단일 리소스에 과부하가 걸릴 위험을 최소화합니다.
+    2. 정상적인 대상만 트래픽을 수신하도록 하여 애플리케이션에 내결함성을 제공합니다.
+HOW : 
+AWS에는 세 가지 유형의 Elastic Load Balancer(ELB)가 있습니다.
+    1. CLB(Classic Load Balancer) – 세 가지 중 가장 오래된 것으로 레이어 4와 레이어 7 모두에서 기본 로드 밸런싱을 제공합니다.
+    - tcp,ssl, http,https
+    2. ALB(Application Load Balancer) – 요청 내용을 기반으로 연결을 라우팅하는 계층 7 로드 밸런서입니다.
+    - http,https
+    - lambda function as a target
+    3. NLB(Network Load Balancer) – IP 프로토콜 데이터를 기반으로 연결을 라우팅하는 레이어 4 로드 밸런서입니다.
+    - tcp
+
+1. ALB
+Application Load Balancer는 요청 수준(계층 7)에서 작동하여 요청 내용을 기반으로 EC2 인스턴스, 컨테이너 및 IP 주소와 같은 대상으로 트래픽을 라우팅합니다.
+HTTP/HTTPS 애플리케이션의 부하를 분산하고 X-Forwarded-For 헤더와 같은 계층 7 관련 기능을 사용할 수 있습니다.
+사전 정의된 보안 정책에 대해 AWS IAM 및 AWS Certificate Manager를 통한 SSL 인증서 관리를 지원합니다.
+최소 2개의 가용 영역이 필요하며 여러 가용 영역의 대상 간에 수신 트래픽을 분산할 수 있습니다.
+콘텐츠 기반 라우팅을 사용하면 요청 콘텐츠를 기반으로 서비스에 요청을 라우팅할 수 있습니다.
+
+호스트 기반 라우팅 – HTTP 헤더의 호스트 필드를 기반으로 클라이언트 요청을 라우팅하여 동일한 로드 밸런서에서 여러 도메인으로 라우팅할 수 있습니다.
+경로 기반 라우팅 - HTTP 헤더의 URL 경로(예: /images 또는 /orders)를 기반으로 클라이언트 요청을 라우팅합니다.
+라운드 로빈 로드 밸런싱 알고리즘을 사용합니다.
+ALB는 백엔드 서버 인증을 지원하지 않습니다(CLB는 지원함).
+ALB는 EC2-Classic을 지원하지 않습니다(CLB는 지원).
+CloudTrail을 사용하여 API 호출을 캡처할 수 있습니다. S3 스토리지 요금만 지불하세요
+ALB는 여러 대상 그룹으로 라우팅할 수 있습니다.
+다른 포트(마이크로 서비스에 대한 요청 라우팅에 사용)를 사용하여 동일한 대상 그룹에 동일한 EC2 인스턴스 또는 IP 주소를 여러 번 등록할 수 있습니다.
+대상 그룹(EC2, ECS, IP) 내에서 서로 다른 유형을 혼합할 수 없습니다.
+EC2 인스턴스는 여러 포트를 사용하여 동일한 대상 그룹에 여러 번 등록할 수 있습니다.
+IP 주소는 다음을 등록하는 데 사용할 수 있습니다.
+피어링된 VPC의 인스턴스.
+IP 주소 및 포트로 주소를 지정할 수 있는 AWS 리소스입니다.
+Direct Connect 또는 VPN 연결을 통해 AWS에 연결된 온프레미스 리소스.
+
+2. ELB
+ELB는 단일 가용 영역 또는 여러 가용 영역의 Amazon EC2 인스턴스에 수신 트래픽을 분산할 수 있습니다.
+각 ELB에 대해 AZ당 서브넷 1개만 활성화할 수 있습니다.
+Route 53은 각 지역에 구성된 ELB 인스턴스로 지역 로드 밸런싱에 사용할 수 있습니다.
+ELB는 트래픽을 eth0(기본 IP 주소)으로 전달합니다.
+ELB를 삭제해도 ELB에 대해 등록된 인스턴스에는 영향을 미치지 않습니다(삭제되지 않으며 더 이상 요청을 받지 않을 뿐입니다).
+ALB의 경우 최소 2개의 서브넷을 지정해야 합니다.
+NLB의 경우 하나의 서브넷만 지정해야 합니다(최소 2개 추가 권장).
+ELB는 클라이언트 인증서 인증을 지원하지 않습니다(API Gateway는 이를 지원함).
+
+
+ELB는 CloudFront와 마찬가지로 유효한 TCP 요청만 지원하므로 UDP 및 SYN 플러드와 같은 DDoS 공격은 EC2 인스턴스에 도달할 수 없습니다.
+
+CloudWatch – 1분마다.
+ELB 서비스는 요청이 활성화된 경우에만 정보를 보냅니다.
+SNS 알림을 트리거하는 데 사용할 수 있습니다.
+액세스 로그.
+기본적으로 비활성화되어 있습니다.
+클라이언트에 대한 정보를 포함합니다(CloudWatch 지표에 포함되지 않음).
+요청자, IP, 요청 유형 등을 식별할 수 있습니다.
+선택적으로 S3에 저장하고 유지할 수 있습니다.
+클라우드트레일.
+ELB에 대한 API 호출을 캡처하는 데 사용할 수 있습니다.
+S3 버킷에 저장할 수 있습니다.
+
+3. CLB
+CLB에서 모니터링하는 인스턴스는 InService 또는 OutofService로 보고됩니다.
+와일드카드 인증서가 지원됩니다.
+AWS Certificate Manager(ACM)에서 생성한 인증서 또는 자체 인증서를 사용할 수 있습니다.
+프록시 프로토콜은 L4에만 적용됩니다.
+X-forwarded-for는 L7에만 적용됩니다.
+사용자 지정 보안 정책을 선택할 때 암호 및 프로토콜을 선택할 수 있습니다(CLB에만 해당).
+```
 #### [amazon-ec2](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/amazon-ec2/)
 #### [amazon-s3](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/storage/amazon-s3/)
 #### [amazon-rds](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/database/amazon-rds/)
