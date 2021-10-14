@@ -1,18 +1,31 @@
 # SAA-02
 
 ## INDEX
-#### [Reference](#reference)
-#### [Test1](#test1)
-
+### [Test](#test)
+- #### [Test1](#test1)
+- #### [Test2](#test2)
+- #### [Test3](#test3)
+- #### [Test4](#test4)
+- #### [Test5](#test5)
+- #### [Test6](#test6)
 ### [Word](#word)
-#### [Auto-scaling](#auto-scaling)
-#### [elastic-load-balancing](#elastic-load-balancing)
-
+- #### [Auto-scaling](#auto-scaling)
+- #### [elastic-load-balancing](#elastic-load-balancing)
+### [Cheat](#cheat)
+- #### AWS 네트워킹 및 콘텐츠 전송
+- #### AWS 컴퓨팅
+- #### AWS 스토리지
+- #### AWS 데이터베이스
+- #### AWS 보안,자격증명 및 규정준수
+- #### AWS 분석
+- #### AWS 애플리케이션 통합
+- #### AWS 마이그레이션 및 이전
+- #### AWS 관리 및 거버넌스
 ### [Reference](#reference)
 
 ---
 
-### test1
+## test1
 ```javascript
 1. Amazon S3에서 실행되는 정적 웹 사이트
   -> Amazon CloudFront를 통해 특정국가의 캐시할 위치를 결정할 수 있음
@@ -143,11 +156,21 @@
  * 
 
 ```
-### Word
+## Word
 ### public
 ### [public-load-balancer-private-ec2](https://aws.amazon.com/premiumsupport/knowledge-center/public-load-balancer-private-ec2/)
 
-### cheat
+## cheat
+### AWS 네트워킹 및 콘텐츠 전송
+### AWS 컴퓨팅
+### AWS 스토리지
+### AWS 데이터베이스
+### AWS 보안,자격증명 및 규정준수
+### AWS 분석
+### AWS 애플리케이션 통합
+### AWS 마이그레이션 및 이전
+### AWS 관리 및 거버넌스
+
 #### [amazon-vpc](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/networking-and-content-delivery/amazon-vpc/)
 ```
 amazon-vpc
@@ -380,14 +403,25 @@ AWS Certificate Manager(ACM)에서 생성한 인증서 또는 자체 인증서�
 X-forwarded-for는 L7에만 적용됩니다.
 사용자 지정 보안 정책을 선택할 때 암호 및 프로토콜을 선택할 수 있습니다(CLB에만 해당).
 ```
-#### [amazon-ec2](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/amazon-ec2/)
 #### [amazon-s3](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/storage/amazon-s3/)
-#### [amazon-rds](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/database/amazon-rds/)
 #### [amazon-ebs](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/amazon-ebs/)
+#### [amazon-efs](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/storage/amazon-efs/)
+#### [aws-storage-gateway](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/storage/aws-storage-gateway/)
+#### [amazon-cloudfront](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/networking-and-content-delivery/amazon-cloudfront/)
+#### [amazon-fsx](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/storage/amazon-fsx/)
+#### [amazon-rds](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/database/amazon-rds/)
+#### [aws-database-migration-service]((https://digitalcloud.training/certification-training/aws-solutions-architect-associate/migration/aws-database-migration-service/)
+#### [aws-datasync](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/migration/aws-datasync/)
+#### [amazon-ec2](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/amazon-ec2/)
 #### [amazon-lambda](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/aws-lambda/)
 #### [amazon-kinesis](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/analytics/amazon-kinesis/)
-#### [aws-storage-gateway](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/storage/aws-storage-gateway/)
+#### [amazon-sqs](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/application-integration/amazon-sqs/)
+#### [amazon-sns](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/application-integration/amazon-sns/)
+#### [amazon-mq](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/application-integration/amazon-mq/)
 #### [aws-organizations](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/management-tools/aws-organizations/)
+#### [aws-iam](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/security-identity-compliance/aws-iam/)
+#### [aws-waf-and-shield](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/security-identity-compliance/aws-waf-and-shield/)
+#### [aws-cloudformation](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/management-tools/aws-cloudformation/)
 
 ### reference
 [AWSCertifiedSolutionsArchitectUnofficialStudyGuide](https://github.com/serithemage/AWSCertifiedSolutionsArchitectUnofficialStudyGuide)
