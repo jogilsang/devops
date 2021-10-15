@@ -283,8 +283,13 @@ $ ls -l /usr/share/vim/vim*/colors/
   ```
 ### uptime
   `시스템이 얼마나 오랫동안 돌고 있었는지 나타내주는 시간`   
+  `Load Average를 체크하여 이상여부 확인`   
   `example`
   ```bash
+  # Load Average 확인
+  # 1분,5분,15분값이 나열되어있다. 1분값이 > 5분,15분 -> 문제
+  [ec2-user@ip-172-31-36-232 ~]$ uptime
+
   # 재부팅 후 켜져있는시간
   [ec2-user@ip-172-31-36-232 ~]$ uptime -p
   up 1 minute
