@@ -743,7 +743,79 @@ $ ls -l /usr/share/vim/vim*/colors/
   # xml의 데이터를 추출
   $ 
   ```
+### I/O
+  - #### df
+    `디스크나 디렉토리의 용량을 확인할 수 있다.`
+    `example`
+    ```bash
+    df 
+    ```
+  - #### du
+    `하위 디렉토리까지 파일크기의 점유율을 확인할 수 있다.`
+    `example`
+    ```bash
+    # s : summarize
+    # h : human readable
+    du -sh 
+    du -sh /usr/*
+    ```
 ### process
+  - #### ps
+    `example`
+    ```bash
+    ### java로 실행중인 프로세스 찾기
+    ps -ef | grep java
+    ps -C java
+
+    ### Thread의 ID찾기
+    ### EX 1 : java로 실행중인 Thread 찾기
+    ps -eLF | grep java
+    ### EX 2 : java로 실행중인 Thread를 특정 PID로 찾기
+    ps -LF -p 2250
+    ```
+  - #### pstree
+    `특정 프로세스의 부모 프로세스와 자식 프로세스를 확인할 수 있다`
+    `example`
+    ```bash
+    ### 1. 해당 프로세스를 kill해도 반응이없다면, 부모 프로세스를 찾아서 kill해야되는경우
+    ```
+  - #### pmap
+    `프로세스의 메모리 상황을 확인`
+  - #### pidstat
+    `프로세스별 CPU 사용량 확인`
+  - #### top
+    `OS에서 수행중인 전반적인 작업들을 확인할 수 있다`
+    ```bash
+    # 배치작업도 가능
+    # 장애가 발생한 시점에 어떤 프로세스들을 수행하고 있었는지 확인
+    # 성능 테스트를 할 때 각 프로세스별로 CPU를 얼마나 사용하는지 확인가능
+
+    # h키를 누르면 단축키도움말이 보임
+
+    top
+    # PR : 작업의 우선순위
+    # NI : 작업의 nice값. 음수면 우선순위 높음
+    # VIRT : RES + SWAP
+    # RES : 점유중인 메모리
+    # SHR : 공유 메모리 크기
+    # S : 상태
+    # TIME + : 해당 프로세스가 메모리를 점유한 누적시간
+    # COMMAND : 명령어정보
+    ```
+  - #### lsof
+    `list open files의 약자. 실행중인 프로세스에서 열고있는 파일 확인`
+    ```bash
+    # -c : 명령어로 실행되는 프로세스
+    lsof -c java
+    # -f : 파일에 대한 정보확인
+    lsof -f -- /proc
+    ```
+    `네트워크 포트 확인명령어`
+    ```bash
+    lsof i4 ## ipv4
+    lsof i@localhost
+    lsof iTCP
+    ```
 ### system
 - #### nmon
   `nmon는 로컬 시스템 정보를 표시하고 기록. 서버 성능모니터링 분석`
@@ -779,19 +851,33 @@ $ ls -l /usr/share/vim/vim*/colors/
   sar -u
   # 메모리 사용률
   sar -r
-  # 소켓 사용률
-  # DEV : 네트워크 장치   
-  # EDEV : 네트워크 장치 (오류)   
+  # 소켓 사용률 
   # SOCK : 소켓 (v4)   
   sar -n SOCK
   
   # example1 : 메모리가 부족해서 swap을 하면 disk io에 부하가 생김
   sar -W -S
   # example2 : bad sector 카운트가 올라가면서 순간 io가 멈추는 경우가 생김.
-  #            ioutil이나 await 항목 확인
+  #            i/o util이나 await 항목 확인
   sar -d
+
+  # example3 : 
+  #            네트워크 디바이스의 통계  
+  sar -n DEV 1
+
+  # example4 : 
+  #            tcp 연결요청(connect) (closed -> SYN-SENT)
+  #            tcp 연결수락(accept) (listen -> SYN-RCVD)
+  sar -TCP,ETCP 1
   ```
 - #### vmstat
+  ``
+  `example`
+  ```bash
+  # r은 CPU Run Queue이기때문에, 실행대기중인 프로세스 
+  # CPU코어개수가 r값(실행대기중 프로세스) 보다 작다면,과열되서 실행
+  # User와 System의 PCU 사용량은 8:2가 정상. 9:1 이상인경우, 자바어플리케이션에서 대부분 CPU사용
+  ```
 
 ### network
 - #### nmap
@@ -931,7 +1017,7 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
 [[VIM] 1. VIM 을 이용한 코드 정리 정규 표현식](https://doitnow-man.tistory.com/160?category=676183)   
 [고급 Bash 스크립팅 가이드](https://wiki.kldp.org/HOWTO/html/Adv-Bash-Scr-HOWTO/index.html)
 
-### disadvantage
+### 쉘 스크립트를 쓰면 안 될 때
 ```
 쉘 스크립트를 쓰면 안 될 때
 - 리소스에 민감한 작업들, 특히 속도가 중요한 요소일 때(정렬, 해쉬 등등)
@@ -950,6 +1036,20 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
 - 예전에 쓰던 코드를 사용하는 라이브러리나 인터페이스를 써야 할 필요가 있을 때
 - 독점적이고 소스 공개를 안 하는 어플리케이션을 짜야 할 때(쉘 스크립트는 필연적으로 오픈 소스입니다.)
 출처 : https://wiki.kldp.org/HOWTO/html/Adv-Bash-Scr-HOWTO/why-shell.html
+```
+
+### Linux Performance Analysis in 60,000 Ms, 브렌든 그레그
+```bash
+uptime
+dmesg | tail
+vmstat 1
+mpstat -P ALL 1
+pidstat 1
+iostat -xz 1
+free -h
+sar -n DEV 1
+sar -TCP,ETCP 1
+top
 ```
 
 <!-- bash
