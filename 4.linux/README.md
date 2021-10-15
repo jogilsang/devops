@@ -34,12 +34,18 @@
 - ### [FORM](#form)
   - #### [JSON(JQ)](#json(jq))
   - #### [XML(XMLLINT)](#xml(xmllint))
+- ### [I\/O](#i\/O)
+  - #### [df](#df)
+  - #### [du](#du)
 - ### [PROCESS](#process)
-  - #### ps
-  - #### top
+  - #### [PS](#ps)
+  - #### [PSTREE](#pstree)
+  - #### [PMAP](#pamap)
+  - #### [PIDSTAT](#pidstat)
+  - #### [top](#top)
   - #### htop
   - #### atop
-  - #### lsof
+  - #### [LSOF](#lsof)
 - ### [SYSTEM](#system)
   - #### [NMON](#nmon)
   - #### iostat
@@ -54,7 +60,7 @@
   - #### [TCPDUMP](#tcpdump)
   - #### [CURL](#curl)
  - ### [REFERENCE](#Reference)
- - ### [Disadvantage](#Disadvantage)
+ - ### [쉘 스크립트를 쓰면 안 될 때](#쉘%20스크립트를%20쓰면%20안%20될%20때)
 ---
 ### console(keymap)
 ```
