@@ -660,6 +660,38 @@ Amazon EC2 인스턴스에서 데이터에 대규모 병렬 액세스를 허용�
 매월 사용하는 파일 시스템 스토리지 양에 대해서만 비용을 지불하면 됩니다.
 ```
 #### [aws-storage-gateway](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/storage/aws-storage-gateway/)
+```
+AWS Storage Gateway 서비스는 온프레미스 환경과 AWS 클라우드 간의 하이브리드 스토리지를 지원합니다.
+- 안전하고 지속적으로 저장
+- 자주 액세스하는 데이터를 온프레미스에서 캐싱하여 대기 시간이 짧은 성능
+온프레미스(VMware 또는 Hyper-V 가상 어플라이언스)에서 실행하는 가상 머신을 사용하여 구현됩니다.
+AWS S3 및 Glacier에서 지원하는 로컬 스토리지 리소스를 제공합니다.
+AWS Storage Gateway는 파일, 볼륨 및 테이프의 세 가지 스토리지 인터페이스
+
+스토리지 간에 전송되는 모든 데이터는 SSL을 사용하여 암호화됩니다.
+
+1. 파일 게이트웨이
+파일 게이트웨이는 Amazon S3에서 파일을 객체로 저장하고 검색할 수 있는 가상 온프레미스 파일 서버를 제공합니다.
+NFS, SMB를 지원하는 클라이언트와 연결가능
+개별 파일의 최대 크기는 5TB입니다.
+파일 게이트웨이는 로컬 캐싱을 통해 Amazon S3의 데이터에 대한 SMB 또는 NFS 기반 액세스를 제공합니다.
+기본적으로 AWS Storage Gateway가 S3에 저장하는 모든 데이터는 Amazon S3 관리형 암호화 키(SSE-S3)를 사용하여 서버 측에서 암호화됩니다.
+파일 게이트웨이를 사용할 때 SSE-KMS를 사용하여 AWS KMS 관리 키로 객체를 암호화하도록 각 파일 공유를 선택적으로 구성할 수 있습니다.
+
+2. 볼륨 게이트웨이
+2.1 블록 스토리지 – iSCSI 기반.
+
+2.2 캐시 볼륨 모드 – 전체 데이터 세트가 S3에 저장되고 가장 자주 액세스하는 데이터의 캐시가 현장에서 캐시됩니다.
+캐시 모드에서 각 볼륨은 게이트웨이당 최대 1PB의 데이터에 대해 최대 32TB가 될 수 있습니다(볼륨 32개, 크기는 각각 32TB).
+
+2.3 저장 볼륨 모드 – 전체 데이터 세트가 현장에 저장되고 S3(EBS 시점 스냅샷)에 비동기식으로 백업됩니다. 스냅샷은 증분 및 압축됩니다.
+저장 모드에서 각 볼륨은 게이트웨이당 최대 512TB의 데이터에 대해 최대 16TB가 될 수 있습니다(볼륨 32개, 크기는 각각 16TB).
+
+3. 테이프 게이트웨이
+테이프 게이트웨이는 최대 총 용량이 1PB인 가상 테이프를 최대 1,500개까지 가질 수 있습니다.
+각 게이트웨이는 미디어 체인저와 테이프 드라이브로 미리 구성되어 있습니다.
+
+```
 #### [amazon-cloudfront](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/networking-and-content-delivery/amazon-cloudfront/)
 #### [amazon-fsx](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/storage/amazon-fsx/)
 #### [amazon-rds](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/database/amazon-rds/)
