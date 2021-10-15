@@ -1,5 +1,6 @@
 
 # 4.linux
+> 서버의 4가지(CPU, 디스크, 네트워크, 메모리)는 잘 체크 해야한다
 
 ## INDEX
 - ### [CONSOLE(KEYMAP)](#console(keymap))
