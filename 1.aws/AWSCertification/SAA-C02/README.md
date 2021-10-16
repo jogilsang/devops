@@ -426,13 +426,12 @@ CloudFront 엣지 로케이션을 사용하여 S3에서 오프로드
 더 나은 성능, 더 짧은 지연 시간, 더 낮은 비용을 위해 클라이언트에 더 가까운 버킷을 만드십시오.
 
 하위 리소스는 객체에 종속되며 독립적으로 존재하지 않지만 항상 객체 또는 버킷과 같은 다른 엔터티와 연결됩니다.
-수명 주기 – 개체의 수명 주기를 정의합니다.
-웹 사이트 – 정적 웹 사이트를 호스팅하기 위한 구성입니다.
-버전 관리 – 개체의 여러 버전이 변경될 때 유지합니다.
-ACL(액세스 제어 목록) – 버킷에 대한 액세스 권한을 제어합니다.
-버킷 정책 – 버킷에 대한 액세스를 제어합니다.
-CORS(교차 출처 리소스 공유).
-bulk
+- 수명 주기 – 개체의 수명 주기를 정의합니다.
+- 웹 사이트 – 정적 웹 사이트를 호스팅하기 위한 구성입니다.
+- 버전 관리 – 개체의 여러 버전이 변경될 때 유지합니다.
+- ACL(액세스 제어 목록) – 버킷에 대한 액세스 권한을 제어합니다.
+- 버킷 정책 – 버킷에 대한 액세스를 제어합니다.
+- CORS(교차 출처 리소스 공유).
 
 S3 Standard(내구성, 즉시 사용 가능, 자주 액세스).
 S3 Intelligent-Tiering(데이터를 가장 비용 효율적인 계층으로 자동 이동).
@@ -639,6 +638,8 @@ AMI
 ```
 #### [amazon-efs](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/storage/amazon-efs/)
 ```
+Elastic File Store는 AWS에서 제공하는 NFS 프로토콜 기반의 파일스토리지 솔루션으로 완전관리형서비스이다.
+
 EFS는 Amazon Cloud에서 파일 스토리지를 쉽게 설정하고 확장할 수 있는 완전 관리형 서비스
 NFS 프로토콜
 탄력적인 스토리지 용량 및 사용한 만큼 지불합니다(프로비저닝에 대해 비용을 지불하는 EBS와 대조).
@@ -693,6 +694,61 @@ NFS, SMB를 지원하는 클라이언트와 연결가능
 
 ```
 #### [amazon-cloudfront](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/networking-and-content-delivery/amazon-cloudfront/)
+```
+동적, 정적, 스트리밍 및 대화형 콘텐츠 등 글로벌 엣지 네트워크를 활용한 배포제공 서비스
+엣지 로케이션은 콘텐츠가 캐시되는 위치입니다(AWS 리전/AZ와 별도로).
+엣지 로케이션은 가용 영역이나 지역에 연결되지 않습니다.
+동적 콘텐츠는 오리진으로 바로 이동하며 지역 에지 캐시를 통과하지 않습니다.
+
+origin는 CDN이 배포할 파일의 출처입니다.
+객체를 공개적으로 사용 가능하게 만들거나 CloudFront 서명된 URL을 사용할 수 있습니다.
+사용자 지정 오리진 서버는 EC2 인스턴스 또는 온프레미스/비 AWS 기반 웹 서버가 될 수 있는 HTTP 서버입니다.
+
+개체는 기본적으로 24시간 동안 캐시됩니다.
+만료 시간은 TTL을 통해 제어됩니다.
+최소 만료 시간은 0입니다.
+
+Amazon S3의 정적 웹 사이트는 사용자 지정 오리진으로 간주됩니다.
+
+CloudFront를 사용하여 콘텐츠를 배포하려면 배포를 생성해야 합니다.
+배포에는 다음을 포함한 CDN 구성이 포함됩니다.
+- 콘텐츠 출처.
+- 액세스(공개 또는 제한됨).
+- 보안(HTTP 또는 HTTPS).
+- 쿠키 또는 쿼리 문자열 전달.
+- 지리적 제한.
+- 액세스 로그(뷰어 활동 기록).
+
+RTMP(Adobe Flash Media Server)
+파일은 S3 버킷에 저장해야 합니다.
+CloudFront 엣지 로케이션에서 파일 다운로드가 완료되기 전에 최종 사용자가 미디어 파일 재생을 시작할 수 있습니다.
+
+Amazon Athena를 사용하여 액세스 로그를 분석할 수 있습니다.
+
+OAI(Origin Access Identity)라는 특수한 유형의 사용자를 사용하여 Amazon S3 버킷의 콘텐츠에 대한 액세스를 제한할 수 있습니다.
+OAI를 사용하면 사용자가 S3 URL을 사용하여 콘텐츠에 직접 액세스할 수 없도록 제한할 수 있으며 CloudFront를 통해 연결해야 합니다.
+
+필드 수준 암호화:
+필드 수준 암호화는 HTTPS 위에 추가 보안 계층을 추가하여 특정 데이터를 보호하여 특정 애플리케이션에서만 볼 수 있도록 합니다.
+
+개체는 TTL에 대해 캐시됩니다(항상 초 단위로 기록됨, 기본값은 24시간, 기본 최대값은 1년).
+GET 요청에 대해서만 캐시합니다
+
+블랙리스트와 화이트리스트는 지역에 사용할 수 있습니다. 한 번에 하나만 사용할 수 있습니다.
+지역 제한(지역 차단)에 사용할 수 있는 두 가지 옵션이 있습니다.
+
+AWS WAF는 CloudFront로 전달되는 HTTP 및 HTTPS 요청을 모니터링하고 콘텐츠에 대한 액세스를 제어할 수 있는 웹 애플리케이션 방화벽
+웹 ACL(액세스 제어 목록)의 조건에 따라 콘텐츠에 대한 액세스를 보호
+
+DDoS(분산 서비스 거부) 보호
+유효한 HTTP(S) 요청만 백엔드 호스트로 전달되도록 요청을 필터링
+
+다음 비용을 지불하지 않습니다.
+- AWS 리전과 CloudFront 간의 데이터 전송.
+- 지역 에지 캐시.
+- AWS ACM SSL/TLS 인증서.
+- 공유 CloudFront 인증서.
+```
 #### [amazon-fsx](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/storage/amazon-fsx/)
 #### [amazon-rds](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/database/amazon-rds/)
 #### [aws-database-migration-service]((https://digitalcloud.training/certification-training/aws-solutions-architect-associate/migration/aws-database-migration-service/)
