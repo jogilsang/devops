@@ -42,7 +42,17 @@ log.debug(buildKey, "adding changeset entry: %s", o);
 entry.getMsg()
 entry.getAuthor().getDisplayName()
 ```
+### [svn tagging auto](http://developerautomation.com/jenkins-job-automate-svn-tagging/)
+```bash
+VERSION_TAG=my_special_version-${VERSION}
+FROM=${BASE_PATH}/trunk
+TO=${BASE_PATH}/tags/${VERSION_TAG}
+svn copy ${FROM} ${TO} --username ${SVN_USER} --password ${SVN_PASS} -m "Creating ${TO} from ${FROM}"
+```
+
+---
 
 ## Reference
 - [Jenkins 환경변수](https://wiki.jenkins.io/display/JENKINS/Building+a+software+project#Buildingasoftwareproject-JenkinsSetEnvironmentVariables)
 - [jenkinsci/slack-plugin](https://github.com/jenkinsci/slack-plugin)
+- [SVN 태깅 자동화를위한 Jenkins Job](http://www.coolio.so/jenkins-build-with-parameters-%EC%83%9D%EC%84%B1tags-branches/)
