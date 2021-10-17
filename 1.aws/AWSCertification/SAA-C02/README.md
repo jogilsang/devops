@@ -750,8 +750,41 @@ DDoS(분산 서비스 거부) 보호
 - 공유 CloudFront 인증서.
 ```
 #### [amazon-fsx](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/storage/amazon-fsx/)
+```
+Amazon FSx는 완전 관리형 타사 파일 시스템을 제공합니다.
+Windows 기반 스토리지 등 타사 파일 시스템의 기본 호환성을 제공
+하드웨어 프로비저닝, 소프트웨어 구성, 패치 적용 및 백업과 같은 시간 소모적인 관리 작업을 자동화
+Windows 기반 애플리케이션용 Windows 파일 서버용 Amazon FSx
+컴퓨팅 집약적 워크로드를 위한 Lustre용 Amazon FSx.
+완전 관리형 기본 Microsoft Windows 파일 시스템을 제공
+공유 파일 스토리지가 필요한 Windows 기반 애플리케이션
+SMB 프로토콜, Windows NTFS 및 Microsoft AD(Active Directory) 통합에 대한 전체 지원
+데이터 중복 제거를 통해 TCO를 최적화하여 범용 파일 공유에 대한 비용을 50~60% 절감할 수 있도록 지원
+
+오류 발생 시 인프라 구성 요소를 자동으로 교체
+가용 영역(AZ)(AZ) 내에서 데이터를 자동으로 복제
+파일 시스템당 최대 2GB/초의 처리량, 수십만 IOPS, 일관된 밀리초 미만의 지연 시간으로 빠른 성능
+
+Amazon FSx는 파일 시스템을 Amazon EC2, VMware Cloud on AWS, Amazon WorkSpaces 및 Amazon AppStream 2.0 인스턴스에 연결
+
+Amazon FSx는 AWS Direct Connect 또는 AWS VPN을 통한 온프레미스 액세스와 VPC 피어링 또는 AWS Transit Gateway를 사용하여 여러 VPC, 계정 및 리전에서의 액세스도 지원합니다.
+
+Amazon FSx는 저장 데이터와 전송 데이터를 자동으로 암호화
+```
+#### [aws-dms(aws-database-migration-service)]((https://digitalcloud.training/certification-training/aws-solutions-architect-associate/migration/aws-database-migration-service/)
+```
+지원되는 마이그레이션 경로는 다음과 같습니다.
+- Amazon RDS 또는 Amazon Aurora에 대한 온프레미스 및 EC2 데이터베이스.
+- Oracle에서 Oracle로의 동종 마이그레이션.
+- Oracle 또는 Microsoft SQL Server와 같은 서로 다른 데이터베이스 플랫폼에서 Amazon Aurora로의 이기종 마이그레이션.
+
+Amazon Redshift 및 Amazon S3로 스트리밍하여 고가용성으로 데이터를 지속적으로 복제하고 데이터베이스를 페타바이트 규모의 데이터 웨어하우스로 통합할 수 있습니다.
+
+SCT(스키마 변환 도구)와 함께 사용하여 데이터베이스를 AWS RDS 또는 EC2 기반 데이터베이스로 마이그레이션합니다.
+
+DMS에는 AWS 또는 Snowball 또는 S3에 대한 온프레미스 복제 기능이 있습니다.
+```
 #### [amazon-rds](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/database/amazon-rds/)
-#### [aws-database-migration-service]((https://digitalcloud.training/certification-training/aws-solutions-architect-associate/migration/aws-database-migration-service/)
 #### [aws-datasync](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/migration/aws-datasync/)
 #### [amazon-ec2](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/amazon-ec2/)
 #### [amazon-lambda](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/aws-lambda/)
