@@ -792,9 +792,55 @@ DMS에는 AWS 또는 Snowball 또는 S3에 대한 온프레미스 복제 기능�
 #### [amazon-sqs](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/application-integration/amazon-sqs/)
 #### [amazon-sns](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/application-integration/amazon-sns/)
 #### [amazon-mq](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/application-integration/amazon-mq/)
+> Apache ActiveMQ용 관리형 메시지 브로커 서비스
+
+장점 : 
+- 코드를 다시 작성하지 않고도 메시징과 애플리케이션을 마이그레이션할 수 있습니다.
+- 비용 효율적이고 유연한 메시징 용량을 제공
+- 지역 내에서 완전히 관리되고 고가용성이며, 여러 가용 영역(AZ)에 메시지를 중복 저장
+
+지원 :
+- ActiveMQ API 및 JMS, NMS, MQTT 및 WebSockets 지원.
+
+장애대비 :    
+- 브로커 장애, 전체AZ 중단 등 발생 시, 자동으로 대기 브로커로 장애 조치되므로 계속해서 메시지를 보내고 받을 수 있습니다.
+
+보안 : 
+- 저장 및 전송 중인 메시지의 암호화를 제공
+- 브로커에 대한 연결은 SSL을 사용
+
 #### [aws-organizations](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/management-tools/aws-organizations/)
 #### [aws-iam](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/security-identity-compliance/aws-iam/)
 #### [aws-waf-and-shield](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/security-identity-compliance/aws-waf-and-shield/)
+
+> aws-waf
+- 정의
+    - 앱 가용성에 영향을 미치거나 보안을 손상시키거나 과도한 리소스를 소비할 수 있는 일반적인 악용으로부터 웹 앱을 보호하는 데 도움이 되는 웹 애플리케이션 방화벽 서비스입니다.   
+
+- 비용
+    - AWS WAF 요금은 배포하는 규칙 수와 웹 애플리케이션에서 수신하는 웹 요청 수를 기반
+
+- 장점
+    - 사용자가 정의한 조건에 따라 웹 요청을 허용, 차단 또는 모니터링(개수)하는 규칙을 구성
+    - IP 주소, HTTP 헤더, HTTP 본문, URI 문자열, SQL 삽입 및 교차 사이트 스크립팅
+    - 새로운 규칙을 몇 분 안에 배포할 수 있으므로 변화하는 트래픽 패턴에 신속하게 대응
+    - Amazon CloudFront 및 ALB(Application Load Balancer) 서비스와 긴밀하게 통합
+        - Amazon CloudFront에서 AWS WAF를 사용하면 전 세계에서 최종 사용자와 가까운 모든 AWS 엣지 로케이션에서 규칙이 실행됩니다.
+차단된 요청은 웹 서버에 도달하기 전에 중지됩니다.
+        - Application Load Balancer에서 AWS WAF를 사용하면 규칙이 리전에서 실행되며 내부 로드 밸런서는 물론 인터넷 연결 장치를 보호하는 데    사용할 수 있습니다.
+    - AWS WAF를 사용하면 여러 웹 사이트에 배포할 수 있는 중앙 집중식 규칙 집합을 생성할 수 있습니다. (규칙하나로 사용,수정)
+    - AWS CloudFormation 샘플 템플릿을 사용하여 자동으로 배포 및 프로비저닝
+
+> aws-shield
+- 1. aws-shield-standard
+    - AWS Shield는 AWS에서 실행되는 애플리케이션을 보호하는 관리형 DDoS(분산 서비스 거부) 보호 서비스
+    - 모든 AWS 고객은 추가 비용 없이 AWS Shield Standard의 자동 보호 혜택을 누릴 수 있습니다.
+    - Amazon CloudFront 및 Amazon Route 53과 함께 AWS Shield Standard를 사용하면 알려진 모든 인프라(계층 3 및 4) 공격에 대해   포괄적인 가용성 보호를 받을 수 있습니다.
+- 2. aws-shield-advanced
+    - 웹 애플리케이션 방화벽인 AWS WAF와의 통합
+    - 사용량 급증을 유발하는 DDoS 공격의 결과로 요금이 증가하지 않도록 보호하는 DDoS 비용 보호 기능이 포함되어 있습니다.
+
+```
 #### [aws-cloudformation](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/management-tools/aws-cloudformation/)
 
 ### reference
