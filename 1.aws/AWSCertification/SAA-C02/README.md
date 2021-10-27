@@ -840,7 +840,7 @@ DMS에는 AWS 또는 Snowball 또는 S3에 대한 온프레미스 복제 기능�
     - 웹 애플리케이션 방화벽인 AWS WAF와의 통합
     - 사용량 급증을 유발하는 DDoS 공격의 결과로 요금이 증가하지 않도록 보호하는 DDoS 비용 보호 기능이 포함되어 있습니다.
 
-```
+
 #### [aws-cloudformation](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/management-tools/aws-cloudformation/)
 
 ### reference
