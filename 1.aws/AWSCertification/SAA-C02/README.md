@@ -811,6 +811,29 @@ DMS에는 AWS 또는 Snowball 또는 S3에 대한 온프레미스 복제 기능�
 
 #### [aws-organizations](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/management-tools/aws-organizations/)
 #### [aws-iam](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/security-identity-compliance/aws-iam/)
+
+> aws-iam
+
+- IAM은 AWS 리소스에 대한 개인 및 그룹 액세스를 안전하게 제어하는 ​​데 사용
+
+IAM 사용자 계정을 생성하지 않고도 AWS 계정의 리소스에 안전하게 액세스할 수 있도록 ID 연합(AD, Facebook 등 포함)을 구성할 수 있습니다.
+
+모든 사용자에 대해 MFA를 사용하고 모든 권한 있는 사용자에 대해 U2F 또는 하드웨어 MFA 장치를 사용하는 것이 가장 좋습니다.
+
+IAM은 범용(글로벌)이며 리전에 적용되지 않습니다.
+
+"루트 계정"은 AWS 계정을 설정할 때 생성된 계정입니다. 완전한 관리자 액세스 권한이 있으며 기본적으로 이 액세스 권한이 있는 유일한 계정입니다.
+
+AWS는 AWS SDK를 사용하여 IAM에 대한 프로그래밍 방식 API 호출을 수행할 것을 권장합니다.
+
+IAM은 요청 컨텍스트와 일치하는 각 정책을 확인합니다.
+
+AWS는 AWS Certificate Manager(ACM)를 사용하여 서버 인증서를 프로비저닝, 관리 및 배포할 것을 권장합니다.
+
+AWS Security Token Service(STS)는 IAM 사용자 또는 인증하는 사용자(연동 사용자)에 대한 임시 자격 증명을 요청할 수 있는 웹 서비스
+
+교차 계정 액세스:
+
 #### [aws-waf-and-shield](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/security-identity-compliance/aws-waf-and-shield/)
 
 > aws-waf

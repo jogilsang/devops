@@ -8,7 +8,7 @@
 - [INSTALL](#install)
   - [LAMP](#lamp)
 - [SHELL](#shell)
-
+  - [ARR](#arr) 
 - [WHO](#who)
 - [UPTIME](#uptime)
 - [CRONTAB](#crontab)
@@ -62,6 +62,7 @@
  - [REFERENCE](#Reference)
  - [TODO](#todo)
  - [쉘 스크립트를 쓰면 안 될 때](#쉘%20스크립트를%20쓰면%20안%20될%20때)
+
 ---
 ### console(keymap)
 ```
@@ -236,6 +237,42 @@ $ ls -l /usr/share/vim/vim*/colors/
   fi
 
   ```
+
+### ARR
+  `쉘 스크립트로 배열을 사용할 수 있다.`
+  `example`
+  ```bash
+  # 배열 선언
+  declare -A arr
+  
+  # 배열 초기화
+  arr = (zero one two)
+  arr = ([5]=zero [6]=fact)
+
+  # 배열 값 할당 및 변경
+  index=3
+  arr[3]=5
+  arr[5]="test"
+  arr[$index]=8
+  echo "${arr[$index]}"
+
+  # 배열 값 증감
+  # expr 문 사용 시, 띄어쓰기 필수
+  arr[9]=3
+  arr[10]=3
+  arr[11]=`expr ${arr[9]} + ${arr[10]}`
+  echo "${arr[11]}"
+  6
+
+  arr[11]=`expr ${arr[9]} + 3`
+  echo "${arr[11]}"
+  6
+
+  # 배열의 index 증가
+  index=0
+  let "index += 1"
+  index=`expr $index + 1`
+  ```  
 
 ### who,w,ac,users,last
   `시스템에 현재 로그인해 있는 모든 사용자를 보여줍니다.`
