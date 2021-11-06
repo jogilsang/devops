@@ -786,11 +786,92 @@ DMS에는 AWS 또는 Snowball 또는 S3에 대한 온프레미스 복제 기능�
 ```
 #### [amazon-rds](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/database/amazon-rds/)
 #### [aws-datasync](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/migration/aws-datasync/)
+> AWS DataSync를 사용하면 온프레미스 스토리지와 Amazon S3 또는 Amazon Elastic File System(Amazon EFS) 간에 온라인으로 대용량 데이터를 쉽고 빠르게 이동할 수 있습니다.
+
+- DataSync는 NFS(Network File System) 또는 SMB(Server Message Block) 파일 서버, 모든 Amazon Simple Storage Service(Amazon S3)  스토리지 클래스 및  Amazon Elastic File System(Amazon EFS)  파일 시스템 간에 데이터를 복사
+- 모든 데이터는 전송 시 TLS(전송 계층 보안)로 암호화
+- 작업 예약을 사용하면 소스 스토리지 시스템에서 대상으로 변경 사항을 감지하고 복사하도록 주기적으로 작업을 실행하도록 구성
+- DataSync는 S3에 저장 시, 파일 메타데이터를 보존
+- DataSync는 EFS에 저장 시, 기존 디렉터리 구조와 파일 메타데이터를 보존
+- DataSync는 인터넷 또는 AWS Direct Connect 링크를 통해 수백 테라바이트 및 수백만 개의 파일을 전송
+- DataSync는 파일을 Amazon VPC로 직접 이동하기 위해 VPC 엔드포인트(AWS PrivateLink 기반)를 지원
 #### [amazon-ec2](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/amazon-ec2/)
 #### [amazon-lambda](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/aws-lambda/)
 #### [amazon-kinesis](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/analytics/amazon-kinesis/)
+> Amazon Kinesis : 실시간 스트리밍 데이터를 쉽게 수집, 처리 및 분석할 수 있으므로 적시에 통찰력을 얻고 새로운 정보에 빠르게 대응
+
+- 데이터는 "샤드"에서 처리되며 각 샤드는 초당 1000개의 레코드를 수집
+- 샤드의 기본 제한은 500개이지만 샤드 무제한으로 증가를 요청
+- 레코드는 파티션 키, 시퀀스 번호 및 데이터 Blob(최대 1MB)으로 구성
+- 임시 데이터 저장소 – 기본 보존 기간은 24시간이지만 최대 7일 동안 구성
+
+- 1. Kinesis Video Stream
+- 2. Kinesis Data Stream
+    - Kinesis Data Streams를 사용하면 스트리밍 빅 데이터를 실시간으로 처리
+    - Kinesis Data Streams 는 애플리케이션에서 나중에 처리 할 수 있도록 데이터 를 저장 합니다(데이터를 AWS 서비스로 직접 전달하는 Firehose와의 주요 차이점).
+    - 샤드는 Amazon Kinesis 데이터 스트림의 기본 처리량 단위
+        - 각 샤드는 초당 최대 1000개의 PUT 레코드를 지원
+        - 하나의 샤드는 1MB/초 데이터 입력 및 2MB/초 데이터 출력의 용량을 제공
+    - 레코드는 Amazon Kinesis 데이터 스트림에 저장된 데이터 단위
+    - 파티션 키는 스트림 내에서 샤드별로 데이터를 그룹화하는 데 사용
+- 3. Kinesis Data firehose
+    - 스트리밍 데이터를 S3, Redshift, Elastic Search, Splunk 및 분석 도구에 로드하는 가장 쉬운 방법
+    - Kinesis Data Streams는 Kinesis Data Firehose의 소스로 사용가능
+    - Firehose는 데이터를 로드하기 전에 일괄 처리, 압축 및 암호화
+    - 각 전송 스트림은 최대 24시간 동안 데이터 레코드를 저장
+    - 레코드의 최대 크기(Base64 인코딩 이전)는 1000KB
+    - Firehose 목적지는 다음과 같습니다.
+        - 아마존 S3.
+        - 아마존 레드시프트.
+        - 아마존 엘라스틱서치 서비스.
+        - 스플렁크.
+    - 기존 AWS Key Management Service(KMS) 키로 데이터를 암호화가능
+
+- Kinesis 데이터 분석
+    - 표준 SQL 쿼리를 사용하여 Kinesis 데이터 스트림을 처리
+    - 실시간 분석을 제공
+
 #### [amazon-sqs](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/application-integration/amazon-sqs/)
+> Amazon Simple Queue Service(Amazon SQS) : 처리 대기 중인 메시지를 저장하는 메시지 대기열에 대한 액세스를 제공하는 웹 서비스
+- SQS는 컴퓨터 간에 전송 중인 메시지를 저장하기 위해 안정적이고 확장성이 뛰어난 호스트 대기열을 제공
+- SQS는 메시지 지향 API를 사용
+- 대기열
+    - standard
+        - 고도로 분산된 아키텍처를 사용하여 대규모로 확장할 수 있도록 설계되었기 때문에 전송된 정확한 순서대로 메시지를 수신하는 것이 보장되지 않습니다.
+    - fifo
+        - FIFO(선입선출) 대기열은 메시지를 보내고 받는 정확한 순서를 유지합니다.
+        - FIFO 대기열은 정확히 한 번 처리를 제공합니다. 즉, 각 메시지는 한 번만 전달되고 소비자가 메시지를 처리하고 삭제할 때까지 계속 사용할 수 있습니다.
+        - FIFO 대기열은 일괄 처리의 경우 초당 최대 3000개의 메시지를 지원하고 그렇지 않은 경우 초당 300개의 메시지를 지원
+
+- SQS는 푸시 기반이 아닌 풀 기반(폴링)을 사용
+    - 짧은 폴링 :
+        - ReceiveMessageWaitTime = 0
+        - 메시지에 대해 사용 가능한 서버의 하위 집합만 쿼리
+        - 더 많은 요청이 사용되며 이는 더 높은 비용
+    - 긴 폴링 :
+        - ReceiveMessageWaitTime != 0 (MAX 20s)
+        - 모든 서버를 쿼리하여 잘못된 빈 응답을 제거
+        - 더 적은 수의 요청을 사용하고 비용을 절감
+        - 100만 요청당 요금은 짧은 폴링과 동일합니다.
+- 메시지 크기는 256KB
+- 메시지는 1분에서 14일(기본값은 4일) 동안 대기열에 보관
+- Amazon SQS 메시지의 최대 가시성 제한 시간은 12시간입니다.
+- Amazon SQS 메시지에는 최대 10개의 메타데이터 속성이 포함될 수 있습니다
+- 다음은 암호화되지 않습니다.
+        - 대기열 메타데이터.
+        - 메시지 메타데이터.
+        - 대기열당 측정항목
+- CloudWatch는 대기열에 메시지가 포함되어 있거나 API 작업이 대기열에 액세스하는 경우 대기열을 최대 6시간 동안 활성 상태로 간주
 #### [amazon-sns](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/application-integration/amazon-sns/)
+> Amazon Simple Notification Service(Amazon SNS) : 클라우드에서 알림을 쉽게 설정, 운영 및 보낼 수 있는 웹 서비스
+- 즉각적인 푸시 기반 전달을 제공합니다(폴링 없음)
+- 데이터 유형은 JSON입니다.
+- SNS는 인증된 호출에 대한 CloudTrail 감사를 지원합니다.
+- 사용자는 Amazon SNS 요청 
+    - 100만 건당 0.50 USD
+    - HTTP를 통한 알림 전송 100,000건당 0.06 USD
+    - 이메일 알림 전송 100,000건당 2.00 USD를 지불
+
 #### [amazon-mq](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/application-integration/amazon-mq/)
 > Apache ActiveMQ용 관리형 메시지 브로커 서비스
 
@@ -810,6 +891,24 @@ DMS에는 AWS 또는 Snowball 또는 S3에 대한 온프레미스 복제 기능�
 - 브로커에 대한 연결은 SSL을 사용
 
 #### [aws-organizations](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/management-tools/aws-organizations/)
+
+조직은 청구를 중앙에서 관리하는 데 도움
+
+계정 생성을 자동화
+
+AWS Organizations는 모든 AWS 고객이 추가 비용 없이 사용할 수 있습니다.
+
+기본적으로 조직은 통합 결제 기능을 지원합니다.
+통합 결제는 지불 계정과 연결 계정을 분리합니다.
+
+조직 단위(OU) – 조직 단위(OU)는 조직 내의 AWS 계정 그룹입니다. OU에는 계층을 생성할 수 있는 다른 OU도 포함될 수 있습니다.
+
+멤버 계정과 마스터 계정 모두에 대한 루트 또는 IAM 액세스 권한이 있어야 합니다.
+
+구성원 계정이 조직을 떠나면 계정에서 발생한 모든 요금이 독립 실행형 계정으로 직접 청구됩니다.
+
+AWS CLI 명령 또는 AWS SDK 프로그래밍 언어에서 Resource Groups API를 사용가능
+
 #### [aws-iam](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/security-identity-compliance/aws-iam/)
 
 > aws-iam
@@ -865,6 +964,25 @@ AWS Security Token Service(STS)는 IAM 사용자 또는 인증하는 사용자(�
 
 
 #### [aws-cloudformation](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/management-tools/aws-cloudformation/)
+
+> aws-cloudformation
+
+AWS CloudFormation은 개발자와 기업이 관련 AWS 리소스 모음을 생성하고 질서 있고 예측 가능한 방식으로 프로비저닝할 수 있는 쉬운 방법을 제공하는 서비스입니다.
+
+코드로서의 인프라 배포
+
+논리 ID는 템플릿 내의 리소스를 참조
+물리적 ID는 AWS CloudFormation 템플릿 외부의 리소스를 식별하지만 리소스가 생성된 후에만 식별
+
+CloudFormation은 프로비저닝 순서를 결정
+
+JSON 또는 YAML로 작성
+Puppet 및 Chef 통합이 지원
+
+오류가 있더라도 프로비저닝된 리소스에 대해 요금이 부과됩니다.
+
+BP
+CodeCommit 또는 GitHub와 같은 버전 제어 시스템을 사용하여 템플릿 변경 사항을 추적합니다.
 
 ### reference
 [AWSCertifiedSolutionsArchitectUnofficialStudyGuide](https://github.com/serithemage/AWSCertifiedSolutionsArchitectUnofficialStudyGuide)
