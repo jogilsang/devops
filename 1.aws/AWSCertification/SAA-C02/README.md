@@ -785,6 +785,24 @@ SCT(스키마 변환 도구)와 함께 사용하여 데이터베이스를 AWS RD
 DMS에는 AWS 또는 Snowball 또는 S3에 대한 온프레미스 복제 기능이 있습니다.
 ```
 #### [amazon-rds](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/database/amazon-rds/)
+
+- RDS는 OLTP(Online transaction processing)
+- 주요 사용 사례는 (분석이 아닌) 트랜잭션 데이터베이스
+- 동일한 데이터베이스의 기존 온프레미스 인스턴스를 즉시 대체하는 것을 목표
+- RDS는 관리형 서비스이며 기본 EC2 인스턴스에 대한 액세스 권한이 없습니다(루트 액세스 권한 없음).
+- 데이터베이스 인스턴스는 엔드포인트를 통해 액세스
+
+- AWS 콘솔을 사용하면 지난 1일 동안의 RDS 이벤트만 볼 수 있습니다.
+- Amazon RDS 서비스에 대한 API 호출을 사용하여 지난 14일 동안의 RDS 이벤트를 나열할 수 있습니다(DescribeEvents API).
+- Amazon RDS DB 인스턴스에 대한 암호화 옵션을 활성화하여 Amazon RDS 인스턴스와 저장 스냅샷을 암호화
+- 기존 DB를 암호화할 수 없으며 스냅샷을 생성하고 복사하고 복사본을 암호화한 다음 스냅샷에서 암호화된 DB를 구축해야 합니다.
+- RDS만 확장할 수 있습니다(컴퓨팅 및 스토리지).
+- RDS 인스턴스에 할당된 스토리지는 줄일 수 없습니다.
+- Amazon RDS는 DB 및 로그 스토리지에 EBS 볼륨(인스턴스 스토어를 사용하지 않음)을 사용합니다.
+
+- Amazon RDS는 원본 DB 인스턴스의 스냅샷을 사용하여 두 번째 DB 인스턴스를 생성합니다.
+그런 다음 원본 DB 인스턴스에 변경 사항이 있을 때마다 엔진의 기본 비동기 복제를 사용하여 읽기 전용 복제본을 업데이트
+
 #### [aws-datasync](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/migration/aws-datasync/)
 > AWS DataSync를 사용하면 온프레미스 스토리지와 Amazon S3 또는 Amazon Elastic File System(Amazon EFS) 간에 온라인으로 대용량 데이터를 쉽고 빠르게 이동할 수 있습니다.
 
@@ -797,6 +815,11 @@ DMS에는 AWS 또는 Snowball 또는 S3에 대한 온프레미스 복제 기능�
 - DataSync는 파일을 Amazon VPC로 직접 이동하기 위해 VPC 엔드포인트(AWS PrivateLink 기반)를 지원
 #### [amazon-ec2](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/amazon-ec2/)
 #### [amazon-lambda](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/aws-lambda/)
+
+- 요금
+- 요청 수. 처음 100만 개는 무료이고 100만 개당 0.20달러입니다.
+- 지속. 코드가 실행을 시작한 시간부터 반환되거나 종료될 때까지 계산됩니다. 함수에 할당된 메모리 양에 따라 다릅니다.
+
 #### [amazon-kinesis](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/analytics/amazon-kinesis/)
 > Amazon Kinesis : 실시간 스트리밍 데이터를 쉽게 수집, 처리 및 분석할 수 있으므로 적시에 통찰력을 얻고 새로운 정보에 빠르게 대응
 
