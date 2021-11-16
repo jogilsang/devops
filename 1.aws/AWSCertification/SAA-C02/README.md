@@ -814,6 +814,42 @@ DMS에는 AWS 또는 Snowball 또는 S3에 대한 온프레미스 복제 기능�
 - DataSync는 인터넷 또는 AWS Direct Connect 링크를 통해 수백 테라바이트 및 수백만 개의 파일을 전송
 - DataSync는 파일을 Amazon VPC로 직접 이동하기 위해 VPC 엔드포인트(AWS PrivateLink 기반)를 지원
 #### [amazon-ec2](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/amazon-ec2/)
+Amazon Elastic Compute Cloud(Amazon EC2) : 크기 조정 가능한 컴퓨팅 용량을 제공하는 웹 서비스
+EC2 컴퓨팅 유닛(ECU)
+키 페어는  AWS가 저장 하는  공개 키 와 사용자가 저장 하는  개인 키 파일로 구성
+Linux AMI의 경우 프라이빗 키 파일을 사용하여 인스턴스에 SSH(보안 셸)를 안전하게 연결
+
+IP주소
+인스턴스가 중지되면 퍼블릭 IPv4 주소는 손실되지만 프라이빗 주소(IPv4 및 IPv6)는 유지됩니다.
+인스턴스를 다시 시작하면 퍼블릭 IPv4 주소가 유지됩니다.
+AWS는 탄력적 IP를 사용하지 않을 때 비용을 청구합니다.
+보조 IP 주소는 서버에서 여러 웹 사이트를 호스팅하거나 HA용 대기 EC2 인스턴스로 트래픽을 리디렉션하는 데 유용할 수 있습니다.
+보조 프라이빗 주소가 인터페이스에서 할당 해제되면 연결된 탄력적 IP 주소가 연결 해제됩니다.
+
+ENI
+ENI는 실행 중인 인스턴스에 "핫 어태치"될 수 있습니다.
+ENI는 인스턴스가 중지될 때 "웜 연결"될 수 있습니다.
+ENI는 인스턴스가 시작될 때 "콜드 연결"될 수 있습니다.
+
+두 번째 인터페이스를 추가하는 경우 AWS는 eth0에 퍼블릭 IP 주소를 할당하지 않습니다(탄력적 IP를 추가해야 함).
+
+ENI 대 ENA 대 EFA
+ENI를 사용하는 경우 : 기본 어댑터 유형
+ENA를 사용하는 경우: 제한된 인스턴스 유형에 대해 지원됩니다(HVM만 해당)
+EFA를 사용하는 경우: 고성능 컴퓨팅, MPI 및 ML 사용 사례
+
+시작 시 또는 AWS CLI, SDK 또는 EC2 콘솔을 사용하여 인스턴스에 IAM 역할을 연결
+한 번에 하나의 IAM 역할만 EC2 인스턴스에 연결
+
+베스천 서버
+VPC 인스턴스에 액세스하기 위해 EC2 인스턴스를 배스천 호스트(점프 박스라고도 함)로 구성
+SSH 또는 RDP 프로토콜을 사용하여 배스천 호스트에 연결
+보안 그룹을 사용하여 배스천 호스트에 액세스할 수 있는 IP 주소/CIDR을 제한
+
+AWS Server Migration Service(SMS)
+
+전용 호스트, 전용 인스턴스
+
 #### [amazon-lambda](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/aws-lambda/)
 
 - 요금
