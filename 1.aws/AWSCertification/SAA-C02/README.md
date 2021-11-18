@@ -139,6 +139,103 @@
 39. Microsoft SQL Server 데이터베이스입니다. 애플리케이션 소유자가 데이터베이스를 Amazon RDS 인스턴스로 마이그레이션
 40. AWS S3 - 실수로 문서를 삭제하는 것을 방지하고 모든 버전의 문서를 사용할 수 있도록 해야 합니다.
 
+## test3
+응용 프로그램은 아침과 저녁에 몇 시간 동안 트래픽이 최고조에 달하여 자주 사용하지 않습니다. 디스크 I/O는 최대 3,000IOPS까지 가변적
+-> Amazon EBS 범용 SSD(gp2)
+
+Amazon Simple Queue Service(SQS)는 애플리케이션을 분리하는 데 사용
+
+프로덕션 애플리케이션의 성능에 영향을 미치지 않아야 합니다.
+-> 고가용성을 위한 최상의 솔루션은 다중 AZ 읽기 전용 복제본을 사용하는 것
+
+NAT 게이트웨이는 프라이빗 서브넷의 인스턴스에 대한 인터넷 연결을 활성화하는 데 사용됩니다. 연결은 인터넷을 통과합니다.
+
+S3 정적 웹 사이트는 이 웹 사이트를 호스팅하는 데 가장 비용 효율적인 솔루션
+
+사전 서명된 URL을 사용하여 업로드하면 AWS 보안 자격 증명/권한 없이 객체를 업로드할 수 있습니다. 
+
+S3는 파일 시스템 API가 아닌 REST API를 사용하므로 액세스는 공유할 수 있지만 동시는 아닙니다.
+
+EBS 볼륨은 Fargate 작업 간에 공유할 수 없으며 EC2 인스턴스와 함께 사용됩니다.
+
+데이터베이스의 스냅샷을 생성합니다. 암호화된 스냅샷에 복사합니다. 암호화된 스냅샷에서 데이터베이스를 복원하십시오
+
+Direct Connect 연결에서 IPSec 암호화를 활성화하는 옵션은 없습니다.
+BGP 프로토콜은 라우팅 프로토콜
+
+다른 리전에서 버전 관리를 사용하여 추가 S3 버킷을 생성하고 리전 간 복제를 구성하십시오
+
+평균 총 CPU 사용률을 40%로 유지하는 대상 추적 정책 사용
+단순 조정 정책은 CPU 사용률이 40%에 도달하면 인스턴스를 추가하지만 그룹 전체에서 CPU 사용률을 40%로 유지하도록 설계되지 않았습니다.
+
+VPC 간에 VPN 연결을 생성할 수 없습니다(AWS VPN 사용).
+
+VGW(가상 사설 게이트웨이)는 중복 장치
+
+CloudWatch 에이전트를 사용하여 Amazon EC2 인스턴스와 온프레미스 서버에서 시스템 지표와 로그 파일을 모두 수집할 수 있습니다.
+
+인스턴스 스토어 비용은 인스턴스 요금에 포함되어 있다.
+
+Amazon SQS 대기열을 생성하고 대기열에 수신 요청을 추가하도록 API Gateway를 구성할 수 있습니다.
+
+Amazon Aurora 글로벌 데이터베이스는 기본 지역에서 성능 저하 또는 중단이 발생하는 경우 보조 지역 중 하나를 승격하여 읽기/쓰기 책임을 맡을 수 있습니다. 
+
+대규모 데이터베이스는 승격하는 데 10분 이상 걸릴 수 있으므로 RTO 목표를 충족하지 못할 수 있습니다.
+
+Amazon CloudTrail 하나는 데이터 이벤트(람다,객체수준)를 참조하고 다른 하나는 관리 이벤트(보안 구성, 디바이스 등록)를 참조
+
+서비스 제어 정책(SCP)는 조직의 모든 계정에 대해 사용 가능한 최대 권한을 중앙에서 제어합니다.
+
+서비스 연결 역할은 직접 만들 수 없습니다. 사전 정의된 정책을 사용하여 AWS에서 생성합니다.
+
+Amazon EC2 Windows 인스턴스 및 Amazon EC2 Linux 인스턴스에 탑재할 수 있는 고성능 파일 시스템은 Windows 파일 서버용 Amazon FSx를 사용합니다.
+
+지표는 단독으로 사용할 수 없으며 CloudWatch의 모든 서비스에 대한 모니터링을 설정할 때 사용됩니다
+
+사용자 지정 애플리케이션 수준 이벤트를 생성하여 CloudWatch 이벤트에 게시할 수 있지만 이는 애플리케이션 로그를 모니터링하는 데 가장 적합한 도구는 아닙니다.
+
+CloudTrail은 애플리케이션 로그 모니터링이 아니라 계정의 API 활동 모니터링에 사용됩니다.
+
+Amazon Aurora Serverless는 Amazon Aurora를 위한 온디맨드 자동 조정 구성입니다
+자동 인스턴스화 및 크기 조정을 제공
+
+퍼블릭 서브넷에 NAT 게이트웨이를 배포합니다. 모든 인터넷 트래픽을 NAT 게이트웨이로 보내도록 프라이빗 서브넷의 라우팅 테이블을 수정합니다.
+
+VGW(가상 프라이빗 게이트웨이)는 프라이빗 서브넷의 인스턴스를 인터넷에 연결하는 것이 아니라 VPN 연결에 사용됩니다.
+
+프라이빗 서브넷의 인스턴스에는 인터넷 게이트웨이를 사용하는 데 필요한 퍼블릭 IP 주소가 없으므로 인터넷 게이트웨이를 가리킬 수 없습니다.
+
+Aurora 복제본은 Aurora DB 클러스터의 독립적인 엔드포인트로, 읽기 작업을 확장하고 가용성을 높이는 데 가장 적합합니다.
+
+클러스터 볼륨은 DB 클러스터의 DB 인스턴스에 대한 데이터를 관리하며 읽기 조정을 제공하지 않습니다.
+
+Amazon Aurora DB에 대한 읽기 작업을 확장해야 합니다. Aurora 복제본
+
+데이터 복제와 클러스터링을 모두 지원하는 Redis 엔진
+ElastiCache Memcached를 사용하면 데이터 복제나 고가용성이 없습니다.
+
+최적의 성능을 기반으로 트래픽을 유도하기 위해 AWS Global Accelerator를 사용할 수 있습니다. GA는 트래픽이 AWS 글로벌 네트워크를 통해 성능을 기반으로 가장 최적의 엔드포인트로 라우팅
+
+CloudFront는 UDP에서 수신 대기할 수 없으며 HTTP/HTTPS에 사용됩니다.
+
+클러스터 – 가용 영역 내에서 서로 가깝게 인스턴스를 묶습니다. 
+
+CloudHSM이 필요하지 않으며 데이터베이스 볼륨과 EBS 볼륨을 암호화해야 합니다.
+
+ SSL 암호화는 전송 중인 데이터를 암호화하지만 미사용 데이터는 암호화하지 않습니다.
+
+EC2 인스턴스에 연결된 EBS 볼륨은 암호화되지 않으며 Macie는 RDS와 함께 사용할 수 없습니다.
+
+파일은 각 고객 요청에 고유하므로 캐싱이 도움이 되지 않습니다.
+
+Lambda@Edge는 애플리케이션 사용자와 더 가까운 곳에서 코드를 실행할 수 있는 Amazon CloudFront의 기능
+
+네트워크 ACL로만 거부 규칙을 생성할 수 있으며 보안 그룹에서는 불가능합니다.
+
+Amazon Cognito"가 올바르지 않습니다. Cognito는 모바일 앱에 대한 가입 및 서명 서비스를 제공
+
+Amazon Macie"가 올바르지 않습니다. Macie는 Amazon S3에 있는 민감한 데이터를 감지하고 보호하는 데 사용
+
 /**
  * ENI (Elastic Network Interface) : 탄력적 네트워크 인터페이스
  * AWS Organization - OU
@@ -848,7 +945,7 @@ SSH 또는 RDP 프로토콜을 사용하여 배스천 호스트에 연결
 
 AWS Server Migration Service(SMS)
 
-전용 호스트, 전용 인스턴스
+전용 호스트, 전용 인스턴스 : 
 
 #### [amazon-lambda](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/aws-lambda/)
 
@@ -1020,6 +1117,10 @@ AWS Security Token Service(STS)는 IAM 사용자 또는 인증하는 사용자(�
 - 2. aws-shield-advanced
     - 웹 애플리케이션 방화벽인 AWS WAF와의 통합
     - 사용량 급증을 유발하는 DDoS 공격의 결과로 요금이 증가하지 않도록 보호하는 DDoS 비용 보호 기능이 포함되어 있습니다.
+
+
+### [aws-route53](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/networking-and-content-delivery/amazon-route-53/)
+
 
 
 #### [aws-cloudformation](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/management-tools/aws-cloudformation/)
