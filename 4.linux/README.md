@@ -9,6 +9,7 @@
   - [LAMP](#lamp)
 - [SHELL](#shell)
   - [ARR](#arr) 
+  - [IF-ELSE](#if-else) 
 - [WHO](#who)
 - [UPTIME](#uptime)
 - [CRONTAB](#crontab)
@@ -31,6 +32,7 @@
 - [SORT](#sort)
 - [AWK](#awk)
 - [SED](#sed)
+- [CAT](#cat)
 - [FORM](#form)
   - [JSON(JQ)](#json(jq))
   - [XML(XMLLINT)](#xml(xmllint))
@@ -238,6 +240,17 @@ $ ls -l /usr/share/vim/vim*/colors/
 
   ```
 
+### if-else
+  `쉘 스크립트의 분기처리`
+  `example`
+  ```bash
+  # 루트사용자가 아니면 스크립트 실행불가
+  if [ "$UID" -ne 0]
+  then
+    echo "이 스크립트는 루트로만 실행"
+    exit 10
+  fi
+  ```
 ### ARR
   `쉘 스크립트로 배열을 사용할 수 있다.`
   `example`
@@ -769,6 +782,13 @@ $ ls -l /usr/share/vim/vim*/colors/
 
   ```
 
+### cat
+  `두 개 이상의 파일을 concatenate해서 출력`
+  `example`
+  ```bash
+  # 파일은 냅두고, 안의 내용만 삭제
+  cat /dev/null > filename
+  ```
 ### form
 - #### json(jq)
 - #### xml(xmllint)
