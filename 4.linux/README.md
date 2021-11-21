@@ -238,6 +238,8 @@ $ ls -l /usr/share/vim/vim*/colors/
     exit $WRONG_ARGS
   fi
 
+  # 공백이 포함된 문자열은 더블쿼팅을 하지않으면, echo할경우 공백이 지워지고 출력되게된다.
+
   ```
 
 ### boilerplate
@@ -276,6 +278,14 @@ $ ls -l /usr/share/vim/vim*/colors/
   then
     echo "$LOG_DIR 과 현재경로는 다릅니다"
   fi
+
+  # null 로 초기화하기
+  null_data=
+  echo $null_data
+
+  null_data=30
+  unset null_data
+  echo $null_data
   
   #  스크립트 종료시에 0을 리턴하면 쉘에게 성공했다고 알려줌.
   exit 0
