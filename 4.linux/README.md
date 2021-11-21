@@ -9,7 +9,7 @@
   - [LAMP](#lamp)
 - [SHELL](#shell)
   - [ARR](#arr) 
-  - [IF-ELSE](#if-else) 
+  - [Boilerplate](#boilerplate) 
 - [WHO](#who)
 - [UPTIME](#uptime)
 - [CRONTAB](#crontab)
@@ -240,17 +240,48 @@ $ ls -l /usr/share/vim/vim*/colors/
 
   ```
 
-### if-else
-  `쉘 스크립트의 분기처리`
+### boilerplate
+  `쉘 스크립트 모듈`
   `example`
   ```bash
+  #!/bin/bash
+  #!/bin/more
+  # man magic
+
   # 루트사용자가 아니면 스크립트 실행불가
   if [ "$UID" -ne 0]
   then
     echo "이 스크립트는 루트로만 실행"
     exit 10
   fi
+
+  # 매개변수 개수가 0인경우, 스크립트 실행불가
+  if [ $# -eq 0]
+  then
+    echo "이 스크립트는 매개변수가 없음"
+    exit 10
+  fi
+
+  # 명령어줄 인자가 존재하는지 여부
+  if [ -n "$1"]
+  then
+    echo "인자가 존재하지않는다"
+    exit 10
+  fi
+
+  # 현재경로와 지정된 경로와 비교
+  # integer expression expected
+  LOG_DIR=/var/log
+  if [`pwd` != "$LOG_DIR"]
+  then
+    echo "$LOG_DIR 과 현재경로는 다릅니다"
+  fi
+  
+  #  스크립트 종료시에 0을 리턴하면 쉘에게 성공했다고 알려줌.
+  exit 0
   ```
+
+
 ### ARR
   `쉘 스크립트로 배열을 사용할 수 있다.`
   `example`
@@ -461,9 +492,16 @@ $ ls -l /usr/share/vim/vim*/colors/
   `Tape ARchiver의 줄임말. 여러개 파일을 compress하거나 extract할 떄 사용` 
   `example`
   ```bash
-  # 기본 extract
-  tar zxvf T.tar.gz
-  
+  # tar으로 압축하기
+  tar cvf test.tar *
+  tar cvf - `find . -mtime 1 -type f -print` > test.tar
+
+  # gzip으로 압축하기
+  gzip test.tar
+
+  # gzip 풀기
+  tar zxvf test.tar.gz
+
   # Option
   # -f     : 대상 tar 아카이브 지정. (기본 옵션)
   # -c     : tar 아카이브 생성. 기존 아카이브 덮어 쓰기. (파일 묶을 때 사용)
@@ -500,6 +538,9 @@ $ ls -l /usr/share/vim/vim*/colors/
   ```bash
   # 현재 경로부터 하위경로까지 단어를 포함한 파일을 찾는다.
   sudo find . -name "*file*"
+
+  # 현재 디렉토리의 모든 파일중 최근 24시간 안에 변경된 파일들
+  sudo find . -mtime 1 -type f -print
   ```
 ### grep
   `특정 문자열이나 정규식을 포함하고 있는 행이나 파일을 검색하는 명령어`
