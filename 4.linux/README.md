@@ -1,6 +1,14 @@
 
 # 4.linux
 > 서버의 4가지(CPU, 디스크, 네트워크, 메모리)는 잘 체크 해야한다
+> 쉘이란? `사용자와 커널간에 인터페이스 역활을 하는 프로그램`   
+> 쉘 스크립트란? `인터프리터에 의해 해석되고, 쉘에 의해 실행`   
+> 쉘 스크립트를 사용하는 이유? `시스템 관리작업의 단순화, 자동화`
+
+## My Posting
+- [쉘 스크립트 - curl 과 cookie를 활용한 서비스 모니터링](https://blog.naver.com/jogilsang/222353841647)   
+- [쉘 스크립트 - 서버 가용메모리 체크 알람만들기, free 명령어](https://blog.naver.com/jogilsang/222508114389)
+- [쉘 스크립트 - awk와 sed를 이용한 행열구조 데이터 추출, 서버 디스크용량체크 예시](https://blog.naver.com/jogilsang/222272256179)  
 
 ## INDEX
 - [CONSOLE(KEYMAP)](#console(keymap))
