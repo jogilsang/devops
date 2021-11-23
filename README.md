@@ -14,6 +14,7 @@ I'll show the pro when given the situation
 - [7.elastic_logstash_kibana](https://github.com/jogilsang/devops/tree/master/7.elastic_logstash_kibana)
 - [8.grafana_prometheus](https://github.com/jogilsang/devops/tree/master/8.grafana_prometheus)
 - [9.k8s](https://github.com/jogilsang/devops/tree/master/9.k8s)
+- [10.ansible](https://github.com/jogilsang/devops/tree/master/9.k8s)
 - [tool](https://github.com/jogilsang/devops/tree/master/tool)
 - [Reference](#reference)
 
