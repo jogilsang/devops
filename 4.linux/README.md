@@ -4,6 +4,7 @@
 > 쉘이란? `사용자와 커널간에 인터페이스 역활을 하는 프로그램`   
 > 쉘 스크립트란? `인터프리터에 의해 해석되고, 쉘에 의해 실행`   
 > 쉘 스크립트를 사용하는 이유? `시스템 관리작업의 단순화, 자동화`
+> Bash 의 변수는 본질적으로 타입이 없습니다(untyped)
 
 ## My Posting
 - [쉘 스크립트 - curl 과 cookie를 활용한 서비스 모니터링](https://blog.naver.com/jogilsang/222353841647)   
@@ -17,6 +18,7 @@
   - [LAMP](#lamp)
 - [SHELL](#shell)
   - [ARR](#arr) 
+  - [UNTIL](#until) 
   - [Boilerplate](#boilerplate) 
 - [WHO](#who)
 - [UPTIME](#uptime)
@@ -33,6 +35,7 @@
 - [PGREP](#pgrep)
 - [LYNX](#lynx)
 - [DATE,TIMEZONE](#date,timezon)
+- [BASENAME,DIRNAME](#basename,dirname)
 - [UNAME](#uname)
 - [BC](#bc)
 - [FREE](#free)
@@ -299,7 +302,20 @@ $ ls -l /usr/share/vim/vim*/colors/
   exit 0
   ```
 
+### until
+  `while문과 동일`
+  `example`
+  ```bash
+  #!/bin/bash
+  # ./shift.sh a b c d e f g
+  # 모든 매개변수 다 사용하기
+  until [ -z "$1" ]
+  do
+    echo "$1"
+    shift
+  done
 
+  ```
 ### ARR
   `쉘 스크립트로 배열을 사용할 수 있다.`
   `example`
@@ -652,6 +668,23 @@ $ ls -l /usr/share/vim/vim*/colors/
    sudo lynx https://www.naver.com
    sudo lynx https://www.google.com
    ```
+### dirname,basename
+   `파일명에서 파일이름과 경로명을 각각 보여준다`
+   `example`
+   ```bash
+   a=/home/ec2-user/scripts
+
+  echo "/home/ec2-user/scripts 의 basename = `basename $a`" #/home/ec2-user
+  echo "/home/ec2-user/scripts 의 dirname = `dirname $a`" #scripts
+  echo
+  echo "내 홈 디렉토리는 `basename ~/`."
+  echo "내 홈 디렉토리의 홈은 `dirname ~/`"
+  echo
+
+  echo "스크립트 이름은 \"$0\"."
+  echo "스크립트 이름은 \"`basename $0`\"."
+   ```
+
 ### date,timezon
    `timezone은 영국의 그리니치 천문대(본초 자오선, 경도 0도)를 기준으로 지역에 따른 시간의 차이` 
    ```bash
