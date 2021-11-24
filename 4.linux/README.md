@@ -251,6 +251,14 @@ $ ls -l /usr/share/vim/vim*/colors/
 
   # 공백이 포함된 문자열은 더블쿼팅을 하지않으면, echo할경우 공백이 지워지고 출력되게된다.
 
+  # true false 기준
+  echo "0 은 참." # if [ 0 ]
+  echo "임의의 문자열은 참." # if [ xyz ]
+  echo "NULL 은 거짓." # if [ ]
+  echo "초기화 안 된 변수는 거짓." # if [ $xyz ]
+  echo "널 변수는 거짓."     # xyz= if [ $xyz ]
+  echo "\"false\" 는 참."   # if [ "false" ]
+
   ```
 
 ### boilerplate
