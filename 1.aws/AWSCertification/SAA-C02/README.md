@@ -137,7 +137,7 @@
 37. 특정 국가에 대한 접근을 차단 - ACL 차단?
 38. 웹 사이트가 다운된 경우 사용자가 자동으로 연결될 지원 연락처 세부 정보가 포함된 백업 웹 사이트
 39. Microsoft SQL Server 데이터베이스입니다. 애플리케이션 소유자가 데이터베이스를 Amazon RDS 인스턴스로 마이그레이션
-40. AWS S3 - 실수로 문서를 삭제하는 것을 방지하고 모든 버전의 문서를 사용할 수 있도록 해야 합니다.
+40. AWS S3 - 실수로 문서를 삭제하는 것을 방지하고 모든 버전의 문서를 사용할 수 있도록 해야 합니다.   
 
 ## test3
 응용 프로그램은 아침과 저녁에 몇 시간 동안 트래픽이 최고조에 달하여 자주 사용하지 않습니다. 디스크 I/O는 최대 3,000IOPS까지 가변적
@@ -235,6 +235,20 @@ Lambda@Edge는 애플리케이션 사용자와 더 가까운 곳에서 코드를
 Amazon Cognito"가 올바르지 않습니다. Cognito는 모바일 앱에 대한 가입 및 서명 서비스를 제공
 
 Amazon Macie"가 올바르지 않습니다. Macie는 Amazon S3에 있는 민감한 데이터를 감지하고 보호하는 데 사용
+
+## test04
+
+SQS는 데이터를 수집하지 않으므로 애플리케이션 프로세스를 사용하여 
+메시지를 큐에 넣은 다음 다른 프로세스를 사용하여 큐에서 메시지를 
+소비자 및 처리해야 합니다.   
+
+Amazon Athena는 표준 SQL을 사용하여 Amazon S3의 데이터를 쉽게 분석할 수 있는 대화형 쿼리 서비스입니다. 
+Athena는 서버리스이므로 설정하거나 관리할 인프라가 없으며 
+즉시 데이터 분석을 시작할 수 있습니다. 
+Amazon Athena는 빠른 임시 쿼리에 이상적이지만 대규모 조인, 
+창 함수 및 배열을 비롯한 복잡한 분석도 처리할 수 있습니다.
+Athena는 Amazon S3에서 데이터를 쿼리하는 가장 빠른 방법이며 
+완전한 서버리스 솔루션이므로 운영 오버헤드가 가장 낮습니다.
 
 /**
  * ENI (Elastic Network Interface) : 탄력적 네트워크 인터페이스
@@ -1088,6 +1102,10 @@ AWS는 AWS Certificate Manager(ACM)를 사용하여 서버 인증서를 프로�
 AWS Security Token Service(STS)는 IAM 사용자 또는 인증하는 사용자(연동 사용자)에 대한 임시 자격 증명을 요청할 수 있는 웹 서비스
 
 교차 계정 액세스:
+
+#### [aws-athena](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/analytics/amazon-athena/)
+
+
 
 #### [aws-waf-and-shield](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/security-identity-compliance/aws-waf-and-shield/)
 
