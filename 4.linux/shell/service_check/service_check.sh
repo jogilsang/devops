@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 ##
@@ -5,34 +6,28 @@
 # Author : jo_gilsang
 
 # created :  v1 웹 서비스 체크, 2021-11-23
-# modifyed : 
-#            
+# modifyed :
+#
 
-# Value
-url=""
-prd="https://hooks.slack.com/services/................."
-dev="https://hooks.slack.com/services/................."
+# 서버1
+# www.xxxxxx.com:8000
+# 서버2
+# www.xxxxxsdx.com:8000
 
-web_service_list="https://www.naver.com
-https://www.google.co.kr
-https://www.daum.net"
+# TODO
+# (1) 알람을 날릴 slack의 주소를 넣기
+# url="https://hooks.slack.com/services/xxxxxx"
+url="https://hooks.slack.com/services/xxxxxxxxxx"
 
-web_service_port_list="8000   
-8000   
-8000"
+# (2) port가 포함된 서버목록넣기
+web_service_list="www.xxxxxx.com:8000
+www.xxxxxsdx.com:8000"
 
-if [ $# -ne 1] ;
-then
-    echo "param이 없거나 2개 이상인경우"
-    exit 1
-fi
-
-if [ "$1" -eq "prd" ] ; then $url=$prd
-elif [ "$1" -eq "dev" ] ; then $url=$dev
-else 
-    echo "param은 prd 또는 dev 값만 유효함"
-    exit 1
-fi
+# if [ $# -ne 1 ] ;
+# then
+#    echo "param이 없거나 2개 이상인경우"
+#    exit 1
+# fi
 
 generate_post_data_fail()
 {
@@ -40,13 +35,13 @@ generate_post_data_fail()
 {
    "attachments":[
       {
-         "fallback":"웹 서비스 장애가 감지됬습니다.",
-         "pretext":"웹 서비스 장애가 감지됬습니다.",
+         "fallback":"서비스 장애",
+         "pretext":"서비스 장애",
          "color":"$1",
          "fields":[
             {
-               "title":"$2 error",
-               "value":"$3",
+               "title":"Connection timed out",
+               "value":"$2",
                "short":false
             }
          ]
@@ -65,49 +60,28 @@ status_code=""
 # $3
 # for webservice in ${web_service_list}
 
-# TODO : 장애발생 시 로그파일 생성.
-file_prefix="./fail_web_service"
-file_realfix=".log"
-
 # 배열 key값으로 index를 활용. 파일생성명
 cnt=0
 
 for webservice in ${web_service_list} ; do
-        #파일명 생성
-        file_check=${file_prefix}${cnt}${file_realfix}
-        echo "filecheck" $file_check
 
         # CORE
+        domain=`echo $webservice | cut -d ":" -f 1`
+        port=`echo $webservice | cut -d ":" -f 2`
 
-        status_code=$(echo > /dev/tcp// --write-out %{http_code} --silent --output /dev/null -L ${webservice})
+        echo "domain : $domain"
+        echo "port : $port"
+
+        `echo > /dev/tcp/$domain/$port`
+        status_code=`echo $?`
+
 
         # 웹 서버 장애인경우
-        if [[ "$status_code" -ne 200 ]] ; then
+        if [[ "$status_code" -ne 0 ]] ; then
             # POST request to Discord Webhook with the domain name and the HTTP status code
-            # curl -H "Content-Type: application/json" -X POST -d '{"text":"'"${domain} : ${status_code}"'"}' $url
-
-            # fail_log파일이 있다면, 기존 장애유지. 알람발생X
-            if [[ -f "$file_check" ]] ; then
-                echo "${webservice} is stil failed!"
+                curl -H "Content-Type: application/json" -X POST -d "$(generate_post_data_fail $fail_color $webservice)" $url
                 echo
-
-            # fail_log파일이 없으면, 파일생성 및 신규장애 알람발생
-            else
-                curl -H "Content-Type: application/json" -X POST -d "$(generate_post_data_fail $fail_color $status_code $webservice)"  $url >> $file_check
-                echo
-            fi
-        # 웹 서버 장애가 아닌경우
-        else
-            # fail_log파일이 있으면 삭제 후, 장애복구(정상) 알람발생
-            if [[ -f "$file_check" ]] ; then
-                rm -rf $file_check
-                curl -H "Content-Type: application/json" -X POST -d "$(generate_post_data_success $success_color $status_code $webservice)"  $url
-
-            # fail_log파일이 없으면, 정상상태
-            else
-                echo "${webservice} is running!"
-                echo
-            fi
+                echo "정상입니다"
         fi
 
         # 파일명으로 사용될 index 증가
