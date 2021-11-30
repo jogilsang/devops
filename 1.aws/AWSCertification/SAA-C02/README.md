@@ -26,7 +26,6 @@
 ---
 
 ## test1
-```javascript
 1. Amazon S3에서 실행되는 정적 웹 사이트
   -> Amazon CloudFront를 통해 특정국가의 캐시할 위치를 결정할 수 있음
   -> Amazon CloudFront 배포를 생성하고 최고의 성능을 위해 모든 엣지 로케이션을 사용하도록 
@@ -236,7 +235,64 @@ Amazon Cognito"가 올바르지 않습니다. Cognito는 모바일 앱에 대한
 
 Amazon Macie"가 올바르지 않습니다. Macie는 Amazon S3에 있는 민감한 데이터를 감지하고 보호하는 데 사용
 
-## test04
+## test4
+
+1. 어떤 Amazon S3 액세스 제어 방법이 운영상 가장 효율적입니까? (2를 선택)
+    - IAM 정책 내에서 프로그래밍 방식 액세스 또는 AWS Management Console 액세스 권한을 Amazon S3 리소스에 부여  
+
+2. Solutions Architect는 SQL 쿼리를 사용하여 암호화된 데이터를 쿼리하고 암호화된 결과를 S3 버킷에 다시 쓸 수 있어야 합니다. 
+    - athena를 사용하면 Amazon S3에 저장된 암호화된 데이터를 쉽게 쿼리하고 암호화된 결과를 S3 버킷에 다시 쓸 수 있습니다. 
+        - AWS Glue는 ETL 서비스이며 S3에서 데이터를 쿼리하고 분석하는 데 사용되지 않습니다.
+        - AWS KMS API는 암호화 목적으로 사용할 수 있지만 분석을 수행할 수 없으므로 적합하지 않습니다.
+
+3. 애플리케이션은 소비자가 올바른 순서로 수신해야 하는 초당 최대 1000개의 메시지 일괄 처리
+    - FIFO 대기열만 메시지 순서를 보장하므로 표준 대기열이 작동하지 않습니다.
+        - SQS는 메세지 순서를 보장하지않음
+        - AWS Step Functions 상태 머신 생성은 워크플로 오케스트레이션 서비스
+
+4. The application must asynchronously invoke an AWS Lambda function to analyze thousands of .CSV files.
+    - Amazon SNS supports Lambda functions as a target for messages sent to a topic.
+        - Amazon SWF : AWS Step Functions은 프로세스 자동화 사용
+        - Amazon Kinesis는  이 서비스는 Lambda 함수를 호출하는 데만 사용하기에 적합한 서비스가 아닙니다.
+        - Amazon OpsWorks"는 이 서비스가 Chef 또는 Puppet을 사용하는 시스템의 구성 관리에 사용되기 때문에 올바르지 않습니다.
+
+5. 데이터베이스가 너무 커서 회사의 제한된 인터넷 대역폭을 통해 마이그레이션할 수 없으므로 대체 솔루션을 사용해야 합니다.
+    - Solutions Architect는 SCT를 사용하여 Snowball Edge로 추출하고 로드한 다음 AWS 클라우드의 AWS DMS로 로드해야 합니다.
+    - AWS DMS can use Snowball Edge and Amazon S3 to migrate large databases more quickly than by other methods.
+        - AWS DMS를 사용하여 데이터를 추출하는 건 불가능
+
+6. 정확성을 검증하려면 데이터를 즉시 처리해야 하지만 과학자들은 랩톱의 로컬 저장 공간이 제한되어 있고 Amazon EC2 인스턴스 및 S3 버킷에 대한 간헐적이고 불안정한 연결
+    - Snowball Edge는 로컬 환경과 AWS 클라우드 간에 데이터를 전송하는 것 외에도 로컬 처리 및 엣지 컴퓨팅 워크로드를 수행할 수 있습니다.
+        - KDF는 Snowball 디바이스에 데이터를 로드할 수 없으며 Lambda@Edge는 데이터 처리를 위해 CloudFront와 함께 사용
+
+7. 이 회사는 증가하는 글로벌 사용자 기반의 요구를 충족하기 위해 원활하게 확장할 수 있는 솔루션이 필요합니다. 솔루션은 비용 효율적이어야 하고 운영 오버헤드를 최소화
+    - PDF 파일을 저장하는 데 Amazon S3를 사용, 엣지 로케이션에서 전 세계 파일을 캐싱하는 데 Amazon CloudFront. 서버리스 솔루션이므로 운영 오버헤드가 최소화
+
+8. Amazon S3에 데이터 레이크가 있으며, 요구 사항은 BI 도구를 사용하여 많은 수의 동시 사용자로부터 데이터 검색과 SQL 쿼리 및 복잡한 쿼리를 모두 수행하는 것
+    - "임시 SQL 쿼리를 위한 Amazon Athena"도 정답입니다.
+    - "복잡한 쿼리를 위한 RedShift Spectrum"이 정답입니다.
+
+12. 회사는 현재 별도의 /24 주소 범위에서 두 개의 공용 IP 주소를 사용하여 응용 프로그램을 광고하고 있으며 이를 변경하지 않는 것을 선호합니다. 사용자는 사용 가능한 가장 가까운 애플리케이션 엔드포인트로 안내
+    - AWS Global Accelerator는 고정 IP 주소를 애플리케이션의 고정 진입점으로 사용
+    - 이 솔루션을 사용하면 회사가 동일한 IP 주소를 계속 사용할 수 있고 최종 사용자와 가장 가까운 AWS 리전의 애플리케이션 엔드포인트로 트래픽을 보냄
+
+13. 응용 프로그램은 데이터 처리 중에 많은 임시 파일을 씁니다. 애플리케이션에는 임시 파일을 위한 고성능 스토리지 솔루션이 필요
+    - "소프트웨어 RAID 0이 있는 다중 인스턴스 저장소 볼륨"
+        - 여러 EFS 볼륨의 성능을 집계할 수 없습니다.
+
+16. Amazon VPC의 Amazon EBS 볼륨에 대한 백업 생성, 보존 및 삭제를 자동화하는 방법을 구현
+    - EBS DLM(Data Lifecycle Manager)은 볼륨의 스냅샷 관리(생성,보존,삭제) 자동화
+        - You cannot configure volume replication for EBS volumes using AWS tools.
+
+17. 공유 파일 시스템을 제공하기 위한 솔루션을 설계와 내결함성(=다중AZ)이 있어야 하며 액세스 제어를 위해 회사의 Microsoft Active Directory와 통합
+    - Amazon FSx는 Microsoft Active Directory(AD)와 함께 작동하여 기존 Microsoft Windows 환경과 통합
+        - 서로 다른 AZ의 EBS 볼륨을 인스턴스에 연결할 수 없습니다.
+        - AD가 있는 EFS 파일 시스템에 대해 AWS SSO를 구성할 수 없습니다.
+        - Cognito를 사용하여 S3를 Active Directory에 연결할 수 없습니다.
+
+18. 운영 팀은 EC2 인스턴스의 스왑 공간을 모니터링하는 방법
+    - EC2 인스턴스에 통합 CloudWatch 에이전트를 설치 및 구성합니다. CloudWatch에서 스왑 사용률 측정치를 모니터링하십시오
+        - C2 메타데이터로 성능 지표를 수집할 수 없습니다.
 
 SQS는 데이터를 수집하지 않으므로 애플리케이션 프로세스를 사용하여 
 메시지를 큐에 넣은 다음 다른 프로세스를 사용하여 큐에서 메시지를 
@@ -250,7 +306,6 @@ Amazon Athena는 빠른 임시 쿼리에 이상적이지만 대규모 조인,
 Athena는 Amazon S3에서 데이터를 쿼리하는 가장 빠른 방법이며 
 완전한 서버리스 솔루션이므로 운영 오버헤드가 가장 낮습니다.
 
-/**
  * ENI (Elastic Network Interface) : 탄력적 네트워크 인터페이스
  * AWS Organization - OU
  * SCP ???
@@ -266,7 +321,6 @@ Athena는 Amazon S3에서 데이터를 쿼리하는 가장 빠른 방법이며
  * AWS Transit GateWayG5
  * 
 
-```
 ## Word
 ### public
 ### [public-load-balancer-private-ec2](https://aws.amazon.com/premiumsupport/knowledge-center/public-load-balancer-private-ec2/)
@@ -1106,6 +1160,8 @@ AWS Security Token Service(STS)는 IAM 사용자 또는 인증하는 사용자(�
 #### [aws-athena](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/analytics/amazon-athena/)
 
 
+
+#### [aws-redshift](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/database/amazon-redshift/)
 
 #### [aws-waf-and-shield](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/security-identity-compliance/aws-waf-and-shield/)
 
