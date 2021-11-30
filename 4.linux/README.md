@@ -20,6 +20,7 @@
   - [ARR](#arr) 
   - [UNTIL](#until) 
   - [Boilerplate](#boilerplate) 
+  - [복합조건](#복합조건) 
 - [WHO](#who)
 - [UPTIME](#uptime)
 - [CRONTAB](#crontab)
@@ -272,6 +273,31 @@ $ ls -l /usr/share/vim/vim*/colors/
   echo "널 변수는 거짓."     # xyz= if [ $xyz ]
   echo "\"false\" 는 참."   # if [ "false" ]
 
+  ```
+
+### 복합조건
+  `&&와 ||을 사용한 if분기처리`
+  `example`
+  ```bash
+  #  AND 연산
+  #  if [ "$a" -eq 24 ] && [ "$b" -eq 24 ]
+  #  if [ "$a" -eq 24 -a "$b" -eq 24 ]
+  if [[ $a -eq 24 && $b -eq 24 ]]
+  then
+    echo "AND 연산확인 : 동일함"
+  else
+    echo "AND 연산확인 : 동일하지않음"
+  fi
+
+  #  OR 연산
+  #  if [ "$a" -eq 24 ] || [ "$b" -eq 24 ]
+  #  if [ "$a" -eq 24 -o "$b" -eq 24 ]
+  if [[ $a -eq 24 || $b -eq 24 ]]
+  then
+    echo "OR 연산확인 : 동일함"
+  else
+    echo "OR 연산확인 : 동일하지않음"
+  fi
   ```
 
 ### boilerplate
