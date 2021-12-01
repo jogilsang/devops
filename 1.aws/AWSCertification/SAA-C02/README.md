@@ -138,6 +138,8 @@
 39. Microsoft SQL Server 데이터베이스입니다. 애플리케이션 소유자가 데이터베이스를 Amazon RDS 인스턴스로 마이그레이션
 40. AWS S3 - 실수로 문서를 삭제하는 것을 방지하고 모든 버전의 문서를 사용할 수 있도록 해야 합니다.   
 
+
+
 ## test3
 응용 프로그램은 아침과 저녁에 몇 시간 동안 트래픽이 최고조에 달하여 자주 사용하지 않습니다. 디스크 I/O는 최대 3,000IOPS까지 가변적
 -> Amazon EBS 범용 SSD(gp2)
@@ -205,6 +207,7 @@ VGW(가상 프라이빗 게이트웨이)는 프라이빗 서브넷의 인스턴�
 프라이빗 서브넷의 인스턴스에는 인터넷 게이트웨이를 사용하는 데 필요한 퍼블릭 IP 주소가 없으므로 인터넷 게이트웨이를 가리킬 수 없습니다.
 
 Aurora 복제본은 Aurora DB 클러스터의 독립적인 엔드포인트로, 읽기 작업을 확장하고 가용성을 높이는 데 가장 적합합니다.
+Aurora 복제본은 기본 데이터베이스 인스턴스의 로드를 줄이는 읽기 요청을 처리하는 데 도움이 됩니다.
 
 클러스터 볼륨은 DB 클러스터의 DB 인스턴스에 대한 데이터를 관리하며 읽기 조정을 제공하지 않습니다.
 
@@ -294,9 +297,105 @@ Amazon Macie"가 올바르지 않습니다. Macie는 Amazon S3에 있는 민감�
     - EC2 인스턴스에 통합 CloudWatch 에이전트를 설치 및 구성합니다. CloudWatch에서 스왑 사용률 측정치를 모니터링하십시오
         - C2 메타데이터로 성능 지표를 수집할 수 없습니다.
 
-SQS는 데이터를 수집하지 않으므로 애플리케이션 프로세스를 사용하여 
-메시지를 큐에 넣은 다음 다른 프로세스를 사용하여 큐에서 메시지를 
-소비자 및 처리해야 합니다.   
+20. 스트리밍 애플리케이션을 AWS에서 실행하기위해 확장 가능한 서버리스 솔루션을 설계
+    - AWS Fargate와 AWS Kinesis Data Firehose
+        - AWS Fargate는 Amazon ECS를 사용하여 AWS에서 Docker 컨테이너를 실행하는 서버리스 서비스
+        - Lambda의 최대 실행 시간은 900초(15분)이므로 AWS Lambda 함수를 사용하여 데이터를 처리할 수 없습니다.
+        - SQS는 데이터를 수집하지 않음
+
+21. Redis에 접근하기위해 보안을 강화한다면?
+    - Redis Auth Command
+        - AWS Directory Service - MS의 AD
+        - Security Group은 네트워크 계층 보호
+
+23. 전산 유체 역학 워크로드를 실행하는 애플리케이션은 MPI(Message Passing Interface) 프로토콜을 사용하고 여러 노드에서 실행되는 긴밀하게 결합된 HPC(High Performance Computing) 아키텍처를 사용합니다. 운영 오버헤드를 최소화하려면 서비스 관리 배포
+    - AWS Batch 다중 노드 병렬 작업은 Apache MXNet(교육 및 추론 프레임워크), TensorFlow(deep learning framework), Caffe2(deep learning framework) 또는 MPI(Message Passing Interface)와 같은 IP 기반 노드 간 통신을 지원하는 모든 프레임워크와 호환
+
+24. 데이터베이스 솔루션 중 운영 오버헤드를 최소화(=서버리스)해야 하며 확장으로 인해 다운타임이 발생하지 않아야 합니다.
+    - Amazon DynamoDB 사용자를 위해 관리되는 비관계형 데이터베이스(=가동 중지 시간 없음)
+        - Amazon Aurora 확장하려면 가동 중지 시간이 필요
+        - Amazon RDS 확장하려면 가동 중지 시간이 필요
+        - Amazon Athena는 데이터 레이크에서 데이터를 쿼리하는 데 사용
+
+25. DynamoDB 퍼블릭 엔드포인트의 사용은 피해야 합니다. 테이블에 대한 액세스를 활성화하는 가장 효율적이고 안전한 방법
+    - GateWay Endpoint는 S3, DynamoDB 이며, Interface Endpoint는 API Gateway, CloudWatch, CloudFormation
+    - VPC 엔드포인트를 사용하면, VPC를 지원되는 AWS 서비스 및 AWS PrivateLink에서 제공하는 VPC 엔드포인트 서비스에 비공개로 연결할 수 있습니다.
+    - 게이트웨이 엔드포인트를 사용하여 엔드포인트를 가리키도록 라우팅 테이블을 구성합니다. Amazon S3 및 DynamoDB는 게이트웨이 엔드포인트를 사용합니다.
+
+26. Solutions Architect는 액세스 키의 수명을 확인하고 정의된 최대 수명을 초과하는 키를 제거하는 자동화된 솔루션을 만들어야 합니다.
+    - AWS Config, AWS EventBridge, AWS Lambda
+        - EventBridge를 사용하여 AWS Config 이벤트의 상태 변경을 감지하고 이에 대응할 수 있습니다.
+
+27. EBS 볼륨 유형 (크기가 500GiB이고 20,000IOPS를 지원해야 하는 단일 볼륨)
+    - SSD, 범용 – gp2
+        - 볼륨 크기 1GiB – 16TiB.
+        - 최대 IOPS/볼륨 16,000.
+        - GB당 3IOPS를 제공
+    - SSD, 프로비저닝된 IOPS – i01
+        - 볼륨 크기 4GiB – 16TiB.
+        - 최대 IOPS/볼륨 64,000.
+        - GiB당 최대 50IOPS
+
+29. SSO(Single Sign-On)를 제공하기 위한 솔루션을 설계, AWS 관리 콘솔에 대한 액세스 권한도 필요
+    - AWS Security Token Service(STS)는 IAM 사용자 또는 인증하는 사용자(예: 온프레미스 디렉터리의 연동 사용자)에 대한 임시 자격 증명을 요청할 수 있는 웹 서비스
+    - 페더레이션(일반적으로 Active Directory)은 인증에 SAML 2.0을 사용하고 사용자 AD 자격 증명을 기반으로 임시 액세스 권한을 부여
+        - 사용자가 IAM의 사용자일 필요는 없습니다.
+
+30. Amazon S3에 Amazon EBS 볼륨의 백업을 저장하려고 합니다. 이것을 달성하는 가장 쉬운 방법
+    - 볼륨의 스냅샷 생성
+        -  Amazon EBS 볼륨의 스냅샷은 기본적으로 S3에 저장되므로 스냅샷만 찍으면 자동으로 Amazon S3에 저장
+        - Amazon Data Lifecycle Manager(Amazon DLM)를 사용하여 스냅샷 생성, 보존 및 삭제를 자동화
+
+31. 동일한 지역 - 3개의 Amazon VPC - AWS Direct Connect - 공유
+    - 동일한 지역에 있는 VPC의 경우 VPG가 필요하지 않습니다. 대신 전송 게이트웨이를 구성할 수 있습니다.
+    - Direct Connect 게이트웨이에 대한 경로 항목을 각 VPC에 추가하고 라우팅을 활성화할 수 없습니다.
+
+32. 민감한 문서가 손상되더라도 읽을 수 없도록 하는 AWS 기능
+    - AWS S3 서버측 암호화, EBS Encription(KMS OR Customer key)
+
+33. 
+    - 내결함성이 I/O 성능보다 더 중요한 경우 추가 중복성을 위해 데이터의 미러를 생성하는 RAID 1 어레이를 사용해야 합니다.
+        - RAID 0은 스트라이핑에 사용되어 성능은 향상되지만 중복성은 아닙니다.
+        - 클러스터 배치 그룹에 단일 인스턴스를 배포하여 이점을 얻을 수는 없습니다.
+
+37. AWS Direct Connect 연결에 탄력성을 추가하기 위해 저렴한 단기 옵션을 선택
+    - Direct Connect 연결과 IPSec VPN이 모두 활성화되고 BGP(Border Gateway Protocol)를 사용하여 보급
+
+38. Amazon RDS MySQL 데이터베이스를 사용, 모든 기존 데이터와 새 데이터를 어떻게 암호화할 수 있습니까?
+    - 스냅샷을 만든다. 암호화된 복사본을 만든다. 해당 복사본으로 RDS 인스턴스를 생성한다.
+    - RDS 데이터베이스를 배포한 후에는 암호화 상태를 변경할 수 없다
+
+39. Solutions Architect는 ELB에 대한 연결에 대한 요청자, IP 및 요청 유형에 대한 정보를 기록, 로그를 수집하고 분석하는 데 사용할 수 있는 AWS 서비스 및 구성 옵션?
+    - EMR(Elastic MapReduce)을 사용하여 로그파일 분석
+        - 방대한 양의 데이터를 쉽고 비용 효율적으로 처리할 수 있도록 하는 웹 서비스
+        - EMR(Elastic MapReduce)은 Amazon EC2 및 Amazon S3에서 실행되는 호스팅된 Hadoop 프레임워크를 활용
+    - ELB에서 엑세스 로그 활성화 및 S3에 로그파일 저장
+        - ELB의 액세스 로그는 기본적으로 비활성화
+        - 로그는 선택적으로 S3에 저장 및 유지될 수 있습니다.
+    - Elastic Transcoder는 파일을 분석하지 않고 미디어 파일 형식을 변환하는 데 사용됩니다.
+
+40. 웹 애플리케이션은 정적 및 동적 콘텐츠를 호스팅, 데이터베이스 계층은 Amazon Aurora 데이터베이스에서 실행. 요청 속도의 주기적인 증가에 대해 애플리케이션의 탄력성
+    - Aurora 복제본은 기본 데이터베이스 인스턴스의 로드를 줄이는 읽기 요청을 처리하는 데 도움이 됩니다.
+
+
+41. Amazon EC2 인스턴스 집합에서 실행되며 Amazon EFS에서 호스팅되는 공유 파일 시스템을 사용 애플리케이션의 스토리지 비용을 최적화. 파일은 생성 후 처음 며칠 동안만 액세스되지만 보관
+    - EFS Infrequent Access(IA) 스토리지 클래스로 이동
+        - Storage Gateway는 온프레미스 시스템의 클라우드 스토리지를 사용하는 데 사용됩니다. EFS에서 데이터를 전환하는 데 사용되지 않습니다.
+        - 파일을 Amazon S3로 전환하는 수명 주기 정책을 EFS에서 생성할 수 없습니다.
+
+46. 솔루션 아키텍트는 IAM과 프로그래밍 방식으로 작업해야 합니다.
+        - Query API
+        - 액세스 키 ID 및 보안 액세스 키
+        - AWS SDK - 프로그래밍 방식
+
+49. Amazon EC2 인스턴스는 Prod2 계정에서 실행됩니다. Prod2 계정의 EC2 인스턴스는 RDS 데이터베이스에 액세스
+    - AWS Resource Access Manager(AWS RAM) 서비스를 사용해서 서로 다른 계정 간의 VPC 공유
+        - 다른 계정에서 RDS 데이터베이스의 리전 간 복제본을 생성할 수 없습니다.
+
+50. Systems Manager Parameter Store는 구성 데이터 관리 및 비밀 관리를 위한 안전한 계층적 스토리지를 제공
+    - AWS Lambda를 포함한 서비스에서 파라미터를 쉽게 참조할 수 있습니다.
+        - IAM 정책에 자격 증명을 저장할 수 없습니다.
+        - KMS에 자격 증명을 저장할 수 없으며 암호화 키 생성 및 관리에 사용됩니다.
 
 Amazon Athena는 표준 SQL을 사용하여 Amazon S3의 데이터를 쉽게 분석할 수 있는 대화형 쿼리 서비스입니다. 
 Athena는 서버리스이므로 설정하거나 관리할 인프라가 없으며 
@@ -455,6 +554,10 @@ Amazon Time Sync Service에 대해 169.254.169.123을 오가는 트래픽.
 DHCP 트래픽.
 기본 VPC 라우터에 대해 예약된 IP 주소에 대한 트래픽입니다.
 ```
+
+#### [amazon-emr](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/analytics/amazon-emr/)
+> Amazon Elastic Mapreduce
+
 #### [aws-auto-scaling](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/aws-auto-scaling/)
 ```
 WHAT : 인스턴스에 대한 수평적 확장
@@ -569,6 +672,7 @@ X-forwarded-for는 L7에만 적용됩니다.
 사용자 지정 보안 정책을 선택할 때 암호 및 프로토콜을 선택할 수 있습니다(CLB에만 해당).
 ```
 #### [amazon-s3](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/storage/amazon-s3/)
+- [example-bucket-policies](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies.html)
 ```
 Amazon S3
 매우 낮은 비용으로 내구성, 고가용성, 무한 확장성 데이터 스토리지 인프라를 제공하는 간단한 스토리지 서비스
@@ -826,6 +930,7 @@ Amazon EC2 인스턴스에서 데이터에 대규모 병렬 액세스를 허용�
 매월 사용하는 파일 시스템 스토리지 양에 대해서만 비용을 지불하면 됩니다.
 ```
 #### [aws-storage-gateway](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/storage/aws-storage-gateway/)
+
 ```
 AWS Storage Gateway 서비스는 온프레미스 환경과 AWS 클라우드 간의 하이브리드 스토리지를 지원합니다.
 - 안전하고 지속적으로 저장
@@ -1021,6 +1126,16 @@ AWS Server Migration Service(SMS)
 - 요청 수. 처음 100만 개는 무료이고 100만 개당 0.20달러입니다.
 - 지속. 코드가 실행을 시작한 시간부터 반환되거나 종료될 때까지 계산됩니다. 함수에 할당된 메모리 양에 따라 다릅니다.
 
+#### [amazon-ecs](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/compute/amazon-ecs/)
+
+#### [amazon-config](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/management-tools/aws-config/)
+- AWS Config CI를 사용하여 "내 AWS 리소스는 어떻게 생겼습니까?"
+- AWS CloudTrail을 사용하여 "누가 이 리소스를 수정하기 위해 API를 호출했습니까?"
+- 구성 규칙의 예: .
+    - RDS에서 백업이 활성화되어 있습니까?
+    - AWS 계정에서 CloudTrail이 활성화되어 있습니까?
+    - EBS 볼륨이 암호화되어 있습니까?
+
 #### [amazon-kinesis](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/analytics/amazon-kinesis/)
 > Amazon Kinesis : 실시간 스트리밍 데이터를 쉽게 수집, 처리 및 분석할 수 있으므로 적시에 통찰력을 얻고 새로운 정보에 빠르게 대응
 
@@ -1194,6 +1309,25 @@ AWS Security Token Service(STS)는 IAM 사용자 또는 인증하는 사용자(�
 
 
 ### [aws-route53](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/networking-and-content-delivery/amazon-route-53/)
+
+- Amazon Route 53은 현재 다음 DNS 레코드 유형을 지원합니다.
+    - A(주소 기록).
+    - AAAA(IPv6 주소 레코드).
+    - CNAME(표준 이름 레코드).
+    - CAA(인증 기관 권한 부여).
+    - MX(메일 교환 기록).
+    - NAPTR(이름 권한 포인터 레코드).
+    - NS(네임 서버 레코드).
+    - PTR(포인터 레코드).
+    - SOA(권한 레코드의 시작).
+    - SPF(발신자 정책 프레임워크).
+    - SRV(서비스 로케이터).
+    - TXT(텍스트 레코드).
+    - 별칭(Amazon Route 53 관련 가상 레코드)
+
+- Route 53은 NS 레코드를 제외한 모든 레코드 유형에 대한 와일드카드 항목을 지원합니다.
+
+### [aws-dynamodb](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/database/amazon-dynamodb/)
 
 
 
