@@ -1184,6 +1184,12 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
   # healthcheck - 200, 4xx, 5xx
   curl --write-out %{http_code} --silent --output /dev/null -L ${website}
   
+  # 인코딩이 깨질경우 (euc-kr, utf-8)
+  | iconv -f euc-kr -t utf-8
+  
+  # 인코딩이 그래도 깨진다면
+  | iconv -l
+  
   # 쿠키를 파일로 저장
   curl -v -I  -c cookiejar.txt https://www.example.com
   # 파일 또는 문자열에서 쿠키 읽기
