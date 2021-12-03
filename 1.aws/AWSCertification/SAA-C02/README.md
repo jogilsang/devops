@@ -507,29 +507,55 @@ Amazon Macie"가 올바르지 않습니다. Macie는 Amazon S3에 있는 민감�
 - Amazon Redshift는 복잡한 쿼리의 성능을 향상시키기 위해 컬럼 스토리지를 사용합니다.
 - AWS Batch는 EC2 인스턴스 집합에서 배치 컴퓨팅 작업을 실행하는 데 사용
 - S3 select는 분석 쿼리를 실행하지 않고 단순히 검색할 개체에서 데이터를 선택합니다.
-
-Amazon Athena는 표준 SQL을 사용하여 Amazon S3의 데이터를 쉽게 분석할 수 있는 대화형 쿼리 서비스입니다. 
-Athena는 서버리스이므로 설정하거나 관리할 인프라가 없으며 
-즉시 데이터 분석을 시작할 수 있습니다. 
-Amazon Athena는 빠른 임시 쿼리에 이상적이지만 대규모 조인, 
-창 함수 및 배열을 비롯한 복잡한 분석도 처리할 수 있습니다.
-Athena는 Amazon S3에서 데이터를 쿼리하는 가장 빠른 방법이며 
-완전한 서버리스 솔루션이므로 운영 오버헤드가 가장 낮습니다.
-
- * ENI (Elastic Network Interface) : 탄력적 네트워크 인터페이스
- * AWS Organization - OU
- * SCP ???
- * AWS Fargate
- * Amazon Elastic Contatiner Service(ECS)
- * S3 Standard-Infrequent Access (S3 Standard - IA)
- * S3 One-Zone-Infrequent Access (S3 One Zone - IA)
- * iscsi 프로토콜
- * NSF 프로토콜
- * Amazon Kinesis Firehose
- * Route 53 지연 기반 라우팅
- * Amazon S3 지능형 계층화
- * AWS Transit GateWayG5
- * 
+- ALB는 Google, Facebook 및 Amazon과 같은 OIDC(OpenID Connect) 호환 자격 증명 공급자의 인증을 지원합니다. 
+- Facebook, Google, Amazon 및 Apple과 같은 소셜 자격 증명 공급자(IdP)
+- Amazon API Gateway의경우 메서드별 조절 제한 구성을 사용하면, API를 사용하는 모든 고객에게 영향을 미칩니다.
+- Amazon API Gateway의경우 계정 수준 조절 제한 구성을 사용하면, 개인 고객에게는 적용되지 않습니다.
+- 정의된 시작 구성은 편집할 수 없습니다. 이 경우 새 AMI를 사용하는 새 시작 구성을 생성할 수 있으며 ASG에서 시작하는 모든 새 인스턴스는 새 AMI를 사용합니다.
+- 프라이빗 VPC 내부의 리소스에 액세스할 수 있도록 하려면 VPC 서브넷 ID 및 보안 그룹 ID를 포함하는 추가 VPC별 구성 정보를 제공해야 합니다.
+- Amazon SNS는 사용자는 SQS 표준 대기열을 끝점으로 지정할 수 있습니다.
+- memached 엔진은 여러 코어와 스레드, 대규모 노드를 지원합니다.
+- Redis 엔진은 다중 CPU 코어 또는 스레드를 지원하지 않습니다.
+- AWS Storage Gateway 파일 게이트웨이는 로컬 캐싱을 통해 Amazon S3의 데이터에 대한 SMB 또는 NFS 기반 액세스를 제공합니다.
+- 캐시 볼륨 모드의 AWS Storage Gateway 볼륨 게이트웨이는 파일 기반이 아닌 블록 기반 솔루션이므로 SMB 또는 NFS 프로토콜로 스토리지를 탑재할 수 없습니다.
+- VPN을 통해 EFS를 탑재할 수 있지만 데이터의 로컬 캐시를 제공하지 않습니다.
+- DynamoDB 액셀러레이터는 읽기를 캐싱하고 매우 짧은 지연 시간으로 전달하기 위한 최고의 솔루션입니다.
+- "Amazon DynamoDB 쓰기 용량 단위 수 늘리기"가 올바르지 않습니다. 쓰기 용량 단위가 쓰기 성능에 영향을 미치므로 읽기 성능이 향상되지 않습니다.
+- 중복 메시지가 대기열에 포함될 수 없다는 것입니다. 이러한 이유만으로도 FIFO 대기열을 사용해야 합니다. FIFO 대기열은 정확히 한 번 처리를 제공합니다.
+- 표준 대기열은 중복 항목이 대기열에 도입되지 않는다는 것을 보장하지 않습니다. 표준 대기열은 메시지 순서를 유지하려는 느슨한 FIFO 기능을 제공합니다. 각 메시지가 한 번 이상 배달됩니다.
+- ElastiCache는 인터넷 연결 웹 프런트 엔드로 사용할 수 없습니다.
+- 단일 EC2 인스턴스 앞에 ELB를 배치하는 것은 로드를 줄이는 데 도움이 되지 않습니다.
+- RTMP CloudFront 배포의 경우 파일을 S3 버킷에 저장해야 합니다.
+- 기본 CMK 키를 사용하여 생성된 암호화된 볼륨은 공유할 수 없으며 볼륨 암호화에 사용되는 CMK 키를 변경할 수 없습니다.
+- 핵심 요구 사항은 애플리케이션에 도달하는 초당 요청 수를 제한하는 것입니다. 조절을 사용하면 API에 대한 요청 수를 조절할 수 있으므로 애플리케이션 서버로 전달되는 트래픽이 줄어듭니다.
+- 전용 인스턴스는 호스트 하드웨어 수준에서 다른 AWS 계정에 속한 인스턴스와 물리적으로 격리됩니다. 전용 인스턴스는 자동 인스턴스 배치를 허용하며 청구는 인스턴스별로 이루어집니다. 전용 호스트란?
+- QL Server 엔진에 대한 다중 AZ 배포는 동기식 논리적 복제(SQL Server 기본 미러링 기술)를 사용합니다.
+- 비동기 복제는 읽기 전용 복제본에 대해 RDS에서 사용됩니다.
+- 예약 복제는 RDS에서 지원하는 복제 유형이 아닙니다.
+- Route 53이 별칭 레코드에 대한 DNS 쿼리를 수신하면 Route 53은 해당 리소스에 적용 가능한 값으로 응답합니다.
+    - Amazon API Gateway 사용자 지정 리전 API 또는 엣지 최적화 API – Route 53은 API에 대한 하나 이상의 IP 주소로 응답합니다.
+    - Amazon VPC 인터페이스 엔드포인트 – Route 53은 인터페이스 엔드포인트에 대한 하나 이상의 IP 주소로 응답합니다.
+    - CloudFront 배포 – Route 53은 콘텐츠를 제공할 수 있는 CloudFront 엣지 서버에 대해 하나 이상의 IP 주소로 응답합니다.
+    - Elastic Beanstalk 환경 – Route 53은 환경에 대한 하나 이상의 IP 주소로 응답합니다.
+    - ELB 로드 밸런서 – Route 53은 로드 밸런서에 대한 하나 이상의 IP 주소로 응답합니다.
+    - AWS Global Accelerator 액셀러레이터 – Route 53은 액셀러레이터 에 대한 두 개의 IP 주소 중 하나로 응답합니다.
+    - 정적 웹 사이트로 구성된 Amazon S3 버킷 – Route 53은 Amazon S3 버킷에 대한 하나의 IP 주소로 응답합니다.
+    - 동일한 호스팅 영역의 다른 Route 53 레코드 – Route 53은 쿼리가 별칭 레코드에서 참조하는 레코드에 대한 것처럼 응답합니다.
+- "Redis AUTH 명령 실행"이 올바르지 않습니다. 암호를 사용하여 데이터베이스에 액세스할 때 사용합니다.
+- 솔루션 설계자는 기본 리소스를 완전히 제어하면서 애플리케이션을 쉽게 배포할 수 있는 방법을 찾고 있습니다.
+    - PaaS(Platform as a Service) 솔루션 : AWS Elastic Beanstalk
+- URI를 통해 또는 인스턴스 메타데이터 쿼리 도구를 사용하여 인스턴스 메타데이터에 액세스할 수 있습니다.
+- Amazon ElastiCache는 데이터베이스용 인메모리 캐싱 솔루션입니다.
+- IAM 그룹은 IAM 사용자 모음입니다. 그룹을 사용하면 여러 사용자에 대한 권한을 지정할 수 있으므로 해당 사용자의 권한을 더 쉽게 관리할 수 있습니다. 다음 사실이 IAM 그룹에 적용됩니다.
+    - 그룹은 사용자 모음이며 정책이 연결되어 있습니다.
+    - 그룹은 자격 증명이 아니며 IAM 정책에서 보안 주체로 식별될 수 없습니다.
+    - 그룹을 사용하여 사용자에게 권한을 할당합니다.
+    - IAM 그룹은 EC2 인스턴스를 그룹화하는 데 사용할 수 없습니다.
+    - 사용자와 서비스만 권한을 맡을 역할을 맡을 수 있습니다(그룹 아님).
+- AWS 계정의 모든 사용자를 자동으로 포함하는 기본 사용자 그룹은 없습니다. 이와 같은 사용자 그룹을 갖고 싶다면 해당 그룹을 생성하고 각각의 새 사용자를 할당해야 합니다.
+- AWS 계정에 있는 IAM 리소스의 수와 크기는 제한되어 있습니다. 
+- 프라이빗 서브넷의 인스턴스에는 탄력적 IP 주소를 사용할 수 없습니다.
+- VPG는 VPN 연결의 일부로 사용됩니다(연결의 AWS 측). 인터넷 액세스를 활성화하는 데 사용되지 않습니다.
 
 ## Word
 ### public
@@ -1365,8 +1391,9 @@ AWS Organizations는 모든 AWS 고객이 추가 비용 없이 사용할 수 있
 AWS CLI 명령 또는 AWS SDK 프로그래밍 언어에서 Resource Groups API를 사용가능
 
 #### [aws-iam](https://digitalcloud.training/certification-training/aws-solutions-architect-associate/security-identity-compliance/aws-iam/)
+> [IAM 사용자](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html)
 
-> aws-iam
+> [IAM 사용자 그룹](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups.html)
 
 - IAM은 AWS 리소스에 대한 개인 및 그룹 액세스를 안전하게 제어하는 ​​데 사용
 
