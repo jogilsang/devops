@@ -23,6 +23,7 @@
   - [복합조건](#복합조건) 
 - [WHO](#who)
 - [UPTIME](#uptime)
+- [LOG](#log)
 - [CRONTAB](#crontab)
 - [CHMOD](#chmod)
 - [Chown](#chown)
@@ -460,9 +461,26 @@ $ ls -l /usr/share/vim/vim*/colors/
   [ec2-user@ip-172-31-36-232 ~]$ uptime -p
   up 1 minute
   ```
+### log
+  `/var/log 경로에 있는 로그파일들`
+  ```bash
+  # /var/log/dmesg : 부팅 시의 시스템 로그가 기록(dmesg)
+  # /var/log/wtmp : 최근의 접속 사항이 기록되는 파일(last 명령어)
+  # /var/log/lastlog : 각 사용자의 마지막 로그인 내용(lastlog)
+  # /var/log/httpd/access_logApache : Apache 서비스 데몬의 로그 파일
+  # /var/log/httpd/error_log : Apache 서비스의 error 로그파일
+  
+  # 1. 시스템에 문제가 생겼을 때 가장 먼저 찾아보는 로그 파일
+  sudo tail /var/logs/messages
+
+  # 61.74.251.71의 IP를 가지고, 오늘 접속한 기록 최대 10개 출력
+  # secure는 사용자 접속 정보가 기록되는 파일
+  sudo cat secure | grep 61.74.251.71 | head -11
+  ```
+
 ### crontab
   `example`
-  ```
+  ```bash
   # 매일 1시에 log 로 끝나는 파일을 찾아서 find.log 파일로 저장
   0 1 * * *
 
