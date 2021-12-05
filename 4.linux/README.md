@@ -28,9 +28,12 @@
 - [Chown](#chown)
 - [PARAM](#param)
 - [WC](#wc)
+- [LS,LL](#ls,ll)
 - [FILE](#file)
 - [Tar](#tar)
 - [CUT](#cut)
+- [HEAD](#head)
+- [TAIL](#tail)
 - [FIND](#find)
 - [GREP](#grep)
 - [PGREP](#pgrep)
@@ -556,6 +559,31 @@ $ ls -l /usr/share/vim/vim*/colors/
   24568 Apache_2k.log
   ```
   
+### ls,ll
+  `디렉토리의 파일리스트 출력`
+  `example`
+  ```bash
+  # ll -> alias | grep ll
+  # -a : 숨겨진 파일표시
+  
+  # 가장 용량이 큰 파일 10개를 사람이 읽을 수 있도록 출력
+  ll -SS -h | head -11
+
+  # 가장 용량이 작은 파일 10개를 사람이 읽을 수 있도록 출력
+  ll -SSr -h | head -11
+  
+  # 가장 용량이 작은 파일 10개를 사이즈가 0인것을 제외하고, 사람이 읽을 수 있도록 출력
+  ll -SSr -h | grep -v "0\s" | head -11
+
+  # 가장 최근 파일부터 (내림차순)
+  ll -t # ls -lat
+
+  # 가장 오래된 파일부터 (오름차순)
+  ll -tr # ls -latr
+
+
+  ```
+
 ### file
   `파일의 타입을 확인한다`
   `example`
@@ -613,6 +641,12 @@ $ ls -l /usr/share/vim/vim*/colors/
   echo "hello,world" | cut -d "," -f 2
   world
   ```
+### head
+  `상위 몇개까지 보일 수 있는지 적용`
+  `example`
+
+### tail
+
 ### find
   `디렉토리 상에 있는 파일을 찾는다.`
   `example`
