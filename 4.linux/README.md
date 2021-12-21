@@ -1236,6 +1236,9 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
   # healthcheck - 200, 4xx, 5xx
   curl --write-out %{http_code} --silent --output /dev/null -L ${website}
   
+  # 공인IP, public IP 알아보기
+  curl http://ipecho.net/plain
+  
   # 인코딩이 깨질경우 (euc-kr, utf-8)
   | iconv -f euc-kr -t utf-8
   
