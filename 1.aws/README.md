@@ -2,6 +2,8 @@
 Amazon Web Service for me.
 
 ### Reference
+#### 커뮤니티
+- [AWS Certified Global Community](https://aws-certification.influitive.com/forum/)
 #### 기본
 - [AWS 프리티어 설명서](https://aws.amazon.com/ko/free/)
 - [AWS 10분 자습서](https://aws.amazon.com/ko/getting-started/tutorials/?pg=ln&p=s3)
