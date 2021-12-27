@@ -664,6 +664,32 @@ $ ls -l /usr/share/vim/vim*/colors/
   `example`
 
 ### tail
+  `파일의 마지막행을 기준으로 지정한 행까지 파일내용을 출력하는 명령어`
+  ```bash
+  # scripts
+  #!/bin/sh
+
+  # 감시 대상 로그 파일명 설정
+
+  logfile="/var/log/apache2/access.log"
+
+  # tail 로그명령어로 로그 감시
+  # * -F 실시간 감시
+  # * -n 추가분만 표시
+
+  tail -F -n 0 "$logfile" |\
+    while read line
+    do
+      case "$line" in
+        *"200"*)
+                echo "성공 :  $line"
+                ;;
+                    *"Application Error"*)
+                    echo "!경고! 애플리케이션 이상 : $line"
+                ;;	
+      esac
+    done
+  ```
 
 ### find
   `디렉토리 상에 있는 파일을 찾는다.`
