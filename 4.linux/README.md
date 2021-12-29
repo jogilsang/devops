@@ -167,6 +167,7 @@ V - 비주얼 라인
 
 :q! - 강제종료 (저장X)
 :wq! - 강제종료 (저장)
+:%s/foo/bar/c - foo를 bar로 replace 한다
 :set nu - 라인별로 number 표기
 :set nonu - 라인별로 number 미표기
 :e! - w 이후 작업 다 지우기
