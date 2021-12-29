@@ -7,7 +7,7 @@
 
 ---
 
-### cloudtrail
+### cloudtrailg
 - doc
     - https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-log-file-validation-cli.html
     - https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-receive-logs-from-multiple-accounts.html

@@ -32,11 +32,13 @@
 - [LS,LL](#ls,ll)
 - [FILE](#file)
 - [Tar](#tar)
+- [TOUCH](#touch)
 - [CUT](#cut)
 - [HEAD](#head)
 - [TAIL](#tail)
 - [FIND](#find)
 - [GREP](#grep)
+- [MKDIR](#mkdir)
 - [PGREP](#pgrep)
 - [LYNX](#lynx)
 - [DATE,TIMEZONE](#date,timezon)
@@ -615,6 +617,13 @@ $ ls -l /usr/share/vim/vim*/colors/
   scp:     directory
   scripts: directory
   ```
+### touch
+  `파일을 생성한다`
+  `example`
+  ```bash
+  # test파일을 생성한다.
+  sudo touch test
+  ```
 ### tar
   `Tape ARchiver의 줄임말. 여러개 파일을 compress하거나 extract할 떄 사용` 
   `example`
@@ -700,6 +709,13 @@ $ ls -l /usr/share/vim/vim*/colors/
 
   # 현재 디렉토리의 모든 파일중 최근 24시간 안에 변경된 파일들
   sudo find . -mtime 1 -type f -print
+  ```
+### mkdir
+  `특정경로의 폴더를 생성한다`
+  `example`
+  ```bash
+  # 상위경로까지 생성한다.
+  mkdir -p
   ```
 ### grep
   `특정 문자열이나 정규식을 포함하고 있는 행이나 파일을 검색하는 명령어`
