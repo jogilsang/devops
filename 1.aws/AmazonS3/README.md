@@ -7,6 +7,7 @@ Attach existing policies directly - AdministratorAccess
 
 ## INDEX
 ### - [Install](#%20-%20Install)
+### - [사용자 추가](#%20-사용자%20추가)
 ### - [dir](%20-%20dir)
 ### - [Upload](%20-%20Upload)
 ### - [Download](%20-%20Download)
@@ -29,6 +30,11 @@ Default output format [None]: json (자습서참고)
 aws s3 mb s3://jogilsang-bucket-1.0
 ```
 
+### - 사용자 추가
+```
+aws configure --profile user
+```
+
 ### - dir
 ```
 // 버킷의 디렉토리
@@ -39,12 +45,16 @@ aws s3 ls s3://mybucket --human-readable --summarize
 ```
 // test.txt 파일 업로드
 aws s3 cp test.txt s3://jogilsang-bucket-1.0
+// credential 추가
+aws s3 cp test.txt s3://jogilsang-bucket-1.0 --profile user
 ```
 
 ### - Download
 ```
 // test.txt 파일 다운로드
 aws s3 cp s3://jogilsang-bucket-1.0/test.txt ./ 
+// credential 추가
+aws s3 cp s3://jogilsang-bucket-1.0/test.txt ./ --profile user
 ```
 
 ### - Upload Folder
