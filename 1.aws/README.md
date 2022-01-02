@@ -4,6 +4,7 @@ Amazon Web Service for me.
 ### Reference
 #### 커뮤니티
 - [AWS Certified Global Community](https://aws-certification.influitive.com/forum/)
+- [The Official AWS Podcast](https://aws.amazon.com/ko/podcasts/aws-podcast/?sc_icampaign=aware_aws-podcast&sc_ichannel=ha&sc_icontent=awssm-2021&sc_iplace=blog_tile&trk=ha_awssm-2021&podcast-list.sort-by=item.additionalFields.EpisodeNum&podcast-list.sort-order=desc&awsf.episode-type=*all&awsf.tech-category-filter=*all&awsf.product-filter=*all&awsf.industry-filter=*all)
 - [AWS Gear Store](https://www.sunriseidcart.com/AWS/default.aspx)
 #### 기본
 - [AWS 프리티어 설명서](https://aws.amazon.com/ko/free/)
