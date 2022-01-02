@@ -21,6 +21,7 @@ I'll show the pro when given the situation
 ---
 
 - ### reference
+  - [AWS-devops-blog](https://aws.amazon.com/ko/blogs/devops/)
   - [devops의 정의](https://www.atlassian.com/devops)
   - [애자일 선언문](https://ko.wikipedia.org/wiki/%EC%95%A0%EC%9E%90%EC%9D%BC_%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4_%EA%B0%9C%EB%B0%9C#%EC%95%A0%EC%9E%90%EC%9D%BC_%EC%84%A0%EC%96%B8%EB%AC%B8)
   - [12 factors](https://12factor.net/ko/)
