@@ -2,11 +2,19 @@
 # DOP-C01
 
 ## INDEX
-- [CloudTrail](#cloudtrail)
-- [CloudWatch](#cloudwatch)
-- [X-RAY](#x-ray)
-- [ELASTICSEARCH](#ElasticSearch)
-- [TAGGING](#tagging)
+- Section5 : Monitoring and Logging
+    - [CloudTrail](#cloudtrail)
+    - [CloudWatch](#cloudwatch)
+    - [X-RAY](#x-ray)
+    - [ELASTICSEARCH](#ElasticSearch)
+    - [TAGGING](#tagging)
+- Section6 : Policies and Standards Automation
+    - [AWS Systems Manager]
+    - [AWS Config]
+    - [AWS Inspector]
+    - [AWS Health]
+    - [AWS Trusted Advisor]
+    - [AWS Macie]
 
 ---
 
@@ -66,3 +74,74 @@
     - subscription filters
 - Tagging
     - https://aws.amazon.com/answers/account-management/aws-tagging-strategies/
+
+### ssm
+- how to use
+    - install a SSM agent
+- action
+    - Run command
+    - shutdown ec2
+    - create ami
+    - session and patch manager
+    - parameter store
+- cli
+    - `sudo systemctl status amazon-ssm-agent`
+- prefix
+    - hybrid instanse -> hi
+    - instatnce -> i
+
+- resourceGRoup
+    - tag based
+        - developmentEC2Group
+        - ProductEC2Group
+    - cloudFormation based
+- Run Command
+    - Documents type :
+        - Command
+            - AWS-UpdateSSMAgent
+            - AWS-RunShellScript
+                - target과 persentage 두 가지 선택가능
+                - error threshold를 위한 개수설정 가능
+                - aws cli 코드얻을 수 있음
+                - linux, window 두개 혹은 개별적용 가능
+        - Automation
+        - Policy
+        - Session
+- Parameter Store
+    - Parameter details
+        - Type : SecureString
+        - KMS key source
+    - `aws ssm get-parameters`
+        - path와 --recursive 옵션으로 모두 가져올 수 있음
+        - --with-decryption 으로 복호화
+        - --names로 값 가져올 수 있음
+- Patch Manager
+- Inventory
+- Automation
+    - feature
+        - createImage
+        - stopInstance
+    - aws-update-api
+        - cloudFormation
+            - stack
+                - AutomationServiceRole
+                - MangedInstanceProfile -> use
+                - ManagedInstnaceRole
+    - ami-hardning-process
+    - session manager
+        - instance 접속 history 확인 및 기록하도록 설정가능
+
+### config
+    - s3 에 저장가능
+    - json 형태로 저장가능
+    - 하나당 1달러 비용듬
+    - 전체 리소스가 다보임
+    - Resource Compliance status
+    - Aggregators
+        - multi account
+        - Authorization
+
+---
+
+### Refernece
+    - aws-demos
