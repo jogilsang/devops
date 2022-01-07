@@ -15,3 +15,7 @@ Amazon Web Service for me.
 
 #### 심화 및 실무적용
 - [AWS Bastion Host에서 SSH 세션의 기록을 남기는 법 (How to Record SSH Sessions Established Through a Bastion Host)](https://aws.amazon.com/ko/blogs/security/how-to-record-ssh-sessions-established-through-a-bastion-host/)
+
+#### 사용사례 및 사용수준
+![image](https://user-images.githubusercontent.com/20831981/148506377-f687aa56-d11e-4657-ab99-d1c2e490a697.png)   
+![image](https://user-images.githubusercontent.com/20831981/148506397-4f0786be-cb26-4ce7-bc90-40e9e6e59ebb.png)
