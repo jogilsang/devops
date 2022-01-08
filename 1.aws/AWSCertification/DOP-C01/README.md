@@ -16,7 +16,43 @@
     - [AWS Trusted Advisor]
     - [AWS Macie]
 
+- AWS 공인 DevOps 엔지니어 전문 실습 시험
+    - [TEST1](#test1)
+   
+
 ---
+
+### Stack for CICD
+- Code (AWS CodeCommit)
+- Build / Test (AWS CodeBuild)
+- Deploy (AWS CodeDeploy)
+- Provision (AWS CloudFormation)
+
+### jenkins
+> hands-on : https://aws.amazon.com/ko/getting-started/hands-on/setup-jenkins-build-server/)
+- Jenkins with CodePipeline
+- Jenkins with ECS
+- Jenkins with Device Farm
+- Jenkins with AWS Lambda
+
+### CloudFormation
+- AWS 및 서드파티 리소스를 프로비저닝 및 관리할 수 있는 코드형 인프라(IAC) 서비스
+- Declarative programming (no need to figure out ordering and orchestration)
+- Deleting a stack deletes every single artifact that was created by
+CloudFormation.
+- HOW TO CREATE TEMPLATE
+    - Editing templates in the CloudFormation Designer
+    - Editing templates in a YAML file
+- Templates components (one course section for each):
+    1. Resources: your AWS resources declared in the template (MANDATORY)
+    2. Parameters: the dynamic inputs for your template
+    3. Mappings: the static variables for your template
+    4. Outputs: References to what has been created
+    5. Conditionals: List of conditions to perform resource creation
+    6. Metadata
+
+### codepipeline
+- Code / Build / Test / Deploy / Provision 등의 Stage로 구성된 workflow를 Orchestrate해주는 Continuos Delivery 서비스이다. 각각의 Stage는 sequential 할수도있고, parallel 할 수 있다.
 
 ### cloudtrail
 - doc
@@ -140,6 +176,19 @@
     - Aggregators
         - multi account
         - Authorization
+
+### 서비스 카탈로그
+    - 클라우드포메이션 템플릿과 연관
+    - 포트폴리오란 용어
+
+---
+
+### test1
+
+- 파이프라인 모범사례
+    - https://docs.aws.amazon.com/codepipeline/latest/userguide/best-practices.html
+- 파이프라인 모니터링
+    - https://docs.aws.amazon.com/codepipeline/latest/userguide/detect-state-changes-cloudwatch-events.html
 
 ---
 
