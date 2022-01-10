@@ -2,13 +2,16 @@
 # DOP-C01
 
 ## INDEX
-- [CODECOMMIT](#codecommit)
 - [AWS OPSWORKS STACKS](#aws%20opsworks%20stacks)
-- [ELASTICBEANSTALK](#ElasticBeanstalk)
-- [JENKINS](#jenkins)
-- [CLOUDFORMATION](#CloudFormation)
-- [CODEPIPELINE](#codepipeline)
-- [OPSWORK](#opswork)
+- Section3 : SDLC Automation
+    - [CODECOMMIT](#codecommit)
+    - [CODEPIPELINE](#codepipeline)
+    - [JENKINS](#jenkins)
+- Section4 : Configuration Management and IaaS
+    - [CLOUDFORMATION](#CloudFormation)
+    - [ELASTICBEANSTALK](#ElasticBeanstalk)
+    - [OPSWORK](#opswork)
+    - [ECS](#ecs)
 - Section5 : Monitoring and Logging
     - [CloudTrail](#cloudtrail)
     - [CloudWatch](#cloudwatch)
@@ -55,7 +58,7 @@ DynamoDB 테이블의 RCU 및 WCU 증가 는 올바르지 않습니다.
 
 > cheatsheet : https://tutorialsdojo.com/aws-elastic-beanstalk/?src=udemy
 
-> Choosing a deployment policy : https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.deploy-existing-version.html
+> (*) Choosing a deployment policy : https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.deploy-existing-version.html
 
 - deployment policy
     - All at once
@@ -68,6 +71,54 @@ DynamoDB 테이블의 RCU 및 WCU 증가 는 올바르지 않습니다.
     - Immutuble
         - 새로운 v2의 tempASG를 만든 뒤, v1의 기존 ASG에 합치고 v1의 인스턴스를 삭제한다
         - Additional high cost
+- EB CLI
+     - eb : 모든 명령어
+        - 1) create project
+            ```
+            mkdir HelloWorld
+            cd HelloWorld
+            eb init --profile aws-devops
+            - select a default region
+            - Enter a Application name
+            - Select a platform
+            - Select a platfrom version
+            .elasticbeanstalk/config.yml
+            eb create dev-env
+            ```
+    - eb status : status와 health 확인가능
+    - eb health --refresh : 10초마다 갱신
+    - eb logs : access_log 등
+    - eb deploy : zip to s3
+    - eb terminate 
+- Saved Configurations
+    - > region을 옮겨도 import해서 사용가능
+        - eb config save dev-env --cfg initial-configuration
+            .elasticbeanstalk/savedConfig/initial-configuration.yml
+        - eb setenv ENABLE_COOL_NEW_FEATURE=true
+        - eb config save dev-env --cfg prod // 현재 currentEnv에 적용
+        - eb config put prod // AWS Console에 저장
+- .ebextenions for configs
+    - option_settings로 시작
+    - 해당 폴더에 config를 넣고, delpoy하면 config가 확장됨
+- .ebextenions for resource
+    - 특정이름을 지정하지않고, type을 지정하면 랜덤으로 지정
+    - {} = 싱글쿼트 + 백틱
+        ```
+        `value : { "Ref" : "NotificationTopic"}`
+        `value : '`{Ref" : "NotificationTopic}`'`
+        ```
+    - /opt/elasticbenastalk/bin/get-config environment | jq
+    - /opt/elasticbenastalk/bin/get-config optionsettings | jq
+    - /opt/elasticbenastalk/bin/get-config NOTIFICATION_TOPIC | jq
+- RDS in or out of environment
+    - dynamoDB 테이블은 신규생성해서, EB 콘솔에서 추가해야함
+    - config등에 추가해서 삭제되면 날라가기때문에 그런듯
+- .ebextenions for commands & container
+    - database_migration은 1대만 가능 (10대에서 진행된다면 이상)
+    leader_only : true
+- good features to know
+    - application level을 rollback할 수 있음
+    - managed updates를 on설정해서 minor를 주기적으로 자동할수있음
 
 ### jenkins
 > hands-on : https://aws.amazon.com/ko/getting-started/hands-on/setup-jenkins-build-server/)
