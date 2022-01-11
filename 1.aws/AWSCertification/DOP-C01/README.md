@@ -10,6 +10,7 @@
 - Section4 : Configuration Management and IaaS
     - [CLOUDFORMATION](#CloudFormation)
     - [ELASTICBEANSTALK](#ElasticBeanstalk)
+    - [LAMBDA](#lambda)
     - [OPSWORK](#opswork)
     - [ECS](#ecs)
 - Section5 : Monitoring and Logging
@@ -119,6 +120,25 @@ DynamoDB 테이블의 RCU 및 WCU 증가 는 올바르지 않습니다.
 - good features to know
     - application level을 rollback할 수 있음
     - managed updates를 on설정해서 minor를 주기적으로 자동할수있음
+- Rolling Updates Hands On
+    - immutable
+- Swap URL (BLUE/GREEN)
+    - Environments - Actions - Swap environment URLs - route53 CNAME Changes each ohter
+- Worker Environments
+    - do long running job
+        - workerQueue
+        - workerDeadLetterQueue
+    - cron.yaml
+- Multi Docker Integration
+    - Web server Environments
+        - Platfrom
+            - Docker
+            - Multi-container Docker
+                - dockerrun.aws.json
+        - aws ecs
+            - cluster
+    
+### lambda
 
 ### jenkins
 > hands-on : https://aws.amazon.com/ko/getting-started/hands-on/setup-jenkins-build-server/)
