@@ -139,9 +139,28 @@ DynamoDB 테이블의 RCU 및 WCU 증가 는 올바르지 않습니다.
             - cluster
     
 ### lambda
+    - Security, Environment Variables, KMS and SSM
+        - kms
+            - os.environ['key']
+        - ssm
+            - secureString
+        - secretManager
+    - Versions, Aliases and Canary Routing
+        - Versions Immutable
+        - Version = code + configuration
+        - $LATEST = Mutable
+    - SAM Framework
+        - SAM CLI
+        - sam init --runtime python3.7
+        - ./sam-app
+        - template.yaml
+        - sam build
+        - sam local invoke
+        - sam local start-api
+    - SAM and CodeDeploy
 
 ### jenkins
-> hands-on : https://aws.amazon.com/ko/getting-started/hands-on/setup-jenkins-build-server/)
+> hands-on : https://aws.amazon.com /ko/getting-started/hands-on/setup-jenkins-build-server/)
 - Stack for CICD
     1. Code (AWS CodeCommit)
     2. Build / Test (AWS CodeBuild)
