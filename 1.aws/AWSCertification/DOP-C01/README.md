@@ -1,5 +1,14 @@
 
 # DOP-C01
+> dop시험준비하기 : https://tutorialsdojo.com/aws-certified-devops-engineer-professional/?src=udemy
+
+> aws공식DOP무료학습 : https://explore.skillbuilder.aws/learn/course/external/view/elearning/74/exam-readiness-aws-certified-devops-engineer-professional
+
+> aws공식DOP문서 : https://aws.amazon.com/ko/certification/certified-devops-engineer-professional/
+
+> examtopics시험문제 : https://www.examtopics.com/exams/amazon/aws-devops-engineer-professional/view/
+
+---
 
 ## INDEX
 - [AWS OPSWORKS STACKS](#aws%20opsworks%20stacks)
@@ -461,6 +470,10 @@ CloudFormation.
     - Fargate : AWS Serverless
         - task 단위로 task 숫자를 늘림으로써 Scale이 됨
     - EKS : AWS Elastic K8s Service
+- Reference
+    - https://aws.amazon.com/premiumsupport/knowledge-center/ecs-agent-disconnected-linux2-ami/
+    - https://docs.aws.amazon.com/AmazonECS/latest/developerguide/update-service.html
+    - https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html
 
 ### kinesis
 - 정의 및 특징
@@ -500,6 +513,12 @@ CloudFormation.
 - https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.KCLAdapter.html
 - https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html
 
+### asg
+> cheatsheet : https://tutorialsdojo.com/aws-auto-scaling/?src=udemy
+
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/schedule_time.html   
+https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html   
+
 ---
 
 ### test1
@@ -517,7 +536,7 @@ CloudFormation.
 - 교차 리전 스냅샷을 사용하면 스냅샷을 완료하는 데 몇 시간이 걸릴 수 있기 때문에 가장 낮은 복구 시간과 가장 적은 데이터 손실을 제공하지 않기 때문에 잘못된 것입니다.
 - ELB는 Route53와 달리 다른 AWS 리전에 트래픽을 분산할 수 없다.
 - AWS Opsworks Stack의 경우, Linux 스택에서는 시간 기반 인스턴스와 로드 기반 인스턴스가 모두 지원되지만 Windows 스택에서는 시간 기반 인스턴스만 지원됩니다.
-- Packer와 같은 오픈 소스 머신 이미지 생성 도구가 있다.
+- Packer와 같은 오픈 소스 머신 이미지 생성 도구가 있다. ( like AWS Image Builder)
 - EBS 볼륨 스냅샷을 사용하여 기술적으로 AMI를 생성할 수 있지만, AWS Systems Manager Automation을 사용하여 AMI를 생성하는 것이 더 적합한 솔루션
 - AWS System Manager Automation은 사용자 지정 워크플로를 생성하거나 AWS에서 유지 관리하는 사전 정의된 워크플로를 사용합니다.
 - Amazon ECS를 사용하면 민감한 데이터를 AWS Secrets Manager 암호 또는 AWS Systems Manager Parameter Store 파라미터에 저장한 다음 컨테이너 정의에서 참조하여 민감한 데이터를 컨테이너에 주입할 수 있습니다.
