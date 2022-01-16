@@ -13,6 +13,7 @@
     - [LAMBDA](#lambda)
     - [OPSWORK](#opswork)
     - [ECS](#ecs)
+    - [KINESIS](#kinesis)
 - Section5 : Monitoring and Logging
     - [CloudTrail](#cloudtrail)
     - [CloudWatch](#cloudwatch)
@@ -26,6 +27,7 @@
     - [AWS Health]
     - [AWS Trusted Advisor]
     - [AWS Macie]
+    - [SCP](#(scp)
 - AWS 공인 DevOps 엔지니어 전문 실습 시험
     - [TEST1](#test1)
 - [용어정리](#용어정리)
@@ -132,7 +134,7 @@ DynamoDB 테이블의 RCU 및 WCU 증가 는 올바르지 않습니다.
 - Multi Docker Integration
     - Web server Environments
         - Platfrom
-            - Docker
+            - Single-container Docker
             - Multi-container Docker
                 - dockerrun.aws.json
         - aws ecs
@@ -158,6 +160,39 @@ DynamoDB 테이블의 RCU 및 WCU 증가 는 올바르지 않습니다.
         - sam local invoke
         - sam local start-api
     - SAM and CodeDeploy
+
+### stepfunction
+    - much better fit for orchestrating a different batch jobs
+    - lambda function timeout 가능
+    - JSON Doucumnet
+    - example
+        - execution failed - cloudwatch
+
+### APIGateWay
+    - API Name
+    - Endpoint Type
+        - private - VPC
+        - Reginal - Nomal
+    - Integration Type
+        - lambda function
+            - alias를 이용해서 weight기반으로 blue/green 테스트 가능
+            - lambda function에 : 를 추가해서 versioning 지정가능
+        - http
+        - mock
+        - aws service
+        - vpc link
+    - stages
+        - DEV
+        - PRD
+    - summary
+        ```
+        dev,prd,test 등의 stage를 생성할수있는 stages가 있고,
+        Deployment를 구성한다
+        각각의 stage는 config param이 별도고, history를 통해
+        rollback이 가능하다.
+        ```
+
+
 
 ### jenkins
 > hands-on : https://aws.amazon.com /ko/getting-started/hands-on/setup-jenkins-build-server/)
@@ -252,6 +287,17 @@ CloudFormation.
     - Invoke
 - runOrder조치 의 기본값 은 1입니다. 값은 양의 정수(자연수)여야 합니다. 분수, 소수, 음수 또는 0은 사용할 수 없습니다. 병렬 작업을 지정하려면 병렬로 실행하려는 각 작업에 대해 동일한 정수를 사용합니다.
 
+### log
+- Application logs
+- OS logs
+- access logs
+- AWS Managed logs
+    - ALB,CLB,NLB
+    - CloudFront
+    - S3
+    - CloudTrail
+    - Route53
+    - VPC Flow
 
 ### cloudtrail
 - doc
@@ -379,12 +425,69 @@ CloudFormation.
         - multi account
         - Authorization
 
+### scp
+> example : https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_examples.html
+
+- black list, white list
+- OU, Account level(not Master Account)
+- default : does not allow anything
+
+
 ### 서비스 카탈로그
     - 클라우드포메이션 템플릿과 연관
     - 포트폴리오란 용어
 
 ### ecs
 > cheatsheet : https://tutorialsdojo.com/amazon-elastic-container-service-amazon-ecs/
+- DockerFile
+    - build
+        - Docker image
+            - pull, push
+                - public
+                    - Docker hub (https://hub.docker.com)
+                - private
+                    - AWS ECR (Elastic Container Registry)
+                        - private Docker image repository
+                        - Access is controlled through IAM (permission errors => policy)
+            - run
+                - DockerContainer
+- Container Management
+    - ECS : AWS Elastic Container Service
+        - Cluster는 EC2의 논리적 집합
+        - EC2 별로 ECS agenet가 설치되어있고, 각각이 Docker Container 이다
+        - EC2의 AMI는 ECS에 최적화된 별도의 AMI다
+        - ECS의 metadata는 based JSON이다
+        - metadata에는 이미지정보, 호스트 및 컨테이너의 포트바인딩, IAM ROle 등이다.
+    - Fargate : AWS Serverless
+        - task 단위로 task 숫자를 늘림으로써 Scale이 됨
+    - EKS : AWS Elastic K8s Service
+
+### kinesis
+- 정의 및 특징
+    - like Apache kafka
+    - used logs, metrics, IoT, Click Stream, streaming processing frameworks, “real-time” big data
+    - Data is automatically replicated to 3 AZ
+
+- 종류
+    - Kinesis Streams
+        - 기본은 하루, 최대 일주일까지 데이터 보존이 가능하다.
+        - 키네시스에 데이터가 들어오면, 임의로 삭제할수 없기때문에 immutable 하다.
+        - 하나의 스트림을 여러 어플리케이션이 소비할 수 있다.
+        - 스트림은 샤드의 집합이다.
+        - 샤드는 시간이 지남에따라 합쳐지고, 재생성된다.
+        - Kinesis Stream Records
+            - Data Blob : 1mb 단위
+            - Record Key : 키가 같으면, 같은 샤드이다.
+            - Sequence Number
+        - 실시간
+    - Kinesis Analytics
+        - 실시간으로 stream데이터를 SQL로 분석
+    - Kinesis Firehose
+        - 서비스로 제공되며, 관리가 필요없음
+        - dst으로 s3,redshift,elasticSearch로 stream전송
+        - lambda를 이용해서 데이터 변환가능(csv -> json)
+        - 통과하는 만큼 비용지불
+        - 거의 실시간
 
 ### route53
 > cheatsheet : https://tutorialsdojo.com/amazon-route-53/
