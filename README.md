@@ -15,8 +15,21 @@ I'll show the pro when given the situation
 - [8.grafana_prometheus](https://github.com/jogilsang/devops/tree/master/8.grafana_prometheus)
 - [9.k8s](https://github.com/jogilsang/devops/tree/master/9.k8s)
 - [10.ansible](https://github.com/jogilsang/devops/tree/master/9.k8s)
+- [11.terraform](https://github.com/jogilsang/devops/tree/master/11.terraform)
+- [12.agile](https://github.com/jogilsang/devops/tree/master/12.agile)
 - [tool](https://github.com/jogilsang/devops/tree/master/tool)
 - [Reference](#reference)
+
+---
+
+- 스프린트 플래닝
+스프린트 백로그
+스크럼 
+스프린트
+데일리 스크럼
+프로덕트 인크리먼트(결과물)
+스프린트 리뷰
+회고
 
 ---
 

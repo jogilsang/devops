@@ -2,11 +2,11 @@
 > `ide나 tool 등 도구의 생산성을 향상시키는 내용 등 기재`
 
 ## INDEX
-- ## [개발자도구(크롬)](#개발자도구(크롬))
-- ## [인텔리제이(Intellij)](#Intellij)
-- ## [서브라임 텍스트(Sublime)](#Sublime)
-- ## [VSCODE]](#vscode)
-- ## [접속도구(PUTTY)]](#PUTTY)
+- ### [개발자도구(크롬)](#개발자도구(크롬))
+- ### [인텔리제이(Intellij)](#Intellij)
+- ### [서브라임 텍스트(Sublime)](#Sublime)
+- ### [VSCODE]](#vscode)
+- ### [접속도구(PUTTY)]](#PUTTY)
 
 ---
 
