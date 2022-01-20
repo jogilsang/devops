@@ -12,6 +12,8 @@
 
 ## INDEX
 - [AWS OPSWORKS STACKS](#aws%20opsworks%20stacks)
+- Section1 : Course Overview - AWS Certified Devops
+- Section2 : Code & Slides Download
 - Section3 : SDLC Automation
     - [CODECOMMIT](#codecommit)
     - [CODEPIPELINE](#codepipeline)
@@ -20,6 +22,7 @@
     - [CLOUDFORMATION](#CloudFormation)
     - [ELASTICBEANSTALK](#ElasticBeanstalk)
     - [LAMBDA](#lambda)
+    - [APIGateway](#apigateway)
     - [OPSWORK](#opswork)
     - [ECS](#ecs)
     - [KINESIS](#kinesis)
@@ -36,9 +39,16 @@
     - [AWS Health]
     - [AWS Trusted Advisor]
     - [AWS Macie]
-    - [SCP](#(scp)
+    - [SCP](#scp)
+- Section6 : Incident and Event Response, HA, Fault Tolerance, DR
+    - [ASG](#asg)
+    - [DynamoDB](#dynamodb)
+    - [MultiRegion](#multiregion)
+    - [MultiAccount](#multiaccount)
+    - [IAM](#iam)
 - AWS 공인 DevOps 엔지니어 전문 실습 시험
     - [TEST1](#test1)
+    - [examtopics](#examtopics)
 - [용어정리](#용어정리)
 
 DynamoDB 테이블의 RCU 및 WCU 증가 는 올바르지 않습니다.
@@ -66,7 +76,7 @@ DynamoDB 테이블의 RCU 및 WCU 증가 는 올바르지 않습니다.
 - Chef Solo로 Chef 레시피를 실행하면 패키지, 프로그래밍 언어, 프레임워크 설치, 소프트웨어 구성 등의 작업을 자동화할 수 있습니다.
 
 ### ElasticBeanstalk
-> .ebextensions : https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/ebextensions.html
+> .ebextensions (AWS Elastic Beanstalk 구성 파일) : https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/ebextensions.html
 
 > cheatsheet : https://tutorialsdojo.com/aws-elastic-beanstalk/?src=udemy
 
@@ -148,7 +158,22 @@ DynamoDB 테이블의 RCU 및 WCU 증가 는 올바르지 않습니다.
                 - dockerrun.aws.json
         - aws ecs
             - cluster
-    
+- option setting (.ebextensions)
+```yaml
+# 2분 동안 모든 인스턴스의 CPU 사용률이 80%를 초과하는 상황이 연속 3번 발생하면 인스턴스 하나가 Auto Scaling 그룹에 추가
+option_settings:
+  aws:autoscaling:trigger: # namespace
+    MeasureName: CPUUtilization
+    Statistic: Average
+    Unit: Percent
+    Period: '2'
+    EvaluationPeriods: '3'
+    UpperThreshold: '80'
+    UpperBreachScaleIncrement: '1'
+    LowerThreshold: '20'
+    LowerBreachScaleIncrement: '-1'
+```
+
 ### lambda
     - Security, Environment Variables, KMS and SSM
         - kms
@@ -283,6 +308,8 @@ CloudFormation.
 - cfn-signal & wait conditions
 - /var/log/cloud-init-output.log
 - /var/log/cfn-init.log
+- depends on
+- [드리프트(drift)](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html)
 
 ### codepipeline
 > cheatsheet : https://tutorialsdojo.com/aws-codepipeline/
@@ -425,10 +452,14 @@ CloudFormation.
         - instance 접속 history 확인 및 기록하도록 설정가능
 
 ### config
+
+> 알람사례 : https://docs.aws.amazon.com/config/latest/developerguide/notifications-for-AWS-Config.html
+
     - s3 에 저장가능
     - json 형태로 저장가능
     - 하나당 1달러 비용듬
     - 전체 리소스가 다보임
+    - 리소스가 추가,수정,삭제 될 떄 알람 받을 수 있음
     - Resource Compliance status
     - Aggregators
         - multi account
@@ -498,7 +529,7 @@ CloudFormation.
     - Kinesis Firehose
         - 서비스로 제공되며, 관리가 필요없음
         - dst으로 s3,redshift,elasticSearch로 stream전송
-        - lambda를 이용해서 데이터 변환가능(csv -> json)
+        - lambda를 이용해서 데이터 변환가능(csv -> json), 로그정규화도 가능
         - 통과하는 만큼 비용지불
         - 거의 실시간
 
@@ -518,6 +549,39 @@ CloudFormation.
 
 https://docs.aws.amazon.com/autoscaling/ec2/userguide/schedule_time.html   
 https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html   
+
+### iam
+> https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements.html
+
+ > https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
+
+> https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html
+
+```json
+"Version": "2012-10-17", // default
+"Id": "cd3ad3d9-2776-4ef1-a904-4c229d1642ee", // UUID(GUID),
+"Statement": [{...},{...},{...}], // 단일 명령문 또는 개별 명령문의 배열
+"Sid": "1", // statement ID, IAM does not expose the Sid in the IAM API
+"Effect":"Allow", // Allow or deny, By default, access to resources is denied
+"Action": "iam:*AccessKey*", // wildcard (*), CreateAccessKey, DeleteAccessKey
+"Condition" : { "StringEquals" : { "aws:username" : "johndoe" }} // optional
+
+// 사용자가 IAM을 제외한 모든 AWS 서비스의 모든 작업에 액세스할 수 있도록 허용합니다.
+"Effect": "Allow",
+"NotAction": "iam:*",
+"Resource": "*"
+
+// 사용자가 S3의 모든 리소스에서 버킷삭제를 제외한 모든 작업을 수행할 수 있습니다.
+"Effect": "Allow",
+"NotAction": "s3:DeleteBucket",
+"Resource": "arn:aws:s3:::*",
+
+// 사용자는 모든 리소스에 대해서 iam 작업을 제외한 모든 것에 대해 거부합니다.
+"Effect": "Deny",
+"NotAction": "iam:*",
+"Resource": "*",
+```
+
 
 ---
 
@@ -554,6 +618,36 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
 - 데이터베이스 업그레이드가 실패하면 장애 조치로 사용할 수 있는 읽기 전용 복제본이 없기 때문에 전체 시스템을 사용할 수 없기 때문입니다.
 - AllowMajorVersionUpgrade속성은 주요 버전 업그레이드가 허용되는지 여부를 나타내는 값일 뿐입니다.
 - RDS 다중 AZ 인스턴스에 대한 데이터베이스 엔진을 수정할 때 전체 다중 AZ 배포에 대한 데이터베이스 엔진이 업그레이드 중에 종료된다는 점을 기억하십시오.
+
+### examtopics
+- Resources가 DependsOn 루프를 형성한다면 순환참조를 하게된다. 따라서 Dependson 속성을 추가해야한다. 예를 들어 동일한 스택에 인터넷 게이트웨이가 있는 탄력적 IP와 VPC를 생성하는 경우 탄력적 IP는 인터넷 게이트웨이 연결에 종속되어야 합니다.
+- 배포 서비스는 Auto Scaling을 활용하기 위해 더 빠른 롤아웃을 수행하도록 설계되어야 합니다. 배포 프로세스 중에 인스턴스 태그, 인스턴스 메타데이터 및 Auto Scaling 그룹과 같은 EC2 인스턴스 아티팩트를 사용하여 애플리케이션 설치를 사용자 지정할 수 있습니다.
+- DB의 로그를 통해 read rate와 write rate를 확인할 수 있다. According to your logs, you are running at a 10% write rate and a 90% read rate.
+- DynamoDB의 글로벌 보조 주요 기능은 파티션 키와 정렬 키는 테이블과 다를 수 있습니다.
+- AWS OpsWorks를 고려할 때 스택 계층에 할당할 수 있는 인스턴스 유형이 아닌 것은 스팟 인스턴스이다.
+- Route53은 레코드에 대해 null 문자열을 허용하지 않습니다.
+- An Amazon EBS volume is tied to its Availability Zone and can be attached only to instances in the same Availability Zone.
+- EBS 스냅샷은 해당 지역에 연결되어 있으며 동일한 지역에 볼륨을 생성하는 데만 사용할 수 있습니다.
+- ElasticIP는 Region 단위
+- SQS 메시지 보관 기간은 설정 가능하며 1분에서 2주까지 자유롭게 설정할 수 있습니다. 기본값은 4일이며 메시지 보관 한도에 도달하면 메시지가 자동으로 삭제됩니다.
+- 암호화되지 않은 모든 Amazon EBS 볼륨은 정보 보안 규정에 따라 규정을 준수하지 않는 것으로 식별되어야 합니다. AWS Config 조직 규칙을 생성하여 EBS 암호화가 활성화되었는지 확인하고 AWS CLI를 사용하여 규칙을 배포합니다.
+-  관리자 역할이 위임된 경우 Amazon SNS 주제에 메시지를 게시하는 AWS Lambda 함수를 트리거하기 위해 AWS CloudTrail 이벤트 패턴을 사용하는 AWS API 호출을 사용하여 Amazon EventBridge(Amazon CloudWatch Events) 이벤트 규칙을 생성합니다.
+- [Elastic Beanstalk에서 조정 트리거 문제를 해결하려면 어떻게 해야 합니까?](https://aws.amazon.com/ko/premiumsupport/knowledge-center/elastic-beanstalk-scaling-triggers/)
+- 업데이트 실패 후 스택이 UPDATE_ROLLBACK_FAILED 상태에서 멈춘 경우 스택에서 수행할 수 있는 유일한 작업은 ContinueUpdateRollback 또는 DeleteStack입니다.
+- EB~ largest immediate benefit of the 'Swap Environment URLs' feature is Blue-Green Deployments
+- immutability on a server is Not updating a server after creation
+- Amazon SQS의 최대허용 메세지크기보다 큰 메시지를 대기열로 보내면 HTTP 코드 400과 함께 MessageTooLong 오류가 수신됩니다. (256kb 이상)
+- AWS Config 규칙을 사용하여 CloudFormation 스택이 구성 변경을 감지했을 때 이를 감지하고 알립니다.
+- [Configure a web identity federation role within IAM to enable access to the correct DynamoDB resources and retrieve temporary credentials.](https://aws.amazon.com/blogs/startups/dynamic-websites-using-the-aws-sdk-for-javascript-in-the-browser/)
+- Elastic Beanstalk가 스왑 작업을 완료한 후 이전 환경 URL에 연결을 시도할 때 새 환경이 응답하는지 확인합니다. 그러나 DNS 변경 사항이 전파되고 이전 DNS 레코드가 만료될 때까지 이전 환경을 종료하지 마십시오. DNS 서버는 DNS 레코드에 설정한 TTL(Time to Live)을 기반으로 캐시에서 오래된 레코드를 항상 지우지는 않습니다.
+- Create a governing Amazon Route 53 record set, set it to failover, and associate it with the primary and secondary Amazon Route 53 record sets to distribute traffic to healthy DNS entries.
+- Create Amazon Route 53 health checks for each endpoint that cannot be entered as alias records. Ensure firewall and routing rules allow Amazon Route 53 to send requests to the endpoints that are specified in the health checks.
+- 월 단위로 실행하는 데 가장 비용이 많이 드는 앱은 모든 리소스에 대해 AWS 비용 할당 태깅을 사용합니다. 비용 탐색기를 사용하여 한 달 동안의 비용을 분석합니다.
+- Docker 이미지의 유일한 read-write layer는 last layer이다. 나머지 layer는 read only이다.
+- DynamoDB의 최적의 키구조로 경우의 따라 해시키와 범위키를 사용할 수 있다.
+- Fargate에는 "Service Auto Scaling"이 있지만 "Auto Scaling Group"은 없습니다.
+- CloudFormation 스택에서 SSM 유형의 파라미터를 지정하여 Parameter Store에서 최신 AMI ID을 얻습니다. (AMI ARN's"라는 개념은 없습니다.)
+- EBS 볼륨을 연결한뒤, 블록 디바이스가 검색되면 마운트를 진행합니다.
 
 ---
 
