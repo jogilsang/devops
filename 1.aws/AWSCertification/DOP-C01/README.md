@@ -310,6 +310,8 @@ CloudFormation.
 - /var/log/cfn-init.log
 - depends on
 - [드리프트(drift)](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html)
+- NoEcho : 콘솔, 명령줄 도구 또는 API에 표시되지 않도록 파라미터 값을 마스킹 처리할지 여부입니다.
+
 
 ### codepipeline
 > cheatsheet : https://tutorialsdojo.com/aws-codepipeline/
@@ -392,8 +394,10 @@ CloudFormation.
 - if test is overed, deleted scope
     - es
     - subscription filters
-- Tagging
-    - https://aws.amazon.com/answers/account-management/aws-tagging-strategies/
+
+### tagging
+- https://aws.amazon.com/answers/account-management/aws-tagging-strategies/
+- https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf
 
 ### ssm
 - how to use
@@ -464,6 +468,10 @@ CloudFormation.
     - Aggregators
         - multi account
         - Authorization
+
+- Managed Rules
+> https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html
+    - s3-bucket-public-read-prohibited
 
 ### scp
 > example : https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_examples.html
@@ -620,6 +628,10 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
 - RDS 다중 AZ 인스턴스에 대한 데이터베이스 엔진을 수정할 때 전체 다중 AZ 배포에 대한 데이터베이스 엔진이 업그레이드 중에 종료된다는 점을 기억하십시오.
 
 ### examtopics
+```
+84
+```
+
 - Resources가 DependsOn 루프를 형성한다면 순환참조를 하게된다. 따라서 Dependson 속성을 추가해야한다. 예를 들어 동일한 스택에 인터넷 게이트웨이가 있는 탄력적 IP와 VPC를 생성하는 경우 탄력적 IP는 인터넷 게이트웨이 연결에 종속되어야 합니다.
 - 배포 서비스는 Auto Scaling을 활용하기 위해 더 빠른 롤아웃을 수행하도록 설계되어야 합니다. 배포 프로세스 중에 인스턴스 태그, 인스턴스 메타데이터 및 Auto Scaling 그룹과 같은 EC2 인스턴스 아티팩트를 사용하여 애플리케이션 설치를 사용자 지정할 수 있습니다.
 - DB의 로그를 통해 read rate와 write rate를 확인할 수 있다. According to your logs, you are running at a 10% write rate and a 90% read rate.
@@ -648,6 +660,32 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
 - Fargate에는 "Service Auto Scaling"이 있지만 "Auto Scaling Group"은 없습니다.
 - CloudFormation 스택에서 SSM 유형의 파라미터를 지정하여 Parameter Store에서 최신 AMI ID을 얻습니다. (AMI ARN's"라는 개념은 없습니다.)
 - EBS 볼륨을 연결한뒤, 블록 디바이스가 검색되면 마운트를 진행합니다.
+- SQS 대기열을 생성하고 AWS KMS에서 서버 측 암호화를 사용하여 대기열을 암호화합니다.
+- 운영 체제의 보안 평가 스캔을 실행하기위해선 Amazon Inspector 스캔한다
+- Amazon S3 트리거 및 AWS Lambda 함수를 설정하여 수신 로그를 분석하고 이상을 자동으로 식별합니다. Amazon Athena를 사용하여 중앙 계정의 로그에 대한 임시 쿼리를 실행합니다.
+- Elastic Beanstalk 에는 자동 롤백 기능이 존재하지 않습니다.
+- AWS OpsWorks 스택을 사용하여 웹 애플리케이션을 다시 배포하고 AWS OpsWorks 자동 롤백 기능을 사용하여 실패 시 롤백을 시작합니다.
+- 웹 애플리케이션에서 데이터 및 미들웨어 계층에 대한 연결을 테스트하는 상태 확인 끝점을 만듭니다. 이 엔드포인트를 로드 밸런서의 상태 확인 URL로 사용하십시오
+- 50개 이상의 동시 빌드 작업을 제공할 수 있습니까? Auto Scaling 그룹에 슬레이브 노드 집합을 배치합니다. "RunningBuildJobs"가 5분 이상 동안 45보다 클 때 Amazon EC2 인스턴스를 시작하도록 Auto Scaling 정책을 트리거하는 CloudWatch 경보를 구성합니다. "RunningBuildJobs"가 5분 이상 40 미만일 때 Amazon EC2 인스턴스를 종료하도록 Auto Scaling 정책을 트리거하는 CloudWatch 경보를 구성합니다.
+- 서버 장애로 인한 데이터 손실을 방지하는 것은 DynamoDB StreamSpecification을 사용하고 모든 변경 사항을 AWS Lambda로 스트리밍합니다. AWS CloudWatch Logs에 변경 사항을 기록하고 기록하기 전에 민감한 정보를 제거합니다.
+- AWS IAM scope is Global
+- AD 커넥터는 2가지 크기로 제공됩니다. 작고 큰. 소규모 AD 커넥터는 최대
+500명의 사용자로 구성된 소규모 조직을 위해 설계되었습니다. 대규모 AD 커넥터는 최대 5,000명의 사용자로 구성된 대규모 조직을 위해 설계되었습니다.
+- AD동기화 도메인이 존재하지 않습니다.
+- 서버에 Cloudwatch logs 에이전트를 설치하고, 웹 애플리케이션 로그를 CloudWatch로 스트리밍한다. Cloudwatch logs 그룹을 생성한뒤, 특정 웹상태(5XX)에 대한 매트릭지표를 설정한다
+- 작업을 긴 시간동안 한번만 처리하려면, SQS에서 visibility timeout 시간을 최대한 길게한다.
+- CPU 크레딧 하나는 1분 동안 100%의 사용률로 실행되는 vCPU 하나에 해당합니다.
+vCPU 2개가 1분동안 50% 실행되는것과 vCPU 4개가 1분동안 25%로 실행할 수 있는것이다.
+- 프로덕션에 적용되기 전에 회사의 보안 팀 구성원이 승인하려면, 배포 단계 전에 수동 승인 CodePipeline 작업을 만듭니다. 수동 승인 단계를 승인할 수 있는 액세스 권한을 보안 팀에 부여하는 정책을 만듭니다.
+- CloudTrail은 기본적으로 활성화되어있다
+- AWS CloudFormation의 보안을 강화하는 측정 조합은 AWS Secrets Manager AWS::SecretsManager::Secret 리소스 유형을 사용하여 암호를 생성합니다. Amazon RDS 데이터베이스와 같이 암호가 필요한 리소스의 보안 리소스 반환 속성을 참조하십시오.
+- AWS CloudFormation의 보안을 강화하는 측정 조합은 CloudFormation NoEcho 매개변수 속성을 사용하여 매개변수 값을 마스킹합니다.
+- AWS CloudFormation의 보안을 강화하는 측정 조합은 민감한 정적 데이터를 AWS Systems Manager Parameter Store에 보안 문자열로 저장합니다. 데이터에 액세스해야 하는 리소스에서 동적 참조를 사용합니다.
+- ASG Of The health check can checking the application process
+- 임시 AWS 보안 자격 증명을 교환하기 위해 Google 또는 Facebook과 같은 자격 증명 공급자를 사용합니다.
+- 그룹에서 EC2 인스턴스 종료 수명 주기 작업을 생성하고, 이를 기반으로 Amazon CloudWatch Events 규칙을 생성하여 Amazon S3에 로그를 저장하기 위한 AWS Lambda 함수를 트리거하고, 다음을 사용하여 Amazon DynamoDB 테이블에 로그 파일 카탈로그를 생성합니다. 기본 키는 인스턴스 ID이고 정렬 키는 인스턴스 종료 날짜입니다.
+- 재해 복구 기준은 세션 데이터가 지역 간에 거의 실시간으로 복제되어야 하고 요청의 1%가 보조 지역으로 보내져 지속적으로 시스템 작동을 검증해야 함을 나타냅니다. 두 리전 모두에서 AWS Elastic Beanstalk에 애플리케이션을 배포하고 세션 데이터에 Amazon DynamoDB 글로벌 테이블을 사용합니다. 상태 확인과 함께 Amazon Route 53 가중 라우팅 정책을 사용하여 리전 전체에 트래픽을 분산합니다.
+- 테스트 코드를 만드는 것은 Devops 엔지니어의 책임이 아닙니다. 테스트 엔지니어가 테스트 환경을 검증해야 하는 CodeDeploy 배포 파이프라인에 수동 승인 작업을 추가합니다.
 
 ---
 
