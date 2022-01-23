@@ -8,6 +8,8 @@
 
 > examtopics시험문제 : https://www.examtopics.com/exams/amazon/aws-devops-engineer-professional/view/
 
+> https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/tracking-free-tier-usage.html
+
 ---
 
 ## INDEX
@@ -686,6 +688,10 @@ vCPU 2개가 1분동안 50% 실행되는것과 vCPU 4개가 1분동안 25%로 �
 - 그룹에서 EC2 인스턴스 종료 수명 주기 작업을 생성하고, 이를 기반으로 Amazon CloudWatch Events 규칙을 생성하여 Amazon S3에 로그를 저장하기 위한 AWS Lambda 함수를 트리거하고, 다음을 사용하여 Amazon DynamoDB 테이블에 로그 파일 카탈로그를 생성합니다. 기본 키는 인스턴스 ID이고 정렬 키는 인스턴스 종료 날짜입니다.
 - 재해 복구 기준은 세션 데이터가 지역 간에 거의 실시간으로 복제되어야 하고 요청의 1%가 보조 지역으로 보내져 지속적으로 시스템 작동을 검증해야 함을 나타냅니다. 두 리전 모두에서 AWS Elastic Beanstalk에 애플리케이션을 배포하고 세션 데이터에 Amazon DynamoDB 글로벌 테이블을 사용합니다. 상태 확인과 함께 Amazon Route 53 가중 라우팅 정책을 사용하여 리전 전체에 트래픽을 분산합니다.
 - 테스트 코드를 만드는 것은 Devops 엔지니어의 책임이 아닙니다. 테스트 엔지니어가 테스트 환경을 검증해야 하는 CodeDeploy 배포 파이프라인에 수동 승인 작업을 추가합니다.
+- Amazon Inspector와 CloudTrail 통합의 경우 List* 및 Describe* API의 경우 요청 정보만 기록됩니다.
+- 제품이 여러 국가에서 출시될 때 기업은 모든 지역에 걸쳐 단일 제품 카탈로그를 원하지만 규정 준수를 위해 고객 정보 및 구매는 각 영역에 유지되어야 합니다. 제품 카탈로그의 읽기 전용 복제본과 함께 Aurora를 사용하고 고객 정보 및 구매를 위한 각 지역의 추가 로컬 Aurora 인스턴스를 사용합니다
+- Amazon SNS alarm은 존재하지않으며, Amazon SNS notification 존재한다.
+- cfnsignal
 
 ---
 
