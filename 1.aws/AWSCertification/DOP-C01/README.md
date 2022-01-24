@@ -10,6 +10,8 @@
 
 > https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/tracking-free-tier-usage.html
 
+> DOP 시험범위 : https://d1.awsstatic.com/ko_KR/training-and-certification/docs-devops-pro/AWS-Certified-DevOps-Engineer-Professional_Exam-Guide.pdf
+
 ---
 
 ## INDEX
@@ -48,6 +50,7 @@
     - [MultiRegion](#multiregion)
     - [MultiAccount](#multiaccount)
     - [IAM](#iam)
+    - [Aurora](#aurora)
 - AWS 공인 DevOps 엔지니어 전문 실습 시험
     - [TEST1](#test1)
     - [examtopics](#examtopics)
@@ -306,7 +309,8 @@ CloudFormation.
         - DeletionPolicy=Snapshot:
             - EBS Volume, ElastiCache Cluster, ElastiCache ReplicationGroup
             - RDS DBInstance, RDS DBCluster, Redshift Cluster
-- cfn-init
+- [cfn-init](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-init.html)
+- cfn-hup
 - cfn-signal & wait conditions
 - /var/log/cloud-init-output.log
 - /var/log/cfn-init.log
@@ -340,13 +344,21 @@ CloudFormation.
     - VPC Flow
 
 ### cloudtrail
+- console,cli,sdk,api 등에서 AWS가 수행한 작업을 이벤트로 기록
 - doc
     - https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-log-file-validation-cli.html
     - https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-receive-logs-from-multiple-accounts.html
     - https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-sharing-logs.html
 
+- 모든지역추적(Console 기본옵션)
+- 단일지역추적(AWS CLI, Trail API 기본옵션)
+- CloudTrail은 자체적으로 `Enable log file validation?`체크로 로그 파일 무결성 검증 설정을 할 수 있다
+- 관리이벤트는 기록되며, 기본적으로 데이터 이벤트와 인사이트 이벤트는 기록되지않는다
+- 실제로 CloudTrail은 첫 번째 관리 추적에 대해 비용을 청구하지 않고 첫 번째 관리 추적 이후에 생성하는 추가 관리 추적에 대해서만 비용을 청구하기 때문입니다.
+
 ### cloudwatch
 - doc
+    - [cloudtrail vs cloudwatch](https://tutorialsdojo.com/aws-cloudtrail-vs-amazon-cloudwatch/)
     - https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Metric
     - https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/metrics-collected-by-CloudWatch-agent.html#linux-metrics-enabled-by-CloudWatch-agent
     - https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Counting404Responses.html
@@ -356,8 +368,11 @@ CloudFormation.
     - https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/Create-CloudWatch-Events-CloudTrail-Rule.html
     - https://docs.aws.amazon.com/AmazonS3/latest/user-guide/enable-event-notifications.html
 
-
-
+- Amazon EventBridge = Amazon CloudWatch Events
+- ec2
+    - StatusCheckFailed : 인스턴스가 마지막으로 인스턴스 상태 확인 및 시스템 상태 확인을 통과했는지 여부를 보고
+    - StatusCheckFailed_Instance
+    - StatusCheckFailed_System
 
 ### x-ray
 > 서버리스 어플리케이션 분석 및 디버그 도구
@@ -458,10 +473,12 @@ CloudFormation.
         - instance 접속 history 확인 및 기록하도록 설정가능
 
 ### config
+: AWS 리소스 구성 변경사항에 대한 알림을 제공하는 완전관리형 서비스
+- CheatSheet : https://tutorialsdojo.com/aws-config/
 
 > 알람사례 : https://docs.aws.amazon.com/config/latest/developerguide/notifications-for-AWS-Config.html
 
-    - s3 에 저장가능
+    - s3 에 저장가능. 자동으로 전달가능
     - json 형태로 저장가능
     - 하나당 1달러 비용듬
     - 전체 리소스가 다보임
@@ -470,10 +487,24 @@ CloudFormation.
     - Aggregators
         - multi account
         - Authorization
+    - AWS Config를 사용하면 온프레미스에서 실행되는 서버와 EC2 인스턴스 내에서 소프트웨어 구성 변경 사항을 기록할 수 있다.
+        - 운영 체제 구성
+        - 시스템 수준 업데이트
+        - 설치된 애플리케이션
+        - 네트워크 구성
+    - 다중 계정, 다중 지역 데이터 집계를 통해 Config 규칙 규정 준수 상태 를 전사적으로 볼 수 있다
+    - AWS CloudFormation 템플릿을 사용하여 AWS Config 관리형 규칙을 생성가능
+      템플릿은 규칙만 생성하고 추가 AWS 리소스는 생성하지 않습니다.
+    - AWS Cloudformation 스택을 업데이트 할 수 있음
 
 - Managed Rules
 > https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html
     - s3-bucket-public-read-prohibited
+    - access-keys-rotated : maxAccessKeyAge (MAX=90)
+    - account-part-of-organizations : 조직에속하는지여부
+    - cloudformation-stack-notification-check : 클라우드포메이션이 해당 주제에 알람을 보내는지 확인
+    - cloudformation-stack-drift-detection-check : 클라우드포메이션이 실제구성이나 예상구성과 다를경우
+    - ec2-instance-managed-by-systems-manager : 계정의 EC2 인스턴스가 SystemManager에서 관리되는지 확인
 
 ### scp
 > example : https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_examples.html
@@ -553,12 +584,37 @@ CloudFormation.
 > cheatsheet : https://tutorialsdojo.com/amazon-dynamodb/
 - https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.KCLAdapter.html
 - https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html
+- [Amazon DynamoDB 전역 테이블을 사용하여 다중 지역 아키텍처를 강화하는 방법](https://aws.amazon.com/ko/blogs/database/how-to-use-amazon-dynamodb-global-tables-to-power-multiregion-architectures/)
+
 
 ### asg
 > cheatsheet : https://tutorialsdojo.com/aws-auto-scaling/?src=udemy
 
 https://docs.aws.amazon.com/autoscaling/ec2/userguide/schedule_time.html   
 https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html   
+
+### Aurora
+> faqs : https://aws.amazon.com/ko/rds/aurora/faqs/
+
+- 교차 리전복제
+    - Amazon Aurora Global Database
+        - 모든 읽기/쓰기 워크로드를 처리하도록 보조 리전을 승격하는 데 1분이 채 걸리지 않습니다.
+        - Amazon RDS 콘솔에서 교차 리전 복제본을 새로운 기본 복제본으로 승격할 수 있습니다.
+        - 장애시 수동으로 애플리케이션이 새로 승격된 리전을 가리키도록 해야 합니다.
+        - 장애시 수동으로 보조 리전을 제거하고 모든 읽기 및 쓰기를 처리하도록 승격해야 합니다.
+        - 수동으로 승격하지않으려면, Lambda가 필요합니다
+    - 최대 5개의 보조 리전에 복제
+- 동일 리전복제
+    - Amazon Aurora Replica
+    - 비동기식(밀리초)
+- 장애조치
+    - Amazon Aurora 복제본이 있는경우
+        - 동일한 가용 영역 또는 다른 가용 영역
+            - Aurora는 DB 인스턴스의 CNAME(정식 이름 레코드)이 정상적인 복제본을 가리키도록 이를 변경하며, 해당 복제본은 승격되어 새로운 기본 복제본이 됩니다. 일반적으로 장애 조치는 처음부터 끝까지 30초 이내에 완료됩니다. 
+    - Amazon Aurora 복제본이 없는경우
+        - 동일한 가용 영역에 새 DB 인스턴스를 생성하려고 시도
+    
+
 
 ### iam
 > https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements.html
@@ -631,7 +687,7 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
 
 ### examtopics
 ```
-84
+84, 114 116 122 124
 ```
 
 - Resources가 DependsOn 루프를 형성한다면 순환참조를 하게된다. 따라서 Dependson 속성을 추가해야한다. 예를 들어 동일한 스택에 인터넷 게이트웨이가 있는 탄력적 IP와 VPC를 생성하는 경우 탄력적 IP는 인터넷 게이트웨이 연결에 종속되어야 합니다.
@@ -692,6 +748,27 @@ vCPU 2개가 1분동안 50% 실행되는것과 vCPU 4개가 1분동안 25%로 �
 - 제품이 여러 국가에서 출시될 때 기업은 모든 지역에 걸쳐 단일 제품 카탈로그를 원하지만 규정 준수를 위해 고객 정보 및 구매는 각 영역에 유지되어야 합니다. 제품 카탈로그의 읽기 전용 복제본과 함께 Aurora를 사용하고 고객 정보 및 구매를 위한 각 지역의 추가 로컬 Aurora 인스턴스를 사용합니다
 - Amazon SNS alarm은 존재하지않으며, Amazon SNS notification 존재한다.
 - cfnsignal
+- Amazon EC2를 설정(표준 로깅, 메트릭, 보안평가, 주간패치)을 표준화하기위해서는
+    - 중앙에서 인스턴스를 관리하려면
+    - AWS Config를 사용하여 모든 EC2 인스턴스가 AWS Systems Manager에서 관리되도록 합니다.
+    - AWS Systems Manager를 사용하여 모든 인스턴스에 Amazon Inspector, Systems Manager Patch Manager 및 Amazon CloudWatch 에이전트를 설치하고 관리합니다.
+    - Systems Manager Run Command와 함께 AWS Systems Manager 유지 관리 기간을 사용하여 Systems Manager Patch Manager 작업을 예약합니다. Amazon CloudWatch Events를 사용하여 Amazon Inspector 평가 실행을 예약합니다.
+-  AWS Import/Export 서비스는 스노우볼에서 사용된다. VM Import/Export 서비스는 따로있다. Amazon Linux 2는 온프레미스의 가상환경(VMWare vSphere, KVM, Oracle VirtualBox, MS Hyper-V)에서 실행될 수 있도록 image를 다운받을 수 있다
+- 지연 시간을 줄이기 위해 Auto Scaling 전략은 처리 중인 요청 수 및 처리 대기 중인 요청 수와 같은 웹 애플리케이션에 대한 보다 자세한 정보가 포함된 애플리케이션용 CloudWatch에 사용자 지정 지표를 푸시합니다.
+- 6개 지역 모두에서 액세스하려면, 6개 리전(북미 2개, 유럽 2개, 아시아 2개) 각각에서 Amazon DynamoDB 글로벌 테이블을 구현합니다.
+- 단일 도구 또는 서비스를 통해 액세스 가능한 통합 애플리케이션 및 Amazon API 로그를 유지하는 방법은
+    - Amazon CloudWatch 에이전트를 사용하여 Amazon EC2 인스턴스에서 CloudWatch로 로그를 보냅니다. 이러한 로그를 Amazon S3로 보내도록 Amazon Kinesis Data Firehouse 로그 그룹 구독을 구성합니다. AWS CloudTrail을 사용하여 API 로그를 Amazon S3로 전송합니다. Amazon Athena를 사용하여 Amazon S3의 두 로그 세트를 모두 쿼리합니다.
+- Amazon EBS 스토리지에 의해 백업되는 Amazon EC2 인스턴스의 복구는 StatusCheckFailed 지표에 대한 AWS CloudWatch Alarm을 생성하고, EC2 작업을 선택하여 인스턴스를 복구합니다
+-  배포 시 각 마이크로 서비스의 업데이트된 버전으로 트래픽을 천천히 전송해야 합니다.
+    - 배포할 AWS CodeDeploy 구성을 설정한 다음 CodeDeployDefault.LambdaLinear10PercentEvery3Minutes
+- ASG의 EC2 구성파일을 Cloudformation을 통해 최신화 반영을하려면
+    - Cloud Formation 초기화 메타데이터를 템플릿에 추가한다
+    - Configuration파일을 meta-data에 배치한다
+    - 인스턴스가 시작될 때 실행되도록 cfn-init 스크립트를 구성하고 구성 업데이트를 폴링하도록 cfn-hup 스크립트를 구성합니다.
+- DynamoDB에서 보조 인덱스는 쿼리 작업을 지원하는 대체 키와 함께 테이블의 속성 하위 집합을 포함하는 데이터 구조입니다.
+- Amazon EFS에 대한 백업 전략으로 백업 활동의 시작/중지를 예약하기 위해 Amazon CloudWatch Events 규칙과 함께 AWS Lambda를 사용합니다. Auto Scaling 그룹의 Amazon EC2에서 백업 스크립트를 실행합니다. Auto Scaling 수명 주기 후크와 EC2에서 SSM Run Command를 사용하여 Amazon S3에 백업 로그를 업로드합니다. Amazon SNS를 사용하여 백업 활동 메타데이터를 관리자에게 알립니다.
+- CodeBuild와 CodeDeploy에는 승인 프로세스가 없습니다. CodePipeline에는 있음
+- CodePipeline은 나머지 API 엔드포인트를 호출하지 않으므로 lambda가 필요합니다
 
 ---
 
