@@ -79,6 +79,7 @@
   - [PING](#ping)
   - [TCPDUMP](#tcpdump)
   - [CURL](#curl)
+  - [DNS](#dns)
  - [REFERENCE](#Reference)
  - [TODO](#todo)
  - [쉘 스크립트를 쓰면 안 될 때](#쉘%20스크립트를%20쓰면%20안%20될%20때)
@@ -1303,6 +1304,15 @@ sudo nmap -vv -dd -PT localhost --reason > test.txt
   \"$site_no\" => (X)
   "$((site_no))" => (X)
   '"$site_no"' => (O)
+  ```
+
+- #### dns 
+  ```bash
+  # nslookup 으로 도메인에 대한 DNS질의가 안된다면
+  # 1. ip가 static으로 도메인과 연결되어있는지 확인
+  cat /etc/hosts.conf
+  # 2. nameserver 확인
+  cat /etc/resolv.conf
   ```
 
 ### Reference
