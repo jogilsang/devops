@@ -15,7 +15,6 @@
 ---
 
 ## INDEX
-- [AWS OPSWORKS STACKS](#aws%20opsworks%20stacks)
 - Section1 : Course Overview - AWS Certified Devops
 - Section2 : Code & Slides Download
 - Section3 : SDLC Automation
@@ -44,8 +43,10 @@
     - [AWS Trusted Advisor]
     - [AWS Macie]
     - [SCP](#scp)
+    - [AWS Secrets Manager](#secretsmanager)
 - Section6 : Incident and Event Response, HA, Fault Tolerance, DR
     - [ASG](#asg)
+    - [route53](#route53)
     - [DynamoDB](#dynamodb)
     - [MultiRegion](#multiregion)
     - [MultiAccount](#multiaccount)
@@ -74,11 +75,6 @@ DynamoDB 테이블의 RCU 및 WCU 증가 는 올바르지 않습니다.
         - 사용자가 CodeCommit 리포지토리를 삭제하거나 Amazon CloudWatch Events와 같은 다른 AWS 서비스에서 리포지토리 관련 리소스를 생성 또는 삭제하는 것을 허용하지 않는다는 점을 제외하고 CodeCommit 및 리포지토리 관련 리소스의 모든 기능에 대한 액세스를 허용합니다. 대부분의 사용자에게 이 정책을 적용하는 것이 좋습니다.
     - AWSCodeCommitReadOnly
         - 다른 AWS 서비스의 CodeCommit 및 리포지토리 관련 리소스에 대한 읽기 전용 액세스 권한을 부여할 뿐만 아니라 자체 CodeCommit 관련 리소스(예: IAM 사용자가 액세스할 때 사용할 Git 자격 증명 및 SSH 키)를 생성 및 관리할 수 있는 기능을 부여합니다. 저장소). 리포지토리의 내용을 읽을 수 있지만 내용을 변경할 수는 없는 권한을 부여하려는 사용자에게 이 정책을 적용해야 합니다.
-
-#### aws opsworks stacks
-> Chef를 사용하여 운영 자동화
-- OpsWorks Stacks에서는 예약된 일정이나 트래픽 수준 변화에 따라 서버 자동 확장을 설정할 수 있으며, 환경 규모 변화에 따라 수명 주기 후크를 사용하여 변경 사항을 조정합니다.
-- Chef Solo로 Chef 레시피를 실행하면 패키지, 프로그래밍 언어, 프레임워크 설치, 소프트웨어 구성 등의 작업을 자동화할 수 있습니다.
 
 ### ElasticBeanstalk
 > .ebextensions (AWS Elastic Beanstalk 구성 파일) : https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/ebextensions.html
@@ -150,7 +146,7 @@ DynamoDB 테이블의 RCU 및 WCU 증가 는 올바르지 않습니다.
     - immutable
 - Swap URL (BLUE/GREEN)
     - Environments - Actions - Swap environment URLs - route53 CNAME Changes each ohter
-- Worker Environments
+- [Worker Environments](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html)
     - do long running job
         - workerQueue
         - workerDeadLetterQueue
@@ -231,7 +227,13 @@ option_settings:
         rollback이 가능하다.
         ```
 
-
+### opswork
+#### aws opsworks stacks
+> Chef를 사용하여 운영 자동화
+- OpsWorks Stacks에서는 예약된 일정이나 트래픽 수준 변화에 따라 서버 자동 확장을 설정할 수 있으며, 환경 규모 변화에 따라 수명 주기 후크를 사용하여 변경 사항을 조정합니다.
+- Chef Solo로 Chef 레시피를 실행하면 패키지, 프로그래밍 언어, 프레임워크 설치, 소프트웨어 구성 등의 작업을 자동화할 수 있습니다.
+- time-based instancs(시간 기반 인스턴스)
+- Load-based instances(부하 기반 인스턴스)
 
 ### jenkins
 > hands-on : https://aws.amazon.com /ko/getting-started/hands-on/setup-jenkins-build-server/)
@@ -252,6 +254,8 @@ option_settings:
 > AWS resource Reference : https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html
 
 > cheatsheet : https://tutorialsdojo.com/aws-cloudformation/?src=udemy
+
+> policy 리소스속성참조 : https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/aws-product-attribute-reference.html
 
 - AWS 및 서드파티 리소스를 프로비저닝 및 관리할 수 있는 코드형 인프라(IAC) 서비스
 - Declarative programming (no need to figure out ordering and orchestration)
@@ -300,6 +304,9 @@ CloudFormation.
             ```
     6. Metadata
 
+- UpdatePolicy
+    - AutoScalingReplacingUpdate : WillReplace : true
+        - 신규ASG가 완전히 성공해야, 이전ASG가 삭제됨
 - DeletionPolicy
     - what happens when the CloudFormation template is deleted
         - DeletePolicy=Delete (default behavior):
@@ -357,8 +364,24 @@ CloudFormation.
 - 실제로 CloudTrail은 첫 번째 관리 추적에 대해 비용을 청구하지 않고 첫 번째 관리 추적 이후에 생성하는 추가 관리 추적에 대해서만 비용을 청구하기 때문입니다.
 
 ### cloudwatch
+- CloudWatch는 지표 리포지토리입니다.
+- CloudWatch는 리전 간에 데이터를 집계하지 않습니다. 따라서 메트릭은 지역 간에 완전히 분리됩니다.
+- CloudWatch에서는 예상 AWS 요금만 추적할 수 있으며 리소스의 실제 사용률은 추적할 수 없습니다.
+- Time Periods 동안, Threshold에 여러번 Datapoints 걸쳐야 알람이 울린다
+- 생성할 수 있는 CloudWatch 대시보드 수에는 제한이 없습니다.
+- 모든 대시보드는 지역별이 아닌 전역 적입니다.
+- AWS 계정이 없어도 대시보드 공유가가능
+    - 링크가 있는 모든 사용자가 대시보드를 볼 수 있도록 단일 대시보드를 공개적으로 공유합니다.
+    - 하나의 대시보드를 공유하고 대시보드를 볼 수 있는 사람들의 특정 이메일 주소와 비밀번호를 지정합니다.
+- IAM 정책에서 사용할 CloudWatch Amazon 리소스 이름(ARN)이 없습니다
+
 - doc
+    - [CloudWatch Agent vs SSM Agent vs Custom Daemon Scripts](https://tutorialsdojo.com/cloudwatch-agent-vs-ssm-agent-vs-custom-daemon-scripts/)
+        - 사용자 정의스크립트(cron,bash)는 메트릭이 전송되기전 일부 수정이 필요한경우
     - [cloudtrail vs cloudwatch](https://tutorialsdojo.com/aws-cloudtrail-vs-amazon-cloudwatch/)
+        - CloudTrail은 요청한 사람, 사용된 서비스, 수행한 작업, 작업에 대한 매개변수 및 AWS 서비스에서 반환된 응답 요소에 대한 정보를 기록
+        - CloudWatch를 사용하면 지표를 수집 및 추적하고, 로그 파일을 수집 및 모니터링하고, 경보를 설정
+        - CloudWatch 이벤트는 AWS 리소스의 변경 사항을 설명하는 시스템 이벤트의 거의 실시간 스트림입니다. CloudTrail은 AWS 계정에서 이루어진 AWS API 호출에 더 중점을 둡니다.
     - https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Metric
     - https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/metrics-collected-by-CloudWatch-agent.html#linux-metrics-enabled-by-CloudWatch-agent
     - https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Counting404Responses.html
@@ -368,11 +391,37 @@ CloudFormation.
     - https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/Create-CloudWatch-Events-CloudTrail-Rule.html
     - https://docs.aws.amazon.com/AmazonS3/latest/user-guide/enable-event-notifications.html
 
-- Amazon EventBridge = Amazon CloudWatch Events
+- Amazon EventBridge = Amazon CloudWatch Events API를 기반으로 제공되는 서비스
 - ec2
     - StatusCheckFailed : 인스턴스가 마지막으로 인스턴스 상태 확인 및 시스템 상태 확인을 통과했는지 여부를 보고
     - StatusCheckFailed_Instance
     - StatusCheckFailed_System
+
+- Cloudwatch Agent
+    - EC2와 온프레미스 서버에 설치가능
+    - 설치방법
+        - CLI
+        - SSM Agent
+        - CloudFormation
+- CloudWatch Metric Streams
+    - 실시간의 연속적인 스트림
+    - Datadog, New Relic, Splunk, Dynatrace, Sumo Logic 및 S3
+- Cloudwatch alarms
+    - ServiceLimitUsage metric : EC2인스턴스 실행제한, ASG 그룹제한 알림
+- Cloudwatch events
+    - EC2 Instance-Launch Successful
+    - EC2 Instance-Terminate Successful
+    - AWS_RISK_CREDENTIALS_EXPOSED
+- CloudWatch logs
+    - default는 로그의 무기한 보관
+    - Route 53 DNS 쿼리 기록
+    - CloudTrail 기록 이벤트 모니터링
+    - EC2 인스턴스의 로그
+- 구성요소
+    - namespaces - a container for CloudWatch metrics
+    - metric
+    - dimensions
+    - Statistics
 
 ### x-ray
 > 서버리스 어플리케이션 분석 및 디버그 도구
@@ -419,6 +468,10 @@ CloudFormation.
 ### ssm
 - how to use
     - install a SSM agent
+        - 서비스의 요청을 처리하고 요청에 지정된 대로 시스템을 구성합니다.
+        - 자동화를 사용하여 로그인하지 않고도 서버를 관리할 수 있습니다.
+        - SSM 에이전트는 루트 수준 권한에서 실행됨을 기억하십시오
+        - 시스템자동화로 OS 패치를 설치하고 새 AMI를 생성하는 자동화 문서를 실행
 - action
     - Run command
     - shutdown ec2
@@ -449,6 +502,7 @@ CloudFormation.
         - Policy
         - Session
 - Parameter Store
+    - AWS 키와 데이터베이스 암호을 암호화된 매개변수로 저장
     - Parameter details
         - Type : SecureString
         - KMS key source
@@ -457,7 +511,12 @@ CloudFormation.
         - --with-decryption 으로 복호화
         - --names로 값 가져올 수 있음
 - Patch Manager
+    - SSM 유지 관리 기간을 사용하여 애플리케이션 패치를 예약합니다.
+- session manager
+    - instance 접속 history 확인 및 ssh접속 기록하도록 설정가능
+    - 감사 및 검토를 위해 세션 로그를 S3 버킷 또는 CloudWatch Logs로 보냅니다.
 - Inventory
+    - SSM 인벤토리를 통해 관리중인 인스턴스의 어플리케이션의 버전과 패치, 구성 확인가능
 - Automation
     - feature
         - createImage
@@ -469,8 +528,6 @@ CloudFormation.
                 - MangedInstanceProfile -> use
                 - ManagedInstnaceRole
     - ami-hardning-process
-    - session manager
-        - instance 접속 history 확인 및 기록하도록 설정가능
 
 ### config
 : AWS 리소스 구성 변경사항에 대한 알림을 제공하는 완전관리형 서비스
@@ -499,12 +556,16 @@ CloudFormation.
 
 - Managed Rules
 > https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html
+    - s3-bucket-server-side-encryption-enabled : Amazon S3 버킷에 Amazon S3 기본 암호화(SSE-S3, SSE-KMS)가 활성화여부 확인
     - s3-bucket-public-read-prohibited
     - access-keys-rotated : maxAccessKeyAge (MAX=90)
     - account-part-of-organizations : 조직에속하는지여부
     - cloudformation-stack-notification-check : 클라우드포메이션이 해당 주제에 알람을 보내는지 확인
     - cloudformation-stack-drift-detection-check : 클라우드포메이션이 실제구성이나 예상구성과 다를경우
     - ec2-instance-managed-by-systems-manager : 계정의 EC2 인스턴스가 SystemManager에서 관리되는지 확인
+
+### trustedadvisor
+
 
 ### scp
 > example : https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_examples.html
@@ -513,6 +574,9 @@ CloudFormation.
 - OU, Account level(not Master Account)
 - default : does not allow anything
 
+### secretsmanager
+
+- 키 교체를 활성화하면, 비밀번호를 생성 후 정기적으로 자동순환할 수 있다
 
 ### 서비스 카탈로그
     - 클라우드포메이션 템플릿과 연관
@@ -546,6 +610,7 @@ CloudFormation.
     - https://aws.amazon.com/premiumsupport/knowledge-center/ecs-agent-disconnected-linux2-ami/
     - https://docs.aws.amazon.com/AmazonECS/latest/developerguide/update-service.html
     - https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html
+    - https://aws.amazon.com/blogs/compute/how-to-automate-container-instance-draining-in-amazon-ecs/
 
 ### kinesis
 - 정의 및 특징
@@ -579,13 +644,15 @@ CloudFormation.
 - https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-types.html
 - https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/health-checks-types.html
 - https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-router-firewall-rules.html
+- https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-health-checks.html
 
 ### DynamoDB
 > cheatsheet : https://tutorialsdojo.com/amazon-dynamodb/
 - https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.KCLAdapter.html
 - https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html
 - [Amazon DynamoDB 전역 테이블을 사용하여 다중 지역 아키텍처를 강화하는 방법](https://aws.amazon.com/ko/blogs/database/how-to-use-amazon-dynamodb-global-tables-to-power-multiregion-architectures/)
-
+- [Amazon DynamoDB 테이블이 제한되는 이유](https://aws.amazon.com/ko/premiumsupport/knowledge-center/dynamodb-table-throttled/)
+- [지수 백오프 및 지터](https://aws.amazon.com/ko/blogs/architecture/exponential-backoff-and-jitter/)
 
 ### asg
 > cheatsheet : https://tutorialsdojo.com/aws-auto-scaling/?src=udemy
@@ -619,9 +686,11 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
 ### iam
 > https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements.html
 
- > https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
+> https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
 
 > https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html
+
+- 제3자가 조직의 AWS리소스에 엑세스해야한다면, 버킷에 액세스할 수 있는 권한이 있는 교차 계정 IAM 역할을 생성하고 해당 역할을 사용할 수 있는 권한을 공급업체 AWS 계정에 부여합니다.
 
 ```json
 "Version": "2012-10-17", // default
@@ -687,7 +756,7 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
 
 ### examtopics
 ```
-84, 114 116 122 124
+84, 114 116 122 124 159
 ```
 
 - Resources가 DependsOn 루프를 형성한다면 순환참조를 하게된다. 따라서 Dependson 속성을 추가해야한다. 예를 들어 동일한 스택에 인터넷 게이트웨이가 있는 탄력적 IP와 VPC를 생성하는 경우 탄력적 IP는 인터넷 게이트웨이 연결에 종속되어야 합니다.
@@ -769,6 +838,25 @@ vCPU 2개가 1분동안 50% 실행되는것과 vCPU 4개가 1분동안 25%로 �
 - Amazon EFS에 대한 백업 전략으로 백업 활동의 시작/중지를 예약하기 위해 Amazon CloudWatch Events 규칙과 함께 AWS Lambda를 사용합니다. Auto Scaling 그룹의 Amazon EC2에서 백업 스크립트를 실행합니다. Auto Scaling 수명 주기 후크와 EC2에서 SSM Run Command를 사용하여 Amazon S3에 백업 로그를 업로드합니다. Amazon SNS를 사용하여 백업 활동 메타데이터를 관리자에게 알립니다.
 - CodeBuild와 CodeDeploy에는 승인 프로세스가 없습니다. CodePipeline에는 있음
 - CodePipeline은 나머지 API 엔드포인트를 호출하지 않으므로 lambda가 필요합니다
+- 사용자는 항상 원본 스냅샷 크기보다 더 큰 크기의 새 EBS 볼륨을 생성할 수 있습니다. 사용자는 더 작은 크기의 볼륨을 생성할 수 없습니다
+- IAM 정책 내에서 IfExists는 Null 조건을 제외한 모든 조건 연산자의 끝에 추가할 수 있습니다. 
+- AWS Personal Health Dashboard에서만 찾을 수 있는 "AWS 예약 EC2 유지 관리 알림"(AWS about planned EC2 maintenance)
+- Amazon S3의 메타데이터 캐시 생성을 효율적으로 하기위해서는 새 DynamoDB 테이블을 생성합니다. 새로운 DynamoDB 테이블을 사용하여 Amazon S3에 업로드된 모든 객체에 대한 모든 메타데이터를 저장합니다. 새 객체가 업로드될 때마다 DynamoDB에서 애플리케이션의 내부 Amazon S3 객체 메타데이터 캐시를 업데이트하십시오.
+- AWS CloudFormation 템플릿을 사용하여 로드 밸런서 뒤에 애플리케이션을 다시 배포하고, 각 배포 중에 새 AWS CloudFormation 스택을 시작하고, 새 로드 밸런서를 가리키도록 Amazon Route53 별칭 리소스 레코드 세트를 업데이트하고, 마지막으로 이전 AWS를 종료합니다. CloudFormation 스택
+- 수많은 클라이언트가 동일한 레코드에 쓰려고 할 때 개발자는 프로그램의 신뢰성을 어떻게 향상시킬 수 있습니까 지터를 사용하여 오류 재시도 및 지수 백오프를 구현합니다.
+- Beanstalk를 사용하려는 경우 비용을 절감할 때 작동하는 롤링 배포 옵션보다 추가 배치로 롤링 배포를 선택하는 것이 좋습니다.
+- DynamoDB를 사용하고 AWS OpsWorks와 AWS Elastic Beanstalk 모두
+DynamoDB를 직접 지원하지 않으므로 CloudFormation 및 Blue-Green을 선택하는 옵션이 맞습니다.
+- NAT게이트웨이는 여러 가용영역에 걸쳐있지않다
+- ElasticBeanstalk랑 Opswork는 지속적으로 폴링되는 인스턴스를 필요로하며, Cloudformation은 폴링이 필요없고 상시작동 인스턴스가 없다
+- Auto Scaling에서 애플리케이션이 응답을 중지한 인스턴스를 교체하도록 하려면 구성 파일을 사용하여 Elastic Load Balancing 상태 확인을 사용하도록 Auto Scaling 그룹을 구성할 수 있습니다.
+- Amazon SNS 주제를 생성하고 대상 이메일 주소가 포함된 이 주제에 대한 구독을 생성합니다. Amazon CloudWatch 규칙 생성: aws.opsworks를 소스로 지정하고 started_by 세부 정보에서 자동 복구를 지정합니다. SNS 주제를 대상으로 사용합니다. OpsWorks Stacks의 자동 복구 기능(specify auto-healing)을 활성화한다면, 인스턴스가 다시 실행하게될 때 알람을 받을 수 있다.
+- s3 멀티파트 업로드는 크기가 큰 파일을 전송하는데 적합하며, S3 Transfer Acceleration는 장거리 전송에 적합한 옵션이다
+- EC2에서 EBS 관련처리를 하는 AWS CLI로는 ec2-create-snapshot API, ec2-describe-snapshot API, ec2-delete-snapshot-API 가 있다
+- CodePipeline에서 AWS Lambda 작업을 사용하여 Lambda 함수를 실행하여 제품의 새 버전을 확인하고 AWS 서비스 카탈로그에 푸시합니다.
+- 두 번째 ELB를 생성하고 새로운 Auto Scaling Group이 새로운 Launch Configuration을 할당합니다. 업데이트된 앱으로 새 AMI를 생성합니다. Route53 가중 라운드 로빈 레코드를 사용하여 두 ELB에 도달하는 트래픽의 비율을 조정합니다.
+- ECS가 클러스터 인스턴스를 배포하는 데 사용하는 기본 AWS CloudFormation 템플릿을 복사합니다. 템플릿 리소스 EBS 구성 설정을 수정하여 ג€~Encrypted: Trueג€™를 설정하고 AWS KMS 별칭 ג€~aws/ebsג€™를 포함하여 AMI를 암호화합니다.
+- AWS Config s3-bucket-server-side-encryption-enabled 관리형 규칙을 활성화하여 S3 기본 암호화가 활성화되지 않은 S3 버킷 또는 S3 버킷 정책 없이 객체 넣기 요청을 명시적으로 거부하지 않는 S3 버킷을 확인합니다. 서버 측 암호화. AWS-EnabledS3BucketEncryption 수정 작업을 AWS Config 규칙에 추가하여 수신 거부가 아닌 모든 S3 버킷에서 기본 암호화를 활성화합니다. AWS Config 조직 통합을 사용하여 조직의 모든 계정에 규칙을 배포합니다.
 
 ---
 
