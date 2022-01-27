@@ -583,7 +583,18 @@ CloudFormation.
     - 포트폴리오란 용어
 
 ### ecs
+> 클러스터에서 Docker 컨테이너를 실행, 중지 및 관리하는 컨테이너 관리서비스
+
 > cheatsheet : https://tutorialsdojo.com/amazon-elastic-container-service-amazon-ecs/
+- ETL( Extract-Transform-Load ) 워크로드를 관리 및 확장
+- TaskDefinition
+    - TaskFamily
+    - IAM task role
+    - Network mode
+    - Container definitions
+    - Voluums
+    - Task placement constraints
+    - Launch types
 - DockerFile
     - build
         - Docker image
@@ -598,14 +609,24 @@ CloudFormation.
                 - DockerContainer
 - Container Management
     - ECS : AWS Elastic Container Service
+        - ECS의 Service는 ECS TASK로 구성되어있고, ECS TASK는 EC2 또는 Fargate가 될 수 있다.
         - Cluster는 EC2의 논리적 집합
         - EC2 별로 ECS agenet가 설치되어있고, 각각이 Docker Container 이다
         - EC2의 AMI는 ECS에 최적화된 별도의 AMI다
         - ECS의 metadata는 based JSON이다
         - metadata에는 이미지정보, 호스트 및 컨테이너의 포트바인딩, IAM ROle 등이다.
     - Fargate : AWS Serverless
+        - 프로비저닝, 스케일링, 메니지먼트를 신경쓸 필요가 없음
+        - 비용은 서버를 유지하는 EC2 보다 저렴하게 발생
+        - ECS의 TASK 또는 EKS의 Pods로 사용될 수 있음
         - task 단위로 task 숫자를 늘림으로써 Scale이 됨
     - EKS : AWS Elastic K8s Service
+        - Pods 단위
+- CLI TOOL
+    - Amazon ECS Exec
+        - EC2나 Fargate의 컨테이너에서 명령을 실행할 수 있는 방법
+    - App2Container
+    - Copilot
 - Reference
     - https://aws.amazon.com/premiumsupport/knowledge-center/ecs-agent-disconnected-linux2-ami/
     - https://docs.aws.amazon.com/AmazonECS/latest/developerguide/update-service.html
