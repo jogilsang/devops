@@ -328,6 +328,9 @@ CloudFormation.
 
 ### codepipeline
 > cheatsheet : https://tutorialsdojo.com/aws-codepipeline/
+
+- https://docs.aws.amazon.com/codepipeline/latest/userguide/actions-create-custom-action.html
+
 - Code / Build / Test / Deploy / Provision 등의 Stage로 구성된 workflow를 Orchestrate해주는 Continuos Delivery 서비스이다. 각각의 Stage는 sequential 할수도있고, parallel 할 수 있다.
 - CodePipeline provides support for six types of actions:
     - Source
@@ -878,6 +881,17 @@ DynamoDB를 직접 지원하지 않으므로 CloudFormation 및 Blue-Green을 �
 - 두 번째 ELB를 생성하고 새로운 Auto Scaling Group이 새로운 Launch Configuration을 할당합니다. 업데이트된 앱으로 새 AMI를 생성합니다. Route53 가중 라운드 로빈 레코드를 사용하여 두 ELB에 도달하는 트래픽의 비율을 조정합니다.
 - ECS가 클러스터 인스턴스를 배포하는 데 사용하는 기본 AWS CloudFormation 템플릿을 복사합니다. 템플릿 리소스 EBS 구성 설정을 수정하여 ג€~Encrypted: Trueג€™를 설정하고 AWS KMS 별칭 ג€~aws/ebsג€™를 포함하여 AMI를 암호화합니다.
 - AWS Config s3-bucket-server-side-encryption-enabled 관리형 규칙을 활성화하여 S3 기본 암호화가 활성화되지 않은 S3 버킷 또는 S3 버킷 정책 없이 객체 넣기 요청을 명시적으로 거부하지 않는 S3 버킷을 확인합니다. 서버 측 암호화. AWS-EnabledS3BucketEncryption 수정 작업을 AWS Config 규칙에 추가하여 수신 거부가 아닌 모든 S3 버킷에서 기본 암호화를 활성화합니다. AWS Config 조직 통합을 사용하여 조직의 모든 계정에 규칙을 배포합니다.
+- AWS CodeDeploy에서 애플리케이션 배포 상태에 대한 Slack 알림을 받아야 합니다. CloudWatch 이벤트 규칙을 생성하여 CodeDeploy 작업의 결과를 감지하고 AWS SNS에 대한 알림을 대상으로 지정하거나 결과를 Slack 채널에 전송하는 Lambda 함수를 지정합니다.
+- GitHub를 소스 공급자로 사용하고 AWS CodeDeploy를 배포 공급자로 사용하는 AWS CodePipeline 파이프라인을 생성합니다. 이 새 파이프라인을 GitHub 계정과 연결하고 CodePipeline이 GitHub의 웹훅을 사용하여 변경이 발생할 때 파이프라인을 자동으로 시작하도록 지시합니다.
+- 사용자 인증 및 탄력적 IP 주소를 사용하여 프록시 서버를 생성하고 Amazon ES 엔드포인트의 액세스를 해당 IP 주소로 제한합니다.
+- AWS CodePipeline을 사용하여 파이프라인을 생성한 다음 사용자 지정 작업 유형을 생성합니다. 작업 요청에 대해 CodePipeline을 폴링하고 테스트를 시작하고 결과를 반환하는 온프레미스 서버용 작업자를 생성합니다. 소스 단계 후에 사용자 지정 작업을 호출하도록 파이프라인을 구성합니다.
+- Amazon Route 53 구성을 전용 AWS 계정으로 프로그래밍 방식으로 마이그레이션할 수 있다.
+- RDS 데이터베이스의 스냅샷을 다른 계정에 복사합니다. RDS 데이터베이스의 읽기전용복제본은 다른 계정에 활성화 할 수 없음
+- Elastic Beanstalk의 구성을 다른 계정에서 미러링할 수는 없다. 하지만 구성 파일을 다른 계정에 저장/복사는 가능하다.
+- Amazon Aurora MySQL DB 클러스터가 애플리케이션을 구성할경우, 120분 응답 시간과 60분 응답 시간으로 준비해야한다면 가장 비용효율적인 방식은 Aurora DB 클러스터의 스냅샷을 생성하고 매시간 대상 리전에 복사합니다.
+- Auto Scaling 서비스가 인스턴스를 종료하기 전에 비용을 낮게 유지하면서 인스턴스를 디버그할 수 있도록 하려면, 문제 해결을 완료할 때까지 인스턴스를 terminating:wait 상태로 유지하기 위해 Auto Scaling 그룹 수명 주기 후크를 생성합니다. 문제 해결이 완료되면 종료 상태가 만료될 때까지 기다리거나 Scaling에 알리고 수명 주기 후크를 완료하고 인스턴스를 종료합니다.
+수명 주기 후크는 인스턴스를 대기 상태( Terminating:Wait)로 만든 다음 사용자 지정 작업을 수행합니다.
+인스턴스는 수명 주기 작업을 완료하거나 제한 시간이 끝날 때까지(기본적으로 1시간) 대기 상태로 유지됩니다. 수명 주기 후크를 완료하거나 제한 시간이 만료되면 인스턴스가 다음 상태( Terminating:Proceed)로 전환됩니다.
 
 ---
 
