@@ -362,7 +362,17 @@ CloudFormation.
 
 - 모든지역추적(Console 기본옵션)
 - 단일지역추적(AWS CLI, Trail API 기본옵션)
+    - create-trail
+    - update-trail
+    - describe-trail : 추적정보를 반환
+    - get-trail : 추적에 대한 설정정보 반환
+    - add-tags
+    - remove-tags
+    - list-tags
+    - start-logging : 추적과 함께 이벤트 로깅 시작
+    - stop-logging
 - CloudTrail은 자체적으로 `Enable log file validation?`체크로 로그 파일 무결성 검증 설정을 할 수 있다
+- CloudTrail은 CLI로 `"LogFileValidationEnabled": true,`로 로그파일 무결성 검증설정을 할 수 있다.
 - 관리이벤트는 기록되며, 기본적으로 데이터 이벤트와 인사이트 이벤트는 기록되지않는다
 - 실제로 CloudTrail은 첫 번째 관리 추적에 대해 비용을 청구하지 않고 첫 번째 관리 추적 이후에 생성하는 추가 관리 추적에 대해서만 비용을 청구하기 때문입니다.
 
@@ -518,6 +528,7 @@ CloudFormation.
 - session manager
     - instance 접속 history 확인 및 ssh접속 기록하도록 설정가능
     - 감사 및 검토를 위해 세션 로그를 S3 버킷 또는 CloudWatch Logs로 보냅니다.
+- [state manager](https://aws.amazon.com/cn/blogs/mt/configure-amazon-ec2-instances-in-an-auto-scaling-group-using-state-manager/)
 - Inventory
     - SSM 인벤토리를 통해 관리중인 인스턴스의 어플리케이션의 버전과 패치, 구성 확인가능
 - Automation
@@ -672,6 +683,9 @@ CloudFormation.
 
 ### DynamoDB
 > cheatsheet : https://tutorialsdojo.com/amazon-dynamodb/
+
+- 강력한 일관된 읽기(Strongly Consistent Read)는 default이다
+
 - https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.KCLAdapter.html
 - https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html
 - [Amazon DynamoDB 전역 테이블을 사용하여 다중 지역 아키텍처를 강화하는 방법](https://aws.amazon.com/ko/blogs/database/how-to-use-amazon-dynamodb-global-tables-to-power-multiregion-architectures/)
@@ -780,7 +794,7 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
 
 ### examtopics
 ```
-84, 114 116 122 124 159
+84, 114 116 122 124 159 171
 ```
 
 - Resources가 DependsOn 루프를 형성한다면 순환참조를 하게된다. 따라서 Dependson 속성을 추가해야한다. 예를 들어 동일한 스택에 인터넷 게이트웨이가 있는 탄력적 IP와 VPC를 생성하는 경우 탄력적 IP는 인터넷 게이트웨이 연결에 종속되어야 합니다.
@@ -892,6 +906,19 @@ DynamoDB를 직접 지원하지 않으므로 CloudFormation 및 Blue-Green을 �
 - Auto Scaling 서비스가 인스턴스를 종료하기 전에 비용을 낮게 유지하면서 인스턴스를 디버그할 수 있도록 하려면, 문제 해결을 완료할 때까지 인스턴스를 terminating:wait 상태로 유지하기 위해 Auto Scaling 그룹 수명 주기 후크를 생성합니다. 문제 해결이 완료되면 종료 상태가 만료될 때까지 기다리거나 Scaling에 알리고 수명 주기 후크를 완료하고 인스턴스를 종료합니다.
 수명 주기 후크는 인스턴스를 대기 상태( Terminating:Wait)로 만든 다음 사용자 지정 작업을 수행합니다.
 인스턴스는 수명 주기 작업을 완료하거나 제한 시간이 끝날 때까지(기본적으로 1시간) 대기 상태로 유지됩니다. 수명 주기 후크를 완료하거나 제한 시간이 만료되면 인스턴스가 다음 상태( Terminating:Proceed)로 전환됩니다.
+- AWS Kinesis는 이벤트 스트림 서비스이며, 순서대로 프로그래밍된 이벤트에 대해 시스템 간에 버퍼 및 전송 역할을 할 수 있으므로 시스템 간에 API 호출 을 복제하는 데 이상적입니다.
+- 보안 그룹은 지역에 묶여 있으며 동일한 지역의 인스턴스에만 할당할 수 있습니다.
+- The update-trail command is used to change the configuration settings for a trail
+- 메인 리전의 AMI 복사를 백업 리전으로 자동화합니다. AMI에서 EC2 인스턴스를 생성하고 로드 밸런서 뒤에 배치할 AWS Lambda 함수를 생성합니다. 동일한 Lambda 함수를 사용하여 Amazon Route 53 레코드가 백업 리전의 로드 밸런서를 가리키도록 합니다. 실패 시 Lambda 함수를 트리거합니다.
+- AWS CodeDeploy는 블루/그린 배포 접근 방식을 사용하여 Amazon ECS에 애플리케이션을 배포하는 데 사용됩니다. 조직은 트래픽을 재라우팅하기 전에 애플리케이션의 그린 버전을 테스트할 스크립트를 작성하려고 합니다. CodeDeploy AppSpec 파일에 후크 섹션을 추가합니다. AfterAllowTestTraffic 수명 주기 이벤트를 사용하여 AWS Lambda 함수를 호출하여 테스트 스크립트를 실행합니다. 오류가 발견되면 오류와 함께 Lambda 함수를 종료하여 롤백을 트리거합니다.
+- RTO가 4시간일경우 읽기 전용 복제본을 기본 데이터베이스로 변환하는 데 4시간이 걸리지 않습니다.
+- 배포 전략으로 롤링 업데이트를 선택하면 코드가 손상되는 경우 예기치 않은 가동 중지 시간이 발생할 수 있음
+- 배포와 관련된 가동 중지시간없이, 성공적인것으로 간주되기위해서는 어떡해 해야하는가? 
+Application Load Balancer 및 AWS CodeDeploy 블루/그린 배포 유형과 함께 Amazon ECS 클러스터 및 서비스를 사용합니다. Amazon ECS에서 프로덕션 포트와 테스트 포트를 정의합니다. 애플리케이션을 테스트하는 AWS Lambda 함수를 작성하고 appspec.yml의 AfterAllowTestTraffic 후크 내에서 참조합니다.
+- Amazon Cognito가 웹 자격 증명 연동에서 제공하는 기능의 상위 집합이라는 것입니다. 동일한 공급자를 지원하며 동일한 방식으로 앱을 구성하고 해당 공급자와 인증합니다.
+- AMI 이미지를 사용하여 Amazon EC2 Auto Scaling 그룹을 생성하고 Auto Scaling 그룹의 CPU 사용률 평균을 75% 목표로 하는 조정 작업을 수행합니다. 그룹에 대해 예약된 작업을 만들어 업무 시간이 끝난 후 최소 인스턴스 수를 3개로 조정하고 업무 시간이 시작되기 전에 6개로 재설정합니다.
+- 사용자는 IAM 정책에 대한 다양한 요소를 정의할 수 있습니다. 요소에는 버전, ID, 문, Sid, 효과, 주체, 주체 아님, 작업, 동작 아님,
+리소스, 리소스 아님, 조건 및 지원되는 데이터 유형이 포함됩니다.
 
 ---
 
