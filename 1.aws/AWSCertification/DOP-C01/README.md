@@ -176,6 +176,8 @@ option_settings:
 ```
 
 ### lambda
+> FAQ : https://aws.amazon.com/ko/lambda/faqs/
+
     - Security, Environment Variables, KMS and SSM
         - kms
             - os.environ['key']
@@ -646,6 +648,16 @@ CloudFormation.
     - https://docs.aws.amazon.com/AmazonECS/latest/developerguide/update-service.html
     - https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html
     - https://aws.amazon.com/blogs/compute/how-to-automate-container-instance-draining-in-amazon-ecs/
+
+- Docker는 현재 Amazon ECS에서 지원하는 유일한 컨테이너 플랫폼입니다.
+- 단일 컨테이너를 시작하려면 태스크 정의에 단 한 개의 컨테이너 정의만 포함해야 합니다.
+- 태스크에는 Amazon ECS가 배치를 결정하는 데 필요한 모든 정보가 포함되어 있습니다.
+- Amazon ECS는 서비스 스케줄러를 사용하면 애플리케이션 가용성 유지 관리가 가능하여, 애플리케이션 용량 요구 사항에 따라 컨테이너 규모를 확장하거나 축소할 수 있습니다.
+- 태스크 정의에 Amazon ECR 리포지토리를 지정하고 AmazonEC2ContainerServiceforEC2Role을 인스턴스에 연결하기만 하면 됩니다.
+- Fargate에서는 서버 프로비저닝, 클러스터 관리, 오케스트레이션이라는 개념이 모두 필요 없습니다.
+- Amazon EC2 고객은 컨테이너 인스턴스의 운영 체제(OS)에 대한 루트 액세스 권한을 가집니다. 고객은 OS 보안 설정의 소유권을 가져오고 모니터링, 패치 관리, 로그 관리 및 호스트 침입 탐지와 같은 보안 기능을 위한 추가 소프트웨어 구성 요소를 구성할 수 있습니다.
+- 고객의 EC2 인스턴스는 ECS 서비스에 액세스하기 위해 IAM 역할을 사용합니다.
+- 고객의 ECS 태스크는 서비스와 리소스에 액세스하기 위해 IAM 역할을 사용합니다.
 
 ### kinesis
 - 정의 및 특징
