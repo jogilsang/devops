@@ -54,6 +54,7 @@
     - [Aurora](#aurora)
 - AWS 공인 DevOps 엔지니어 전문 실습 시험
     - [TEST1](#test1)
+    - [TEST2](#test2)
     - [examtopics](#examtopics)
 - [용어정리](#용어정리)
 
@@ -556,6 +557,16 @@ CloudFormation.
                 - ManagedInstnaceRole
     - ami-hardning-process
 
+- VPC 엔드포인트를 생성해서 SSM을 이용할 수 있다. ENI를 통해 PrivateLink를 활용한다
+- 관리형 인스턴스를 설정하려면 SSM 에이전트 설치 및 IAM 인스턴스 프로파일을 연결한다.
+- AWS Systems Manager 문서는 대규모로 리소스를 관리할 수 있도록 코드형 구성을 지원합니다.
+- AWS Systems Manager parameter store는 AWS Key Management Service(KMS)와 통합되므로, 저장하는 데이터를 자동으로 암호화할 수 있습니다.
+- AWS Systems Manager parameter store는 AWS Identity and Access Management(IAM)를 사용해 파라미터에 대한 사용자 및 리소스 액세스를 제어할 수 있습니다.
+- AWS IAM을 사용하면 누가 어떤 리소스에서 어떤 파라미터에 액세스할 수 있는지 제어할 수 있습니다.
+- AWS Systems Manager parameter store는 파라미터 변경 이벤트를 기준으로 Amazon CloudWatch Events 규칙을 설정할 수도 있습니다. 또한, AWS CloudTrail을 사용하여 파라미터 API 호출을 추적하고 감사할 수도 있습니다.
+- 파라미터 변경이력을 볼 수 있고, 자동으로 설정되는 버저닝을 통해 특정 파라미터값 검색가능
+- Parameter Store에서 Secrets Manager 보안 정보를 참조할 수 있습니다.
+
 ### config
 : AWS 리소스 구성 변경사항에 대한 알림을 제공하는 완전관리형 서비스
 - CheatSheet : https://tutorialsdojo.com/aws-config/
@@ -704,6 +715,31 @@ CloudFormation.
 - https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-router-firewall-rules.html
 - https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-health-checks.html
 
+- 주제
+    - 레코드 유형
+    - AAAA 레코드 유형 : 16진법형식의 Ipv6
+        - EX : 2001:0db8:85a3:0:0:8a2e:0370:7334
+    - CAA 레코드 유형
+    - CNAME 레코드 유형 : 현재 레코드의 이름에 대한 DNS 쿼리를 다른 도메인(example.com or example.net) 또는 하위 도메인(acme.example.com or zenith.example.org)으로 매핑합니다.
+    - DS 레코드 유형
+    - MX 레코드 유형
+    - NAPTR 레코드 유식
+    - NS 레코드 유형
+    - PTR 레코드 유형
+    - SOA 레코드 유형
+    - SPF 레코드 유형
+    - SRV 레코드 유형
+    - TXT 레코드 유형
+- Route 53이 별칭 레코드에 대한 DNS 쿼리를 받으면, Route 53은 해당 리소스에 해당되는 값으로 응답합니다.
+    - Amazon API Gateway 사용자 지정 리전 API 또는 엣지 최적화 API - Route 53은 API의 하나 이상의 IP 주소로 응답합니다.
+    - Amazon VPC 인터페이스 엔드포인트 – Route 53은 인터페이스 엔드포인트의 하나 이상의 IP 주소로 응답합니다.
+    - CloudFront 배포 – Route 53은 콘텐츠를 제공할 수 있는 CloudFront 엣지 서버의 하나 이상의 IP 주소로 응답합니다.
+    - Elastic Beanstalk 환경 – Route 53은 환경에 대해 하나 이상의 IP 주소로 응답합니다.
+    - ELB 로드 밸런서 – Route 53은 로드 밸런서에 대해 1개 이상의 IP 주소로 응답합니다.
+    - AWS Global Accelerator 액셀러레이터 – Route 53은 액셀러레이터의 두 IP 주소 중 하나로 응답합니다.
+    정적 웹사이트로 구성되는 Amazon S3 버킷 – Route 53은 Amazon S3 버킷의 1개의 IP 주소로 응답합니다.
+    동일한 호스팅 영역의 다른 Route 53 레코드 – Route 53은 별칭 레코드에서 참조하는 레코드에 대한 쿼리가 요청된 것처럼 응답합니다.
+
 ### DynamoDB
 > cheatsheet : https://tutorialsdojo.com/amazon-dynamodb/
 
@@ -815,9 +851,19 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
 - AllowMajorVersionUpgrade속성은 주요 버전 업그레이드가 허용되는지 여부를 나타내는 값일 뿐입니다.
 - RDS 다중 AZ 인스턴스에 대한 데이터베이스 엔진을 수정할 때 전체 다중 AZ 배포에 대한 데이터베이스 엔진이 업그레이드 중에 종료된다는 점을 기억하십시오.
 
+### test2
+- 단계와 작업의 차이가 머지
+- 5. 시스템카탈로그
+- EC2 인스턴스 클러스터
+- 7. 콘텐츠 덮어쓰기 옵션?
+- 새 버전의 애플리케이션이 배포될 때마다 모든 사용자는 자동으로 로그아웃되어 전반적인 사용자 경험에 영향을 미칩니다.
+- 40. 에이전트별 차이?
+- 45. 로컬 보조인덱스와 글로벌 보조인덱스의 차이는?
+- 46. 앱은 서버 라이선스 제약으로 인해 Auto Scaling을 사용할 수 없습니다.
+
 ### examtopics
 ```
-84, 114 116 122 124 159 171
+84 114 116 122 124 159 171
 ```
 
 - Resources가 DependsOn 루프를 형성한다면 순환참조를 하게된다. 따라서 Dependson 속성을 추가해야한다. 예를 들어 동일한 스택에 인터넷 게이트웨이가 있는 탄력적 IP와 VPC를 생성하는 경우 탄력적 IP는 인터넷 게이트웨이 연결에 종속되어야 합니다.
