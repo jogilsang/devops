@@ -255,6 +255,8 @@ option_settings:
 
 > AWS resource Reference : https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html
 
+> FAQ : https://aws.amazon.com/ko/cloudformation/faqs/
+
 > cheatsheet : https://tutorialsdojo.com/aws-cloudformation/?src=udemy
 
 > policy 리소스속성참조 : https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/aws-product-attribute-reference.html
@@ -326,7 +328,16 @@ CloudFormation.
 - depends on
 - [드리프트(drift)](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html)
 - NoEcho : 콘솔, 명령줄 도구 또는 API에 표시되지 않도록 파라미터 값을 마스킹 처리할지 여부입니다.
-
+- 템플릿은 Registry 리소스 유형, 자체 사용자 지정 프라이빗 유형, 자체 매크로를 활용할 수 있을 뿐 아니라, AWS Secrets Manager 및 AWS System Manager Parameter Store에서 구성 파라미터를 검색할 수도 있습니다.
+- AWS 리소스 사이에서 이름 충돌을 염려할 필요 없이 하나의 템플릿에서 여러 스택을 생성할 수 있습니다.
+- 리소스에 이름을 지정하면 템플릿을 재사용하기 힘들고 업데이트하기 위해 리소스를 교체할 때 이름에 충돌이 생깁니다.
+- CloudFormation을 Systems Manager와 통합하면 Systems Manager Automation 문서를 통해 소프트웨어 설치를 진행하고 유지 관리할 수 있습니다.
+- AWS CloudFormation은 EC2 인스턴스에서 Chef Server 및 Chef Client 소프트웨어를 부트스트랩하는 데 사용할 수 있습니다.
+- AWS CloudFormation은 EC2 인스턴스에서 Puppet Master 및 Puppet Client 소프트웨어를 부트스트랩하는 데 사용할 수 있습니다.
+- CloudFormation은 Amazon EBS 볼륨 및 Amazon EC2 인스턴스가 속한 CloudFormation 스택의 이름을 사용하여 해당 볼륨 및 인스턴스에 자동으로 태그를 지정합니다.
+- 기본적으로 “Automatic rollback on error” 기능이 활성화되어 있습니다. 이 경우 CloudFormation은 모든 개별 작업에 성공할 경우 스택의 모든 리소스를 생성 또는 업데이트만 하게 됩니다. 
+- Amazon EBS 볼륨 또는 Amazon RDS 데이터베이스 인스턴스가 삭제되기 전에 이에 대해 생성할 스냅샷을 지정할 수 있습니다. 스택이 삭제될 때 리소스를 삭제하지 않고 보존하도록 지정할 수도 있습니다.
+- CloudFormation의 옵션 중 하나는 장벽처럼 작용해 애플리케이션 또는 관리 시스템과 같은 외부 소스에서 완료 신호가 수신될 때까지 다른 리소스의 생성을 차단하는 WaitCondition 리소스입니다.
 
 ### codepipeline
 > cheatsheet : https://tutorialsdojo.com/aws-codepipeline/
