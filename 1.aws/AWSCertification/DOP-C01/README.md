@@ -861,6 +861,8 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
 - 45. 로컬 보조인덱스와 글로벌 보조인덱스의 차이는?
 - 46. 앱은 서버 라이선스 제약으로 인해 Auto Scaling을 사용할 수 없습니다.
 
+- 데이터베이스 인스턴스의 수명 주기가 애플리케이션 환경의 수명 주기와 연결되어 있기 때문에 프로덕션 환경에는 적합하지 않습니다.
+
 ### examtopics
 ```
 84 114 116 122 124 159 171
