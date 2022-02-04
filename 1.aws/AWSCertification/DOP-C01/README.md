@@ -634,13 +634,30 @@ eb_codebuild_settings:
 
 - Managed Rules
 > https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html
-    - s3-bucket-server-side-encryption-enabled : Amazon S3 버킷에 Amazon S3 기본 암호화(SSE-S3, SSE-KMS)가 활성화여부 확인
+    - approved-amis-by-id
+    - approved-amis-by-tag
+    - autoscaling-group-elb-healthcheck-required
+    - s3-bucket-server-side-encryption-enabled
+        - Amazon S3 버킷에 Amazon S3 기본 암호화(SSE-S3, SSE-KMS)가 활성화여부 확인
     - s3-bucket-public-read-prohibited
-    - access-keys-rotated : maxAccessKeyAge (MAX=90)
-    - account-part-of-organizations : 조직에속하는지여부
-    - cloudformation-stack-notification-check : 클라우드포메이션이 해당 주제에 알람을 보내는지 확인
-    - cloudformation-stack-drift-detection-check : 클라우드포메이션이 실제구성이나 예상구성과 다를경우
-    - ec2-instance-managed-by-systems-manager : 계정의 EC2 인스턴스가 SystemManager에서 관리되는지 확인
+    - access-keys-rotated
+        - maxAccessKeyAge (MAX=90)
+    - account-part-of-organizations
+        - 조직에속하는지여부
+    - cloudfront-origin-failover-enabled
+        - 오리진그룹에 오리진서버가 2대로 되어있는지
+    - cloudfront-custom-ssl-certificate
+        - 기본SSL 인증서를 사용하는지 여부
+    - db-instance-backup-enabled
+        - DB 인스턴스 백업여부
+    - cloudformation-stack-notification-check
+        - 클라우드포메이션이 해당 주제에 알람을 보내는지 확인
+    - cloudformation-stack-drift-detection-check
+        - 클라우드포메이션이 실제구성이나 예상구성과 다를경우
+    - ec2-instance-managed-by-systems-manager
+        - 계정의 EC2 인스턴스가 SystemManager에서 관리되는지 확인
+    - ec2-ebs-encryption-by-default
+        - EBS의 암호화가 기본으로 적용되었는지 여부
 
 ### trustedadvisor
 > Trusted Advisor는 AWS 환경을 분석하고 5가지 범주에서 모범 사례 권장 사항을 제공합니다.
@@ -716,7 +733,7 @@ eb_codebuild_settings:
     - https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html
     - https://aws.amazon.com/blogs/compute/how-to-automate-container-instance-draining-in-amazon-ecs/
     - https://docs.aws.amazon.com/cli/latest/reference/ecs/update-service.html
-    
+
 - Docker는 현재 Amazon ECS에서 지원하는 유일한 컨테이너 플랫폼입니다.
 - 단일 컨테이너를 시작하려면 태스크 정의에 단 한 개의 컨테이너 정의만 포함해야 합니다.
 - 태스크에는 Amazon ECS가 배치를 결정하는 데 필요한 모든 정보가 포함되어 있습니다.
@@ -987,7 +1004,6 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
 - WaitOnResourceSignals을 true로 할경우, 다음 인스턴스의 업데이트 시작은 이전 인스턴스의 업데이트의 성공신호가 pause TIme 내에 들어와야 진행하겠다는 의미이다
 - MinInstancesInService는 업데이트가 진행되는동안, ASG에서 동작해야할 최소 인스턴스 수를 의미한다. ASG의 최대 Instance값 미만으로 설정해야한다
 - MinSuccessfulInstancesPercent는 성공으로 판단할 수 있는 인스턴스배포완료 비율이다. pauseTIme을 설정할경우 해당 시간내에 성공신호를 받아야 인스턴스를 성공했다라고 판단한다.
-- MinSuccessfulInstancesPercent는 성공으로 판단할 수 있는 인스턴스배포완료 비율이다. pauseTIme을 설정할경우 해당 시간내에 성공신호를 받아야 인스턴스를 성공했다라고 판단한다.
 - StorageGateWay를 통해 온프레미스에서 AWS로 파일,볼륨,테이프 기반의 스토리지를 전송할 수 있다. 테이프 게이트웨이를 설정해서 보낼경우 Archive 백업용으로 서비스용은 아니다.
 - 중간단계없이 온프레미스 네트워크랑 Kinesis Video Streams를 연결해서 사용할 수는 없다
 - AWS Storage Gateway는 온프레미스에서 VM 어플라이언스, 하드웨어 어플라이언스로 또는 AWS에서 Amazon Elastic Compute Cloud(Amazon EC2) 인스턴스로 실행할 수 있습니다.
@@ -1009,6 +1025,26 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
         - 기본 테이블에 있는 것과 다를 수 있는 파티션 키 및 정렬 키가 있는 인덱스입니다. 글로벌 보조 인덱스는 인덱스에 대한 쿼리가 모든 파티션에서 기본 테이블의 모든 데이터에 걸쳐 있을 수 있기 때문에 "글로벌"로 간주됩니다.
     - 로컬 보조 인덱스
         - 기본 테이블과 파티션 키는 같지만 정렬 키는 다른 인덱스입니다. local secondary index는 local secondary index의 모든 파티션이 동일한 파티션 키 값을 갖는 기본 테이블 파티션으로 범위가 지정된다는 점에서 "로컬"입니다.
+- 서비스 제어 정책(SCP)은 단순히 SCP가 적용되는 계정의 사용자 및 역할에 관리자가 위임할 수 있는 서비스와 작업을 결정
+- AWS Trusted Advisor는 비용 최적화, 보안, 내결함성, 성능 및 서비스 제한이라는 5가지 범주에서 클라우드 인프라가 모범 사례 및 권장 사항을 준수하는지 확인하는 데 주로 사용됩니다.
+- IAM 정책을 설정하면 완전히 제한되기 때문에 올바르지 않습니다.
+- AWS Lambda 및 CloudWatch Events를 통합하여 VPC 내에서 실행 중인 Amazon EC2 인스턴스 목록을 검색하는 일일 프로세스를 예약합니다. 이들 중 승인되지 않은 AMI를 기반으로 하는 것이 있는지 확인하도록 기능을 구성합니다. Amazon SNS 주제에 새 메시지를 게시하여 보안 및 개발 팀에 문제가 발생했음을 알리고 EC2 인스턴스를 자동으로 종료합니다.
+- AWS Systems Manager Patch Manager 는 보안 관련 업데이트로 관리형 인스턴스에 패치를 적용하는 프로세스를 자동화합니다. 패치기준으로 승인,거부목록이 가능하며 태그별로 가능하고 기간설정을 통해 예약작업도 가능하다
+- QuickSight 및 Kibana가 주로 패치 관리가 아니라 데이터 시각화에 사용되기 때문에 올바르지 않습니다.
+- AWS OpsWorks는 Chef 및 Puppet의 관리형 인스턴스를 제공하는 단순한 구성 관리 서비스입니다.
+- AWS System manager의 PatchManager는 patch-baseline 을 사용합니다. 여기에는 릴리스 후 며칠 이내에 패치를 자동 승인하는 규칙과 승인 및 거부된 패치 목록이 포함됩니다.
+- System Manager의 패치그룹은 인스턴스 태그 기준으로 묶을 수 있으며, OS유형, 환경유형(DEV,PRD), 서비스 유형 등을 묶을수있다
+- EBS 스냅 샷용 Amazon DLM(데이터 수명 주기 관리자) 은 Amazon EBS 볼륨에 저장된 데이터를 백업하는 간단하고 자동화된 방법을 제공합니다.
+- Oracle RAC 는 Amazon RDS 및 Aurora가 지원하지 않기 때문에 Amazon EC2를 사용한 배포를 통해서만 지원됩니다. Amazon RDS는 다중 테넌트 데이터베이스, RAC(Real Application Clusters), 통합 감사, Database Vault 등과 같은 Oracle의 특정 기능을 지원하지 않습니다.
+- 임시 보안 자격 증명과 IAM 역할을 제공하는 AssumeRoleWithWebIdentity API와 함께 Web Identity Federation을 사용하여 이를 달성할 수 있습니다. Amazon Cognito를 사용하여 프로세스를 단순화할 수도 있습니다.
+- 인증 토큰을 받은 다음 해당 토큰을 AWS 계정의 리소스를 사용할 권한이 있는 IAM 역할에 매핑하는 AWS의 임시 보안 자격 증명으로 교환할 수 있습니다.
+- AWS 액세스 및 비밀 키를 사용하여 사진과 비디오를 S3 버킷에 저장하고 텍스트 기반 보고서를 DynamoDB 테이블에 유지하도록 모바일 애플리케이션을 구성하는 것은 보안위험이다
+- Security Assertion Markup Language 2.0(SAML 2.0)
+- Amazon GuardDuty는 주로 AWS 계정과 워크로드를 보호하기 위해 악의적이거나 승인되지 않은 동작을 지속적으로 모니터링하는 위협 감지 서비스로 사용
+- AWS Shield Advanced 서비스가 AWS 리소스에서 DDoS 공격을 방지하는 데 더 적합
+- AWS Systems Manager 유지 관리 기간(maintenance window)을 사용하면 운영 체제 패치, 드라이버 업데이트 또는 소프트웨어나 패치 설치와 같이 인스턴스에 잠재적인 중단 작업을 수행할 시기에 대한 일정을 정의할 수 있습니다. 각 유지 관리 기간에는 일정, 최대 기간, 등록된 대상 집합(작동되는 인스턴스) 및 등록된 작업 집합이 있습니다. 또한 유지 관리 기간이 전후에 실행되지 않아야 하는 날짜를 지정할 수 있으며 유지 관리 기간 일정의 기준이 되는 국제 표준 시간대를 지정할 수 있습니다.
+- 세션 관리자는 주로 인스턴스에 대한 액세스를 제어해야 하는 기업 정책을 준수하는 데 사용되기 때문입니다. , 엄격한 보안 관행, 인스턴스 액세스 세부 정보가 포함된 완전히 감사 가능한 로그(OS 패치 적용용 제외)
+- AWS Systems Manager State Manager는 Amazon EC2 및 하이브리드 인프라를 사용자가 정의한 상태로 유지하는 프로세스를 자동화하는 안전하고 확장 가능한 구성 관리 서비스로 주로 사용. State Manager를 사용하면 시작 시 특정 소프트웨어로 부팅하도록 인스턴스를 구성할 수 있습니다. 네트워크 설정 및 기타 여러 구성을 구성하지만 EC2 인스턴스의 패치는 구성하지 않습니다.
 
 ### examtopics
 ```
@@ -1137,6 +1173,7 @@ Application Load Balancer 및 AWS CodeDeploy 블루/그린 배포 유형과 함�
 - AMI 이미지를 사용하여 Amazon EC2 Auto Scaling 그룹을 생성하고 Auto Scaling 그룹의 CPU 사용률 평균을 75% 목표로 하는 조정 작업을 수행합니다. 그룹에 대해 예약된 작업을 만들어 업무 시간이 끝난 후 최소 인스턴스 수를 3개로 조정하고 업무 시간이 시작되기 전에 6개로 재설정합니다.
 - 사용자는 IAM 정책에 대한 다양한 요소를 정의할 수 있습니다. 요소에는 버전, ID, 문, Sid, 효과, 주체, 주체 아님, 작업, 동작 아님,
 리소스, 리소스 아님, 조건 및 지원되는 데이터 유형이 포함됩니다.
+- 
 
 ---
 
