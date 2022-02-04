@@ -316,8 +316,24 @@ CloudFormation.
     6. Metadata
 
 - UpdatePolicy
-    - AutoScalingReplacingUpdate : WillReplace : true
-        - 신규ASG가 완전히 성공해야, 이전ASG가 삭제됨
+    - AWS Cloudformation의 스팩이 업데이트될 때, ASG의 그룹 내 리소스가 업데이트되는 방식을 정의
+        - AutoScalingRollingUpdate
+            ```json
+            {
+                "UpdatePolicy": {
+                    "AutoScalingRollingUpdate": {
+                        "MaxBatchSize": Integer,
+                        "MinInstancesInService": Integer,
+                        "MinSuccessfulInstancesPercent": Integer,
+                        "PauseTime": String,
+                        "SuspendProcesses": [ List of processes ],
+                        "WaitOnResourceSignals": Boolean
+                    }
+                }
+            }
+            ```
+        - AutoScalingReplacingUpdate : WillReplace : true
+            - 신규ASG가 완전히 성공해야, 이전ASG가 삭제됨
 - DeletionPolicy
     - what happens when the CloudFormation template is deleted
         - DeletePolicy=Delete (default behavior):
@@ -699,7 +715,8 @@ eb_codebuild_settings:
     - https://docs.aws.amazon.com/AmazonECS/latest/developerguide/update-service.html
     - https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html
     - https://aws.amazon.com/blogs/compute/how-to-automate-container-instance-draining-in-amazon-ecs/
-
+    - https://docs.aws.amazon.com/cli/latest/reference/ecs/update-service.html
+    
 - Docker는 현재 Amazon ECS에서 지원하는 유일한 컨테이너 플랫폼입니다.
 - 단일 컨테이너를 시작하려면 태스크 정의에 단 한 개의 컨테이너 정의만 포함해야 합니다.
 - 태스크에는 Amazon ECS가 배치를 결정하는 데 필요한 모든 정보가 포함되어 있습니다.
@@ -709,6 +726,7 @@ eb_codebuild_settings:
 - Amazon EC2 고객은 컨테이너 인스턴스의 운영 체제(OS)에 대한 루트 액세스 권한을 가집니다. 고객은 OS 보안 설정의 소유권을 가져오고 모니터링, 패치 관리, 로그 관리 및 호스트 침입 탐지와 같은 보안 기능을 위한 추가 소프트웨어 구성 요소를 구성할 수 있습니다.
 - 고객의 EC2 인스턴스는 ECS 서비스에 액세스하기 위해 IAM 역할을 사용합니다.
 - 고객의 ECS 태스크는 서비스와 리소스에 액세스하기 위해 IAM 역할을 사용합니다.
+
 
 ### kinesis
 - 정의 및 특징
@@ -938,6 +956,59 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
 - EC2/온프레미스 컴퓨팅 플랫폼을 사용하는 경우 블루/그린 배포는 Amazon EC2 인스턴스에서만 작동합니다
 - AWS X-Ray 서비스는 주로 개발자가 애플리케이션을 분석하고 디버그하는 데 사용한다는 점에 유의하십시오
 - Amazon ECS에서 애플리케이션을 올바르게 계측하려면 X-Ray 데몬을 실행하는 Docker 이미지를 생성하여 Docker 이미지 리포지토리에 업로드한 다음 Amazon ECS 클러스터에 배포해야 합니다.
+- xray-daemon.config파일은 주로 Elastic Beanstalk에서 사용됩니다.
+- AWS X-Ray 데몬은 UDP 포트 2000에서 트래픽을 수신 대기하고 원시 세그먼트 데이터를 수집하여 AWS X-Ray API에 전달하는 소프트웨어 애플리케이션입니다.
+- X-Ray SDK는 X-Ray 로 바로 보내지않고, 데몬으로 보내며 데몬은 SDK와 함께 동작한다.
+- Elastic Beanstalk 환경 구성에는 RDS DB 인스턴스가 연결되어 있고 애플리케이션 서버에서 사용합니다. 그렇다면 DNS 변경이 필요한 Blue/Green배포가 불가능합니다. DB가 유실됩니다
+- 이 배포 유형은 롤링 배포와 유사하므로 이 문제의 근본 원인을 완화하는 데 도움이 되지 않기 때문입니다. 대본.Rolling with additional batch
+- AWS SES는 클라우드 메일서비스로, 커스텀도메인으로 메일을 보낼수있으며 송수신이 가능하다. HTML 형식, 이메일 템플릿 등을 활용할 수 있다
+- AWS SNS는 AWS서비스에 대한 알림서비스로 topic을 구독한 subscriber들에게 다양한 프로토콜(HTTP, 이메일, SMS 등)로 전달하는 서비스이다. 이메일의경우 텍스트 기반만 가능하며, 수신은 할 수 없다.
+- CloudWatch 경보 가 AWS Lambda에서 직접 테스트 결과를 수신할 수 없기 때문에 Lambda가 AWS CloudWatch 경보에 직접 결과를 보내고 배포 중에 5xx 응답 오류가 수신될 때 롤백을 트리거하도록 하는 옵션 은 올바르지 않습니다.
+- 프로덕션 트래픽으로 이동하기 전에 Lambda 검증 기능을 트리거해야 하므로 AWS Lambda에서 검증 스크립트를 생성하고 새 앱 버전을 검증하기 위해 배포 후 호출하는 옵션 은 올바르지 않습니다. 또한 예상대로 작동하지 않는 경우 배포를 롤백할 수 있습니다.
+- CodeDeploy Lambda appspec.yaml
+    - beforeAllowTraffic
+    - AllowTraffic
+    - afterAllowTraffic
+- CodeDeploy ECS appspec.yaml
+    - start
+    - beforeInstall
+    - Install
+    - afterInstall
+    - AllowTestTraffic
+    - AfterAllowTestTraffic
+    - BeforeAllowTraffic
+    - AllowTraffic
+    - AfterAllowTraffic
+    - End
+- CodeDeploy가 배포에 성공했을경우 0 값을 반환합니다. 실패할경우 0이 아닌 값을 반환합니다. 
+- AutoScalingRollingUpdate의 경우 롤링 업데이트를 사용하면 실행 중인 EC2 인스턴스의 가용성 감소로 인해 시스템 중단 및 성능 저하 위험이 있습니다.
+- 롤링 업데이트 중 예기치 않은 스케일링 작업으로 Auto Scaling 그룹의 상태가 변경되면 업데이트가 실패할 수 있습니다.
+- 롤링 업데이트 중 Auto Scaling에서 프로세스를 실행하지 못하도록 하려면 SuspendProcesses 속성을 사용합니다.
+- WaitOnResourceSignals을 true로 할경우, 다음 인스턴스의 업데이트 시작은 이전 인스턴스의 업데이트의 성공신호가 pause TIme 내에 들어와야 진행하겠다는 의미이다
+- MinInstancesInService는 업데이트가 진행되는동안, ASG에서 동작해야할 최소 인스턴스 수를 의미한다. ASG의 최대 Instance값 미만으로 설정해야한다
+- MinSuccessfulInstancesPercent는 성공으로 판단할 수 있는 인스턴스배포완료 비율이다. pauseTIme을 설정할경우 해당 시간내에 성공신호를 받아야 인스턴스를 성공했다라고 판단한다.
+- MinSuccessfulInstancesPercent는 성공으로 판단할 수 있는 인스턴스배포완료 비율이다. pauseTIme을 설정할경우 해당 시간내에 성공신호를 받아야 인스턴스를 성공했다라고 판단한다.
+- StorageGateWay를 통해 온프레미스에서 AWS로 파일,볼륨,테이프 기반의 스토리지를 전송할 수 있다. 테이프 게이트웨이를 설정해서 보낼경우 Archive 백업용으로 서비스용은 아니다.
+- 중간단계없이 온프레미스 네트워크랑 Kinesis Video Streams를 연결해서 사용할 수는 없다
+- AWS Storage Gateway는 온프레미스에서 VM 어플라이언스, 하드웨어 어플라이언스로 또는 AWS에서 Amazon Elastic Compute Cloud(Amazon EC2) 인스턴스로 실행할 수 있습니다.
+- Lambda@Edge는 CLoudFront를 통해 정적,동적 컨텐츠를 제공받는 서비스의 동작지연이나 동작에 관여해야할 떄 사용이 가능하다
+- Lambda@Edge는 CloudFront에 접근할 때 실행되는 Lambda의 확장판이다. CloudFront Cache에 Enduser와 OriginServer 중간에서 Request와 Response에 개입할 수 있다.
+- Lambda@Edge 를 사용하면 Lambda 함수를 실행하여 CloudFront에서 제공하는 콘텐츠를 사용자 지정하고 최종 사용자에게 더 가까운 AWS 위치에서 함수를 실행할 수 있습니다.
+- 두 개의 오리진이 있는 오리진 그룹을 생성하여 Amazon CloudFront에서 오리진 장애 조치를 설정합니다. 하나는 기본 원점으로 지정하고 다른 하나는 두 번째 원점으로 지정합니다. 이 구성을 사용하면 기본 오리진이 특정 HTTP 상태 코드 실패 응답을 반환하는 경우 CloudFront 서비스가 두 번째 오리진으로 자동 전환됩니다.
+- no-store는 캐시를 저장하지않는것이며, no-cache는 캐시가 유효한지 서버에 매번 질의하는것이며, max-age는 설정한 시간까지 캐시를 활용하고, 이후 시간에는 304 Not Modified 응답(요청된 리소스를 재전송할 필요가 없음)을 받을때에만 캐시를 이용한다
+- Amazon inspector는 애플리케이션의 기능이 아닌 EC2 인스턴스의 보안 취약점만 검사하기 때문에 잘못된 것입니다. 
+- Amazon ECS 를 사용하면 민감한 데이터를 AWS Secrets Manager 암호 또는 AWS Systems Manager Parameter Store 파라미터에 저장한 다음 컨테이너 정의에서 참조하여 민감한 데이터를 컨테이너에 주입할 수 있습니다. 이 기능은 EC2 및 Fargate 시작 유형을 모두 사용하는 작업에서 지원됩니다.
+- Docker Secret은 Docker Swarm과 사용가능하다
+- 어떠한 형태로든 Crendential 정보를 S3에 넣는건, 많은 비부가가 발생한다
+- AWS ECS의 경우 agent는 중요한 역활을 한다. task의 컨테이너를 실행시킬 수도있고, task와 EC2 meta-data에서 정보등을 가져올 수있다
+- Force new deployment 옵션 은 를 지정할 때 최신 플랫폼 버전을 사용하도록 Fargate 작업을 업데이트할 때도 사용됩니다
+- --platform-version 옵션은 원하는 이미지 버전이 아니라 ECS에서 사용할 Fargate 플랫폼을 지정하는 데 주로 사용되기 때문입니다.
+- ECS에 "재배포" 배포 전략 옵션, 자동플랫폼 버전업그레이드 기능활성화는 없기 때문에 올바르지 않습니다.
+- DynamoDB 는 두 가지 유형의 보조 인덱스를 지원합니다.
+    - 글로벌 보조 인덱스
+        - 기본 테이블에 있는 것과 다를 수 있는 파티션 키 및 정렬 키가 있는 인덱스입니다. 글로벌 보조 인덱스는 인덱스에 대한 쿼리가 모든 파티션에서 기본 테이블의 모든 데이터에 걸쳐 있을 수 있기 때문에 "글로벌"로 간주됩니다.
+    - 로컬 보조 인덱스
+        - 기본 테이블과 파티션 키는 같지만 정렬 키는 다른 인덱스입니다. local secondary index는 local secondary index의 모든 파티션이 동일한 파티션 키 값을 갖는 기본 테이블 파티션으로 범위가 지정된다는 점에서 "로컬"입니다.
 
 ### examtopics
 ```
