@@ -19,6 +19,7 @@
 - Section2 : Code & Slides Download
 - Section3 : SDLC Automation
     - [CODECOMMIT](#codecommit)
+    - [CODEBUILD](#codebuild)
     - [CODEPIPELINE](#codepipeline)
     - [JENKINS](#jenkins)
 - Section4 : Configuration Management and IaaS
@@ -345,6 +346,23 @@ CloudFormation.
 - Amazon EBS 볼륨 또는 Amazon RDS 데이터베이스 인스턴스가 삭제되기 전에 이에 대해 생성할 스냅샷을 지정할 수 있습니다. 스택이 삭제될 때 리소스를 삭제하지 않고 보존하도록 지정할 수도 있습니다.
 - CloudFormation의 옵션 중 하나는 장벽처럼 작용해 애플리케이션 또는 관리 시스템과 같은 외부 소스에서 완료 신호가 수신될 때까지 다른 리소스의 생성을 차단하는 WaitCondition 리소스입니다.
 
+### codebuild
+
+- eb_codebuild
+```sh
+# settings
+eb_codebuild_settings:
+  CodeBuildServiceRole: role-name
+  ComputeType: size
+  Image: image
+  Timeout: minutes 
+# serviceRole
+  "codebuild:CreateProject",
+  "codebuild:DeleteProject",
+  "codebuild:BatchGetBuilds",
+  "codebuild:StartBuild"
+```
+
 ### codepipeline
 > cheatsheet : https://tutorialsdojo.com/aws-codepipeline/
 
@@ -359,6 +377,7 @@ CloudFormation.
     - Approval
     - Invoke
 - runOrder조치 의 기본값 은 1입니다. 값은 양의 정수(자연수)여야 합니다. 분수, 소수, 음수 또는 0은 사용할 수 없습니다. 병렬 작업을 지정하려면 병렬로 실행하려는 각 작업에 대해 동일한 정수를 사용합니다.
+
 
 ### log
 - Application logs
@@ -894,6 +913,31 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
 - Trusted Advisor는 매주 요약 알림만 보내므로 규정을 준수하지 않는 리소스에 대해 즉시 알리지 않습니다.
 - AWS Config는 기본 수정 작업 이 없기 때문에 올바르지 않습니다. 이는 수정 작업을 구성할 수 있는 AWS Systems Manager Automation 서비스와 통합되어야 합니다.
 - Amazon Inspector는 주로 EC2 인스턴스에 사용되는 자동화된 보안 평가 서비스이기 때문에 S3 버킷 정책을 수정하기 위해 AWS Systems Manager에 작업을 보냅니다 . 대신 AWS Config를 사용해야 합니다.
+- AWS Elastic Beanstalk는 새 버전을 별도의 환경에 배포한 다음 두 환경의 CNAME을 교환하여 트래픽을 새 버전으로 즉시 리디렉션하는 블루/그린 배포를 수행하면 이 다운타임을 피할 수 있습니다.
+- 지정된 파이프라인 또는 모든 파이프라인. 를 사용하여 이를 제어합니다 ."detail-type": "CodePipeline Pipeline Execution State Change"
+- 지정된 파이프라인 또는 모든 파이프라인 내에서 지정된 단계 또는 모든 단계. 를 사용하여 이를 제어합니다 ."detail-type": "CodePipeline Stage Execution State Change"
+- 지정된 단계 또는 모든 단계 내, 지정된 파이프라인 또는 모든 파이프라인 내에서 지정된 작업 또는 모든 작업. 를 사용하여 이를 제어합니다 ."detail-type": "CodePipeline Action Execution State Change"
+- 배포 프로세스의 일부로 CodeDeploy 에이전트는 가장 최근 배포에 의해 설치된 모든 파일을 각 인스턴스에서 제거합니다. 이전 배포에 포함되지 않은 파일이 대상 배포 위치에 나타나는 경우 다음 배포 중에 CodeDeploy가 파일로 수행할 작업을 선택할 수 있습니다.
+    - 배포 실패 — 오류가 보고되고 배포 상태가 실패로 변경됩니다.
+    - 내용 덮어쓰기 — 애플리케이션 개정판의 파일 버전이 인스턴스에 이미 있는 버전을 대체합니다.
+    - 내용 유지 — 대상 위치의 파일이 유지되고 애플리케이션 개정 버전이 인스턴스에 복사되지 않습니다.
+- CodeDeploy 에이전트는 EC2/온프레미스 컴퓨팅 플랫폼에 배포하는 경우에만 필요합니다. Amazon ECS 또는 AWS Lambda 컴퓨팅 플랫폼을 사용하는 배포에는 에이전트가 필요하지 않습니다.
+-  CodeDeploy에서 블루/그린 배포는 Amazon EC2 인스턴스에서만 작동하기 때문에 온프레미스 서버에 대한 블루/그린 배포 는 올바르지 않습니다.
+- CodeDeploy는 롤링 배포를 지원하지 않기 때문에 ECS로의 롤링 배포 는 올바르지 않습니다. 이러한 유형의 배포는 실제로 Elastic Beanstalk에서 수행됩니다.
+- CodeDeploy는 선형배포,카나리아배포,AllAtOnce배포가 있다. 선형배포는 특정주기별로 특정트래픽만큼 배포하는 것이고, 카나리아 배포는 특정비율까지 배포한뒤, 특정시간 뒤 일괄로 배포하는것이다
+- EC2/온프레미스 배포의경우, 기본배포구성은 AllAtOnce, OneAtTime, HalfAtOnce 세가지다
+    - AllAtOnce : 가능한한 모든 배포를 시도하고, 한대라도 성공하면 성공
+    - HalfAtATime : 절반이상 배포가 성공하면 성공
+    - OneAtATime : 마지막 인스턴스를 제외한 나머지 인스턴스가 한대라도 실패하면 배포실패
+- CodeDeploy는 create-development로 시작하고, stop-development 로 멈출수있으며 3가지 상황이 나타날 수 있다
+    - 보류
+    - 성공
+    - 오류
+- CodeDeploy는 revision state(인스턴스의 버전변경여부)와 instance state(인스턴스 배포성공여부)가 있다.
+- CodeDeploy와 ECS의경우, TaskSet 단위로 롤백이되고 배포가 진행된다.
+- EC2/온프레미스 컴퓨팅 플랫폼을 사용하는 경우 블루/그린 배포는 Amazon EC2 인스턴스에서만 작동합니다
+- AWS X-Ray 서비스는 주로 개발자가 애플리케이션을 분석하고 디버그하는 데 사용한다는 점에 유의하십시오
+- Amazon ECS에서 애플리케이션을 올바르게 계측하려면 X-Ray 데몬을 실행하는 Docker 이미지를 생성하여 Docker 이미지 리포지토리에 업로드한 다음 Amazon ECS 클러스터에 배포해야 합니다.
 
 ### examtopics
 ```
