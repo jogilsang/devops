@@ -175,6 +175,11 @@ option_settings:
     LowerThreshold: '20'
     LowerBreachScaleIncrement: '-1'
 ```
+- IAM Role
+    - Service Role : EB에서 사용자를 대신해서 AWS 서비스를 사용하도록 위임
+    - instance Profile : 사용자 환경의 인스턴스에 적용. 환경 유형 및 플랫폼에 따라 달라지는 기타 작업을 수행
+- User Policy
+    - 사용자가 Elastic Beanstalk 애플리케이션 및 환경을 생성하고 관리할 수 있습니다.
 
 ### lambda
 > FAQ : https://aws.amazon.com/ko/lambda/faqs/
@@ -603,7 +608,12 @@ CloudFormation.
     - ec2-instance-managed-by-systems-manager : 계정의 EC2 인스턴스가 SystemManager에서 관리되는지 확인
 
 ### trustedadvisor
-
+> Trusted Advisor는 AWS 환경을 분석하고 5가지 범주에서 모범 사례 권장 사항을 제공합니다.
+- 비용 최적화(Cost Optimization)
+- 성능(Performance)
+- 보안(Security)
+- 결함 허용(fault tolerlence)
+- 서비스 제한(service limit)
 
 ### scp
 > example : https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_examples.html
@@ -862,6 +872,28 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
 - 46. 앱은 서버 라이선스 제약으로 인해 Auto Scaling을 사용할 수 없습니다.
 
 - 데이터베이스 인스턴스의 수명 주기가 애플리케이션 환경의 수명 주기와 연결되어 있기 때문에 프로덕션 환경에는 적합하지 않습니다.
+- Amazon ES 클러스터를 유지 관리하는 데 많은 운영 오버헤드가 수반되기 때문입니다.
+- Amazon Route 53 서비스를 사용하여 들어오는 모든 트래픽을 새 애플리케이션 스택으로 한 번에 전달하는 것은 잘못된 것입니다. 들어오는 모든 트래픽을 새 포털로 보낼 때 중단이 상당히 높습니다. 문제가 발생하면 이전 스택으로 다시 전환하기 위해 다운타임이 발생합니다.
+- AWS RDS의 경우, DB 인스턴스, DB 클러스터, DB 클러스터 스냅샷, DB 파라미터 그룹 또는 DB 보안 그룹에 대한 이벤트 범주를 구독할 수 있습니다.
+- Amazon Simple Notification Service(Amazon SNS)를 사용하여 Amazon RDS 이벤트가 발생할 때 알림을 제공합니다.
+- 특정 DB 인스턴스의 백업 카테고리를 구독하면 DB 인스턴스에 영향을 미치는 백업 관련 이벤트가 발생할 때마다 알림을 받습니다. DB 보안 그룹의 설정 변경 카테고리에 가입하면 DB 보안 그룹이 변경될 때 알림을 받습니다.
+- 원본 스냅샷의 AWS 리전과 다른 AWS 리전에 스냅샷을 복사하면 증분 스냅샷을 복사하더라도 첫 번째 복사본은 전체 스냅샷 복사본입니다. 전체 스냅샷 복사본에는 DB 인스턴스를 복원하는 데 필요한 모든 데이터와 메타데이터가 포함됩니다.
+- 스냅샷을 완료하는 데 상당한 시간이 걸리기 때문에 교차 리전 스냅샷은 읽기 전용 복제본에 비해 높은 RPO를 제공하지 않습니다.
+- Amazon RDS 다중 AZ와 마찬가지로 Aurora 다중 마스터에는 여러 가용 영역에만 데이터가 복제되지만 다른 AWS 리전에는 복제되지 않습니다. 대신 Amazon Aurora 글로벌 데이터베이스를 사용해야 합니다.
+- Amazon RDS의 다중AZ의경우 고가용성을 목표로하며, 동기식 복제가 진행되고 자동백업 시 대기상태로 진행된다. active-standby로 기본 인스턴스만 확장된다.
+- Amazon RDS의 다중리전배포의경우 로컬성능과 재해복구를 위해서 진행한다. 모든 Region에 접근가능하며, 비동기식 복제가 가능하고 리전별로 자동백업되며 리전별로 DB엔진버전관리를 별도로할수있고, 리전별로 다중AZ배포가 가능하다.
+- 고가용성을 위해 원본 데이터베이스를 다중 AZ로 구성하고 읽기 확장성을 위해 읽기 전용 복제본(단일 AZ)을 만들 수 있습니다.
+- AWS Systems Manager State Manager는 Amazon EC2 및 하이브리드 인프라를 사용자가 정의한 상태로 유지하는 프로세스를 자동화하는 구성 관리 서비스일 뿐입니다.
+- AWS Systems Manager 세션 관리자는 주로 인바운드 포트를 열거나, 배스천 호스트를 유지 관리하거나, SSH 키를 관리할 필요 없이 안전하고 감사 가능한 인스턴스 관리를 제공하지만 클라이언트 측 웹 세션을 필터링하는 데 사용되지 않습니다.
+- AWS Shield Advanced를 사용하여 회사 AWS 리소스의 애플리케이션 계층 트래픽에 대한 향상된 DDoS 공격 탐지 및 모니터링을 활성화합니다. VPC의 모든 보안 그룹이 승인된 서버 또는 서비스의 특정 포트와 트래픽만 허용하는지 확인합니다. CloudFront 배포 뒤에 배치하여 오리진 서버를 보호합니다.
+- 일반적인 DDoS 요청 패턴을 식별하고 차단하는 AWS WAF 규칙을 설정하여 회사의 클라우드 인프라에 대한 DDoS 공격을 효과적으로 완화합니다. 네트워크 ACL(액세스 제어 목록)이 VPC의 필수 포트 및 네트워크 주소만 허용하는지 확인합니다.
+- AWS Shield는 Route53, Cloudfront, LoadBalancer에 다 자동으로 적용된다. 
+- OS 패치를 통해 보안강화를 할 수 있지만, 침입자체를 막을 수 없다. 
+- AWS Config 콘솔 또는 API를 통해 수정 작업을 쉽게 설정할 수 있습니다. 미리 채워진 목록에서 연결하려는 수정 작업을 선택하거나 AWS Systems Manager Automation 문서를 사용하여 사용자 지정 수정 작업을 생성하기만 하면 됩니다.
+- AWS Config는 Lambda가 아닌 AWS Systems Manager Automation 문서와 함께 사용됩니다.
+- Trusted Advisor는 매주 요약 알림만 보내므로 규정을 준수하지 않는 리소스에 대해 즉시 알리지 않습니다.
+- AWS Config는 기본 수정 작업 이 없기 때문에 올바르지 않습니다. 이는 수정 작업을 구성할 수 있는 AWS Systems Manager Automation 서비스와 통합되어야 합니다.
+- Amazon Inspector는 주로 EC2 인스턴스에 사용되는 자동화된 보안 평가 서비스이기 때문에 S3 버킷 정책을 수정하기 위해 AWS Systems Manager에 작업을 보냅니다 . 대신 AWS Config를 사용해야 합니다.
 
 ### examtopics
 ```
