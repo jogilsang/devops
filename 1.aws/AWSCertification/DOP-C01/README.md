@@ -57,6 +57,7 @@
     - [TEST1](#test1)
     - [TEST2](#test2)
     - [examtopics](#examtopics)
+    - [examtopics_answer](#examtopics_answer)
 - [용어정리](#용어정리)
 
 DynamoDB 테이블의 RCU 및 WCU 증가 는 올바르지 않습니다.
@@ -343,10 +344,18 @@ CloudFormation.
         - DeletionPolicy=Snapshot:
             - EBS Volume, ElastiCache Cluster, ElastiCache ReplicationGroup
             - RDS DBInstance, RDS DBCluster, Redshift Cluster
-- [cfn-init](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-init.html)
-- cfn-hup
-- cfn-signal & wait conditions
+- Helper Script
+    - EC2 인스턴스가 대상이다
+    - cfn-init
+        - 리소스 메타데이터를 검색 및 해석하고, 패키지를 설치하고, 파일을 생성하고, 서비스를 시작하는 데 사용됩니다.
+    - cfn-signal
+        - 필수 리소스나 애플리케이션이 준비될 때 스택에서 다른 리소스를 동기화할 수 있도록 CreationPolicy 또는 WaitCondition에서 신호를 전송하는 데 사용됩니다.
+    - cfn-get-metadata
+        - 특정 키에 대한 리소스나 경로의 메타데이터를 검색하는 데 사용됩니다.
+    - cfn-hup
+        - 메타데이터에 대한 업데이트가 있는지 확인하고 변경 사항이 감지된 경우 사용자 지정 후크를 실행하는 데 사용됩니다.
 - /var/log/cloud-init-output.log
+    - 인스턴스가 의도한 대로 동작하지 않더라도 스크립트를 손쉽게 디버깅할 수 있습니다
 - /var/log/cfn-init.log
 - depends on
 - [드리프트(drift)](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html)
@@ -1240,7 +1249,70 @@ Application Load Balancer 및 AWS CodeDeploy 블루/그린 배포 유형과 함�
 - AMI 이미지를 사용하여 Amazon EC2 Auto Scaling 그룹을 생성하고 Auto Scaling 그룹의 CPU 사용률 평균을 75% 목표로 하는 조정 작업을 수행합니다. 그룹에 대해 예약된 작업을 만들어 업무 시간이 끝난 후 최소 인스턴스 수를 3개로 조정하고 업무 시간이 시작되기 전에 6개로 재설정합니다.
 - 사용자는 IAM 정책에 대한 다양한 요소를 정의할 수 있습니다. 요소에는 버전, ID, 문, Sid, 효과, 주체, 주체 아님, 작업, 동작 아님,
 리소스, 리소스 아님, 조건 및 지원되는 데이터 유형이 포함됩니다.
-- 
+- 액세스 로깅은 기본적으로 비활성화되어 있는 Elastic Load Balancing의 선택적 기능입니다.
+- Auto Scaling 그룹에 수명 주기 후크를 추가하여 Terminating 상태의 인스턴스를 Terminating:Wait 상태로 이동합니다.
+- Cloudformation StackSets는 여러 계정에 동일한 스택을 배포하는 데 사용할 수 있습니다. 스택 세트는 리전 리소스입니다. 한 리전에 스택 세트를 생성하면 다른 리전에서 해당 스택 세트를 보거나 변경할 수 없습니다.
+- 승인된 CloudFormation 템플릿으로 AWS 서비스 카탈로그 제품을 생성합니다.
+- 암호화되지않은 EBS 스냅샷을 공유할 수 있다. KMS 암호화된 스냅샷은 공유가되지않으며, 고객관리형 키로 암호화했을경우 키도 공유해야한다.
+- 새 이미지를 Amazon S3에 업로드하고 Amazon SQS 대기열에서 메시지를 삭제하기 전에 이미지의 크기를 조정하고 워터마크를 지정합니다.
+- Amazon Elastic Transcoder 서비스는 이미지가 아닌 비디오와 연관된 서비스
+- 모든 계정에 대해 Organizations 마스터 계정에서 AWS Config 집계기를 구성합니다.
+- 기업 IAM 정책과 일치하는 조직의 모든 계정에(마스터 계정이 아닌) AWS Config 규칙을 배포합니다.
+- SCP는 기업 정책 접근 방식에 포함되지만 IAM 규정 준수에 대한 질문에 응답하고 있다고 생각하지 않습니다.
+- 스팟 인스턴스가 온디맨드보다 가장 저렴한 옵션이며 AMI를 생성하는 데 몇 분 이상 걸리는 경우 최소 실행 기간을 사용할 수 있습니다.
+- 사용하지않는 EBS를 삭제할수있는 방법은?
+    - Lambda함수로 OpsCenterAPI를 사용할 수 있다. 매일 AWS Lambda 함수를 실행하는 Amazon CloudWatch Events 규칙을 생성합니다. Lambda 함수는 연결되지 않은 EBS 볼륨을 찾아 현재 날짜로 태그를 지정하고 14일이 지난 날짜가 포함된 태그가 있는 연결되지 않은 볼륨을 삭제해야 합니다.
+-  Amazon Cloud Watch Events를 CodePipeline에 구독하여 배포 테스트 전후에 모든 EC2 및 RDS 인스턴스를 시작 및 중지하는 AWS Systems Manager Automation 문서를 트리거합니다.
+- DynamoDB 글로벌 테이블을 설정합니다. DynamoDB가 실행 중인 두 리전 각각에서 ELB 뒤에 Auto Scaling 그룹을 생성합니다. 두 리전의 ELB를 리소스 레코드로 사용하여 DNS 장애 조치가 있는 Route53 지연 시간 DNS 레코드를 추가합니다.
+- 스팟 블록 리소스라는건 없고 spot fleet(스팟 플릿)은 존재한다
+- 스팟 fleet을 사용하려면 할당 전략을 반드시 사용해야하며, 용량 최적화 정책(capacity-optimized allocation strategy)을 사용할 수 있다
+- AWS::AutoScaling::AutoScalingGroup 리소스는 UpdatePoIicy 속성을 지원합니다. 이는 Cloud Formation 스택에 대한 업데이트가 발생할 때 Auto Scalinggroup 리소스가 업데이트되는 방식을 정의하는 데 사용됩니다
+- 기존 환경과 병행하여 별도의 환경으로 변경 사항을 도입합니다. 카나리아 릴리스 배포를 사용하여 사용자 트래픽의 작은 하위 집합을 새 환경으로 보내도록 API Gateway를 구성합니다.
+- AWS CloudTrail을 사용하면
+특정 모니터링 지표가 발생하도록 로그를 AWS Cloudwatch Logs 및 S3에 전달할 수 있습니다.
+- 동일한 경로에 사용자와 사용자 그룹이 있는 경우 IAM은 자동으로 해당 사용자를 해당 사용자 그룹에 넣지 않습니다.
+- 경로를 사용하여 동일한 그룹의 사용자 분리할 수 있다
+- lastic Beanstalk를 사용하여 애플리케이션을 배포하고 Elastic Beanstalk 환경 속성을 사용하여 외부 RDS MySQL 인스턴스에 연결합니다. 블루/그린 배포에 Elastic Beanstalk 기능을 사용하여 새 릴리스를 별도의 환경에 배포한 다음 두 환경에서 CNAME을 바꿔 트래픽을 새 버전으로 리디렉션합니다.
+- AWS CloudFormation을 사용하여 서버리스 애플리케이션을 정의하고 AWS CodeDeploy를 사용하여 DeploymentPreference: Canary10Percent15Minutes를 사용하여 AWS Lambda 함수를 배포합니다.
+- 추적에서 CloudTrail 파일 무결성 기능을 활성화합니다. CloudTrail에서 생성한 다이제스트 파일을 사용하여 전달된 CloudTrail 파일의 무결성을 확인합니다.
+
+### examtopics_answer
+- 191. D :: ELB
+    - 엑세스로그에 접근하는게 default인가, 사용자가 설정해야하는가?
+- 192. C :: ASG
+- 193. D :: CloudFormation
+- 194. C :: EBS
+- 195. C :: S3,SQS
+- 196. B,E :: Organizations
+- 197. A :: EC2
+- 198. C :: EBS
+    - 사용하지않는 오래된 EBS 볼륨들을 삭제하려면?
+- 199. D :: EC2, RDS
+    - 아키텍처 변경없이 비용절감을 위해 EC2와 RDS를 잠깐씩 필요할 때 쓰려면?
+- 200. 1000 :: IAMRole
+
+- 201. C :: CloudTrail
+    - Trail 생성 시, required가 아닌 optional(KMS, SNS, Cloudwatch)로 사용할 수 있는것은?
+- 202. C :: IAM
+    - 서로 다른 하위 부서의 두 개인을 인식하고 별도의 액세스 권한을 부여하려면 어떡해 해야하는가?
+- 203. A :: EB
+    - 배포중에 사용할 수 있어야하고, 롤백할 수 있으려면 어떤 배포방식을 취하는가?
+- 204. C :: CodeDeploy
+    - 먼저 제한된 일부의 소비자에게 배포하고 모든 고객에게 배포하기 전에 해당 배포를 모니터링하여 배포 실패의 위험을 최소화하려면?
+- 205. B :: S3, SQS
+    - 알림을 프로그래밍 방식으로 받으려면 어떤걸 사용해야하는가?
+- 206. A :: APIGateWay
+    - API Gateway에서 카나리아 릴리스 배포생성이 가능한걸 아는가?
+- 207. A :: CloudFormation, ASG
+    - 인스턴스 유형을 변경해야할경우, 서버 4대 중 2대가 계속 유지되려면?
+    - CloudFormation의 스택 업데이트 시, ASG의 Rolling과 Replace의 차이를 아는가?
+- 208. C :: EC2, ASG
+    - Spot Fleet을 활용해서 CloudFormation Templete에 사용할 수 있는가?
+    - Step Scaling & Simple Scaling & Target Scaling 의 차이를 아는가?
+- 209. B :: DynamoDB
+    - DynamoDB를 사용하면서 Region 장애를 대비하려면?
+- 210. C :: S3, CloudTrail
+    - CloudTrail 무결성 설정을 S3에서 하는지, Trail에서 하는지?
 
 ---
 - memo
