@@ -919,6 +919,7 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
 - 교차 리전 스냅샷을 사용하면 스냅샷을 완료하는 데 몇 시간이 걸릴 수 있기 때문에 가장 낮은 복구 시간과 가장 적은 데이터 손실을 제공하지 않기 때문에 잘못된 것입니다.
 - ELB는 Route53와 달리 다른 AWS 리전에 트래픽을 분산할 수 없다.
 - AWS Opsworks Stack의 경우, Linux 스택에서는 시간 기반 인스턴스와 로드 기반 인스턴스가 모두 지원되지만 Windows 스택에서는 시간 기반 인스턴스만 지원됩니다.
+- OpsWorks 서비스가 애플리케이션 패치를 적용하거나 서버의 운영 체제를 업그레이드하는 것이 아니라 애플리케이션 배포에 주로 사용되기 때문에 올바르지 않습니다.
 - Packer와 같은 오픈 소스 머신 이미지 생성 도구가 있다. ( like AWS Image Builder)
 - EBS 볼륨 스냅샷을 사용하여 기술적으로 AMI를 생성할 수 있지만, AWS Systems Manager Automation을 사용하여 AMI를 생성하는 것이 더 적합한 솔루션
 - AWS System Manager Automation은 사용자 지정 워크플로를 생성하거나 AWS에서 유지 관리하는 사전 정의된 워크플로를 사용합니다.
@@ -937,6 +938,40 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
 - 데이터베이스 업그레이드가 실패하면 장애 조치로 사용할 수 있는 읽기 전용 복제본이 없기 때문에 전체 시스템을 사용할 수 없기 때문입니다.
 - AllowMajorVersionUpgrade속성은 주요 버전 업그레이드가 허용되는지 여부를 나타내는 값일 뿐입니다.
 - RDS 다중 AZ 인스턴스에 대한 데이터베이스 엔진을 수정할 때 전체 다중 AZ 배포에 대한 데이터베이스 엔진이 업그레이드 중에 종료된다는 점을 기억하십시오.
+- S3업로드 시 403 에러를 받는다면, Amazon S3 버킷 정책이 제대로 구성되지 않았습니다.
+- S3업로드 시 403 에러를 받는다면, Amazon Virtual Private Cloud(Amazon VPC) 엔드포인트 정책이 제대로 구성되지 않았습니다.
+- Amazon Inspector 평가를 실행하려면 EC2 인스턴스에 사용자 지정 태그를 추가해야 합니다. 또한 agent는 설치해야합니다.
+- Trusted Advisor을 Cloudwatch Events와 함께 Kinesis 스트림으로 푸시할 수 있다
+- VPC가 여전히 기본 네트워크 ACL을 사용하고 있을경우, 인바운드와 아웃바운드를 확인할 필요없다. 모두 열려있기때문이다
+- VPC 흐름로그는 Management Console에서 볼 수 있다
+- 객체 변경 사항을 추적하도록 CloudTrail에서 Amazon S3 데이터 이벤트를 설정하는 것입니다. 변경을 시작한 사용자가 관리자인지 확인하는 Amazon S3 데이터 이벤트에 대한 응답으로 Lambda 함수를 실행하는 규칙을 생성합니다.
+- AWS Config 규칙은 특정 일정에만 실행되므로 Amazon S3 데이터 이벤트와 비교하여 거의 실시간 모니터링을 제공하지 않습니다.
+- AWS SystemManager Compliance(규정준수)는 PatchManager와 State Manager 관련된내용으로 패치준수여부, 구성관리준수여부를 확인한다
+- AWS Opswork의 CloudWatch Events는 아래와같다
+    - detail
+        - initiated_by :
+            - user
+                - 사용자가 API 또는 AWS Management Console을 사용하여 인스턴스 상태 변경을 요청했습니다.
+            - auto-scaling
+                - AWS OpsWorks Stacks 자동 조정 기능이 인스턴스 상태 변경을 시작했습니다.
+            - auto-healing
+                - AWS OpsWorks Stacks 자동 복구 기능이 인스턴스 상태 변경을 시작했습니다.
+- aws configservice `list-discovered-resources` --resource-type AWS::EC2::Instance 를 활용해서 ResourceType과 id를 가져올 수 있다. `모든 호스트 및 인스턴스 목록을 가져올 수 있습니다.`
+- aws configservice `get-resource-config-history` --resource-type AWS::EC2::Instance --resource-id i-1a2b3c4d `호스트 또는 인스턴스의 구성 세부 정보를 가져올 수 있습니다.`
+- `config-rule-change-triggered` 블루프린트에 기반한 함수나 구성 변경으로 트리거되는 함수의 경우
+- 사용자 지정 AMI는 표준 AMI에 포함되지 않은 많은 소프트웨어를 설치해야 하는 경우 환경에서 인스턴스가 시작될 때 프로비저닝 시간을 개선할 수 있습니다.
+- RDS의경우 대기 DB 인스턴스를 다른 AWS 리전에 호스팅할 수 없습니다. 대신 읽기 전용 복제본이나 교차 리전 스냅샷을 사용해야 합니다. 대기DB인스턴스는 AZ범위로 사용할 수 있습니다
+- Blue/Green 환경을 위한 새 애플리케이션 버전이 포함된 Classic Load Balancer 및 Auto Scaling 그룹으로 구성된 다른 스택을 준비하는 것입니다. 두 개의 Classic Load Balancer가 트래픽을 조정할 수 있도록 Route 53에서 가중치 기반 별칭 A 레코드를 생성합니다.
+- CloudFront로는 가중치를 조정할수없고, Amazon API Gateway에만 Network Load Balancer를 통합할 수 있다
+- 가장 비용 효율적인 배포 설정은 Blue/Green보다는 Immutable이다.
+- 배포하는 동안 전체 용량을 유지하려면 인스턴스를 서비스 중단하기 전에 새 인스턴스 배치를 시작하도록 환경을 구성할 수 있습니다. 이 옵션을 추가 배치가 있는 롤링 배포 라고 합니다 .
+- APIGATEWay에 stage:update단계에서 카나리아 설정을 추가하도록 요청하여 기존 비카나리아 배포에서 카나리아 릴리스 배포를 생성할 수도 있습니다 .
+- Amazon API Gateway에서 수신 트래픽의 20%를 canary 릴리스로 라우팅하는 canary 배포를 설정합니다.
+- RDS 예약된 수명주기 이벤트같은건 없다
+- DynamoDB Accelerator(DAX)는 DynamoDB 호환 캐싱 서비스이다. 최종적으로 일관된 데이터에 액세스하기 위한 빠른 응답 시간을 제공합니다.
+- Lambda@edge는 사용자와 가까운 거리에서 어플리케이션과 서비스의 지연시간을 줄이는데 사용된다. 정적이미지를 캐시하는데 사용될 수 없다
+- IAM이 아닌 버킷정책(aws:SecureTransport=true,false) HTTPS만 접근할 수 있또록 설정할수있따
+- Immutable은 후속배포를 방지하고 감소된 용량 없이 API 배포 중에 전체 용량을 엄격하게 유지해야 합니다.
 
 ### test2
 - 단계와 작업의 차이가 머지
@@ -1295,6 +1330,9 @@ Application Load Balancer 및 AWS CodeDeploy 블루/그린 배포 유형과 함�
 - AWS CloudFormation을 사용하여 Lambda 함수 버전을 사용하여 API Gateway 및 Lambda 함수를 배포합니다. 코드를 변경해야 하는 경우 새 Lambda 코드로 CloudFormation 스택을 업데이트하고 카나리아 릴리스 전략을 사용하여 API 버전을 업데이트하십시오. 테스트가 완료되면 새 버전을 승격합니다.
 - 애플리케이션 아티팩트를 Amazon S3 버킷에 게시하고 S3용 VPC 엔드포인트를 생성합니다. IAM 인스턴스 프로파일을 EC2 인스턴스에 할당하여 S3 버킷에서 애플리케이션 아티팩트를 읽을 수 있도록 합니다.
 - 단일 Aurora 인스턴스는 동일한 AZ에서만 자동 복구를 지원하기때문에, 고가용성을 만족하지못한다.
+- 테이블에 대해 DynamoDB Auto Scaling을 활성화하려면 ProductCatalog조정 정책을 생성합니다.
+- 하나 이상의 글로벌 보조 인덱스가 있는 테이블에 대해 DynamoDB Auto Scaling을 활성화하는 경우 AWS Management 콘솔에서 글로벌 보조 인덱스에 동일한 설정 적용 을 선택하면 됩니다
+- DynamoDB Auto Scaling은 Auto Scaling 정책에 따라 필요한 만큼 자주 읽기 용량 또는 쓰기 용량을 늘릴 수 있습니다.
 
 ### examtopics_answer
 - 191. D :: ELB
@@ -1361,6 +1399,77 @@ Application Load Balancer 및 AWS CodeDeploy 블루/그린 배포 유형과 함�
     - GuardDuty Finding 이벤트 유형을 이해하고있는가
 - 220. C,D :: CloudFormation
     - UPDATE ROLLBACK FAILED 상태일경우, Stack Rollback을 효과적으로 하는 방법은?
+
+- 221. B :: EB, Opswork
+    - EB와 Opswork의 차이?
+- 222. A :: Opswork
+    - 클러스터에서 노드의 추가,철회와 관련해서 자동화를 할 수 있는 솔루션은?
+        - Opsworks Stacks는 매우 동적인 애플리케이션을 구축 및 운영하고 변경 사항을 즉시 전파하는 데 도움이 되는 구성 도구이다.
+        - Chef 레시피를 생성합니다. 해당 레시피를 Configure 수명 주기 이벤트에 할당합니다.
+- 223. D :: DB
+- 224. C :: CodePipeline
+        - 개발분기에서 커밋될 떄, CodePipeline을 트리거한다. 단위테스트 등의 수동승인을 위해 CodePipeLine의 별도의 Stage를 생성한다. CodePipeline의 모든 변경사항에 대해서 CloudWatch Events를 통해 SNS를 전송한다.
+- 225. B :: EBS, ASG
+    - Auto Scaling 그룹의 EC2의 EBS에 태그가 생성되게할려면 어떡해 해야하는가?
+        - Auto Scaling 그룹 시작 템플릿을 업데이트한다. 중간에 EBS볼륨에 태그를 전파할 수 없다
+- 226. B,C :: SystemManager
+    - 엔지니어는 패치 적용을 자동화하도록 이 환경에서 Systems Manager를 구성하기 위해 어떤 조치를 취해야 합니까? 
+        - AssumeRole 작업을 실행할 수 있도록 Systems Manager에 대한 IAM 서비스 역할을 생성합니다. 서비스토큰을 생성할 수 있다. 관리형 인스턴스 역활을 한다.
+        - SSM 에이전트를 다운로드 및 설치하고 Systems Manager 서비스에 서버 또는 가상 머신을 등록
+        - EC2 인스턴스의 접두사는 i- 이고, 하이브리드는 mi- 이다
+
+- 227. A,D :: Lambda, SQS
+    - Lambda 함수가 Amazon SQS와 같이 작업될 떄, 동시성 제한이 발생할경우 조치하는 법
+        - A. SQS 대기열에 대한 ApproximateAgeOfOldestMessage 지표를 확인하고 Lambda 함수 동시성 제한을 늘리십시오.
+        - D. DynamoDB 테이블에 대한 ThrottledWriteRequests 지표를 확인하고 테이블의 Auto Scaling 정책에 대한 최대 쓰기 용량 단위를 늘립니다.
+- 229. C,D :: CloudFormation
+    - CREATE COMPLETE 상태에 대해 Describe Stacks API를 쿼리하여 AWS CloudFormation 스택이 성공적으로 생성되었는지 확인하려면 어떡해 해야하나요?
+        - WaitCondition을 정의하고, WaitConditionHandle 활용
+        - UserData 명령의 출력에 대해 UserDataHandle을 정의합니다.
+- 230. B :: ASG
+
+- 231. A,D :: ASG
+    - 특정일자 이벤트 때, 새로 시작한 인스턴스가 적시에 설정을 완료할 수 없어 고객이 불만을 가집니다.
+        - 사전 구성된 애플리케이션으로 AMI를 생성합니다. 이 새 AMI를 사용하여 새 Auto Scaling 시작 구성을 생성하고 이 AMI로 시작하도록 Auto Scaling 그룹을 구성합니다.
+        - Auto Scaling 예약 조정 기능을 사용하여 집합의 크기를 변경합니다.
+
+- 233. B,E :: CodeDeploy
+    - AllowTraffic 수명 주기 이벤트는 더 이상 정보를 제공하지 않고 실패하기 전에 한 시간 동안 실행되었습니다. 장애 발생 시 애플리케이션 가용성을 보장하면서 장애 알림이 보다 신속하게 제공
+        - B. 배포 실패 이벤트에 대한 CodeDeploy 트리거를 생성하고 단일 상태 확인 실패가 감지되는 즉시 배포가 실패하도록 합니다.
+        - E. Appspec,yml 파일을 사용하여 BeforeAllowTraffic 후크에서 스크립트를 실행하여 애플리케이션에 대한 완전 검사를 수행하고 스크립트에서 수행한 상태 검사가 성공하지 못한 경우 배포에 실패합니다.
+- 234. B :: SystemsManager
+    - Linux AMI 생성을 자동화. AMI ID는 프로그래밍 방식으로 다른 빌드 프로세스에서 액세스할 수 있는 위치
+        - B. 이미지 생성 방법을 지시하는 값으로 AWS Systems Manager 자동화 문서를 생성합니다. 그런 다음 AWS CodePipeline에서 파이프라인을 빌드하여 트리거될 때 AMI를 빌드하는 자동화 문서를 실행합니다. AMI 식별 출력을 Systems Manager 파라미터로 저장합니다.
+- 235. C,F :: EC2,ASG
+- 236. D :: CloudFormation
+        - D. AWS CloudFormation 템플릿에 지정된 시작 구성을 새로운 C3 인스턴스 유형으로 업데이트합니다. 또한 AutoScalingRollingUpdate를 지정하는 UpdatePolicy 속성을 Auto Scaling 그룹에 추가합니다. 새 템플릿으로 스택 업데이트를 실행합니다.
+- 237. A :: CodeDeploy
+    - AWS CodeDeploy가 실패하면 메세지를 보내고, 바로 롤백이되려면?
+        - A. CodeDeploy 작업에 대한 Amazon CloudWatch Events 규칙을 생성합니다. 배포 실패 시 Amazon SNS 메시지를 보내도록 CloudWatch 이벤트 규칙을 구성합니다. 배포 실패 시 자동으로 롤백하도록 CodeDeploy를 구성합니다.
+        - CodeDeploy Agent는 SNS 트리거가 없다
+- 238. A :: Systems Manager
+    - 모든 서버의 운영 체제와 주요 응용 프로그램을 최신 패치 수준으로 업그레이드하고 유지 관리하기 위한 가장 안정적이고 일관된 프로세스를 제공하는 것은 무엇입니까?
+        - 모든 온프레미스 및 AWS 서버에 AWS Systems Manager 에이전트를 설치합니다. Systems Manager 리소스 그룹을 생성합니다. 사전 구성된 패치 기준과 함께 Systems Manager Patch Manager를 사용하여 유지 관리 기간 동안 예약된 패치 업데이트를 실행합니다.
+- 239. B :: CloudFormation
+        - AWS CloudFormation 사용자 지정 리소스를 사용할 수 있다
+        - AWS CloudFormation 템플릿의 "테스트" 섹션은 없다
+
+- 240. C :: Lambda, Cloudfront
+
+- 241. B :: CloudFront
+    - 새로운 온라인 기능에 대한 A/B 테스트를 수행하려고 합니다. CloudFront는 전체 웹 사이트를 제공하는 데 사용
+        - 이 기능과 관련된 쿠키를 전달하도록 CloudFront 배포를 구성합니다. 쿠키가 설정되지 않은 요청의 경우 웹 서버는 해당 값을 20%의 응답에 대해 ''on'으로 설정하고 80%에 대해 "off"로 설정합니다. 쿠키가 설정되어 있는 요청에 대해 웹 서버는 해당 값을 사용하여 기능은 응답에 대해 설정 또는 해제되어야 합니다.
+
+- 243. B :: DynamoDB
+    - Amazon DynamoDB 테이블에 저장된 데이터 DR
+        - 기존 DynamoDB 테이블의 구성을 변경합니다. 이것을 전역 테이블로 활성화하고 사용할 두 번째 리전을 지정합니다. DynamoDB의 특정 시점으로 복구설정
+- 244. C :: Trusted Advisor
+    - 다양한 공유 환경 및 계정에서 비용 감사를 수행하고 인프라 비용 최소화를 자동화
+        - AWS Trusted Advisor를 사용률이 낮은 EC2 인스턴스의 소스로 사용하여 Amazon CloudWatch Events 규칙을 생성합니다.
+        - 예약된 Amazon CloudWatch Events 규칙을 사용하여 AWS Trusted Advisor 검사를 실행하는 사용자 지정 AWS Lambda 함수를 대상으로 합니다. 두 번째 CloudWatch 이벤트 규칙을 생성하여 Trusted Advisor의 이벤트를 필터링하여 Lambda 함수를 트리거하여 유휴 비프로덕션 인스턴스를 중지하고 알림을 보냅니다.
+- 250. A :: Storage Gateway
+    -  S3 버킷을 직접 검사하면 데이터는 있지만 Storage Gateway에는 없습니다.
+        - Storage Gateway에 대한 RefreshCache 명령을 실행하도록 AWS Lambda 함수를 트리거하도록 야간 Amazon EventBridge(Amazon CloudWatch Events) 이벤트를 구성합니다.
 
 ---
 - memo
