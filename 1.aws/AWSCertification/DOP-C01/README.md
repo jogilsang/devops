@@ -565,7 +565,7 @@ eb_codebuild_settings:
                 - error threshold를 위한 개수설정 가능
                 - aws cli 코드얻을 수 있음
                 - linux, window 두개 혹은 개별적용 가능
-        - Automation
+        - [Automation](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-executeec2rescue.html)
         - Policy
         - Session
 - Parameter Store
@@ -1045,6 +1045,73 @@ https://docs.aws.amazon.com/autoscaling/ec2/userguide/scaling_plan.html
 - AWS Systems Manager 유지 관리 기간(maintenance window)을 사용하면 운영 체제 패치, 드라이버 업데이트 또는 소프트웨어나 패치 설치와 같이 인스턴스에 잠재적인 중단 작업을 수행할 시기에 대한 일정을 정의할 수 있습니다. 각 유지 관리 기간에는 일정, 최대 기간, 등록된 대상 집합(작동되는 인스턴스) 및 등록된 작업 집합이 있습니다. 또한 유지 관리 기간이 전후에 실행되지 않아야 하는 날짜를 지정할 수 있으며 유지 관리 기간 일정의 기준이 되는 국제 표준 시간대를 지정할 수 있습니다.
 - 세션 관리자는 주로 인스턴스에 대한 액세스를 제어해야 하는 기업 정책을 준수하는 데 사용되기 때문입니다. , 엄격한 보안 관행, 인스턴스 액세스 세부 정보가 포함된 완전히 감사 가능한 로그(OS 패치 적용용 제외)
 - AWS Systems Manager State Manager는 Amazon EC2 및 하이브리드 인프라를 사용자가 정의한 상태로 유지하는 프로세스를 자동화하는 안전하고 확장 가능한 구성 관리 서비스로 주로 사용. State Manager를 사용하면 시작 시 특정 소프트웨어로 부팅하도록 인스턴스를 구성할 수 있습니다. 네트워크 설정 및 기타 여러 구성을 구성하지만 EC2 인스턴스의 패치는 구성하지 않습니다.
+- 자정에 실행되도록 예약된 CloudWatch 이벤트 규칙을 생성하는 것입니다. EC2 CreateSnapshot API를 직접 호출하여 필요한 EBS 볼륨의 스냅샷을 생성하도록 대상을 설정합니다.
+- CodeBuild에서 AWS CodeCommit, S3, GitHub, GitHub Enterprise 및 Bitbucket에 연결하여 빌드의 소스 코드를 가져올 수 있습니다.
+- CodeBuild는 지원되는 버전(JAva, python 등)의 Docker 이미지 이용
+- AWS CodeCommit에서 SSH를 사용하려면 사용자가 자체 퍼블릭-프라이빗 키 페어를 생성한 다음 퍼블릭 키를 IAM 사용자에게 추가합니다. 프라이빗 키는 AWS CodeCommit로 통신을 암호화합니다.
+- AWS CodeCommit에서 리포지토리를 암호화하는건 KMS를 통해 자동으로 진행된다
+- DynamoDB 테이블과 연결된 DynamoDB 스트림으로 Lambda 함수를 구독하여 DynamoDB 테이블 업데이트에 대한 Lambda 함수를 트리거할 수 있습니다. 또는 Lambda의 registerEventSource API를 사용하여 DynamoDB 스트림과 Lambda 함수를 연결할 수 있습니다.
+- Lambda의경우, 샤드 내 레코드 순서를 보장한다. 서로 다른 샤드에서의 레코드 순서는 보장되지 않으며 각 샤드 처리는 병렬로 진행됩니다. 하나의 레코드를 처리하고, 다음 레코드 처리를 보장하기때문에 레코드 처리가 실패한다면 레코드 처리가 성공할때까지 만료시간인 24시간 이내로 재시도한다
+- Amazon DynamoDB Streams, Amazon Kinesis Streams 등 AWS Lambda에서 폴링하는 순차적인 이벤트 소스의 경우 개발자 코드 오류가 발생하면 데이터가 만료될 때까지 Lambda에서 계속 실행을 시도합니다. Amazon S3 버킷 알림 및 사용자 지정 이벤트의 경우, 코드에 오류 조건이 발생하거나 서비스 또는 리소스 한도를 초과하면 AWS Lambda는 함수 실행을 세 번 시도합니다.
+- Lambda는 SNS의 주제를 구독해서 실행될 수 있으며, Cloudwatch alarm이 SNS의 주제를 구독하게해서 연결도 가능하다
+- CloudFormation과 함께 Systems Manager Parameter Store를 사용하여 템플릿에 대한 최신 AMI ID를 검색하는 것입니다. Amazon EC2 인스턴스를 업데이트하기로 결정할 때마다 템플릿의 CloudFormation에서 update-stack API를 호출합니다.
+- NAT(네트워크 주소 변환) 게이트웨이 를 사용 하여 프라이빗 서브넷의 인스턴스가 인터넷이나 다른 AWS 서비스에 연결되도록 할 수 있지만 인터넷이 해당 인스턴스와의 연결을 시작하지 못하도록 할 수 있습니다.
+- VPC 엔드포인트를 사용하면 VPC를 PrivateLink에서 제공하는 지원되는 AWS 서비스 및 VPC 엔드포인트 서비스에 비공개로 연결할 수 있습니다. 이렇게 하면 공용 인터넷에 연결할 수 없습니다.
+- 여러 AZ에 걸쳐 있는 ElastiCache 클러스터를 사용하여 세션 관리를 위한 분산 캐시를 설정해야 합니다. 메모리 내 키/값 저장 소용 ElastiCache 제품에는 읽기전용 복제본을 통해 복제를 지원할 수 있는 Redis용 ElastiCache와 복제를 지원하지 않는 Memcached용 ElastiCache 가 있습니다. 복제가 되지않을경우, 노드가 소실되도 완전히 데이터가 지워지지않는다. 고정 세션은 인스턴스 실패 시, 데이터가 날아갈 수 있으며 스케일 아웃 등을 진행하면 특정서버에 상주하게될 수 있다
+- CloudFormation은 현재 다음과 같은 동적 참조 패턴을 지원합니다.
+    - ssm, AWS Systems Manager Parameter Store에 저장된 일반 텍스트 값
+    - ssm-secure, AWS Systems Manager Parameter Store에 저장된 secure-string
+    - secretsmanager, AWS Secrets Manager에 저장된 전체 암호 또는 특정 암호 값
+- Edge-optimized API는 CloudFront 배포를 사용하여 일반적으로 AWS 리전 전체에서 클라이언트 액세스를 용이하게 하는 동안 지정된 리전에 배포되는 API Gateway의 기본 호스트 이름입니다.
+- Direct Connect 연결을 설정하는 데 많은 비용발생한다.
+- 온프레미스 인스턴스의 인증 및 등록을 최대한 제어하기 위해 register-on-premises-instance명령을 사용하고 AWS Security Token Service(AWS STS)로 생성된 주기적으로 새로 고쳐진 임시 자격 증명을 사용할 수 있습니다. IAM 역할은 온프레미스 서버에 직접 연결할 수 없습니다. 서버가 수임할 수 있는 정적 IAM 역할을 사용하여 CodeDeploy에서 온프레미스 서버를 "온프레미스 인스턴스"로 설정해야 합니다.
+- AWS Systems Manager Parameter Store에 대한 액세스 권한을 부여하려면 IAM 정책이 아니라 IAM 역할을 사용해야 합니다.
+- 단순히 S3 버킷의 버킷 정책을 구성하는 것만으로는 필수 보안 헤더가 있는 HTTP 응답을 반환할 수 없기 때문에 올바르지 않습니다.
+- AWS WAF를 사용하여 API 게이트웨이 앞에 웹 액세스 제어 목록을 추가하여 악성 SQL 코드가 포함된 요청을 차단하는 것입니다. AWS Config를 사용하여 WAF 규칙 구성에 대한 업데이트를 포함하여 규칙 생성 및 삭제와 같은 웹 액세스 제어 목록(웹 ACL)에 대한 변경 사항을 추적합니다.
+- CloudFront도 WAF와 쓸 수 있지만 비용이 추가된다. 서버리스 온라인 포털은 확장 가능하고 전 세계에서 액세스할 수 있어야 한다는 요구 사항이 없으므로 CloudFront 배포는 관련이 없습니다.
+- AWS Firewall Manager는 주로 AWS Organizations의 여러 AWS 계정에서 방화벽을 관리하는 데 사용됩니다.
+- 별칭 트래픽 이동의 도입으로 이제 Lambda 함수의 카나리아 배포를 간단하게 구현할 수 있습니다. 별칭에 대한 추가 버전 가중치를 업데이트하면 지정된 가중치에 따라 호출 트래픽이 새 기능 버전으로 라우팅됩니다.
+- Amazon Inspector 보안 평가는 Amazon EC2 인스턴스의 의도하지 않은 네트워크 액세스 가능성과 해당 EC2 인스턴스의 취약점을 확인하는 데 도움이 됩니다.
+- Amazon GuardDuty는 AWS 계정을 보호하기 위해 악의적인 활동과 무단 동작을 지속적으로 모니터링하는 위협 탐지 서비스이다.
+- CloudWatch log agent는 이전과 통합이 있는대, 통합은 window도 제공한다.
+- Amazon CloudWatch 대시보드 설정은 단일 보기에서 리소스를 모니터링해야 하는 시나리오에 주로 사용되기 때문에 적합하지 않습니다.
+- 로그 데이터를 대화식으로 검색하고 분석할 수 있으므로 대신 CloudWatch Logs Insights를 사용하는 것이 좋습니다.
+- AWSServiceRoleForOrganizations 서비스 연결 역할은 주로 AWS Organizations가 다른 AWS 서비스에 대한 서비스 연결 역할을 생성하도록 허용하는 데만 사용됩니다. 이 서비스 연결 역할은 특정 OU뿐만 아니라 모든 조직에 있습니다.
+- CloudFront는 뷰어와 그리고 오리진과 HTTPS 통신을 할 수 있도록 설정이 가능하며, 각각의 인증서는 AWS Certificate Manager(ACM)에서 제공하는 인증서를 사용할 수 있으며 타사에서 제공하는 신뢰되는 인증서를 ACM에 저장해서 쓸 수 있다.
+- 손상된 EC2 인스턴스를 자동으로 모니터링하고 복구하는 CloudWatch, AWS Lambda 및 AWS Systems Manager Run Command를 설정하는 것은 AWS Systems Manager Automation을 사용하여 쉽게 수행할 수 있는 운영 오버헤드입니다. EC2Rescue 도구를 사용하여 Amazon EC2 Linux 및 Windows Server 인스턴스의 문제를 진단하고 해결하는 것입니다. Systems Manager Automation 및 AWSSupport-ExecuteEC2Rescue문서를 사용하여 도구를 자동으로 실행합니다.
+- AWS-DefaultPatchBaseline기준선은 주로 "CriticalUpdates" 또는 "SecurityUpdates"로 분류되고 MSRC 심각도가 "Critical" 또는 "Important"인 모든 Windows Server 운영 체제 패치를 승인하는 데 사용됩니다 . 패치는 릴리스 후 7일이 지나면 자동 승인됩니다.
+- 모든 Amazon EC2 Windows 인스턴스에 할당할 고유한 태그로 두 개의 패치 그룹을 설정합니다. AWS-DefaultPatchBaseline두 패치 그룹에 미리 정의된 기준선을 연결합니다 . 두 개의 겹치지 않는 유지 관리 기간을 설정하고 각각을 다른 패치 그룹과 연결합니다. 패치 그룹 태그를 사용하여 특정 유지 관리 기간에 대상을 등록합니다. AWS-RunPatchBaseline처리 시작 시간이 다른 각 유지 관리 기간 내 작업으로 문서를 할당하는 것이 정답입니다.
+- 필드수준암호화는 CloudFront를 만나는 순간, Origin까지 암호화가 유지된다. 클라이언트가 제공하는 민감한 정보는 사용자에게 더 가까운 에지에서 암호화되고 전체 애플리케이션 스택에서 암호화된 상태로 유지되므로 데이터가 필요하고 이를 해독할 자격 증명이 있는 애플리케이션만 그렇게 할 수 있습니다.
+- 필드 수준 암호화를 사용하려면 암호화하려는 POST 요청의 필드 세트와 이를 암호화하는 데 사용할 공개 키를 지정하도록 CloudFront 배포를 구성합니다.
+- AWS Inspector 라는 옵션 은 잘못된 것입니다. 이 서비스는 AWS에 배포된 애플리케이션의 보안 및 규정 준수를 개선하는 데 도움이 되는 자동화된 보안 평가 서비스이기 때문입니다. 인스턴스에서 가능한 악의적 활동은 감지하지 않습니다.
+- 이벤트 로그를 AWS CloudWatch Logs로 보내는 Lambda 함수를 생성하고 CodeCommit 리포지토리를 선택하여 트리거를 설정하는 것입니다. CodeCommit에서 새 트리거를 생성할 때 리포지토리 설정으로 이동하고 트리거 목록에서 Lambda 함수를 선택합니다. 이벤트탭은 없고, 알림 탭은 있기때문에 SNS를 통해서도 가능하다
+- Amazon S3 API 호출이 PUT 또는 DELETE 버킷 정책, 버킷 수명 주기, 버킷 복제 또는 버킷 ACL을 PUT할 때 트리거되는 Amazon CloudWatch 경보를 생성할 수 있습니다. CloudTrail 추적은 로그를 CloudWatch Log 그룹으로 보내므로 필요합니다. 경보를 생성하려면 먼저 메트릭 필터를 생성한 다음 필터를 기반으로 알람을 구성해야 합니다.
+- S3 서버 액세스 로깅은 주로 버킷에 대한 요청에 대한 자세한 레코드를 제공하는 데 사용된다. 보안 및 엑세스 감사에 유용하다.
+- CloudWatch 이벤트를 사용하여 CloudWatch logs의 로그 그룹을 직접 필터링할 수 없다
+- 조직의 모든 구성원에 대해 보안 계정을 GuardDuty 관리자로 구성합니다. 
+- 모든 결과를 Amazon Kinesis Data Firehose로 보내도록 CloudWatch 이벤트 규칙을 구성하기만 하면 결과가 S3 버킷으로 푸시됩니다.
+- GuardDuty를 사용하면 여러 계정에서 쉽게 활성화하고 관리할 수 있습니다. 다중 계정 기능을 통해 모든 구성원 계정 결과를 GuardDuty 관리자 계정으로 집계할 수 있습니다. 이를 통해 보안 팀은 단일 계정에서 조직 전체의 모든 GuardDuty 결과를 관리할 수 있습니다. 집계된 결과는 CloudWatch 이벤트를 통해서도 제공되므로 기존 엔터프라이즈 이벤트 관리 시스템과 쉽게 통합할 수 있습니다.
+- Lambda는 적절한 IAM 권한이 있어도 SSH 연결을 직접 설정하고 EC2 인스턴스 내에서 명령을 실행하여 구성 파일을 업데이트할 수 없습니다.
+- 키워드 List, Get 또는 Describe로 시작하는 API 작업의 이벤트는 EventBridge에서 처리되지 않습니다.
+- Amazon Athena에서 쿼리 상태 전환에 대한 Amazon CloudWatch Events가 게시됩니다. 쿼리 상태가 전환되면(예: Running(실행 중)에서 Succeeded(성공) 또는 Cancelled(취소)로) Athena가 CloudWatch Events에 쿼리 상태 변경 이벤트를 게시합니다.
+- Amazon CloudWatch Events는 ACM의 인증서 Expiration을 알람받을 수 있다
+- Amazon CloudWatch Events는 CodeBuild의 state와 phase 변화를 확인할 수 있다
+- Amazon CloudWatch Events는 CodeCommit의 Commit의 코멘트, 리코멘트, PR 그리고 Repo의 변경사항을 확인할 수 있다
+- Amazon CloudWatch Events는 System Manager의 모든 요소의 변경사항을 확인할 수 있다
+- Amazon CloudWatch Events는 Trust Advior의 새로고침 알람을 받을 수 있다
+- Amazon CloudWatch Events는 S3의 Object의 생성,삭제 스토리지 클래스 전환(IA->Glacier), 태깅등을 확인할 수 있다.
+- Amazon CloudWatch Events는 EC2의 스냅샷, 볼륨 등을 확인할 수 있다
+- Amazon CloudWatch Events는 ASG의 인스턴스의 refresh, launch, terminate알림을 받을 수 있다
+- Amazon CloudWatch Events는 RDS의 클러스터, 보안그룹(SG), 파라미터그룹(PG),스냅샷, 인스턴스 등의 알림을 받을 수 있다
+- CloudWatch 대시보드는 AWS Organizations의 구성이 아니라 AWS 리소스를 모니터링하는 데 주로 사용
+- AWS Config의 다중 계정, 다중 리전 데이터 집계를 사용하면 여러 계정 및 리전의 AWS Config 데이터를 단일 계정으로 집계할 수 있습니다.
+- Amazon CloudTrail에서 새 추적을 시작하여 AWS Organizations 콘솔의 호출을 포함하여 AWS Organizations에 대한 모든 API 호출을 캡처합니다. 또한 AWS Organizations API에 대한 모든 코드 호출을 추적합니다. CloudWatch Events와 Amazon SNS를 통합하여 조직에서 관리자가 지정한 작업이 발생할 때 이벤트를 발생시키고 알림을 보내도록 구성합니다.
+- AWS 상태 이벤트는 CloudWatch Log 그룹에 자동으로 전송되지 않습니다.
+- CloudWatch Event에 사용자 지정지표를 푸시할 수는 없다. CloudWatch에 사용자 지정지표로 Metric을 보낼 수 있다. metric은 시스템 성능에 대한 지표이며, AWS는 기본적으로 제공하고 데이터를 15개월 정도 보관한다
+- Auto Scaling의 수명 주기 후크에 대한 알림 대상으로 사용할 수 없기 때문에 잘못된 정보입니다. 그룹. Amazon CloudWatch Events, Amazon SNS 또는 Amazon SQS만 알림 대상으로 구성할 수 있습니다.
+- S3 버킷에서 객체 수준 API 작업을 기록할 수 있습니다. Amazon CloudWatch Events가 이러한 이벤트와 일치하려면 먼저 AWS CloudTrail을 사용하여 이러한 이벤트를 수신하도록 구성된 추적을 설정해야 합니다.
+- 데이터 이벤트의 예는 다음과 같습니다. Amazon S3 객체 수준 API 활동(예: GetObject, DeleteObject및 PutObjectAPI 작업) AWS Lambda 함수 실행 활동( InvokeAPI)
+- Amazon SNS 주제에 대해 CodeCommit 리포지토리와 동일한 계정을 사용하여 Amazon SNS 주제를 생성한 경우 추가 IAM 정책 또는 권한을 구성할 필요가 없다.
 
 ### examtopics
 ```
@@ -1174,6 +1241,14 @@ Application Load Balancer 및 AWS CodeDeploy 블루/그린 배포 유형과 함�
 - 사용자는 IAM 정책에 대한 다양한 요소를 정의할 수 있습니다. 요소에는 버전, ID, 문, Sid, 효과, 주체, 주체 아님, 작업, 동작 아님,
 리소스, 리소스 아님, 조건 및 지원되는 데이터 유형이 포함됩니다.
 - 
+
+---
+- memo
+- Amazon EC2 AMI 도구로 인스턴스스토어 지원 AMI(EBS 지원 AMI)를 생성할 수 있다
+- Amazon ECS의 CLI툴을 AWS Copliot이라고한다.
+- Amazon ECS의경우 CLI의 옵션으로 region, --ecs-profile,--cluster-config이 필요하다, 
+- ~/.ecs/credentials : 자격증명을 저장한다
+- ~/.ecs/config는 클러스터 구성정보를 저장한다. 
 
 ---
 
