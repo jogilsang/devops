@@ -354,22 +354,36 @@ CloudFormation.
         - 특정 키에 대한 리소스나 경로의 메타데이터를 검색하는 데 사용됩니다.
     - cfn-hup
         - 메타데이터에 대한 업데이트가 있는지 확인하고 변경 사항이 감지된 경우 사용자 지정 후크를 실행하는 데 사용됩니다.
+- StackUpdate
+    - 직접변경 : 바로 배포
+    - 변경세트 : 실행계획
+- AWS::CloudFormation::Stack
+    -  CloudFormation은 최상위 스택을 업데이트하고 중첩 스택에 대한 업데이트를 시작합니다. CloudFormation은 수정된 중첩 스택의 리소스를 업데이트하지만 수정되지 않은 중첩 스택의 리소스는 업데이트하지 않습니다.
+    - 중첩 스택에 대한 업데이트는 상위 스택에서 실행하는 것이 좋습니다.
+- AWS::CloudFormation::StackSet
+    - AWS 계정과 리전에 걸쳐 스택을 프로비저닝할 수 있습니다 .
+- AWS::CloudFormation::TypeActivation
+    - 공개 타사 확장을 활성화하여 스택 템플릿에서 사용할 수 있도록 합니다.
+- AWS::CloudFormation::WaitCondition
+- AWS::CloudFormation::WaitConditionHandle
+
 - /var/log/cloud-init-output.log
     - 인스턴스가 의도한 대로 동작하지 않더라도 스크립트를 손쉽게 디버깅할 수 있습니다
 - /var/log/cfn-init.log
 - depends on
 - [드리프트(drift)](https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html)
-- NoEcho : 콘솔, 명령줄 도구 또는 API에 표시되지 않도록 파라미터 값을 마스킹 처리할지 여부입니다.
-- 템플릿은 Registry 리소스 유형, 자체 사용자 지정 프라이빗 유형, 자체 매크로를 활용할 수 있을 뿐 아니라, AWS Secrets Manager 및 AWS System Manager Parameter Store에서 구성 파라미터를 검색할 수도 있습니다.
-- AWS 리소스 사이에서 이름 충돌을 염려할 필요 없이 하나의 템플릿에서 여러 스택을 생성할 수 있습니다.
-- 리소스에 이름을 지정하면 템플릿을 재사용하기 힘들고 업데이트하기 위해 리소스를 교체할 때 이름에 충돌이 생깁니다.
-- CloudFormation을 Systems Manager와 통합하면 Systems Manager Automation 문서를 통해 소프트웨어 설치를 진행하고 유지 관리할 수 있습니다.
-- AWS CloudFormation은 EC2 인스턴스에서 Chef Server 및 Chef Client 소프트웨어를 부트스트랩하는 데 사용할 수 있습니다.
-- AWS CloudFormation은 EC2 인스턴스에서 Puppet Master 및 Puppet Client 소프트웨어를 부트스트랩하는 데 사용할 수 있습니다.
-- CloudFormation은 Amazon EBS 볼륨 및 Amazon EC2 인스턴스가 속한 CloudFormation 스택의 이름을 사용하여 해당 볼륨 및 인스턴스에 자동으로 태그를 지정합니다.
-- 기본적으로 “Automatic rollback on error” 기능이 활성화되어 있습니다. 이 경우 CloudFormation은 모든 개별 작업에 성공할 경우 스택의 모든 리소스를 생성 또는 업데이트만 하게 됩니다. 
-- Amazon EBS 볼륨 또는 Amazon RDS 데이터베이스 인스턴스가 삭제되기 전에 이에 대해 생성할 스냅샷을 지정할 수 있습니다. 스택이 삭제될 때 리소스를 삭제하지 않고 보존하도록 지정할 수도 있습니다.
-- CloudFormation의 옵션 중 하나는 장벽처럼 작용해 애플리케이션 또는 관리 시스템과 같은 외부 소스에서 완료 신호가 수신될 때까지 다른 리소스의 생성을 차단하는 WaitCondition 리소스입니다.
+- FAQ
+    - NoEcho : 콘솔, 명령줄 도구 또는 API에 표시되지 않도록 파라미터 값을 마스킹 처리할지 여부입니다.
+    - 템플릿은 Registry 리소스 유형, 자체 사용자 지정 프라이빗 유형, 자체 매크로를 활용할 수 있을 뿐 아니라, AWS Secrets Manager 및 AWS System Manager Parameter Store에서 구성 파라미터를 검색할 수도 있습니다.
+    - AWS 리소스 사이에서 이름 충돌을 염려할 필요 없이 하나의 템플릿에서 여러 스택을 생성할 수 있습니다.
+    - 리소스에 이름을 지정하면 템플릿을 재사용하기 힘들고 업데이트하기 위해 리소스를 교체할 때 이름에 충돌이 생깁니다.
+    - CloudFormation을 Systems Manager와 통합하면 Systems Manager Automation 문서를 통해 소프트웨어 설치를 진행하고 유지 관리할 수 있습니다.
+    - AWS CloudFormation은 EC2 인스턴스에서 Chef Server 및 Chef Client 소프트웨어를 부트스트랩하는 데 사용할 수 있습니다.
+    - AWS CloudFormation은 EC2 인스턴스에서 Puppet Master 및 Puppet Client 소프트웨어를 부트스트랩하는 데 사용할 수 있습니다.
+    - CloudFormation은 Amazon EBS 볼륨 및 Amazon EC2 인스턴스가 속한 CloudFormation 스택의 이름을 사용하여 해당 볼륨 및 인스턴스에 자동으로 태그를 지정합니다.
+    - 기본적으로 “Automatic rollback on error” 기능이 활성화되어 있습니다. 이 경우 CloudFormation은 모든 개별 작업에 성공할 경우 스택의 모든 리소스를 생성 또는 업데이트만 하게 됩니다. 
+    - Amazon EBS 볼륨 또는 Amazon RDS 데이터베이스 인스턴스가 삭제되기 전에 이에 대해 생성할 스냅샷을 지정할 수 있습니다. 스택이 삭제될 때 리소스를 삭제하지 않고 보존하도록 지정할 수도 있습니다.
+    - CloudFormation의 옵션 중 하나는 장벽처럼 작용해 애플리케이션 또는 관리 시스템과 같은 외부 소스에서 완료 신호가 수신될 때까지 다른 리소스의 생성을 차단하는 WaitCondition 리소스입니다.
 
 ### codebuild
 
@@ -1275,6 +1289,12 @@ Application Load Balancer 및 AWS CodeDeploy 블루/그린 배포 유형과 함�
 - lastic Beanstalk를 사용하여 애플리케이션을 배포하고 Elastic Beanstalk 환경 속성을 사용하여 외부 RDS MySQL 인스턴스에 연결합니다. 블루/그린 배포에 Elastic Beanstalk 기능을 사용하여 새 릴리스를 별도의 환경에 배포한 다음 두 환경에서 CNAME을 바꿔 트래픽을 새 버전으로 리디렉션합니다.
 - AWS CloudFormation을 사용하여 서버리스 애플리케이션을 정의하고 AWS CodeDeploy를 사용하여 DeploymentPreference: Canary10Percent15Minutes를 사용하여 AWS Lambda 함수를 배포합니다.
 - 추적에서 CloudTrail 파일 무결성 기능을 활성화합니다. CloudTrail에서 생성한 다이제스트 파일을 사용하여 전달된 CloudTrail 파일의 무결성을 확인합니다.
+- aws cloudtrail describe-trails
+- AWS CloudFormation 콘솔 또는 AWS CLI에서 ContinueUpdateRollback 명령을 실행합니다.
+- Amazon GuardDuty를 활성화하고 GuardDuty에 대한 Amazon CloudWatch Events 규칙 이벤트를 설정합니다. 이벤트가 손상된 키와 관련되어 있는지 확인하기 위해 AWS Lambda 함수를 트리거합니다. 그렇다면 보안 팀에 알림을 보내고 액세스 키를 비활성화하십시오.
+- AWS CloudFormation을 사용하여 Lambda 함수 버전을 사용하여 API Gateway 및 Lambda 함수를 배포합니다. 코드를 변경해야 하는 경우 새 Lambda 코드로 CloudFormation 스택을 업데이트하고 카나리아 릴리스 전략을 사용하여 API 버전을 업데이트하십시오. 테스트가 완료되면 새 버전을 승격합니다.
+- 애플리케이션 아티팩트를 Amazon S3 버킷에 게시하고 S3용 VPC 엔드포인트를 생성합니다. IAM 인스턴스 프로파일을 EC2 인스턴스에 할당하여 S3 버킷에서 애플리케이션 아티팩트를 읽을 수 있도록 합니다.
+- 단일 Aurora 인스턴스는 동일한 AZ에서만 자동 복구를 지원하기때문에, 고가용성을 만족하지못한다.
 
 ### examtopics_answer
 - 191. D :: ELB
@@ -1313,6 +1333,34 @@ Application Load Balancer 및 AWS CodeDeploy 블루/그린 배포 유형과 함�
     - DynamoDB를 사용하면서 Region 장애를 대비하려면?
 - 210. C :: S3, CloudTrail
     - CloudTrail 무결성 설정을 S3에서 하는지, Trail에서 하는지?
+- 211. D :: DynamoDB, CloudFormation, OpsWork
+    - DynamoDB와 CloudFormation, Opswork 어떤것과 잘 어울리는가?
+        - AWS CloudFormation을 사용하여 Classic Load Balancer 생성 Auto Scaling 그룹 및 데이터베이스 리소스 CloudFormation 롤링 업데이트를 사용하여 애플리케이션 업데이트 배포
+- 212. D :: CloudTrail
+    - CloudTrail의 상태와 설정을 가져오는 AWS CLI를 아는가?
+- 213. C :: EC2, Aurora
+    - 수평확장이 안되는 EC2 인스턴스 1대와 대한 Aurora에 대해 고가용성을 확보하려면?
+        - 인스턴스 상태가 실패 상태에 도달할 때 사용 가능한 AZ에서 새 EC2 인스턴스를 시작하도록 AWS Lambda 함수를 트리거하는 Amazon CloudWatch Events 규칙을 생성합니다. 두 번째 AZ에 읽기 전용 복제본이 있는 Aurora 데이터베이스를 생성하고 기본 데이터베이스 인스턴스가 실패하면 기본 데이터베이스 인스턴스로 승격합니다.
+- 214. B :: ASG, EC2, SNS
+    - ASG의 EC2 인스턴스가 lanch에 실패할경우 어떡해 하는가?
+        - ASG의 설정에서 SNS 주제에 알람을 보내도록 설정이가능하다
+- 215. C :: CloudFormation, SDLC
+    - Blue/Green 배포 시, 고정비율이 아닌 무작위로 할당하려면 어떡해 하는가?
+    - CloudFront에서 Lambda@Edge를 이용해 쿠키를 설정하여 A,B 테스트가 가능한걸 이해하는가?
+- 216. A,B,E :: RDS
+    - 멀티AZ에서 어플리케이션, RDS를 운용할경우 지역에 장애가 생기면, 상시대기환경을 구축하는방법은?
+        - 서브지역 - 읽기전용복제본
+        - 서브지역 - ELB, AZ 생성
+        - Route53 별칭레코드 상태확인. CloudWatch event 트리거 - Lambda 읽기전용복제본 승격
+- 217. C :: EC2, Internet, S3
+    - 인터넷과 전혀 통신하지않고, 인스턴스에서 어플리케이션을 설치하는 방법은?
+- 218. B :: CloudFormation, Lambda
+    - 전체 배포하기전에 하위집합에서 새기능을 테스트할수있는 방법은?
+- 219. B :: GuardDuty
+    - 코드 저장소에서 IAM 액세스 키가 유출될경우 어떡해 감지하는가?
+    - GuardDuty Finding 이벤트 유형을 이해하고있는가
+- 220. C,D :: CloudFormation
+    - UPDATE ROLLBACK FAILED 상태일경우, Stack Rollback을 효과적으로 하는 방법은?
 
 ---
 - memo
