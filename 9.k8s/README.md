@@ -10,6 +10,7 @@
 ---
 
 ### doc
+- [LinuxFoundation 이메일 구독하기 - 할인행사 등](bit.ly/3ciWx9r)
 - [한글-kubernetes.io/docs](https://kubernetes.io/ko/docs/home/)
 - [kubernetes-the-hard-way](https://github.com/kelseyhightower/kubernetes-the-hard-way)
 
