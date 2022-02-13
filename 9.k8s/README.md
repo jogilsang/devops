@@ -10,7 +10,7 @@
 ---
 
 ### doc
-- [kubernetes.io/docs](https://kubernetes.io/docs/home/)
+- [한글-kubernetes.io/docs](https://kubernetes.io/ko/docs/home/)
 - [kubernetes-the-hard-way](https://github.com/kelseyhightower/kubernetes-the-hard-way)
 
 ### Reference
