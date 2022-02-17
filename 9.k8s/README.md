@@ -82,6 +82,9 @@ c:\git>kubectl get deployments
 NAME         READY   UP-TO-DATE   AVAILABLE   AGE
 hello-node   1/1     1            1           18s
 ```
+- 7
+![image](https://user-images.githubusercontent.com/20831981/154503151-9882e9ea-99b8-4094-bcb1-d0dc5f2806dd.png)
+
 
 ---
 
