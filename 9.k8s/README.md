@@ -2,15 +2,19 @@
 ## k8s
 
 ### INDEX
-- [hands-on]
-- [CKA]
-- [doc](#doc)
-- [Reference](#Reference)
+- [CONTENTS](#contents)
+- [CLI](#cli)
 - [INSTALL](#install)
     - [KUBECTL](#kubectl)
     - [MINIKUBE](#minikube)
+- [doc](#doc)
+- [Reference](#Reference)
 
 ---
+
+### contents
+- 파드는 관리와 네트워킹 목적으로 함께 묶여 있는 하나 이상의 컨테이너 그룹이다
+- 파드는 쿠버네티스 클러스터 내에서만 ip로만 접근할 수 있지만, 외부에서 접근하게하려면 쿠버네티스 서비스로 노출해야한다.
 
 ### install
 #### kubectl
@@ -69,12 +73,33 @@ c:\git>minikube dashboard
 * Verifying proxy health ...
 * Opening http://127.0.0.1:8816/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ in your default browser...
 ```
+- 6 deployment
+```sh
+c:\git>kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4
+deployment.apps/hello-node created
+
+c:\git>kubectl get deployments
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+hello-node   1/1     1            1           18s
+```
 
 ---
 
 ### cli
-```
+```sh
 minikube addons list
+
+# 디플로이먼트 보기
+kubectl get deployments
+
+# 파드보기
+kubectl get pods
+
+# 클러스터 이벤트 보기
+kubectl get events
+
+# kubectl 환경설정 보기
+kubectl config view
 ```
 
 ### doc
