@@ -15,6 +15,7 @@ Amazon Web Service for me.
 - [AWS 용어집](https://docs.aws.amazon.com/general/latest/gr/glos-chap.html)
 
 #### 심화 및 실무적용
+- [AWS와 Azure, Google비교](https://cloud.google.com/free/docs/aws-azure-gcp-service-comparison?hl=ko)
 - [AWS Bastion Host에서 SSH 세션의 기록을 남기는 법 (How to Record SSH Sessions Established Through a Bastion Host)](https://aws.amazon.com/ko/blogs/security/how-to-record-ssh-sessions-established-through-a-bastion-host/)
 - [Receive AWS Developer Tools Notifications over Slack using AWS Chatbot](https://aws.amazon.com/ko/blogs/devops/receive-aws-developer-tools-notifications-over-slack-using-aws-chatbot/)
 - [How do I use webhooks to publish Amazon SNS messages to Amazon Chime, Slack, or Microsoft Teams?](https://aws.amazon.com/tw/premiumsupport/knowledge-center/sns-lambda-webhooks-chime-slack-teams/)
