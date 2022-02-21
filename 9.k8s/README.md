@@ -6,7 +6,7 @@
 - [CLI](#cli)
 - [INSTALL](#install)
     - [KUBECTL](#kubectl)
-    - [MINIKUBE](#minikube)
+    - [Hello_Minikube](#hello_minikube)
 - [doc](#doc)
 - [Reference](#Reference)
 
@@ -20,7 +20,7 @@
 #### kubectl
 > https://kubernetes.io/ko/docs/tasks/tools/install-kubectl-windows/
 
-#### minikube
+#### hello_minikube
 > https://kubernetes.io/ko/docs/tutorials/hello-minikube/
 - 1 [latest release](https://minikube.sigs.k8s.io/docs/start/)
 - 2 [docker 설치](https://hub.docker.com/editions/community/docker-ce-desktop-windows)
@@ -82,9 +82,72 @@ c:\git>kubectl get deployments
 NAME         READY   UP-TO-DATE   AVAILABLE   AGE
 hello-node   1/1     1            1           18s
 ```
-- 7
+- 7 서비스 만들기
+```sh
+# --type=LoadBalancer플래그는 클러스터 밖의 서비스로 노출하기 원한다는 뜻이다.
+kubectl expose deployment hello-node --type=LoadBalancer --port=8080 
+
+# 생성한 서비스 살펴보기
+kubectl get services
+
+# minikube에서 LoadBalancer타입은 minikube service 명령어를 통해서 해당 서비스를 접근할 수 있게 한다.
+minikube service hello-node 
+```
+
 ![image](https://user-images.githubusercontent.com/20831981/154503151-9882e9ea-99b8-4094-bcb1-d0dc5f2806dd.png)
 
+- 8 addons 조회 및 enable 하기
+```sh
+minikube addons list
+# c:\git>minikube addons list
+# |-----------------------------|----------|--------------|--------------------------------|
+# |         ADDON NAME          | PROFILE  |    STATUS    |           MAINTAINER           |
+# |-----------------------------|----------|--------------|--------------------------------|
+# | metrics-server              | minikube | disabled     | kubernetes                     |
+# |-----------------------------|----------|--------------|--------------------------------|
+
+minikube addons enable metrics-server
+#   - Using image k8s.gcr.io/metrics-server/metrics-server:v0.4.2
+# * 'metrics-server' 애드온이 활성화되었습니다
+
+kubectl get pod,svc -n kube-system
+# c:\git>kubectl get pod,svc -n kube-system
+# NAME                                   READY   STATUS    RESTARTS      AGE
+# pod/coredns-64897985d-dgdws            1/1     Running   0             59m
+# pod/etcd-minikube                      1/1     Running   0             59m
+# pod/kube-apiserver-minikube            1/1     Running   0             59m
+# pod/kube-controller-manager-minikube   1/1     Running   0             59m
+# pod/kube-proxy-7mlvg                   1/1     Running   0             59m
+# pod/kube-scheduler-minikube            1/1     Running   0             59m
+# pod/metrics-server-6b76bd68b6-7jfx4    1/1     Running   0             4m12s
+# pod/storage-provisioner                1/1     Running   1 (59m ago)   59m
+
+# NAME                     TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                  AGE
+# service/kube-dns         ClusterIP   10.96.0.10    <none>        53/UDP,53/TCP,9153/TCP   59m
+# service/metrics-server   ClusterIP   10.97.30.95   <none>        443/TCP                  4m12s
+
+minikube addons disable metrics-server
+# * "The 'metrics-server' 이 비활성화되었습니다
+
+- 9 서비스 및 디플로이먼트 삭제하기
+kubectl get svc
+# NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+# kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   65m
+
+kubectl delete svc hello-node
+# service "hello-node" deleted
+
+kubectl get deployments
+# NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+# hello-node   1/1     1            1           28m
+
+kubectl delete deployments hello-node
+# deployment.apps "hello-node" deleted
+
+kubectl get deployments
+# No resources found in default namespace
+
+```
 
 ---
 

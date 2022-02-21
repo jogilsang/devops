@@ -17,19 +17,9 @@ I'll show the pro when given the situation
 - [10.ansible](https://github.com/jogilsang/devops/tree/master/9.k8s)
 - [11.terraform](https://github.com/jogilsang/devops/tree/master/11.terraform)
 - [12.agile](https://github.com/jogilsang/devops/tree/master/12.agile)
+- [13.cisco](https://github.com/jogilsang/devops/tree/master/13.cisco)
 - [tool](https://github.com/jogilsang/devops/tree/master/tool)
 - [Reference](#reference)
-
----
-
-- 스프린트 플래닝
-스프린트 백로그
-스크럼 
-스프린트
-데일리 스크럼
-프로덕트 인크리먼트(결과물)
-스프린트 리뷰
-회고
 
 ---
 
@@ -40,3 +30,6 @@ I'll show the pro when given the situation
   - [12 factors](https://12factor.net/ko/)
   - [브렌든 그레그 블로그-리눅스성능과 관련된정보](https://www.brendangregg.com/linuxperf.html)
 
+- ### certification
+  - [300-910 - devops- 시스코 플랫폼](https://www.cisco.com/c/en/us/training-events/training-certifications/exams/current-list/devops-300-910.html)
+  - [Linux Professional Institute DevOps Tools Engineer](https://www.lpi.org/our-certifications/devops-overview)
