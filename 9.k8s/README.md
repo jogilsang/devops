@@ -7,6 +7,9 @@
 - [INSTALL](#install)
     - [KUBECTL](#kubectl)
     - [Hello_Minikube](#hello_minikube)
+    - 쿠버네티스-기초학습
+        - [1.클러스터생성하기](#basic_module1)
+        - [2.kubectl로 deployment생성하기](#basic_module2)
 - [doc](#doc)
 - [Reference](#Reference)
 
@@ -15,6 +18,19 @@
 ### contents
 - 파드는 관리와 네트워킹 목적으로 함께 묶여 있는 하나 이상의 컨테이너 그룹이다
 - 파드는 쿠버네티스 클러스터 내에서만 ip로만 접근할 수 있지만, 외부에서 접근하게하려면 쿠버네티스 서비스로 노출해야한다.
+- 쿠버네티스를 사용하는 이유는?
+    - 소프트웨어를 컨테이너화해서 패키징한다면, 다운타임없이 어플리케이션을 릴리스 및 업데이트하여 어디서든지 구동할 수 있게된다.
+- 쿠버네티스 클러스터는?
+    - 클러스터를 조율하는 컨트롤 플레인과 worker 역활을하는 node로 구성되어있다
+        - Control Plane
+            - 클러스터를 관리하며, 어플리케이션의 활동주기를 핸들링한다
+        - Node
+            - Control Plane과 통신하는 kubelet 에이전트, 컨테이너 운영을 하게되는 docker로 구성된다.
+            - node는 최소 세개로 유지되어야한다
+- 쿠버네티스 디플로이먼트가 설치스크립트와 다른점은?
+    - auto healing 기능을 제공하는지의 차이가있다. 설치스크립트는 문제가 생겼을 때, 복구시켜주지않는다. 하지만 디플로이먼트는 문제가있는 노드의 인스턴스를 다른 노드의 인스턴스로 교체해준다.
+- 쿠버네티스 디플로이먼트는 이미지가 필요하다
+- 쿠버네티스 프록시는 쿠버네티스 클러스터와 host간에 연결이될 수 있도록해준다
 
 ### install
 #### kubectl
@@ -146,6 +162,60 @@ kubectl delete deployments hello-node
 
 kubectl get deployments
 # No resources found in default namespace
+
+```
+
+#### #basic_module1
+> 쿠버네티스 클러스터 생성하기
+```sh
+minikube version
+minikube start
+kubectl cluster-info
+# c:\git>kubectl cluster-info
+# Kubernetes control plane is running at https://127.0.0.1:6042
+# CoreDNS is running at https://127.0.0.1:6042/api/v1/namespaces/kube-system/services/# kube-dns:dns/proxy
+# 
+# To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'
+
+kubectl get nodes
+# c:\git>kubectl get nodes
+# NAME       STATUS   ROLES                  AGE    VERSION
+# minikube   Ready    control-plane,master   110s   v1.23.1
+
+```
+
+#### #basic_module2
+> kubectl 로 deployment 생성하기
+```sh
+kubectl create deployment
+# c:\git>kubectl create deployment
+# Error: required flag(s) "image" not set
+
+# c:\git>kubectl create deployment kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1
+# deployment.apps/kubernetes-bootcamp created
+
+kubectl get deployments
+# c:\git>kubectl get deployments
+# NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+# kubernetes-bootcamp   1/1     1            1           66s
+
+kubectl proxy
+# c:\git>kubectl proxy
+# Starting to serve on 127.0.0.1:8001
+
+curl http://localhost:8001/version
+# C:\Users\user>curl http://localhost:8001/version
+# {
+#   "major": "1",
+#   "minor": "23",
+#   "gitVersion": "v1.23.1",
+#   "gitCommit": "86ec240af8cbd1b60bcc4c03c20da9b98005b92e",
+#   "gitTreeState": "clean",
+#   "buildDate": "2021-12-16T11:34:54Z",
+#   "goVersion": "go1.17.5",
+#   "compiler": "gc",
+#   "platform": "linux/amd64"
+# }
 
 ```
 
