@@ -121,7 +121,7 @@ sudo dhclient -r eth0
 ```
 
 ### section7
-> VPC Peering : 서로 다른 VPC를 같은 네트워크처럼 사용하는 것
+> VPC Peering : 서로 다른 VPC를 같은 네트워크처럼 사용하는 것으로 관리형 서비스이며, AWS 내에서 최저지연시간과 일관된 대역폭을 제공한다
 - why
     - VPC가 각각의 IGW로 통신하게될경우
         - 1\. 덜 보안적이다
@@ -134,8 +134,12 @@ sudo dhclient -r eth0
     - VPC Peering을 2개설정한다고해서, bandwidth와 latency가 2배가되지않는다.
     - non-transitive 특성
         - A-B, A-C 로 연결되어있다고해서, A-C로 연결되지않는다
+        - C의 VPC Gatewayendpoint를 통해 S3 접근 등도 제한된다.
+        - C를 통해 IGW를 통과해서 인터넷사용도 제한된다
+        - B의 프록시 인스턴스를 이용한다면 C로 접근할 수 있다
     - non-overlapping (CIDR)
         - RoutingTable에서 각각의 VPC Subnet을 업데이트해야한다
+    - 가용영역이 동일하면, VPC Peering은 비용이 무료다
 
 ---
 
