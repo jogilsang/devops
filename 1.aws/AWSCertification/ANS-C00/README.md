@@ -2,26 +2,30 @@
 # ANS-C00
 > AWS Certified Advanced Networking Specialty
 
+하이브리드 클라우드의 DNS용 https://www.youtube.com/watch?v=_Z5jAs2gvPA를 시청하세요. Transit Gateway는 https://www.youtube.com/watch?v=9Nikqn_02Oc
+
 ---
 
 ## INDEX
-- Section3 : Amazon VPC fundamentals
-- [Section4 : Additional VPC Features](#section4)
-- [Section5 : VPC and DHCP](#section5)
-- Section6 : Network Performance and Optimization
-- [Section7 : VPC Connectivity - VPC Peering](#section7)
-- Section8 : VPC Connectivity - Transit Gateway
-- Section9 : VPC Endpoints - VPC Gateway Endpoint
-- Section10 : VPC Interface endpoint and PrivateLink
-- Section11 : Hybrid Network basics
-- Section12 : AWS Site-to-Site VPN
-- Section13 : AWS Clint VPN
-- Section14 : AWS Direct Connect
-- Section15 : AWS CloudFront
-- Section16 : Elastic Load Balancers
-- Section17 : Route 53
-- Section18 : AWS Network Security Services
-- Section19 : Gateway Load Balancers
+- LECTURE
+    - Section3 : Amazon VPC fundamentals
+    - [Section4 : Additional VPC Features](#section4)
+    - [Section5 : VPC and DHCP](#section5)
+    - Section6 : Network Performance and Optimization
+    - [Section7 : VPC Connectivity - VPC Peering](#section7)
+    - [Section8 : VPC Connectivity - Transit Gateway](#section8)
+    - Section9 : VPC Endpoints - VPC Gateway Endpoint
+    - Section10 : VPC Interface endpoint and PrivateLink
+    - Section11 : Hybrid Network basics
+    - Section12 : AWS Site-to-Site VPN
+    - Section13 : AWS Clint VPN
+    - Section14 : AWS Direct Connect
+    - Section15 : AWS CloudFront
+    - Section16 : Elastic Load Balancers
+    - Section17 : Route 53
+    - Section18 : AWS Network Security Services
+    - Section19 : Gateway Load Balancers
+- [EXAMTOPICS](#examtopics)
 
 ### 
 
@@ -140,6 +144,53 @@ sudo dhclient -r eth0
     - non-overlapping (CIDR)
         - RoutingTable에서 각각의 VPC Subnet을 업데이트해야한다
     - 가용영역이 동일하면, VPC Peering은 비용이 무료다
+
+### section8
+> Transit Gateway : 
+- introduction
+    - Multi-VPC의 full-mesh 연결을 단순하게 해준다
+        - 6개의 VPC를 peering으로 연결하려면 15개의 연결이필요
+        - 6개의 VPC를 transit GW로 연결하면 1개만 필요
+    - On-premise의 VPN Connection을 hub and spoke 모델 지원
+    - On-premise의 Router를 Direct Connect와 연결해서 지원
+    - 서로 다른 Region 끼리는 Transit Gateway Peering을 이용하여 연결할 수 있다.
+    - Customizing 할 수 있다면, 방화벽 용으로 Traffic Inspection VPC를 사용할 수 있다.
+- attachment-routing
+    - tgw는 기본 Routing Table이 있다
+    - VPC간 CIDR이 overlapping 되면안된다
+    - Auto
+        - attachment하게되는 VPC별로 자동으로 라우팅경로가 추가된다 (EX : 10.1.0.0/16 via att-a)
+    - Static
+        - 각 VPC별 RoutingTable에 TGW 전체 서브넷을 적용해야한다 (EX : 10.0.0.0/8)
+- attachment-routing-control
+    > 특정 VPC 간만 통신하게 한다
+    - setting - do not enable RT Association
+    - setting - do not enable RT Propagation
+    - create TGW RT
+    - create Assoiastion : VPC 연결
+    - create Propagation : VPC 할당
+- transitGateway AZ Considerations
+    - TGW랑 연결된 AZ의 해당 서브넷만 통신할수있다?
+- transitGateway Peering
+    - Regional Router이기때문에, Region간 연결가능
+    - routing은 static으로 진행한다
+- TGW Architecture : Centralized outbound internet using NAT
+    - SpokeVPC, centralized VPC
+    - NAT Gateway를 여러개쓰지않고, 1개 또는 2개로 인터넷 개통
+    - HA를 만족할 수 있다
+    - 10.0.0.0/8 -> blackholl
+- TGW Architecture : Centralized IPS/IDC on EC2
+    - SpokeVPC, EgreesVPC
+    - 장애발생 시, cloutwatch alarm과 lambda를 활용해
+    라우팅 테이블을 수동으로 변경해야한다. tgw는 로드벨런싱을 지원하지않는다
+- TGW Architecture : Centralized VPC Endpoints
+    - AWS VPN - IPSec + BGP (supported loadbalansing, detect fail)
+    - VPN ECMP Support - 50GB - 멀티VPN 터널
+- vpc peering vs transit gateway
+
+---
+
+### examtopics
 
 ---
 
