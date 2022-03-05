@@ -189,32 +189,31 @@ sudo dhclient -r eth0
 - vpc peering vs transit gateway
 
 ### section11
-> Network Performance and Optimization
-- AWS 내에서는 JumboFrame이 9001 MTU 가 default이다
-- AWS 리소스간, 온프레미스에 대해, 인터넷에 대해서 최대지원이 다르다
-    - Over the Internet : 1500
-    - VPC 내부 : 9001
-    - 리전 내 VPC Peering : 9001
-    - 리전 간 VPC Peering : 1500
-    - VPC Endpoint : 8500
-    - VPN Via VGW : 1500
-    - DX : 9001
-    - DX Via TGW : 8500
-    - VPN Via TGW : 1500
-- MTU가 1500을 넘으면, dropped되거나 fragment 될 수 있다
-- 인스턴스 타입에 따라 점보프레임 지원여부가 다를 수 있다
-- 점보프레임은 ENI Level에서 설정할 수 있다
-```sh
-### 점보프레임 사용여부 확인
-tracepath amazon.com
+- Network Performance and Optimization
+    - AWS 내에서는 JumboFrame이 9001 MTU 가 default이다
+    - AWS 리소스간, 온프레미스에 대해, 인터넷에 대해서 최대지원이 다르다
+        - Over the Internet : 1500
+        - VPC 내부 : 9001
+        - 리전 내 VPC Peering : 9001
+        - 리전 간 VPC Peering : 1500
+        - VPC Endpoint : 8500
+        - VPN Via VGW : 1500
+        - DX : 9001
+        - DX Via TGW : 8500
+        - VPN Via TGW : 1500
+    - MTU가 1500을 넘으면, dropped되거나 fragment 될 수 있다
+    - 인스턴스 타입에 따라 점보프레임 지원여부가 다를 수 있다
+    - 점보프레임은 ENI Level에서 설정할 수 있다
+        ```sh
+        ### 점보프레임 사용여부 확인
+        tracepath amazon.com
 
-### 점보프레임 확인
-ip link show eth0
+        ### 점보프레임 확인
+        ip link show eth0
 
-### 점보프레임 설정
-sudo ip link set dev eth0 MTU 9001
-
-```
+        ### 점보프레임 설정
+        sudo ip link set dev eth0 MTU 9001
+        ```
 - basic of network performance
     - Bandwidth - 전송되는 최대양
     - latency - 네트워크가 연결되는 두 지점사이에 통신지연
@@ -228,22 +227,60 @@ sudo ip link set dev eth0 MTU 9001
         - 최대 1500 Byte
     - Jumbo Frame : 1500 byte이상 최대 9000 byte
         - 패킷을 덜 보내고, 쓰루풋이 증가하고, 낮은 PPS로 전송량을 만족시킬 수 있다
-- Path MTU Discovery
-    - 통신하는 host간에 fragmentation이나 packet drop을 피하기위한 메커니즘
-    - 1. Interface MTU가 Path MTU와 동일하다고 가정하고 flag를 1로 설정(DF마킹=don't fragment)
-    - 2. MTU 1500 를 전송해서 Router가 지원하면 통과
-    - 3. 다음 Router가 MTU를 지원못하고 1000 Byte가 한계인경우 통과할 수 없음
-    - 4. flags가 1이기떄문에, ICMP 프로토콜을 통해 MTU를 1000으로 변경회신
-    - 5. MTU 1000 으로 전송시작
-    - *** ICMP must be enabled
-- PlacementGroups
-    - HPC를 목적으로 논리적으로 동일AZ, 동일 RACK으로 EC2를 묶는다.
-    - 10GBPS의 네트워크를 지원한다
-- EBS Optimized EC2 instances
-    - EBS는 네트워크 드라이브이기떄문에, EC2에서 I/O가 발생할 때 Network 통신을한다.
-    - 일반적인 EC2 인스턴스는 외부통신과 EBS I/O에 대해서 단일 I/F로 통신하기때문에 대역폭 문제가 생길 수 있다.
-    - EBS 최적화 EC2인스턴스는 EBS I/O 처리를 별도의 I/F로 한다.
-
+    - Path MTU Discovery
+        - 통신하는 host간에 fragmentation이나 packet drop을 피하기위한 메커니즘
+        - 1. Interface MTU가 Path MTU와 동일하다고 가정하고 flag를 1로 설정(DF마킹=don't fragment)
+        - 2. MTU 1500 를 전송해서 Router가 지원하면 통과
+        - 3. 다음 Router가 MTU를 지원못하고 1000 Byte가 한계인경우 통과할 수 없음
+        - 4. flags가 1이기떄문에, ICMP 프로토콜을 통해 MTU를 1000으로 변경회신
+        - 5. MTU 1000 으로 전송시작
+        - *** ICMP must be enabled
+    - PlacementGroups
+        - HPC를 목적으로 논리적으로 동일AZ, 동일 RACK으로 EC2를 묶는다.
+        - 10GBPS의 네트워크를 지원한다
+    - EBS Optimized EC2 instances
+        - EBS는 네트워크 드라이브이기떄문에, EC2에서 I/O가 발생할 때 Network 통신을한다.
+        - 일반적인 EC2 인스턴스는 외부통신과 EBS I/O에 대해서 단일 I/F로 통신하기때문에 대역폭 문제가 생길 수 있다.
+        - EBS 최적화 EC2인스턴스는 EBS I/O 처리를 별도의 I/F로 한다.
+- Enhanced Networking
+    - 인스턴스와 하이퍼바이저 간의 패킷프로세싱의 오버헤드를 감소
+    - option1 : intel 82599 VF IF(=intel ixgbevf) 
+        - Instance <-> NIC <-> byPassing Virtual Layer
+    - option2 : ENA (Elastic Network Adapter)
+        - Instance <-> ENA <-> byPassing Virtual Layer
+    - 명령어 : 드라이버 확인하기
+        ```sh
+        ### 드라이버 확인하기
+        ethtool -i eth0
+        ```
+    - Multifle Flow 일경우, 최대100G
+    - Sing Flow 일경우, Placement group 내이면 최대10G
+    - Sing Flow 일경우, 그 외 최대5G
+    
+- DPDK
+    - Intel The Data Plane Development Kit
+    - OS내부에서 kernelByPass로 패킷프로세싱의 오버헤드를 감소
+- EFA
+    - Elastic Fabric Adapter
+    - ENA의 특별한 유형으로, 리눅스만 지원
+- network I/O Credit
+    - 네트워크 크레딧이 누적된다
+- bandwidth
+    - MAX Bandwidth는 Single Flow가 아니며 Multifle Flow이다
+    - SingleFlow는 Placement group 내에서는 최대 10G, 그 외에는 5G까지 가능하다
+    - IGW : No Limit
+    - VPC : No Limit
+    - VPC Peering : No limit
+    - NAT Gateway : 45 Gbps (여러개 쓸경우 스케일업 가능)
+    - TransitGW : 최대 50Gbps
+        - VPN Connection 당 1.25Gbps
+    - VPNGateway
+        - Site-to-SiteVPN 역시 1.25Gbps
+        - DX는 DX port당 적용
+    - EC2
+        - Intance Family Type, Enhanced Networking 에 영향
+        - 32vcpu 미만이거나 제너레이션 타입이 아닌경우, 인터넷을 통하거나 다른 Region간의 대역폭은 최대 5G이다
+    - Other
 ---
 
 ### examtopics
