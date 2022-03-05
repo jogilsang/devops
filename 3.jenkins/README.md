@@ -42,6 +42,23 @@ log.debug(buildKey, "adding changeset entry: %s", o);
 entry.getMsg()
 entry.getAuthor().getDisplayName()
 ```
+
+### Send git commit description to Slack using Jenkins
+> git이나 svn의 log를 환경변수로 가져올 수 있을듯
+```sh
+# 1."Execute shell”
+echo GIT_LAST_COMMIT_DESCRIPTION=\""$(git log --format="medium" -1 ${GIT_COMMIT})"\" | sed -E 's/$/\\n/g' | tr -d '\n' | sed 's/..$//' > git_last_commit_description
+
+# 2."Inject environment variables"
+git_last_commit_description
+
+# 3."Custom Message"
+$GIT_LAST_COMMIT_DESCRIPTION
+
+# reference
+https://pierreabreu.medium.com/send-git-commit-description-to-slack-using-jenkins-e965aa42ab3f
+```
+
 ### [svn tagging auto](http://developerautomation.com/jenkins-job-automate-svn-tagging/)
 ```bash
 VERSION_TAG=my_special_version-${VERSION}
