@@ -18,7 +18,7 @@
     - [Section7 : VPC Connectivity - VPC Peering](#section7)
     - [Section8 : VPC Connectivity - Transit Gateway](#section8)
     - [Section9 : VPC Endpoints - VPC Gateway Endpoint](#section9)
-    - Section10 : VPC Interface endpoint and PrivateLink
+    - [Section10 : VPC Interface endpoint and PrivateLink](#section10)
     - Section11 : Hybrid Network basics
     - Section12 : AWS Site-to-Site VPN
     - Section13 : AWS Clint VPN
@@ -336,6 +336,72 @@ sudo dhclient -r eth0
 - Amazon S3 엔드포인트에는 IP 주소가 필요하지 않습니다. 
 - 엔드포인트는 또한 프라이빗 또는 퍼블릭 서브넷의 영향을 받지 않습니다. 
 - Amazon S3 엔드포인트에는 라우팅 테이블의 경로가 필요합니다.
+
+### section10
+- VPC Peering과의 차이점은 한 가지 서비스만 허용할 수 있다
+- VPC interface endpoint
+    - 동일 Region의 AWS 리소스 : SQS, kinesis 등
+        - hands-on
+            - 1\. Enable DNS Name
+            - 2\. VPC - DNS Resolution - Enable
+            - 3\. VPC - DNS Hostname - Enable
+            - 4\. SG - 443 - attach to SQS
+            - 5\. IAM Role - SQSFullAccess Polices - attach to EC2
+        - VPC Interface Endpoint는 ipv4 만 지원한다
+        - VPC Interface Endpoint는 Regional, Zonal 둘다 DNS 엔트리를 제공한다
+        - AZ당 ENI를 생성할 수 있기때문에 고가용성이다
+        - 443을 이용하기때문에 보안이 적용된다
+    - privateLink
+        - ServiceVPC <-> NLB <-> EC2
+        - ServiceVPC <-> NLB <-> VPN/DX <-> On-Premise-Server
+        - 1000개의 CustomerVPC에 노출될 수 있다
+- VPC Interface Endpoint DNS
+    - AWS는 private hosted zone을 생성해서, VPC에 associate 해준다. 
+    - DNS query를 할경우, public hostname -> private ip로 자동으로 resolution 해준다
+    - VPC Peering을 하게될경우, Route53 Private Hosted Zone을 attach해준다면, interface endpoint에 대한 DNS resolve가 가능하다
+    - Route53 Private Hosted Zone을 사용해서 interface Endpoint의 alias Record를 추가할 수 있다.
+    - 온프레미스 네트워크와 VPN or DX로 연결될경우, Cusotm Route53 DNS Resolver로 DNS Query를 포워딩해서 interface Endpoint에 접근할 수 있다
+    - CASE 1 : Unable
+        - subnet 1
+            - public dns -> igw -> internet -> service
+            - private dns -> other subnet -> private eni -> service
+        - subnet 2 (ENI)
+            - public dns -> x
+            - private dns -> private eni -> service
+    - CASE 2 : Enable
+        - subnet 1
+            - public dns -> other subnet -> private eni -> service
+            - private dns -> other subnet -> private eni -> service
+        - subnet 2 (ENI)
+            - public dns -> private eni -> service
+            - private dns -> private eni -> service
+    - required
+        - VPC - Endpoint - Edit - PrivateDNSName - Enable
+        - VPC - Enable DNS Hostname - True
+        - VPC - Enable DNS Support - True
+    - cli
+        - \-\-queue-url [public-hostname]
+        - \-\-endpoint-url [regional-hostname]
+- AWS PrivateLink는 interface VPC Endpoint의 확장이다
+- vpc peering vs vpc privatelink
+    - privatelink는 VPC의 CIDR이 동일해도된다
+    - privatelink는 one service만 exposed 된다
+    - privatelink는 Connection에 제한이 없다
+    - privatelink는 consumer가 service provider VPC로 단방향 통신이다
+
+- quiz
+- AWS PrivateLink는 서비스 VPC에 대한 요청을 시작하는 솔루션에만 적합합니다
+공유 VPC의 서비스는 스포크 VPC에 대한 연결을 시작할 수 없습니다.
+- AWS PrivateLink는 VPC 피어링보다 더 많은 스포크 VPC를 지원합니다.
+- AWS PrivateLink는 소스 NAT(Network Address Translation)를 적용하므로 소스 IP를 기본적으로 사용할 수 없습니다.
+- IPsec을 지원하지 않기 때문에 AWS PrivateLink를 통해 VPN을 생성할 수 없습니다.
+- AWS PrivateLink는 TCP 트래픽만 지원합니다.
+- DNS 이름 대신 AWS PrivateLink 엔드포인트의 IPv4 주소를 사용할 수 있습니다.
+- AWS PrivateLink는 접두사 목록을 사용하지 않습니다.
+- AWS PrivateLink가 있는 라우팅 테이블에는 IP 주소가 없습니다.
+- AWS PrivateLink는 중앙 서비스를 제공할 뿐만 아니라 이 사용 사례에 맞게 확장할 수 있습니다.
+- 개발 시스템에 대한 액세스를 제공하기 위한 최상의 디자인은 중앙 VPC에 개발시스템을 배포하고, 개발자가 AWS PrivateLink를 통해 시스템에 엑세스하도록 허용합니다.
+
 ---
 
 ### examtopics
