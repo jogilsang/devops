@@ -2,7 +2,10 @@
 # ANS-C00
 > AWS Certified Advanced Networking Specialty
 
-하이브리드 클라우드의 DNS용 https://www.youtube.com/watch?v=_Z5jAs2gvPA를 시청하세요. Transit Gateway는 https://www.youtube.com/watch?v=9Nikqn_02Oc
+- 하이브리드 클라우드의 DNS용 : https://www.youtube.com/watch?v=_Z5jAs2gvPA
+- Transit Gateway : https://www.youtube.com/watch?v=9Nikqn_02Oc
+
+- Amazon ANS-C00 Exam : https://www.examtopics.com/exams/amazon/ans-c00/
 
 ---
 
@@ -11,12 +14,12 @@
     - Section3 : Amazon VPC fundamentals
     - [Section4 : Additional VPC Features](#section4)
     - [Section5 : VPC and DHCP](#section5)
-    - Section6 : Network Performance and Optimization
+    - [Section6 : Network Performance and Optimization](#section6)
     - [Section7 : VPC Connectivity - VPC Peering](#section7)
     - [Section8 : VPC Connectivity - Transit Gateway](#section8)
-    - Section9 : VPC Endpoints - VPC Gateway Endpoint
+    - [Section9 : VPC Endpoints - VPC Gateway Endpoint](#section9)
     - Section10 : VPC Interface endpoint and PrivateLink
-    - [Section11 : Hybrid Network basics](#section11)
+    - Section11 : Hybrid Network basics
     - Section12 : AWS Site-to-Site VPN
     - Section13 : AWS Clint VPN
     - Section14 : AWS Direct Connect
@@ -124,6 +127,127 @@
 sudo dhclient -r eth0
 ```
 
+
+### section6
+- Network Performance and Optimization
+    - AWS 내에서는 JumboFrame이 9001 MTU 가 default이다
+    - AWS 리소스간, 온프레미스에 대해, 인터넷에 대해서 최대지원이 다르다
+        - Over the Internet : 1500
+        - VPC 내부 : 9001
+        - 리전 내 VPC Peering : 9001
+        - 리전 간 VPC Peering : 1500
+        - VPC Endpoint : 8500
+        - VPN Via VGW : 1500
+        - DX : 9001
+        - DX Via TGW : 8500
+        - VPN Via TGW : 1500
+    - MTU가 1500을 넘으면, dropped되거나 fragment 될 수 있다
+    - 인스턴스 타입에 따라 점보프레임 지원여부가 다를 수 있다
+    - 점보프레임은 ENI Level에서 설정할 수 있다
+        ```sh
+        ### 점보프레임 사용여부 확인
+        tracepath amazon.com
+
+        ### 점보프레임 확인
+        ip link show eth0
+
+        ### 점보프레임 설정
+        sudo ip link set dev eth0 MTU 9001
+        ```
+- basic of network performance
+    - Bandwidth - 전송되는 최대양
+    - latency - 네트워크가 연결되는 두 지점사이에 통신지연
+        - 네트워크 장비(Hop)을 통과하면서 발생하는 딜레이를 포함
+    - jiter - 지터는 패킷 간의 지연 차이입니다. 지연을 보다 일관되게 만들어 지터를 줄일 수 있습니다.
+        - packet delay variation
+        - 예를들면 패킷도달에 대한 지연시간이 일정하게 1ms여야하는대, 지연값이 달라질 떄
+        - 예를들면 패킷의 지연이 2밀리초에서 120밀리초 사이인경우
+    - PPS (Packet Per Seconed) : 
+    - Interface MTU : 물리적인 인터페이스에서 지원하는 MTU
+    - Path MTU : 출발지 - 목적지 사이 인터페이스의 최소 MTU 
+        - 최대 1500 Byte
+    - Jumbo Frame : 1500 byte이상 최대 9000 byte
+        - 패킷을 덜 보내고, 쓰루풋이 증가하고, 낮은 PPS로 전송량을 만족시킬 수 있다
+    - Path MTU Discovery
+        - 통신하는 host간에 fragmentation이나 packet drop을 피하기위한 메커니즘
+        - 1. Interface MTU가 Path MTU와 동일하다고 가정하고 flag를 1로 설정(DF마킹=don't fragment)
+        - 2. MTU 1500 를 전송해서 Router가 지원하면 통과
+        - 3. 다음 Router가 MTU를 지원못하고 1000 Byte가 한계인경우 통과할 수 없음
+        - 4. flags가 1이기떄문에, ICMP 프로토콜을 통해 MTU를 1000으로 변경회신
+        - 5. MTU 1000 으로 전송시작
+        - *** ICMP must be enabled
+    - PlacementGroups
+        - HPC를 목적으로 논리적으로 동일AZ, 동일 RACK으로 EC2를 묶는다.
+        - 10GBPS의 네트워크를 지원한다
+    - EBS Optimized EC2 instances
+        - EBS는 네트워크 드라이브이기떄문에, EC2에서 I/O가 발생할 때 Network 통신을한다.
+        - 일반적인 EC2 인스턴스는 외부통신과 EBS I/O에 대해서 단일 I/F로 통신하기때문에 대역폭 문제가 생길 수 있다.
+        - EBS 최적화 EC2인스턴스는 EBS I/O 처리를 별도의 I/F로 한다.
+- Enhanced Networking
+    - 1M PPS를 넘어고, 적은 지연, ENA를 사용하는 것
+    - 인스턴스와 하이퍼바이저 간의 패킷프로세싱의 오버헤드를 감소
+    - option1 : intel 82599 VF IF(=intel ixgbevf) 
+        - Instance <-> NIC <-> byPassing Virtual Layer
+    - option2 : ENA (Elastic Network Adapter)
+        - Instance <-> ENA <-> byPassing Virtual Layer
+    - 명령어 : 드라이버 확인하기
+        ```sh
+        ### 드라이버 확인하기
+        ethtool -i eth0
+        ```
+    - Multifle Flow 일경우, 최대100G
+    - Sing Flow 일경우, Placement group 내이면 최대10G
+    - Sing Flow 일경우, 그 외 최대5G
+    
+- DPDK
+    - Intel The Data Plane Development Kit
+    - DPDK는 운영 체제에서 네트워킹 오버헤드를 줄이는 데 사용되는 라이브러리 및 도구 세트입니다.
+    - OS내부에서 kernelByPass로 패킷 프로세싱의 오버헤드를 감소시킨다
+- EFA
+    - Elastic Fabric Adapter
+    - ENA의 특별한 유형으로, 리눅스만 지원
+- network I/O Credit
+    - 네트워크 크레딧이 누적된다
+- bandwidth
+    - MAX Bandwidth는 Single Flow가 아니며 Multifle Flow이다
+    - SingleFlow는 Placement group 내에서는 최대 10G, 그 외에는 5G까지 가능하다
+    - IGW : No Limit
+    - VPC : No Limit
+    - VPC Peering : No limit
+    - NAT Gateway : 45 Gbps (여러개 쓸경우 스케일업 가능)
+    - TransitGW : 최대 50Gbps
+        - VPN Connection 당 1.25Gbps
+    - VPNGateway
+        - Site-to-SiteVPN 역시 1.25Gbps
+        - DX는 DX port당 적용
+    - EC2
+        - Intance Family Type, Enhanced Networking 에 영향
+        - 32vcpu 미만이거나 제너레이션 타입이 아닌경우, 인터넷을 통하거나 다른 Region간의 대역폭은 최대 5G이다
+- SR-IOV, PCI
+
+- quiz
+- 향상된 네트워킹은 지터와 네트워크 성능을 줄이는 데 도움이 될 수 있습니다. 
+- 배치 그룹 및 짧은 지연 시간은 VPC를 떠나는 흐름을 지원하지 않습니다. 
+- 네트워크 인터페이스는 네트워크 성능에 영향을 미치지 않습니다. 
+- Application Load Balancer는 성능 문제를 지원하지 않습니다.
+- Using more than one instance will increase the performance because any given flow to Amazon S3 will be limited to 5 Gbps
+- R4 인스턴스는 크레딧을 사용할 수 있을 때 더 높은 대역폭을 허용하는 네트워크 I/O(입/출력) 크레딧을 사용하며, 이는 기준 성능 테스트에 영향을 미칠 수 있습니다. 성능 테스트 전에 네트워크 크레딧을 축적했다면, 이는 더 높은 피크값을 허용합니다
+- ENA(Elastic Network Adapter) 드라이버를 지원하는 최신 버전으로 커널을 업데이트한 뒤, 그 외에도 향상된 네트워킹 지원을 위해 AMI 또는 인스턴스에 플래그를 지정해야 합니다.
+- 초당 패킷을 늘리면 처리량이 감소할 가능성이 큽니다.
+- 운영 체제 TCP(Transmission Control Protocol) 스택 조정, 네트워크 가속기 사용 또는 애플리케이션 메커니즘 변경과 같은 추가 조치
+- 매우 높은 처리량 데이터 전송을 위해 네트워크 성능을 확장하려면, 주어진 흐름이나 인스턴스의 대역폭이 전체 성능을 제한하지 않도록 여러 인스턴스에 흐름을 분산합니다.
+- 지터는 패킷 간의 지연 차이입니다. 지연을 보다 일관되게 만들어 지터를 줄일 수 있습니다. 향상된 네트워킹과 CPU 또는 디스크 병목 현상 제거는 지터를 줄이는 데 도움이 될 수 있습니다.
+- Amazon VPC는 ​​QoS 없이 모든 패킷을 공정하게 처리합니다.
+- 인스턴스별로 Network Load Balancer를 사용하면 비효율적이고 성능이 저하됩니다.
+- 단일 배치 그룹은 하나의 가용 영역에만 적용되므로 가용성이 감소합니다.
+- 운영 체제가 지원하는 인스턴스 크기와 제품군은 최대 처리량과 대역폭을 크게 정의합니다.
+- 점보 프레임은 기본적으로 VPC에서 활성화되며 배치 그룹 외부에서 작동합니다.
+- MTU를 증가시키는것은 PPS(초당 패킷수)가 제한되는 어플리케이션에 적합합니다. 패킷당 더 많은 데이터를 보낼수 있으므로 처리량이 증가합니다
+- 탄력적 네트워크 인터페이스는 향상된 네트워킹을 지원하는 인스턴스의 네트워크 성능에 영향을 미치지 않습니다
+- 멀티캐스트 트래픽에는 VPC에 없는 레이어 2 스위칭 및 라우팅 인프라가 필요합니다. 애플리케이션 구성 요소를 재설계하고 배치 그룹에 짧은 대기 시간을 제공하는 것이 가장 좋습니다.
+- AWS Direct Connect 연결을 사용하면 온프레미스 연결을 개별 Amazon EC2 인스턴스 네트워크 제한 이상으로 확장할 수 있습니다.
+
+
 ### section7
 > VPC Peering : 서로 다른 VPC를 같은 네트워크처럼 사용하는 것으로 관리형 서비스이며, AWS 내에서 최저지연시간과 일관된 대역폭을 제공한다
 - why
@@ -188,102 +312,76 @@ sudo dhclient -r eth0
     - VPN ECMP Support - 50GB - 멀티VPN 터널
 - vpc peering vs transit gateway
 
-### section11
-- Network Performance and Optimization
-    - AWS 내에서는 JumboFrame이 9001 MTU 가 default이다
-    - AWS 리소스간, 온프레미스에 대해, 인터넷에 대해서 최대지원이 다르다
-        - Over the Internet : 1500
-        - VPC 내부 : 9001
-        - 리전 내 VPC Peering : 9001
-        - 리전 간 VPC Peering : 1500
-        - VPC Endpoint : 8500
-        - VPN Via VGW : 1500
-        - DX : 9001
-        - DX Via TGW : 8500
-        - VPN Via TGW : 1500
-    - MTU가 1500을 넘으면, dropped되거나 fragment 될 수 있다
-    - 인스턴스 타입에 따라 점보프레임 지원여부가 다를 수 있다
-    - 점보프레임은 ENI Level에서 설정할 수 있다
-        ```sh
-        ### 점보프레임 사용여부 확인
-        tracepath amazon.com
+### section9
+- VPC Endpoint는 공개 서비스에 대한 비공개 액세스입니다.
+- VPC Endpoint를 사용하면 인터넷으로 트래픽이 흐를필요가없다
+- VPC 엔드포인트는 동일한 AWS 리전의 AWS 서비스에 대해 작동합니다.
+- IGW, NAT GW를 사용하지않아도 되며, 대역폭 제한도없다
+- GW Endpoint(S3,DynamoDB)와 ENI(SQS 등)가 있다
+- privateIP에 대해서 접근을 제한할 수는없다
+- process
+    - 1. s3 endpoint를 만든다
+    - 2. RoutingTable에 PL로 시작하는 prefix를 추가한다
+    - 3. HTTP,HTTPS 허용여부를 확인한다
+    - 4. VPC Endpoint Policy를 확인한다.
+    - 5. EC2에 S3 Resource Based IAM Role을 부여한다
+    - 6. S3 Bucket Policy를 확인한다
+        - VPCE : One
+        - VPC : Entire VPC
+    - 7. S3 Bucket Policy에서 VPC 엔드포인트에 대한 액세스를 제한하도록 구성되지 않은 한, 퍼블릭 API를 통해 서비스를 계속 사용할 수 있습니다.
 
-        ### 점보프레임 확인
-        ip link show eth0
-
-        ### 점보프레임 설정
-        sudo ip link set dev eth0 MTU 9001
-        ```
-- basic of network performance
-    - Bandwidth - 전송되는 최대양
-    - latency - 네트워크가 연결되는 두 지점사이에 통신지연
-        - 네트워크 장비(Hop)을 통과하면서 발생하는 딜레이를 포함
-    - jiter - 처리 시간 및 결과물의 도달 시간의 변동폭
-        - packet delay variation
-        - 예를들면 패킷도달에 대한 지연시간이 일정하게 1ms여야하는대, 지연값이 달라질 떄
-    - PPS (Packet Per Seconed) : 
-    - Interface MTU : 물리적인 인터페이스에서 지원하는 MTU
-    - Path MTU : 출발지 - 목적지 사이 인터페이스의 최소 MTU 
-        - 최대 1500 Byte
-    - Jumbo Frame : 1500 byte이상 최대 9000 byte
-        - 패킷을 덜 보내고, 쓰루풋이 증가하고, 낮은 PPS로 전송량을 만족시킬 수 있다
-    - Path MTU Discovery
-        - 통신하는 host간에 fragmentation이나 packet drop을 피하기위한 메커니즘
-        - 1. Interface MTU가 Path MTU와 동일하다고 가정하고 flag를 1로 설정(DF마킹=don't fragment)
-        - 2. MTU 1500 를 전송해서 Router가 지원하면 통과
-        - 3. 다음 Router가 MTU를 지원못하고 1000 Byte가 한계인경우 통과할 수 없음
-        - 4. flags가 1이기떄문에, ICMP 프로토콜을 통해 MTU를 1000으로 변경회신
-        - 5. MTU 1000 으로 전송시작
-        - *** ICMP must be enabled
-    - PlacementGroups
-        - HPC를 목적으로 논리적으로 동일AZ, 동일 RACK으로 EC2를 묶는다.
-        - 10GBPS의 네트워크를 지원한다
-    - EBS Optimized EC2 instances
-        - EBS는 네트워크 드라이브이기떄문에, EC2에서 I/O가 발생할 때 Network 통신을한다.
-        - 일반적인 EC2 인스턴스는 외부통신과 EBS I/O에 대해서 단일 I/F로 통신하기때문에 대역폭 문제가 생길 수 있다.
-        - EBS 최적화 EC2인스턴스는 EBS I/O 처리를 별도의 I/F로 한다.
-- Enhanced Networking
-    - 인스턴스와 하이퍼바이저 간의 패킷프로세싱의 오버헤드를 감소
-    - option1 : intel 82599 VF IF(=intel ixgbevf) 
-        - Instance <-> NIC <-> byPassing Virtual Layer
-    - option2 : ENA (Elastic Network Adapter)
-        - Instance <-> ENA <-> byPassing Virtual Layer
-    - 명령어 : 드라이버 확인하기
-        ```sh
-        ### 드라이버 확인하기
-        ethtool -i eth0
-        ```
-    - Multifle Flow 일경우, 최대100G
-    - Sing Flow 일경우, Placement group 내이면 최대10G
-    - Sing Flow 일경우, 그 외 최대5G
-    
-- DPDK
-    - Intel The Data Plane Development Kit
-    - OS내부에서 kernelByPass로 패킷프로세싱의 오버헤드를 감소
-- EFA
-    - Elastic Fabric Adapter
-    - ENA의 특별한 유형으로, 리눅스만 지원
-- network I/O Credit
-    - 네트워크 크레딧이 누적된다
-- bandwidth
-    - MAX Bandwidth는 Single Flow가 아니며 Multifle Flow이다
-    - SingleFlow는 Placement group 내에서는 최대 10G, 그 외에는 5G까지 가능하다
-    - IGW : No Limit
-    - VPC : No Limit
-    - VPC Peering : No limit
-    - NAT Gateway : 45 Gbps (여러개 쓸경우 스케일업 가능)
-    - TransitGW : 최대 50Gbps
-        - VPN Connection 당 1.25Gbps
-    - VPNGateway
-        - Site-to-SiteVPN 역시 1.25Gbps
-        - DX는 DX port당 적용
-    - EC2
-        - Intance Family Type, Enhanced Networking 에 영향
-        - 32vcpu 미만이거나 제너레이션 타입이 아닌경우, 인터넷을 통하거나 다른 Region간의 대역폭은 최대 5G이다
-    - Other
+- quiz
+- VPC 엔드포인트 정책에는 콘솔에 특별히 적용되는 조건이 없으며 엔드포인트 정책은 버킷에 액세스할 수 있는 리소스를 제한하지 않습니다. AWS Management 콘솔을 통해 Amazon S3 버킷에 대한 액세스를 활성화하려면 퍼블릭 액세스를 허용해야 합니다.
+- Amazon S3 엔드포인트가 작동하려면 DNS를 활성화해야 합니다. 
+- Amazon S3 엔드포인트에는 IP 주소가 필요하지 않습니다. 
+- 엔드포인트는 또한 프라이빗 또는 퍼블릭 서브넷의 영향을 받지 않습니다. 
+- Amazon S3 엔드포인트에는 라우팅 테이블의 경로가 필요합니다.
 ---
 
 ### examtopics
+
+
+- 2\. AWS VPC에서는 브로드캐스트를 보낼 수 없지만 주소는 아직 예약되어 있습니다.
+- 3\. IDS - 침입 탐지, 네트워크 트래픽 흐름 기준을 설정하도록 설계되지 않았습니다.
+- 8\. AWS Direct Connect에서 네트워크는 BGP(Border Gateway Protocol) 및 BGP MD5 인증을 지원해야 하며
+Amazon Virtual Private Cloud(VPC)에 연결하려면 프라이빗 ASN(자율 시스템 번호) 을 제공해야 합니다. 첫단계는 AWS Direct Connect 연결 요청 제출, https://docs.aws.amazon.com/directconnect/latest/UserGuide/maximum_resiliency.html
+- 10\. 정의에 따르면 HTTP는 연결 지향 프로토콜이므로 TCP를 사용합니다.
+- 11\. AWS Direct Connect는 표준 1기가비트 또는 10기가비트 이더넷 단일 모드 광섬유 케이블을 통해 내부 네트워크를 AWS Direct Connect 위치에 연결합니다.
+- 12\. AWS Direct Connect를 사용하려면 가상인터페이스 생성이 필요한대 매개변수로 VLAN ID와 IP prefixes to advertise 가 필요하다.
+- 13\. AWS Config CLI의 describe-compliance-by-config-rule 명령을 사용하여 각 규칙의 규정 준수 상태를 확인할 수 있습니다. http://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_view-compliance.html
+- 14\. Amazon CloudFront의 웹 배포의 경우 오리진은 Amazon S3 버킷 또는 HTTP 서버가 될 수 있습니다.
+- 15\. 6초의 HealthCheck Interval, unhealthy threshold 가 5, healthy threshold가 10일 때인스턴스를 정상으로 선언하려면 10번의 성공적인 확인이 필요합니다. 인스턴스를 비정상으로 선언하려면 5번의 실패한 확인이 필요합니다.
+- 16\. Direct Connect 연결을 사용하여 모든 유럽 지역에 액세스하려고 합니다. DX Gateway를 사용하면됩니다. AWS Direct Connect 게이트웨이 또는 퍼블릭 가상 인터페이스를 사용하면 선택한 위치에서 다른 AWS 리전(중국 제외)에 액세스할 수 있습니다. https://aws.amazon.com/ko/directconnect/locations/
+- 17\. Amazon CloudFront와 관련하여 HTTP 및 HTTPS 웹 배포의 경우 CloudFront에서 오리진으로 쿠키를 전달할지 여부를 선택할 수 있습니다. RTMP 배포의 경우 쿠키를 처리하도록 CloudFront를 구성할 수 없습니다.
+- 18\. Amazon SNS 주제에 대해 CloudWatch로 구성한 지표는 자동으로 수집되어 1분 간격으로 CloudWatch에 푸시됩니다. https://docs.aws.amazon.com/sns/latest/dg/sns-monitoring-using-cloudwatch.html
+- 19\. 모든 트래픽이 "보안 그룹 1"을 사용하는 "서브넷 1"의 인스턴스에 액세스할 수 있도록 하려면, 0.0.0.0/0이 "서브넷 1"에 액세스하도록 허용하는 NACL 규칙, 0.0.0.0/0 인바운드를 허용하는 "보안 그룹 1"의 보안 그룹 규칙이 필요하다
+- 20\. 데이터를 교환할 수 있어야 하는 세 개의 가상 사설 클라우드(VPC)가 있습니다. 각 VPC를 다른 모든 VPC에 피어링하여 전체 메시 피어링을 생성합니다. 또는 그들 사이에 VPN을 만들고 그에 따라 라우팅 테이블을 조정합니다.
+- 21\. Amazon CloudFront의 배포에서 신속하게 항목을 삭제해야 하는 경우, 객체를 무효화한다. https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html
+- 22\. MS SmoothStreaming 형식의 온디맨드 스트리밍 서비스 제공을 위해 CloudFront를 사용할 수 있다
+- 23\. AWS CloudTrail은 단일 영역에서 수많은 트레일을 생성함으로써 예를 들어 보안 관리자는 모든 지역에 적용되는 추적을 만들고 하나의 키 관리 서비스 키를 사용하여 암호화를 구성할 수 있습니다. 개발자는 운영 문제를 해결하기 위해 한 지역에 적용되는 추적을 만들 수 있습니다.
+- 24\. VPC 보안그룹의 기본측면 중 하나는 허용규칙은 지정할 수 있지만, 거부규칙은 지정할 수 없다. https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html
+- 25\. CloudTrail 로그 파일에 SSE-KMS를 사용하면, Cloud trail 보안계층을 직접관리할 수 있다. 직접 관리 가능한 보안 계층을 제공하기 위해 CloudTrail 로그 파일 에 대해 AWS KMS 관리형 키(SSE-KMS)로 서버 측 암호화를 대신 사용할 수 있습니다.
+- 26\. AWS CloudFormation의 변경에대한 알람을 알 수 있는 방법은 AWS SNS, AWS Config, AWS CloudFormation 이다
+- 27\. RTMP 배포의 경우 Amazon CloudFront가 오리진 서버에서 객체를 요청할 때 요청을 오리진으로 전달하기 전에 모든 쿠키를 제거합니다. 오리진이 객체와 함께 쿠키를 반환하는 경우 CloudFront는 최종 사용자에게 객체를 반환하기 전에 쿠키를 제거합니다.
+- 28\. 많은 수의 승인된 사용자만 CloudFront 배포에서 제공하는 파일에 접근하게하려면 signed cookie를 사용하거나 버킷정책을 오직 CloudFront OAI로만 구성한다.
+- 29\. ENI는 AZ내에서만 이동할 수 있다. 새로운 인스턴스를 사용하려면, 대기 인스턴스의 보조ENI를 생성하고 DB의 보안그룹을 연결합니다.
+- 30\. AWS DirectConnect의 CrossConnect단계를 실행하려면, 연결요청 후 72시간 이내에 LOA-CFA 를 AWS로부터 받아야한다.
+- 31\. 인스턴스의 메타데이터에 엑세스하려면 아웃바운드, tcp 프로토콜, 80 port, 목적지 169.254.169.254를 허용해야한다.
+- 32\. Adobe Flash 멀티미디어 콘텐츠는 UDP 이기때문에, HTTP,HTTPS를 지원하는 CloudFront로 배포할 수 없다
+- 33\. Route53은 Geolocation과 GeoProximity을 기반으로 라우팅을 제공할 수 있다.
+- 34\. AWS CloudFormation 템플릿에서는 사용자 지정 리소스를 통해 AWS에서 제공하지않는 리소스를 사용할 수 있다. 따라서 IPAM 같은 리소스를 사용할 수 있다.
+- 35\. 비즈니스는 225개의 모바일 및 데스크톱 디바이스와 300개의 파트너 VPN을 위한 AWS VPC에 액세스해야 합니다. VPN 사용자는 서로 통신할 수 없어야 합니다.
+    - 단일지역의 하나의 VPC는 하나의 VGW랑 연결되며 Site-to-String VPN의 상한수는 50개이다
+    - Amazon EC2 인스턴스 VPN을 사용합니다. VPN 인스턴스의 기능을 사용하여 라우팅 및 연결을 제한합니다.
+- 36\. AWS Config는 규정(compliant)을 준수하지않는 리소스에 대해서 SNS알람을 사용자에게 보내고, 리소스를 비준수(non-compliant)로 표기합니다. 리소스의 사용여부는 사용자가 이후 결정합니다.
+- 37\. CloudFront Resource에 적합한 사람이 접근하게하려면, signed URL 또는 signed Cookie를 사용하는것입니다.
+- 38\. CIDR 블록 33.16.0.0/16의 보조 CIDR 블록이 될 수 있는 서브넷은 33.17.0.0/16과 100.70.0.0/17 입니다. https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#add-cidr-block-restrictions
+- 39\. 기존 VPC를 사용하고 Amazon S3 엔드포인트가 있는 프라이빗 서브넷에서 Amazon EMR을 구성합니다. IGW와 NAT Gateway를 사용할 필요가 없다
+- 40\. 10.0.0.0/16의 CIDR 블록의 DNS주소(Amazon Route 53 Resolver)는 169.254.169.253과 10.0.0.2 이다
+
+- memo
+- 예를 들어 com에 대한 장애 조치 레코드를 구성합니다. 기본 별칭 레코드가 latency.example.com을 가리키고 평가 대상 상태 설정을 활성화합니다. 보조 레코드가 Amazon S3에서 호스팅되는 정적 HTML 유지 관리 페이지를 가리키도록 합니다.
+- IPAM : IP 주소관리도구
 
 ---
 
