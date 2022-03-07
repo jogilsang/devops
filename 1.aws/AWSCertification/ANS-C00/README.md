@@ -19,7 +19,7 @@
     - [Section8 : VPC Connectivity - Transit Gateway](#section8)
     - [Section9 : VPC Endpoints - VPC Gateway Endpoint](#section9)
     - [Section10 : VPC Interface endpoint and PrivateLink](#section10)
-    - Section11 : Hybrid Network basics
+    - [Section11 : Hybrid Network basics](#section11)
     - Section12 : AWS Site-to-Site VPN
     - Section13 : AWS Clint VPN
     - Section14 : AWS Direct Connect
@@ -401,6 +401,63 @@ sudo dhclient -r eth0
 - AWS PrivateLink가 있는 라우팅 테이블에는 IP 주소가 없습니다.
 - AWS PrivateLink는 중앙 서비스를 제공할 뿐만 아니라 이 사용 사례에 맞게 확장할 수 있습니다.
 - 개발 시스템에 대한 액세스를 제공하기 위한 최상의 디자인은 중앙 VPC에 개발시스템을 배포하고, 개발자가 AWS PrivateLink를 통해 시스템에 엑세스하도록 허용합니다.
+
+### section11
+- introduction To Hybrid Networking
+    - flow over the internet
+    - client-to-site VPN
+        - EC2 - VPN Endpoint
+        - aws <-> client
+    - site-to-site VPN
+        - VGW (Virtual Private Gateway)
+        - aws <-> on-prem
+    - Direct Connect
+        - phyically connected
+        - private fiber line
+        - 대역폭 확보가능
+        - aws <-> on-prem
+- OSI7 Layer
+    - Layer7 : EndUser Layer
+        - HTTP, FTP, SSH, DNS
+    - Layer6 : Convert to Binary Layer
+        - Encryption
+        - Decryption
+        - Compression
+            - EX : 10mb -> 2mb
+    - Layer5 : Session Management
+        - Authentication
+        - Authorization
+    - Layer4 : End to End Connection Layer
+        - Segments
+            - data
+        - TCP,UDP
+        - Segmentation
+        - Flow Control
+            - src의 대역폭이 100Mbps, dst의 대역폭이 10Mbps만 지원한다면 변경
+        - Error Control
+    - Layer3
+        - Packets
+            - data-ip
+        - IP, IPSec, ICMP
+    - Layer2 : Media Access Contol Layer
+        - Frames
+            - data-ip-mac
+        - Ethernet, PPP
+    - Layer1
+        - Electronic, Radio via Ethernet Cable or optical fiber
+- How IPSec VPN Works ?
+    - AWS는 IPSec VPN만 지원한다
+    - Site-to-Site VPN(VGW <-> CGW) 연결 시, 2개의 tunnel(4개의 SA)를 통해 HA를 확보할 수 있다
+    - UDP port 500에서 동작한다.
+    - Layer 3에서 Encrpyted 된다
+    - two phase가 있다
+        - IKE phase1
+            - Identification & Authentication SA
+            - pre-shared 등의 Credential을 교환한다
+        - IKE phase2
+            - IPSec SA
+            - 실제로 데이터가 전송된다
+    - 그 외, 디프하만 등의 개념이있다
 
 ---
 
