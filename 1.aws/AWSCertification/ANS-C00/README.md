@@ -532,10 +532,24 @@ Amazon Virtual Private Cloud(VPC)에 연결하려면 프라이빗 ASN(자율 시
 - 38\. CIDR 블록 33.16.0.0/16의 보조 CIDR 블록이 될 수 있는 서브넷은 33.17.0.0/16과 100.70.0.0/17 입니다. https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#add-cidr-block-restrictions
 - 39\. 기존 VPC를 사용하고 Amazon S3 엔드포인트가 있는 프라이빗 서브넷에서 Amazon EMR을 구성합니다. IGW와 NAT Gateway를 사용할 필요가 없다
 - 40\. 10.0.0.0/16의 CIDR 블록의 DNS주소(Amazon Route 53 Resolver)는 169.254.169.253과 10.0.0.2 이다
+- 41\. 클러스터 배치 그룹은 단일 가용 영역 내 인스턴스의 논리적 그룹입니다. 클러스터 배치 그룹은 동일한 리전의 피어링된 VPC에 걸쳐 있을 수 있습니다. 배치 그룹은 병합할 수 없습니다.
+- 42\. 어떤 디자인이 백엔드 인스턴스를 가능한 한 적게 공개할까요?
+    - ALB용 퍼블릭 서브넷, 웹 티어용 프라이빗 서브넷, 애플리케이션 티어용 프라이빗 서브넷이 있는 VPC. 애플리케이션 계층은 VPC 엔드포인트를 통해 DynamoDB를 연결합니다.
+- 44\. Route Table에는 default로 50개의 경로설정이 가능하고, 최대 1000개 까지 증가시킬 수 있지만 관리가 잘 안될 수 있다. BGP를 사용하는 Routetable은 default가 100개이다. 
+    - https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html
+- 45\. RDS의 서브넷 그룹에는 2개가 있어야 HA(고가용성) 이 보장된다
+- 46\. 거의 실시간에 가까운 IDS(침입 탐지 시스템) 솔루션을 사용하고 있습니다. 즉시 시스템을 구현하는 방법은 Amazon GuardDuty 활성화입니다
+    - Amazon GuardDuty with network intrusion detection systems (IDS) on threat detection of network layer attacks.
+- 47\. 1Gbps의 속도로 AWS Direct Connect 연결을 최근에 설치했습니다. Direct Connect 위치와 포트 간의 교차 연결을 주문
+    - 1-Gbps Single Mode Fiber Interface, 802.1Q VLAN, Peer IP Address, BGP Session with MD5.
+- 49\. AWS Marketplace에서 배포한 타사 VPN 솔루션
+    - AWS 기반 하드웨어 VPN에는 암호 변경/키 회전 및 인증서 기반 인증 기능이 없기 때문에 정답은 B입니다. AWS Marketplace에서 제공되는 타사 VPN 소프트웨어에서 이러한 고급 VPN 기능을 가져와 모든 지역의 EC2 인스턴스에 설치할 수 있습니다.
+- 50\. CloudFront가 최종 사용자에게 반환할 응답 본문의 최대 크기는 30GB입니다
 
 - memo
 - 예를 들어 com에 대한 장애 조치 레코드를 구성합니다. 기본 별칭 레코드가 latency.example.com을 가리키고 평가 대상 상태 설정을 활성화합니다. 보조 레코드가 Amazon S3에서 호스팅되는 정적 HTML 유지 관리 페이지를 가리키도록 합니다.
 - IPAM : IP 주소관리도구
+- 43 ???
 
 ---
 
