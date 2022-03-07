@@ -7,6 +7,8 @@
 
 - Amazon ANS-C00 Exam : https://www.examtopics.com/exams/amazon/ans-c00/
 
+- [blog-AWS Certified Advanced Networking – Speciality (ANS-C00) Exam Learning Path](https://jayendrapatil.com/aws-certified-advanced-networking-speciality-ans-c00-exam-learning-path/)
+
 ---
 
 ## INDEX
@@ -22,7 +24,7 @@
     - [Section11 : Hybrid Network basics](#section11)
     - Section12 : AWS Site-to-Site VPN
     - Section13 : AWS Clint VPN
-    - Section14 : AWS Direct Connect
+    - [Section14 : AWS Direct Connect](#section14)
     - Section15 : AWS CloudFront
     - Section16 : Elastic Load Balancers
     - Section17 : Route 53
@@ -458,6 +460,35 @@ sudo dhclient -r eth0
             - IPSec SA
             - 실제로 데이터가 전송된다
     - 그 외, 디프하만 등의 개념이있다
+- How BGP works
+    - AS : Autonomus Systems (자율시스템)
+        - public AS : 1 ~ 64495 (IANA)
+        - private AS : 64512 ~ 65534
+    - static route
+        - 경로에 대해서 라우팅테이블에 경로를 전부 추가해줘야함
+    - dynamic route
+        - dynamically propagated
+        - BGP ( Bolder Gateway Protocol )
+            - Path-Vector Protocol
+            - TBGP (within AS)
+            - EBGP (between AS)
+                - Highest Weight
+                - Highest Local preference
+                - Shorted AS Path : how many hops via dst?
+                - Lowest MED (Multi Exit Discriminator)
+            - Each AS is connected by MPLS or Other link
+            - each entry in Routing Table has a Dst, Nexthop, Path
+                - DST : 10.30.0.0/16, 10.10.0.0/16
+                - NextHop : 10.30.0.1, 0.0.0.0
+                - Path : i, 400
+
+- BGP Route selection
+
+### section14
+- DX Location Provider, DX Connect Partner, Network Provider
+- AWS device/router, Customer Router, Cross Connect, Virtual Interface
+- Dedicated Connection, Hosted Connection
+
 
 ---
 
