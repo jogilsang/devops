@@ -485,10 +485,45 @@ sudo dhclient -r eth0
 - BGP Route selection
 
 ### section14
-- DX Location Provider, DX Connect Partner, Network Provider
-- AWS device/router, Customer Router, Cross Connect, Virtual Interface
-- Dedicated Connection, Hosted Connection
-
+- Introduction DX
+    - DX Location은 3rd Party에서 제공된다.
+    - AWS에서 나오는 트래픽을 비용으로 청구하며, 종합적으로 저렴할 수 있음
+    - 1/10/100 GBPS를 DX Location에 지원한다
+    - 25 Region에 108 DX가 지원된다
+    - 연결에 4-12 weeks의 시간이 소요된다.
+    - OSI 7 Layer
+        - L1 : single Mode Fiber
+        - L2 : 802.1Q
+        - L3 : peer and AWS IP
+        - L4 : TCP 179
+        - L7 : BGP
+    - Connected Flow
+        - AWS <-> AWS DX Router <-> Customer Router <-> On-prem Router
+    - PublicVIF : Connected S3, DynamoDB etc...
+    - PrivateVIF : Connected VPC 
+- DX Component
+    - AWS Backbone Network <-> Cross Connect <-> Customer Router & Access Point <-> Customer Backbone Network
+        - AWS Backbone Network = AWS <-> DX Router
+        - Cross Connect = DX Router <-> Customer or Partner Router
+            - managed by DX Provider
+        - Access Point = Customer or Partner Router <-> DX Location
+            - managed by Customer or Partner
+        - Customer Backbone Network = Customer or Partner Router <-> On-prem
+            - managed by Customer or ISP Provider
+- DX Requirement
+    - 802.1q VLAN
+        - Ethernet Frame -> 802.1q Encaptulation Frame (VLAN TAG Added = 4 Byte)
+    - Single Mode Fiber
+    - Auto-negotiation(port speed and duplex mod) for the port disabled
+    - BGP, BGP MD5
+        - (AWS AS {range 4byte} supported)
+    - BFD (Bidirectional Forwarding Detection)
+        - why ? : network is not always available connection
+        - fail detect within 1 second
+        - optional, not required
+    - ip-ranges.json
+        - https://ip-ranges.amazonaws.com/ip-ranges.json
+        - enable AWS SNS Topic in Region ip-range changed
 
 ---
 
@@ -550,6 +585,9 @@ Amazon Virtual Private Cloud(VPC)에 연결하려면 프라이빗 ASN(자율 시
 - 예를 들어 com에 대한 장애 조치 레코드를 구성합니다. 기본 별칭 레코드가 latency.example.com을 가리키고 평가 대상 상태 설정을 활성화합니다. 보조 레코드가 Amazon S3에서 호스팅되는 정적 HTML 유지 관리 페이지를 가리키도록 합니다.
 - IPAM : IP 주소관리도구
 - 43 ???
+- OSI 7 Layer에서 One-to-One Mapping은 불가능하다
+- jq -r ???
+- RIRs ???
 
 ---
 
