@@ -510,6 +510,7 @@ sudo dhclient -r eth0
             - managed by Customer or Partner
         - Customer Backbone Network = Customer or Partner Router <-> On-prem
             - managed by Customer or ISP Provider
+            - WAN/MPLS
 - DX Requirement
     - 802.1q VLAN
         - Ethernet Frame -> 802.1q Encaptulation Frame (VLAN TAG Added = 4 Byte)
@@ -524,6 +525,84 @@ sudo dhclient -r eth0
     - ip-ranges.json
         - https://ip-ranges.amazonaws.com/ip-ranges.json
         - enable AWS SNS Topic in Region ip-range changed
+- DX Connection
+    - Dedicated Connection
+        - 1G / 10G / 100G
+        - 1 Dedicated COnnection = 50 VIF
+    - Hosted Connection
+        - excess traffic is dropped
+        - 1 Hosted Connection = 1 VIF
+    - Hosted VIF
+        - Other AWS account enable
+- Step
+    - Directed Connection
+        - 1\. aws request and select location by console or cli
+        - 2\. Physical Presence
+            - if, LOA-CFA
+            - if not, LOA-CFA copy via DX APN Partner
+        - 3\. connected. tx/rx optical signal detected my device
+    - Hosted Connection
+        - LOA-CFA not required
+        - AWS Connect request not required
+        - AWS Account 12-digit number via AWS Partner
+    - Hosted VIF
+        - Connection account와 별개의 계정일 수 있다.
+- DX VIFs
+    - DX를 사용하려면 VIF가 필요함
+    - GateWay Type은 Private(Virtual Private Gateway)와 Transit (DXGateway)
+    - VLAN은 Connection 당 중복이 될 수 없다.
+    - BGP Peer IP
+        - IPv6 : AWS가 자동할당
+        - Private : 169.254.0.0 / 16
+        - Public : /30
+    - BGP ASN
+        - Public is Customer
+        - Private is AWS
+    - BGP MD5 Auth Key를 사용할 수 있으며, AWS에서 default 제공가능
+    - Public VIF 
+    - Private VIF : Jumbo Frame Enable (9005 MTU)
+    - Transit VIF : Jumbo Frame Enable (8500 MTU)
+        - TransitGateWay <-> DirectConnectGateWay <-> TransitVIFs <->
+    - VLAN이 Tagging됨
+        - didicated Connection : One Connection - Multi VIFs
+        - hosted Connection : Multi Connection - Multi VIFs
+- Public VIFs
+    - Globally access enable
+    - on-prem의 prefix는 1000개까지 수신할 수 있다.
+- Private VIFs
+    - on-prem의 prefix는 100개까지 수신할 수 있다.
+    - Endpoint Gateway <-> On-prem 은 통신할 수 없다
+    - DNS Server <-> On-prem 은 통신할 수 없다
+    - interface Gateway <-> On-prem은 통신할 수 있다
+    - VPC Resource(EC2, Redshift 등) <-> On-prem은 통신할 수 있다
+- DXGateway
+    - multi Region, multi VPC can Connected with Private VIFs
+    - VPC의 CIDR은 Overlapping 될 수 없다
+    - DXGateway 하나에 여러개 DX Location이 연결될 수 있음
+        - DXGateway는 non-transitive 하기때문에, 서로 통신할 수없음
+        - on-prem 끼리도 동일하게 통신할 수 없음
+    - dedicated Connection의경우 최대 50개의 VIFs가 가능하다.
+        - VIFs 별로 10개씩 VPC를 DXGateway를 통해 연결할 수 있다
+        - 총 500개의 VPC를 연결할 수 있다.
+- DXGateway with TransitGateway
+    - TGW끼리 peering을 통해 region이 서로 다른 VPC끼리 통신이 가능하다. DX를 통해서는 불가능하다
+    - TGW끼리 peering을 통해 각각의 DXGateway, DXLocation, On-prem이 연결됬다면 On-prem끼리 통신이 가능하다.
+    - 1 TransitVIF가 50개의 VIFs와 별도로 Connection에 생성이가능하다.
+    - 1 TransitVIF의 경우 HostedConnection의 bandwidth가 1GBPs 미만이면 생성할 수 없다
+    - 1 DXGateway랑 3개의 TransitGateway와 연결될 수 있으며, 이는 3개의 Region까지 연결된다는 뜻이다.
+- DXGateway with TransitVPC
+    - detached mode vgw와 public or private VIFs와 연결되서 사용할 수 있다
+    - spoke and hub 모델로 IDS/IPS 솔루션(EC2) 등을 사용하기 위해 사용될 수 있다
+- Routing Policies and BGP Communities
+    - inbound Routing policies
+    - outbound Routing policies
+- BGP
+    - inbound policies : not advertise other customer, connection
+    - outbound policies : Longest Prefix match or AS_PATH, BGP Community Tag
+- Public Routing Policies
+    - Public VIFs <-> Public ASN
+        - active-active, active-passive? connection
+        - local-pref, AS_Path
 
 ---
 
