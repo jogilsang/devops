@@ -603,6 +603,57 @@ sudo dhclient -r eth0
     - Public VIFs <-> Public ASN
         - active-active, active-passive? connection
         - local-pref, AS_Path
+- LAG
+    - link agreegation은 최대 4개까지 가능하다
+    - bandwidth는 1g/10g/100g이므로, 4g,40g,200g까지 가능하다.
+    - 모든 lag는 Active/Active Mode이다. 
+    - LAG의 Operational Connection attribute value 를 설정할 수 있다
+    - 동일 DX location에서 LAG를 이중구성해서 HA를 확보할 수 있다.
+- Resilient DX Connections
+    - Maximum Resiliancy
+    - High Resiliancy
+- BFD(BiDirectional Fail Dectection)
+    - DX의경우, VPN Backup 구성이나 multi-DX Location으로 고가용성을 확보하는데 장애를 빠르게 감지할 수 있어야한다.
+    - 300ms 속도로 3번 체크해서 응답하지않을경우, 장애로 판단하기 떄문에 1초 이내로 확인할 수 있다
+    - AWS와 EndUser 둘다 지원을 해야한다
+    - Routing 프로토콜로 BGP, OSPF를 사용해야한다.
+    - 비동기 모드로 check 패킷이 돌아간다.
+- DX Security
+    - DX의 트래픽은 기본적으로 encrypted되지않는다
+    - DX의 옵션으로 선택해서 진행해야한다
+        - L2
+            - MACSec 프로토콜을 적용가능한 Location이 별도로 있고, dedicated Connection에서만 사용가능하다
+        - L3
+            - VGW나 transitGW의 PublicIP와 IPSecVPN을 적용하는 것
+            - Bandwidth가 1.25GBps 적용되며, TGW의 경우 ECMP를 적용할 수 있다
+        - L4
+            - TLS 적용
+- JumboFrames
+    - DX에서 2018년부터 지원한다
+    - RouteType이 propagated인경우에만 지원된다
+    - PublicVIF는 지원되지않는다
+    - PrivateVIF는 9001, TransitVIF는 8500 또는 1500 MTU로 지원될 수 있다
+- DX with Cloudwatch Metrics
+    - Egress : AWS의 Outbound에 대한 bitrate나 Packet per Second 등을 확인한다.
+    - Ingress : AWS의 inbound에 대한 bitrate나 Packet per Second 등을 확인한다.
+    - ConnectionState나 ErrorRate 확인이 가능하다
+    - VIF에 대한 Egress나 Ingress도 확인가능하다
+- Troubleshooting with DirectConnect
+    - no physical Connectivity
+    - VIFs down
+    - BGP Session down
+    - not able to reach dst
+- DX Billing
+    - Who owns the connection
+        - port hour charges
+        - capacity
+            - dedicated connection
+            - hosted connection
+        - except japan, all region same
+    - Who Sends Traffic
+        - DTO
+        - resource account
+        - S3 option, requester payment
 
 ---
 
