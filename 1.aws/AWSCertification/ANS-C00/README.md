@@ -603,6 +603,18 @@ sudo dhclient -r eth0
     - Public VIFs <-> Public ASN
         - active-active, active-passive? connection
         - local-pref, AS_Path
+- BGP Coummunity Tags
+    - public VIFs
+        - inboud
+            - 7224:9100 : local region
+            - 7224:9200 : some region
+            - 7224:9300 : global
+        - outbound
+            - customer router can filter about advertise aws routes
+            - 7224:8100 : same region
+            - 7224:8200 : same continent
+            - no-tag : global
+            - NO_EXPORT
 
 ---
 
@@ -659,6 +671,8 @@ Amazon Virtual Private Cloud(VPC)에 연결하려면 프라이빗 ASN(자율 시
 - 49\. AWS Marketplace에서 배포한 타사 VPN 솔루션
     - AWS 기반 하드웨어 VPN에는 암호 변경/키 회전 및 인증서 기반 인증 기능이 없기 때문에 정답은 B입니다. AWS Marketplace에서 제공되는 타사 VPN 소프트웨어에서 이러한 고급 VPN 기능을 가져와 모든 지역의 EC2 인스턴스에 설치할 수 있습니다.
 - 50\. CloudFront가 최종 사용자에게 반환할 응답 본문의 최대 크기는 30GB입니다
+- 58\. 리소스를 보호하기위해 baseline을 설정하려면, WAF를 모니터 모드로 설정합니다.
+- 60\. CloudWatch의 통계지표에는 demention, namespace, data point 등이 전부사용된다.
 
 - memo
 - 예를 들어 com에 대한 장애 조치 레코드를 구성합니다. 기본 별칭 레코드가 latency.example.com을 가리키고 평가 대상 상태 설정을 활성화합니다. 보조 레코드가 Amazon S3에서 호스팅되는 정적 HTML 유지 관리 페이지를 가리키도록 합니다.
