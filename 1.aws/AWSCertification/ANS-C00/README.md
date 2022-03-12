@@ -5,9 +5,13 @@
 - 하이브리드 클라우드의 DNS용 : https://www.youtube.com/watch?v=_Z5jAs2gvPA
 - Transit Gateway : https://www.youtube.com/watch?v=9Nikqn_02Oc
 
-- Amazon ANS-C00 Exam : https://www.examtopics.com/exams/amazon/ans-c00/
+- [Amazon ANS-C00 examtopics](https://www.examtopics.com/exams/amazon/ans-c00/)
 
 - [blog-AWS Certified Advanced Networking – Speciality (ANS-C00) Exam Learning Path](https://jayendrapatil.com/aws-certified-advanced-networking-speciality-ans-c00-exam-learning-path/)
+
+- [Amazon CloudFront Quick Reference Card](http://awsdocs.s3.amazonaws.com/CF/20130512/cf-qrc-20130512.pdf)
+
+- [The Open Guide to Amazon Web Services](https://github.com/open-guides/og-aws#aws-data-transfer-costs)
 
 ---
 
@@ -654,6 +658,18 @@ sudo dhclient -r eth0
         - DTO
         - resource account
         - S3 option, requester payment
+- BGP Coummunity Tags
+    - public VIFs
+        - inboud
+            - 7224:9100 : local region
+            - 7224:9200 : some region
+            - 7224:9300 : global
+        - outbound
+            - customer router can filter about advertise aws routes
+            - 7224:8100 : same region
+            - 7224:8200 : same continent
+            - no-tag : global
+            - NO_EXPORT
 
 ---
 
@@ -710,6 +726,54 @@ Amazon Virtual Private Cloud(VPC)에 연결하려면 프라이빗 ASN(자율 시
 - 49\. AWS Marketplace에서 배포한 타사 VPN 솔루션
     - AWS 기반 하드웨어 VPN에는 암호 변경/키 회전 및 인증서 기반 인증 기능이 없기 때문에 정답은 B입니다. AWS Marketplace에서 제공되는 타사 VPN 소프트웨어에서 이러한 고급 VPN 기능을 가져와 모든 지역의 EC2 인스턴스에 설치할 수 있습니다.
 - 50\. CloudFront가 최종 사용자에게 반환할 응답 본문의 최대 크기는 30GB입니다
+- 51\. ESP에 대한 방화벽 규칙 IP프로토콜 50을 추가한다.
+- 52\. alb의경우, host condition을 통해 Route53의 public domain URL 제공가능. host condition은 멀티서브도메인을 지원할 수 있다.
+    - test.example.com
+    - web.example.com
+        - *.example.com을 적절한 대상 그룹으로 라우팅하기 위한 ALB 수신기의 호스트 조건.
+    - example.com
+        - example.com을 적절한 대상 그룹으로 라우팅하기 위한 ALB 수신기의 호스트 조건.
+- 53\. 최종 사용자는 애플리케이션에 액세스하는 동안 대기 시간이 가장 낮아야 합니다.
+    - ELB는 독점 TCP 및 UDP 프로토콜을 기반으로 합니다.
+    - ELB를 지역 ​​간 추가 레이어로 추가하면 대기 시간이 추가되는데, 이는 가장 낮지 않습니다.
+        - Amazon Route 53에서 지연 시간 기반 라우팅 정책을 사용하여 서비스 호스트의 IP 주소를 A레코드로 등록하고 이러한 호스트에 대해 Route 53 상태 확인을 설정합니다.
+- 54\. DDOS 공격 탐지에 도움이되는 지표는?
+    - ELB SurgeQueueLength가 있다. 대기열에 대기중인 총 요청수로 최대 통계치에 다다르면, 빠르게 수신요청을 처리할수없기때문에 503(Service Unavailable)이나 504(gateway timeout)를 반환한다
+    - Cloudfront request, EC2 CPUUtilization을 확인해볼 수 있다.
+- 55\. DX
+    - L2 경계 스위치에서 직접 연결 회로를 종료합니다. 그러면 두 라우터에 트렁크 연결이 됩니다.
+    - 동일한 VPC에 대해 서로 다른 피어 IP를 가진 두 개의 Direct Connect 프라이빗 VIF를 생성합니다.
+    - You cannot create 1 VIF with 2 different customer peer IP
+    - You can only have one VGW per VPC
+    - https://docs.aws.amazon.com/directconnect/latest/UserGuide/getting_started.html
+    - https://aws.amazon.com/es/blogs/networking-and-content-delivery/creating-active-passive-bgp-connections-over-aws-direct-connect/
+- 56\. WorkSpaces는 인증을 위해 온프레미스 도메인을 쿼리할 수 없다
+- 57\. 'WorkSpace를 시작할 때 오류가 발생했습니다. 다시 시도해 주세요.'
+    - 포트 4172에서 UDP를 허용하고 포트 4172에서 TCP를 허용하도록 Amazon WorkSpaces에 할당된 보안 그룹의 인바운드 규칙을 업데이트합니다.
+    - https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-troubleshooting.html
+- 58\. 리소스를 보호하기위해 baseline을 설정하려면, WAF를 모니터 모드로 설정합니다.
+- 59\. 
+    - 온프레미스 이름 서버는 하위 도메인 'dev.example.com'에 사용해야 합니다. 관리자는 Amazon Route 53을 통해 이 시나리오를 구현하기로 선택했습니다.
+    - example.com에 대해 Route 53 퍼블릭 및 프라이빗 호스팅 영역을 사용하고 dev.example.com에 대해 하위 도메인 위임 수행
+    - https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zone-private-considerations.html
+- 60\. CloudWatch의 통계지표에는 demention, namespace, data point 등이 전부사용된다.
+- 61\. 인프라에 변경 사항이 발생했는지 확인하기 위해 어떤 서비스를 이용하시겠습니까?
+    - AWS Config
+- 62\. DX가 제대로 작동하려면 자동 협상을 비활성화해야 합니다.
+- 63\. 하나의 Router로 여러 VPC와 연결해서 transitive하게 쓰려면 어떡해해야하는가?
+    - Use a transit VPC with a VPN running on one or more EC2 instances to route traffic between the VPCs
+- 64\. AWS Config는 S3에 Configuration Snapshot과 Configuration histroy를 저장한다
+- 66\. 
+    - 조직의 암호화 정책을 준수하는 ELB 설정은 무엇입니까?
+        - TCP 모드에서 ELB 프로토콜을 구성합니다. SSL 종료를 위해 애플리케이션 인스턴스를 구성합니다. SSL에 대해 Amazon RDS를 구성하고 REQUIRE SSL 권한 부여를 사용합니다.
+        -  https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html
+- 67\. 귀하의 회사는 방금 인수되었으며 호스팅된 VIF는 새 상위 조직에서 AWS VPC로 Direct Link 연결을 확장하는 데 사용되었습니다.
+    - 귀하는 모든 데이터 전송에 대한 책임이 있습니다.
+    - 호스팅된 VIF는 타사 VIF만을 의미하므로 데이터 전송에 대한 책임은 소비자에게만 있습니다. 포트 시간은 연결 소유자의 책임입니다.
+- 69\. Cloudfront에서 미디어파일을 제공하려면 미디어파일 경로 뒤에 cfx/st 가 포함되어야한다
+    - ex : rtmp://s5c39gqb8ow64r.cloudfront.net/cfx/st/mediafile.flv
+- 70\. It is billed at DX destination rate, not DX origin rate.
+    - 원격 지역에서 전송되는 모든 데이터는 원격 지역 데이터 전송 요금으로 청구됩니다.
 
 - memo
 - 예를 들어 com에 대한 장애 조치 레코드를 구성합니다. 기본 별칭 레코드가 latency.example.com을 가리키고 평가 대상 상태 설정을 활성화합니다. 보조 레코드가 Amazon S3에서 호스팅되는 정적 HTML 유지 관리 페이지를 가리키도록 합니다.
