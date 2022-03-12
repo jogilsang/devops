@@ -725,6 +725,70 @@ Amazon Virtual Private Cloud(VPC)에 연결하려면 프라이빗 ASN(자율 시
 - 58\. 리소스를 보호하기위해 baseline을 설정하려면, WAF를 모니터 모드로 설정합니다.
 - 60\. CloudWatch의 통계지표에는 demention, namespace, data point 등이 전부사용된다.
 
+
+- 71\. ipv6의 VPC CIDR는 /56이다
+- 72\. 온프레미스 센터에 2개의 VPC가 있고, Cloud-based의 DNS서버를 사용하고싶다
+    - VPC를 피어링하고 VPC 간에 경로를 설정합니다.
+    - DNS 서버를 가리키도록 두 VPC의 DHCP 옵션 세트를 구성합니다.
+        - DNS 요청을 전달하기 위해 Route 53 레코드를 생성할 수 없습니다.
+- 73\. 
+    - D. 아무 일도 일어나지 않을 것입니다. John은 작업을 설정할 수 있지만 IAM 정책을 통한 EC2 액세스 권한이 없기 때문에 실행되지 않습니다.
+    - AWSServiceRoleForCloudwatchEvents 같은 IAM Role을 이용하면 사용자가 권한이없어도, 사용자를 대신해서 경보작업을 수행할 수 있다
+    - https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingAlarmActions.html
+- 74 \. 다른 2개의 부서별 전용 가상 사설망(VPC)(VPC-Dept1 및 VPC-Dept2)에 공유 서비스를 제공하는 중앙 집중식 가상 사설망(VPC-Shared)이 있습니다. 중앙 집중식 VPC는 ​​부서별 VPC, 즉 VPC-Shared 및 VPC-Dept1, VPC-Shared 및 VPC-Dept2와 피어링합니다.
+    - VPC-Dept1 내의 인스턴스는 적절한 경로와 보안 그룹이 있는 한 VPC-Shared의 인스턴스와 직접 통신할 수 있으며, 그 반대의 경우도 누가 통신을 시작하는지에 관계없이 가능합니다.
+    - default peering bi-directional communication flag 같은건 없다
+    - http://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/peering-configurations-partial-access.html#one-to-two-vpcs-instances
+- 75\. S3버킷과 EC2를 접근할 수 있는 방법은?
+    - D. A Public VIF and a Private VIF
+- 76\. AWS Config 규칙의 논리를 평가하는 데 사용되는 AWS 서비스는 무엇입니까?
+    - Lambda
+- 77\. 
+    - CustomerGateway는 VPC의 논리적 리소스이다
+    - virtual Private Gateway는 항상 VPN의 Endpoint이기때문에 배포가 필요하다
+    - AWS only supports IPsec in Tunnel mode ג€" therefore Answer A is required.
+    - https://docs.aws.amazon.com/vpn/latest/s2svpn/SetUpVPNConnections.html#vpn-create-cgw
+- 78\. 
+- 79\. 10.0.0.0/16 네트워크에 대한 백업으로 DX 연결과 VPN 연결이 있습니다.
+    -  AWS VPC에 대해 동일한 경로를 광고하는 경우에는 AS 경로 앞에 붙는 것과 상관없이 Direct Connect 경로가 항상 우선 적용됩니다.
+    - AWS에서는 VPN 경로를 통한 Direct Connect 연결을 항상 선호합니다.
+- 80\. VPC들이 피어링되어있는대, 한 VPC로 의도된 트래픽이 다른 VPC로 우회되었음을 발견했습니다.
+    - B. 적절한 VPC가 더 높은 CIDR을 갖도록 경로를 조정합니다.
+        - high CIDR = smaller subnet을 의미. 더 높은 구체적인 CIDR이 우선순위가 높습니다
+- 81\.
+    - B. 새 VPC 내에서 가상 사설 게이트웨이인 고객 게이트웨이를 배포하고 BGP 동적 라우팅을 사용하여 새 IPsec VPN 연결을 설정합니다.
+    - VGW를 통해 점보프레임을 지원하지않는다
+- 82\. 피크 시간에 1~2Gbps 사이의 지속적인 트래픽을 나타내는 기록 데이터가 걱정됩니다. 내결함성이 있음을 보장
+    - B. 3개의 1Gbps Direct Connect 연결을 배포합니다.
+    - 하나가 고장나도 나머지 2개로 대역폭을 견딜 수 있음
+- 83\. us-east-1(버지니아 북부)에 동일한 애플리케이션의 또 다른 인스턴스를 즉시 배포해야 합니다. Direct Connect의 특전을 활용해야 합니다. 설계는 면에서 가장 비용 효율적인 옵션이어야 합니다. 성능 및 배포 시간.
+    - A. Direct Connect의 리전 간 기능을 사용하여 us-west-2 Direct Connect 위치에서 us-east-1의 새 VPC로 프라이빗 가상 인터페이스를 설정합니다.
+    - https://aws.amazon.com/blogs/aws/aws-direct-connect-access-to-multiple-us-regions/
+    - https://aws.amazon.com/blogs/networking-and-content-delivery/introducing-aws-direct-connect-sitelink/
+    - 질문 중 하나는 배포 시간입니다. AWS에서 검토해야 하기 때문에 공개 VIF를 배포하는 데 시간이 걸립니다.
+    - Direct Connect 게이트웨이가 없으면 해당 지역의 VPC에만 액세스할 수 있습니다. 하지만 해당지역은 us입니다
+- 84\. 조직의 사설 IP 주소에서 ping을 사용하면 네트워킹 팀이 VPC의 인스턴스에 액세스할 수 없습니다.
+    - B. 인스턴스 보안 그룹은 ICMP 트래픽을 허용하지 않습니다.
+    - D. 온프레미스 라우터가 올바른 CIDR 범위를 AWS에 알리지 않습니다.
+- 85\. ElasticBeanstalk와 Cloudfront는 Alias Record를 생성할 수 있다
+    - DynamoDB와 EC2는 Alias Record를 생성할 수 없다
+    - https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html
+- 86\. 무결성 검증을 통해 Cloudtrail의 로그파일이 업데이트,삭제, 여부를 확인할 수 있다
+- 87\. You must construct a 1000-host subnet in a VPC. Which CIDR format should you use?
+    - D. /22
+- 88\. 네트워크의 서버와 라우터는 모두 점보 프레임을 지원합니다. AWS 리소스에 액세스하려고 하는데 패킷 손실이 발생
+    - 패킷에서 "Do not Fragment" 플래그를 제거하십시오. 플래그가 설정된경우, 1500MTU보다 데이터가 큰경우 삭제처리합니다
+    - 1)\. 모든 DX에서 점보 프레임을 지원하진않는다
+    - 2)\. 모든 AWS 리소스에서 점보 프레임을 지원하진않는다
+    - https://docs.aws.amazon.com/directconnect/latest/UserGuide/set-jumbo-frames-vif.html
+    - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/network_mtu.html
+- 89\. PutMetricData API를 활용하여 CloudWatch에 사용자 지정 지표를 제출
+    - 요청 크기는 HTTP GET 요청의 경우 8KB, HTTP POST 요청의 경우 40KB로 제한됩니다.
+    - https://docs.aws.amazon.com/sdkfornet/latest/apidocs/items/MCloudWatchCloudWatchPutMetricDataPutMetricDataRequestNET35.html
+- 90\. AppStream 2.0 집합은 기존 VPC 및 온프레미스 리소스와 상호 작용해야 합니다. VPC는 AWS Direct Connect에서 제공하는 프라이빗 가상 인터페이스를 사용하여 온프레미스 환경에 연결됩니다.
+    - 기존 VPC에 두 개의 서브넷을 배포합니다. 사용자가 AppStream 엔드포인트에 액세스할 수 있도록 Direct Connect 연결에 공용 가상 인터페이스 추가
+    - ttps://docs.aws.amazon.com/appstream2/latest/developerguide/appstream2-port-requirements-appstream2.html
+
 - memo
 - 예를 들어 com에 대한 장애 조치 레코드를 구성합니다. 기본 별칭 레코드가 latency.example.com을 가리키고 평가 대상 상태 설정을 활성화합니다. 보조 레코드가 Amazon S3에서 호스팅되는 정적 HTML 유지 관리 페이지를 가리키도록 합니다.
 - IPAM : IP 주소관리도구
