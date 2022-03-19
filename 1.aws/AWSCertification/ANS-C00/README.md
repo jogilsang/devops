@@ -7,6 +7,9 @@
 
 - [Amazon ANS-C00 examtopics](https://www.examtopics.com/exams/amazon/ans-c00/)
 
+- [Subnet Mask Cheat Sheet](https://www.aelius.com/njh/subnet_sheet.html)
+    - 서브넷마스크 치트시트
+
 - [blog-AWS Certified Advanced Networking – Speciality (ANS-C00) Exam Learning Path](https://jayendrapatil.com/aws-certified-advanced-networking-speciality-ans-c00-exam-learning-path/)
 
 - [Amazon CloudFront Quick Reference Card](http://awsdocs.s3.amazonaws.com/CF/20130512/cf-qrc-20130512.pdf)
@@ -837,11 +840,88 @@ Amazon Virtual Private Cloud(VPC)에 연결하려면 프라이빗 ASN(자율 시
 - 90\. AppStream 2.0 집합은 기존 VPC 및 온프레미스 리소스와 상호 작용해야 합니다. VPC는 AWS Direct Connect에서 제공하는 프라이빗 가상 인터페이스를 사용하여 온프레미스 환경에 연결됩니다.
     - 기존 VPC에 두 개의 서브넷을 배포합니다. 사용자가 AppStream 엔드포인트에 액세스할 수 있도록 Direct Connect 연결에 공용 가상 인터페이스 추가
     - ttps://docs.aws.amazon.com/appstream2/latest/developerguide/appstream2-port-requirements-appstream2.html
+- 91\. VPC에서 14개 호스트 서브넷을 구성해야 합니다. 당신은 매우 큰 사업을 운영하기 때문에 가능한 한 정확해야 합니다. 어떤 CIDR 형식을 사용해야 합니까?
+    - /27 입니다. 왜냐하면 AWS는 5개(0,1,2,3 그리고 마지막IP)를 예약하기때문입니다. 그래서 32개중에서 5개를 제외한 27개를 사용할 수 있습니다. 만약 /28을 사용할경우 16개에서 5개를 제외한 11개의 호스트 서브넷만을 이용할 수 있습니다.
+- 92\. 네트워크 엔지니어는 Amazon Route 53을 사용하여 프라이빗 호스팅 영역을 설정했습니다. 엔지니어는 영역 내부의 인스턴스와 관련된 레코드 세트에 대한 상태 확인을 설정해야 합니다. 엔지니어는 어떻게 사양을 만족합니까?
+    - C. EC2 StatusCheckFailed 지표의 상태를 확인하는 CloudWatch 지표를 생성하고, 지표에 경보를 추가한 다음, 경보 상태를 기반으로 하는 상태 확인을 생성합니다.
+        - Route 53 상태 검사기는 VPC 외부에 있습니다. IP 주소로 VPC 내 엔드포인트의 상태를 확인하려면 VPC의 인스턴스에 퍼블릭 IP 주소를 할당해야 합니다.
+        - https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html
+- 93\. 다음 중 VPC 엔드포인트에 대한 설명으로 옳은것은?
+    - D. S3 엔드포인트를 통해 Amazon AMI가 일부 소프트웨어를 설치할 수 있습니다.
+        - A. 엔드포인트는 Direct Connect 연결에 대해 전이적입니다.
+            - DX와 S3 간에 EC2 프록시를 사용할 수 있다
+        - B. 엔드포인트는 VPC 외부로 확장할 수 없습니다.
+            - VPC에서 DX로 확장가능하다
+        - C. 끝점에 태그를 지정할 수 없습니다.
+            - 엔드포인트 게이트웨이는 지정할 수 있다
+- 94\. 배치 그룹에 관한 다음 설명 중 옳지 않은 것은?
+    - A. 배치 그룹은 단일 AZ에 있는 인스턴스의 논리적 그룹입니다.
+    - 분산 배치 그룹은 동일한 리전의 여러 가용 영역에 걸쳐 있을 수 있습니다. 그룹당 가용 영역당 최대 7개의 인스턴스를 실행할 수 있습니다.
+    - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html#placement-groups-spread
+- 95\. 전송 속도가 VPC 내부와 외부 모두에서 가능한 한 낮은지 확인하려고 합니다. MTU 구성이 걱정됩니다. 최대 호환성을 달성하려면 T2 인스턴스를 어떻게 구성해야 합니까?
+    - C. 두 개의 ENI를 구성합니다. 하나는 내부 트래픽용이고 다른 하나는 외부 트래픽용입니다. MTU가 1500인 외부 ENI와 MTU가 9001인 내부 ENI를 구성합니다.
+    - VPC 내부에서 점보 프레임을 사용하고 VPC 외부로 향하는 트래픽을 느리게 하지 않으려면 경로별로 MTU 크기를 구성하거나 MTU 크기와 경로가 다른 여러 탄력적 네트워크 인터페이스를 사용할 수 있습니다.
+    - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/network_mtu.html
+- 96\. 
+- 97\. VPC에는 두 개의 Autoscaling 그룹이 있습니다. 하나는 웹사이트의 인덱스를 호스팅하기 위해 서버를 설치하고 다른 하나는 웹사이트의 이미지를 수용하기 위해 서버를 배포합니다.
+    - "/"로 향하는 트래픽을 대상 그룹 1로, "/*.jpg"로 향하는 트래픽을 대상 그룹 2로 라우팅하는 경로 기반 라우팅 규칙을 만듭니다. 두 개의 대상 그룹을 만들고 각 Autoscaling 그룹과 연결합니다. 경로기반 라우팅을 사용해야되기때문에 ALB를 사용합니다.
+- 98\. VPC에는 두 개의 배치 그룹이 있습니다. 두 배치 그룹 간의 연락은 얼마나 빨리 예상됩니까?
+    - 배치그룹 외부와 5Gbps가 최대이다
+    - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html
+- 99\. 회사 방화벽을 통해 모든 외부 트래픽을 명시적으로 화이트리스트에 추가해야 합니다. 보안 팀은 이 액세스 권한을 어떻게 부여합니까?
+    - B. ip-ranges.json에서 IP 접두사 목록을 가져와 방화벽 규칙에서 해당 접두사를 사용합니다.
+- 100\. 사이트 방문자가 사이트에 액세스하면 깨진 이미지 링크가 표시됩니다. 문제의 가장 가능성 있는 원인은 무엇입니까?
+    - 버킷정책이 공개엑세스를 허용하지않을테니, Cloudfront 용 Origin Access ID를 생성하고, 버킷에 추가해야한다. 
+- 101\. 
+    - A. AWS Direct Connect에서 퍼블릭 가상 인터페이스를 프로비저닝하고 각 VPC에 VPN을 설정합니다.
+    - C. 각 VPC에 대해 VPC 흐름 로그를 활성화합니다.
+- 102\.
+    - 부하 테스트 결과에 따르면 다양한 가용 영역에 고르게 분산된 최대 100대의 서버에서 최대 수요를 처리할 수 있습니다. 네트워크 엔지니어는 /24 CIDR이 할당된 VPC를 생성해야 합니다. 엔지니어는 3개의 가용 영역에서 각 계층의 서브넷을 어떻게 할당해야 합니까?
+        - Network Load Balancer: 서브넷당 /28 웹: 서브넷당 /26
+            - 100/3=34 이므로 예약IP 5개를 더하면 39개를 만족해야한다. 
+            - 따라서 private 서브넷은 /26이다.
+            - NLB용 public subnet의 최소값은 /28입니다.
+- 103\. 응용 프로그램은 높은 전송 속도를 요구합니다. 우수한 오디오 및 시각적 전송을 보장하려면 최소 지연이 필요합니다. 다음 중 전송 품질을 높이는 것은 무엇입니까?
+    - A. 향상된 네트워킹 활성화
+        - SR-IOV(Single Root - I/O virtualization)는 기존의 가상화된 네트워크 인터페이스와 비교할 때 더 높은 I/O 성능과 더 낮은 CPU 사용률을 제공하는 장치 가상화 방법입니다.
+        - T2 인스턴스를 제외한 모든 현재 세대 인스턴스 유형은 향상된 네트워킹을 지원합니다.
+        - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html
+- 104\. How many tunnels are included with each AWS-hosted VPN connection?
+    - HA를 위해 2개의 터널이 있다.
+- 105\. 탄력적 IP 주소에 대한 다음 설명 중 옳지 않은 것은?
+    - B. EIP가 인스턴스와 연결되면 일치시키려면 호스트 이름을 수동으로 변경해야 합니다.
+        - 자동으로 변경된다.
+        - EIP는 분리시에도 비용이 부과된다. EIP를 연결하면, 기존 공인IP는 해제되며 EIP를 추가로 연결하면 비용이 추가로 발생한다.
+- 106\. 기업은 원격 사용자가 AWS 클라우드에서 호스팅되는 회사 리소스에 액세스할 수 있도록 해야 합니다. 조직에는 VPC 피어링을 통해 연결된 두 개의 가상 사설 클라우드(VPC)가 있습니다. 원격 사용자는 랩톱 컴퓨터를 통해 두 VPC의 리소스에 안전하게 연결할 수 있어야 합니다. 조직은 비용이나 노력을 증가시키는 액세스 제어 시스템을 사용하는 데 관심이 없습니다.
+    - D. 하나의 VPC에 AWS Client VPN 엔드포인트를 배포하고 서브넷을 연결하고 대상 네트워크를 정의합니다. 대상 VPC에 대한 클라이언트 액세스 권한을 부여하는 규칙을 추가하고 피어링된 VPC에 대한 클라이언트 액세스 권한 부여 규칙을 추가합니다. 서브넷 연결에 대한 보안 그룹의 트래픽을 허용하도록 두 VPC의 리소스 보안 그룹을 업데이트합니다.
+    - https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/scenario-peered.html
+- 107\. 웹 애플리케이션 개발을 담당하는 팀은 200개의 임의 IP 주소에서 발생하는 악의적인 행동에 대해 우려하고 있습니다. 이러한 위협의 보안과 확장성을 보장하는 단계는 무엇입니까?
+    - C. AWS WAF를 사용하여 IP 주소를 차단합니다.
+        - 무작위 IP 이므로 NACL에 기록할 수 없다
+        - AWS WAF는 웹 어플리케이션 방화벽으로 제공되는 관리형서비스이다
+- 108\. 귀하는 유럽 고객이 유럽 내 위치에 관계없이 가능한 가장 낮은 지연 시간을 즐기면서도 미국 고객과 동일한 사용자 경험과 성능을 제공하도록 보장하도록 지시받았습니다. 또한 비용을 절감하기 위해 두 국가가 동일한 URL을 사용하여 사이트에 액세스하도록 보장하라는 지시를 받았습니다.
+    - C. 트래픽 흐름 정책 생성기를 사용하여 완벽한 라우팅 정책을 만듭니다.
+    - D. S3 버킷에서 정적 콘텐츠를 제공하는 CloudFront 배포를 생성합니다.
+        - A. No, VPC and ELB can't route traffic base on the region
+        - B. Not satisfied the demand that US and EU using the same URL
+        - 지리 근접 라우팅 정책은 트래픽 흐름을 사용하는 경우에만 사용할 수 있습니다.
+        - https://docs.aws.amazon.com/Route53/latest/ DeveloperGuide/traffic-flow.html
+- 109\. Amazon WorkSpaces를 배포할 계획이며 네트워크 구성이 필요합니다. 이 기준을 충족하려면 무엇을 설정해야 합니까?
+    - A. 서로 다른 가용 영역에 있는 두 개 이상의 서브넷.
+        - WorkSpaces는 인터넷에 액세스할 수 있어야 합니다.
+        - WorkSpaces용 프라이빗 서브넷 2개와 퍼블릭 서브넷의 NAT 게이트웨이가 있는 VPC를 생성할 수 있습니다.
+        - WorkSpaces에 대해 2개의 퍼블릭 서브넷이 있는 VPC를 생성하고 탄력적 IP 주소를 각 WorkSpace에 연결할 수 있습니다.
+        - https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-vpc.html
+- 110\. Which of the following is not necessary while configuring a VIF?
+    - D. BGP MED
+        - BGP MED는 VIP 생성이 아닌 트래픽 조절에 사용된다.
+        - BGP KEY와 VLAN ID, BGP ASN(1-2147483647)을 입력해야한다.
+        - https://docs.aws.amazon.com/directconnect/latest/UserGuide/create-vif.html
 
 - memo
 - 예를 들어 com에 대한 장애 조치 레코드를 구성합니다. 기본 별칭 레코드가 latency.example.com을 가리키고 평가 대상 상태 설정을 활성화합니다. 보조 레코드가 Amazon S3에서 호스팅되는 정적 HTML 유지 관리 페이지를 가리키도록 합니다.
 - IPAM : IP 주소관리도구
-- 43 ???
+- 43 ??? 102 ???
 - OSI 7 Layer에서 One-to-One Mapping은 불가능하다
 - jq -r ???
 - RIRs ???
