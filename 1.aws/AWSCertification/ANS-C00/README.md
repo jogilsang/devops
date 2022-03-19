@@ -917,6 +917,53 @@ Amazon Virtual Private Cloud(VPC)에 연결하려면 프라이빗 ASN(자율 시
         - BGP MED는 VIP 생성이 아닌 트래픽 조절에 사용된다.
         - BGP KEY와 VLAN ID, BGP ASN(1-2147483647)을 입력해야한다.
         - https://docs.aws.amazon.com/directconnect/latest/UserGuide/create-vif.html
+- 111\. 비즈니스 네트워크의 라우팅 데이터베이스에는 624개의 고유한 RFC 1918과 공용 IP 접두사가 있습니다. 두 가지 AWS Direct Connect 연결을 사용할 수 있습니다. 이 문제를 해결하고 AWS Management 콘솔에서 프라이빗 가상 인터페이스를 사용할 수 있도록 하려면 어떻게 해야 합니까?
+    - C. Change the BGP advertisements from the corporate network to only be a default route.
+        - Aggregate your routes advertised from on-premises!
+        - I have experienced practically that if the amount of advertised prefixes exceed 100, virtual interface goes down.
+        - By default, AWS only accepts up to 100 prefixes using a BGP session on AWS Direct Connect.
+        - https://aws.amazon.com/premiumsupport/knowledge-center/troubleshoot-bgp-dx/
+        - https://aws.amazon.com/ko/premiumsupport/knowledge-center/virtual-interface-bgp-down/
+- 112\. 클라이언트 측 스마트 카드 저장 인증서를 통한 SSL 상호 인증이 필요한 가상 사설 클라우드에서 웹 애플리케이션을 구현하고 있습니다. 클라이언트와 애플리케이션 간의 상호 인증은 ELB Classic Load Balancer 리스너에서 지원해야 합니다. 이 애플리케이션에 어떤 로드 밸런싱 프로토콜을 사용해야 합니까?
+    - D. TCP
+        - EC2 인스턴스가 검증을 처리할 수 있도록 포트 443에서 표준 TCP로 전달해야 합니다.
+        - AWS ELB는 상호 인증을 지원하지 않습니다. 따라서 트래픽을 통과해야 합니다.
+- 113\. 하이브리드 아키텍처가 있고 자체 DNS 서버를 사용하여 10.1.3.0/24 서브넷에 EC2 인스턴스를 설정했습니다. 이 서브넷은 VPC 10.1.0.0/16에 있습니다. 데이터 센터는 자체 호스팅 영역 내에서 Route 53 요청을 해결할 수 있어야 합니다.
+    - C. 프라이빗 호스팅 영역에 대한 쿼리를 10.1.0.2로 전달하도록 DNS 서버를 구성합니다.
+        - Phase 1 : On Prem DNS to the EC2 Instance Based DNS
+        - Phase 2 : EC2 Instance Based DNS to the Amazon DNS (aka Route 53 Resolver)
+        - 10.1.3.2 는 DNS 서버가 아니다. DNS서버는 VPC 서브넷의 2번째 주소이다
+- 114\. 애플리케이션 소유자는 새로운 요구 사항을 추가했습니다. DHCP를 통해 검색된 도메인 이름은 현재 단일 서브넷에 있는 특정 인스턴스 집합에 대해 고유해야 합니다.
+    - D. 새 피어링된 VPC를 생성하고 다른 도메인 이름으로 DHCP 옵션 세트를 구성한 다음 필요한 인스턴스를 다시 시작합니다.
+        - DHCP 옵션 세트를 생성한 후에는 수정할 수 없습니다.
+        - VPC가 다른 DHCP 옵션 세트를 사용하도록 하려면,    새 세트를 생성하여 VPC와 연결해야 합니다.
+        - 서브넷별로 DHCP를 변경할수없다.
+        - DHCP 옵션 세트는 VPC에만 연결할 수 있고 특정 서브넷에는 연결할 수 없습니다.
+        - https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html
+- 115\. 153개의 고유한 IP 접두사가 있는 내부 라우팅 테이블을 사용하여 전세계 비즈니스 네트워크를 운영하고 있습니다. AWS Direct Connect(IGW)를 통해 인터넷 게이트웨이가 장착된 VPC에 대한 프라이빗 가상 인터페이스를 생성합니다.
+    - B. 접두사 발표를 100개 미만으로 요약
+- 116\. AWS가 연결에 동일한 Direct Connect 라우터를 사용하지 않도록 하기로 결정합니다. 응용 프로그램의 요구 사항을 충족하려면 가능한 가장 높은 수준의 복원력을 제공해야 합니다.
+    - A. Install a second 10-Gbps Direct Connect connection to the same Direct Connection location.
+    - E. Install a second 10-Gbps Direct Connect connection to a second Direct Connect location for eu-central-1.
+        - direct connect location은 리전별로 여러개가있을 수 있다
+        - 복원력을 위해 다른 지역에 DX/VPN을 만드는 것은 완전히 무의미합니다.
+        - https://aws.amazon.com/pt/directconnect/resiliency-recommendation/
+- 117\. 다음 중 LAG에 대한 설명으로 옳지 않은 것은?
+    - B. 여러 속도로 연결을 풀링하여 하나의 더 빠른 속도를 만들 수 있습니다.
+        - LAG가 작동하려면 모든 링크의 속도가 같아야 합니다.
+        - LAG는 동일한 DX의 endpoint를 가져야하며, 1G/10G/100G의 선으로 연결되지만 100G는 2개, 100G미만은 4개까지 구성이가능하다
+- 118\. You're using the CLI to configure interfaces with multiple IP addresses. The procedure is unsuccessful.
+        - C. One or more of the IP addresses could not be assigned.
+        - 명령줄 도구 또는 API를 사용하여 네트워크 인터페이스에 여러 IP 주소를 할당할 때 IP 주소 중 하나를 할당할 수 없으면 전체 작업이 실패합니다
+        - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/MultipleIP.html#assignIP-launch-cmd
+- 119\. 1,000개의 데스크톱 Amazon WorkSpaces 배포를 처리하기 위한 아키텍처가 개발 중입니다. 현재 배포를 지원하면서 어떤 아키텍처가 미래의 성장을 허용합니까?
+    - B. VPC with a /20 CIDR and two /21 subnets
+        - 각 데스크톱에는 기본 네트워크 인터페이스(eth1)와 관리 네트워크 인터페이스(eth0)라는 두 개의 NIC가 필요합니다. 두 개의 서브넷이 필요합니다.
+        - 작업 공간에는 두 개의 AZ에 두 개의 서브넷이 필요하므로 B와 D만 고려할 수 있습니다.
+        - https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces.html
+- 120\. 기본적으로 모든 AWS 계정은 공용(IPv4) 인터넷 주소가 부족하기 때문에 ____EIP로 제한됩니다.
+    - A. 5
+    - http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html
 
 - memo
 - 예를 들어 com에 대한 장애 조치 레코드를 구성합니다. 기본 별칭 레코드가 latency.example.com을 가리키고 평가 대상 상태 설정을 활성화합니다. 보조 레코드가 Amazon S3에서 호스팅되는 정적 HTML 유지 관리 페이지를 가리키도록 합니다.
