@@ -16,6 +16,8 @@
 
 - [The Open Guide to Amazon Web Services](https://github.com/open-guides/og-aws#aws-data-transfer-costs)
 
+- [AD 커넥터를 사용하여 온프레미스 Active Directory를 AWS에 연결하는 방법](https://aws.amazon.com/ko/blogs/security/how-to-connect-your-on-premises-active-directory-to-aws-using-ad-connector/)
+
 ---
 
 ## INDEX
@@ -1005,6 +1007,38 @@ Amazon Virtual Private Cloud(VPC)에 연결하려면 프라이빗 ASN(자율 시
 - 130\. 다른 시간대의 고객으로부터 직장에 도착하기 몇 시간 전에 웹사이트가 다운되었다는 불만을 받았습니다. 어떤 일이 발생했는지 결정하는 데 중요한 두 가지 AWS 서비스는 무엇입니까? (2개를 선택하세요.)
     - B. Cloudtrail, 누가 언제 무엇을 변경했을가
     - C. CloudWatch, 리소스에 대한 경보 트리거가 있었을가
+
+- 131\. skip
+- 132\. skip
+- 133\. 그러나 모든 브라우저 연결은 최근 'X-Cache: Error from cloudfront' 헤더와 함께 HTTP 502 잘못된 게이트웨이 오류를 표시하기 시작했습니다. 모니터링 서비스는 기존 웹 애플리케이션의 HTTPS 포트 443이 액세스 가능하고 요청을 수락함을 나타냅니다.
+    - D. 기존 웹 응용 프로그램 서버의 SSL 인증서가 만료되었습니다. 웹 서버의 SSL 인증서를 세계적으로 인정되는 인증 기관(CA)에서 서명한 인증서로 교체합니다. 레거시 웹 응용 프로그램 서버에 전체 인증서 체인을 설치합니다
+        - 오리진 서버가 다음을 반환하면 CloudFront는 TCP 연결을 끊고 HTTP 상태 코드 502(잘못된 게이트웨이)를 반환하고 X-Cache헤더를 Error from cloudfront다음 으로 설정합니다.
+- 134\. 고객은 수요가 많을 때 서비스에 액세스할 수 없다고 보고합니다. 네트워크 엔지니어가 인스턴스를 수동으로 시작하려고 하면 '서브넷 '서브넷-12345678'에 사용 가능한 주소가 부족하여 원하는 수의 인스턴스를 지원할 수 없습니다.'
+    - B. VPC 보조 IPv4 CIDR을 사용하여 새 서브넷을 만들고 IPv6 CIDR을 연결합니다. Auto Scaling 그룹에 새 서브넷을 포함합니다.
+        - 서브넷 CDIR을 수정할 수 없으므로 새 IPv4를 만들고 새 IPv4를 기존 IPv6에 연결한 다음 그룹에 추가해야 합니다.
+        - 새 IPv4를 기존 IPv6에 연결한 다음 그룹에 추가해야 합니다.
+- 135\. 하나는 Intel 네트워크 인터페이스가 장착되어 있고 다른 하나는 ENA가 장착되어 있습니다. 둘 사이의 네트워크는 얼마나 빠를까요?
+    - A. 10Gbps
+        - Intel 82599 가상 기능 인터페이스는 지원되는 인스턴스 유형에 대해 최대 10Gbps의 네트워크 속도를 지원합니다.
+        - 탄력적 네트워크 어댑터(ENA)는 지원되는 인스턴스 유형에 대해 최대 100Gbps의 네트워크 속도를 지원합니다.
+- 136\. 엔지니어는 Amazon 퍼블릭 엔드포인트에 대한 액세스 권한을 얻기 위해 Direct Connect 연결 간에 활성/수동 라우팅을 생성하려고 합니다. 온프레미스에 있는 장비에는 어떤 BGP 설정이 필요합니까? (2개를 선택하세요.)
+    - A. Local Pref를 사용하여 아웃바운드 트래픽을 제어합니다.
+    - E. 하나의 Direct Connect 연결을 통해 보다 구체적인 접두사를 광고합니다.
+- 137\. 인스턴스의 모든 네트워크 활동(ACCEPT/REJECT)이 계층 7 프로토콜 수준에서 기록되는지 확인해야 합니다.
+    - A. VPC 수준의 CloudWatch Logs
+        - CloudWatch Logs를 사용하여 로그 데이터를 사용하여 애플리케이션과 시스템을 모니터링할 수 있습니다.
+- 138\. 
+    - B. AWS Lambda@Edge 를 사용하는 Amazon CloudFront
+    - E. AWS 키 관리 서비스
+        - cloudfront는 KMS를 사용하여 필드 수준 암호화를 수행할 수 있다
+        - cloudfront는 필드 수준 암호화는 CloudFront HTTPS에 다른 보안 계층을 추가하여 고객 전화번호와 같은 민감한 데이터를 보호하는 데 도움이 됩니다.
+            - https://aws.amazon.com/blogs/security/how-to-enhance-the-security-of-sensitive-customer-data-by-using-amazon-cloudfront-field-level-encryption/
+- 139\. 조직에서 AWS WorkSpaces 무료 평가판에 가입했습니다. Active Directory를 통한 인증을 계속 지원하면서 가능한 한 최소한의 노력과 가격으로 설치하려고 합니다.
+    - A. VPN 연결을 만듭니다.
+    - B. AD 커넥터 만들기
+        - https://aws.amazon.com/ko/blogs/security/how-to-connect-your-on-premises-active-directory-to-aws-using-ad-connector/
+- 140\. NAT 게이트웨이는 Git 리포지토리에 액세스할 수 있지만 프라이빗 서브넷의 인스턴스는 액세스할 수 없습니다. 
+    - B. Git 리포지토리에 대한 애플리케이션 서버 인스턴스 보안 그룹에 대한 아웃바운드 규칙을 구성합니다.
 
 - memo
 - 예를 들어 com에 대한 장애 조치 레코드를 구성합니다. 기본 별칭 레코드가 latency.example.com을 가리키고 평가 대상 상태 설정을 활성화합니다. 보조 레코드가 Amazon S3에서 호스팅되는 정적 HTML 유지 관리 페이지를 가리키도록 합니다.
