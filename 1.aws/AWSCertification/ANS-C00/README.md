@@ -1040,6 +1040,42 @@ Amazon Virtual Private Cloud(VPC)에 연결하려면 프라이빗 ASN(자율 시
 - 140\. NAT 게이트웨이는 Git 리포지토리에 액세스할 수 있지만 프라이빗 서브넷의 인스턴스는 액세스할 수 없습니다. 
     - B. Git 리포지토리에 대한 애플리케이션 서버 인스턴스 보안 그룹에 대한 아웃바운드 규칙을 구성합니다.
 
+- 141\. 귀하의 비즈니스는 두 개의 DX 사이트를 운영하고 있습니다. 하나의 연결은 수동으로 구성해야 합니다. 해당 연결을 수동 링크로 만들려면 라우터에서 어떤 설정을 해야 합니까?
+    - B. 링크에 추가된 AS_PATH를 구성합니다.
+        - AS_PATH 추가 구성은 AWS에서 Direct Connect를 사용하여 능동-수동 구성을 구성하기 위해 선호하는 방법입니다.
+            - https://aws.amazon.com/ko/premiumsupport/knowledge-center/active-passive-direct-connect/
+- 142\. 조직은 nginx 서버/RDS에서 Elastic Load Balancing(ELB) 로드 밸런서/PHP를 사용하여 여러 가용 영역에서 HTTPS 애플리케이션을 운영합니다. 동적 콘텐츠를 생성하려면 지리적 제한을 적용하고 애플리케이션에서 클라이언트의 IP 주소를 지정해야 합니다.
+    - A. X-Forwarded-For에 값을 기록하도록 nginx 로그 구성을 수정하고 CloudFront를 사용하여 지리적 제한을 적용합니다.
+        - https://aws.amazon.com/ko/premiumsupport/knowledge-center/elb-capture-client-ip-addresses/
+        - 웹 서버에 Elastic Load Balancing(ELB)을 사용 중이며 웹 서버 액세스 로그에서 로드 밸런서의 IP 주소를 볼 수 있습니다. 이 IP 주소 대신 클라이언트 IP 주소를 캡처하려면 어떻게 해야 합니까? HTTP Header의 X-Forwarded-For의 기록된 클라이언트 IP를 사용합니다.
+        - Cloudfront의 설정을 통해 지리적제한을 할 수 있다
+- 143\. 라우터에게 패킷을 전달할 위치를 알려주기 위해 MPLS 네트워크에서 패킷에 부여되는 레이블의 이름은 무엇입니까?
+    - C. FEC (Forward Equivalency Class), 라우터가 패킷을 보낼 위치를 아는 방법
+- 144\. 귀하의 비즈니스에는 클라우드 기반 AD 데이터 호스팅을 위한 저렴한 솔루션이 필요합니다. AD의 모든 기능이 필요한 것은 아니지만 WorkSpaces와 함께 사용할 수 있는 기능은 필요합니다.
+    - C. SimpleAD
+        - AD 커넥터는 온프레미스 AD를 AWS AD와 동기화/연결하는 데 사용되며 하이브리드 AD 용도로 사용됩니다.
+- 145\. Simple AD 도메인을 배포했으며 이를 활용하여 Microsoft Exchange 이메일 서버를 관리하려고 합니다. AD 서버를 찾는 데 어려움이 있는 이유는 무엇입니까?
+    - C. Simple AD는 완전한 Active Directory 서버가 아니며 많은 MS 제품에서 작동하지 않습니다.
+        - https://aws.amazon.com/ko/quickstart/architecture/exchange/
+
+- 146\. 부서는 워크로드를 위한 가상 사설 클라우드(VPC)를 개발했습니다. 이 VPC에 대한 AWS Direct Connect의 프라이빗 가상 인터페이스는 엔터프라이즈 네트워크에 대한 기본 경로를 제공합니다. 부서에서 새 VPC의 Amazon EC2 인스턴스에서 데이터를 다운로드할 때 적용되는 비용은 무엇입니까?
+    - D. The department pays AWS Direct Connect Data Out charges.
+        - 프라이빗 가상 인터페이스의 경우 데이터 전송을 담당하는 AWS 리소스를 소유한 AWS 계정에 요금이 부과됩니다.
+- 147\. PCI DSS(Payment Card Industry Data Security Standard) 애플리케이션은 온프레미스 SSL 어플라이언스 및 Apache에서 Amazon CloudFront 뒤의 VPC로 마이그레이션됩니다. 이 요구 사항에 맞게 CloudFront를 어떻게 구성해야 합니까?
+    - A. CloudFront 캐시 동작을 구성하여 HTTPS를 요구하고 CloudFront Origin™의 프로토콜 정책을 "Match Viewer"로 구성합니다.
+        - Match Viewer의 경우 Viewer가 HTTPS 요청을 하면, CloudFront도 HTTPs로 Origin에 요청한다
+            - https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-cloudfront-to-custom-origin.html
+- 148\. You want a sub-1G connection to AWS in order to save money. How are you going to do this?
+    - D. Contact an AWS partner(APN), AWS does not provide sub-1G connection speeds.
+        - if you want a Transit Gateway Interface, you can't
+        - https://aws.amazon.com/ko/premiumsupport/knowledge-center/direct-connect-types/
+- 149\. VPC "A"에는 IP 주소 범위가 10.111.2.101에서 10.111.2.112인 서버 12개로 구성된 클러스터가 있습니다. 그들의 VPC "B"에는 10.111.2.171과 10.111.2.190 사이에 20대의 서버가 있습니다.
+두 VPC 모두 172.31.0.0/16 VPC "C"를 통해 액세스해야 합니다. 이 문제를 해결하기 위한 가장 효과적인 전략은 무엇입니까?
+    - A. VPC C에서 피어링 연결을 생성하고 10.111.2.96/27에 대한 VPC A의 피어링 연결에 대한 경로와 10.111.2.0/24에 대한 VPC B의 피어링 연결에 대한 경로를 추가합니다.
+        - 동일한 CIDR 블록을 가진 VPC를 세 번째 VPC와 피어링할 수 있으므로 CIDR 블록을 변경할 필요가 없습니다.
+- 150\. 사용자가 해당 데이터를 CloudWatch에 제출하기를 원합니다. 임의성으로 인해 이벤트가 일정 기간 동안 데이터를 생성하지 않을 수 있습니다.
+    - C . 데이터가 없는 기간 동안 사용자는 값을 0으로 보내야 합니다.
+
 - memo
 - 예를 들어 com에 대한 장애 조치 레코드를 구성합니다. 기본 별칭 레코드가 latency.example.com을 가리키고 평가 대상 상태 설정을 활성화합니다. 보조 레코드가 Amazon S3에서 호스팅되는 정적 HTML 유지 관리 페이지를 가리키도록 합니다.
 - IPAM : IP 주소관리도구
