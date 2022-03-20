@@ -964,6 +964,47 @@ Amazon Virtual Private Cloud(VPC)에 연결하려면 프라이빗 ASN(자율 시
 - 120\. 기본적으로 모든 AWS 계정은 공용(IPv4) 인터넷 주소가 부족하기 때문에 ____EIP로 제한됩니다.
     - A. 5
     - http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html
+- 121\. 기업은 AWS VPC와 온프레미스 네트워크 간에 VPN 연결을 설정해야 합니다. 라우터의 방화벽 제약으로 인해 터널을 설정할 수 없습니다.
+    - A. UDP port 500 = IPSec
+    - B. IP Protocol 50 = ESP (Encap Security Payload=보안페이로드 캡슐화)
+        - https://docs.aws.amazon.com/vpn/latest/s2svpn/your-cgw.html
+        - IP Protocol 1 = ICMP
+        - IP Protocol 6 = TCP
+        - IP Protocol 17 = UDP
+- 122\. 웹 사이트는 Amazon CloudFront를 사용하여 사용자에게 동적 콘텐츠를 제공합니다. 사용자가 인스턴스 유지 관리 후 웹 사이트에 액세스하려고 하는 동안 HTTP 502(Bad Gateway) 문제가 표시됩니다.
+    - B. 오리진은 CloudFront와의 SSL/TLS 교환에서 암호 또는 프로토콜을 지원하지 않습니다.
+        - https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/http-502-bad-gateway.html
+            - HTTP 503 상태 코드(Service Unavailable)
+                - 리소스 제약으로 오리진 서버에 클라이언트의 요청을 수용할 수 있는 용량이 충분하지않음
+            - HTTP 504 상태 코드(Gateway Timeout))
+                - 방화벽이나 보안 그룹에 의해 오리진에 대한 트래픽이 차단되거나 인터넷에서 오리진에 액세스할 수 없는 경우
+            - https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/troubleshooting-response-errors.html
+- 123\. \*\*\* 하이브리드 환경을 실행 중이고 온프레미스 DNS 도메인을 확인하려면 AWS 리소스가 필요합니다. 서브넷 10.1.3.0/24의 Amazon EC2 인스턴스에 DNS 서버를 설정했습니다. 이 서브넷은 VPC 10.1.0.0/16에 있습니다. 이를 달성하기 위해 추구해야 할 최선의 조치는 무엇입니까?
+    - B. EC2 DNS 서버를 가리키도록 VPC에 설정된 DHCP 옵션을 구성합니다
+        - DNS 서버가 쿼리를 온프레미스 DNS로 전달합니다. 인스턴스가 VPC DNS 대신 온프레미스 DNS로 쿼리를 전달하도록 DHCP 옵션 세트를 구성해야 합니다.
+- 124\. 한 기업이 테이프 백업 시스템에서 스토리지 게이트웨이로 업그레이드하고 있습니다. 현재 AWS에 연결되어 있지 않습니다. 사전 테스트를 수행하는 것이 필요합니다. 빠르고 저렴하게 시작하고 실행하기 위해 회사는 어떤 연결 방법을 사용해야 합니까?
+    - A. 인터넷 연결을 사용하십시오.
+        - 스토리지 게이트웨이는 기본적으로 TLS를 쓰기때문에 암호화된다.
+- 125\. company.private, emea.company.private, apac.company.private, amer.company.private 4개의 사이트에 대해서 각 지리적 영역에 대해 하나씩 이러한 VPC에 있는 서비스에서 활용해야 합니다.
+    - A. 4개 영역 각각에 대해 Route 53 프라이빗 호스팅 영역을 생성하고 이를 3개의 VPC와 연결합니다.
+        - 1 구역으로 만들어서 하는 것은 관리에 좋지않다
+- 126\. 자체 VPC를 구성했습니다. 인스턴스에 SSH연결을 위해 필요한것은?
+    - 인스턴스에서 ssh는 기본으로 활성화되어있으며, NAT Gateway는 out traffic에만 적용된다
+        - C. Enable Public IP addresses
+        - D. Attach an Internet Gateway
+- 127\. Which two elements are needed for all Amazon Web Services VPNs? (Select two.)
+    - A. VGW(Virtual Private Gateway)
+    - D. Customer Gateway
+- 128\. AWS Config 구성 스트림 내부에 포함된 데이터를 평가하기 위한 모범 사례로 간주되는 엔드포인트는 무엇입니까?
+    - C. SQS
+        - Simple Queue Service는 AWS Config 주제(구성 스트림)를 구독할 수 있으며 구성 스트림 내의 데이터에 대해 고가용성 및 분리된 환경을 제공합니다.
+- 129\. 프로덕션 VPC와 회사 사설 네트워크 간의 보안 연결이 필요합니다. 서비스 품질(QoS)은 온프레미스 생명과학 비즈니스 애플리케이션과 클라우드 기반 숫자 처리 서버 사이에서 실시간 데이터가 끊임없이 앞뒤로 전송되기 때문에 이 연결을 위해 하루 24시간, 일주일 내내 매우 중요합니다.
+    - D. 기존 서비스 공급자의 데이터 센터와 클라우드 컴퓨팅 리소스가 있는 AWS 리전 간에 Direct Connect 연결을 프로비저닝합니다. 가상 프라이빗 게이트웨이 및 프라이빗 가상 인터페이스 구성
+        - VPN을 사용하면 인터넷을 거치게되는데, 인터넷 연결은 QoS를 보장할 수 없다. 성능변동이 있을 수 있다
+        - https://docs.aws.amazon.com/whitepapers/latest/aws-vpc-connectivity-options/aws-direct-connect-vpn.html
+- 130\. 다른 시간대의 고객으로부터 직장에 도착하기 몇 시간 전에 웹사이트가 다운되었다는 불만을 받았습니다. 어떤 일이 발생했는지 결정하는 데 중요한 두 가지 AWS 서비스는 무엇입니까? (2개를 선택하세요.)
+    - B. Cloudtrail, 누가 언제 무엇을 변경했을가
+    - C. CloudWatch, 리소스에 대한 경보 트리거가 있었을가
 
 - memo
 - 예를 들어 com에 대한 장애 조치 레코드를 구성합니다. 기본 별칭 레코드가 latency.example.com을 가리키고 평가 대상 상태 설정을 활성화합니다. 보조 레코드가 Amazon S3에서 호스팅되는 정적 HTML 유지 관리 페이지를 가리키도록 합니다.
