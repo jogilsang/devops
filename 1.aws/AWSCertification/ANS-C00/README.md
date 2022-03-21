@@ -1075,6 +1075,49 @@ Amazon Virtual Private Cloud(VPC)에 연결하려면 프라이빗 ASN(자율 시
         - 동일한 CIDR 블록을 가진 VPC를 세 번째 VPC와 피어링할 수 있으므로 CIDR 블록을 변경할 필요가 없습니다.
 - 150\. 사용자가 해당 데이터를 CloudWatch에 제출하기를 원합니다. 임의성으로 인해 이벤트가 일정 기간 동안 데이터를 생성하지 않을 수 있습니다.
     - C . 데이터가 없는 기간 동안 사용자는 값을 0으로 보내야 합니다.
+- 151\. 보안 규정으로 인해 VPC와 온프레미스 데이터 센터 간의 모든 통신은 암호화되어야 합니다. 또한 신뢰성을 유지하려고 합니다.
+    - B. A VPN connection
+    - D. A Direct Connect connection with a Public VIF
+        - VPN Over DirectConnect with PublicVIF
+- 152\. 엔지니어는 ifconfig eth0 명령 결과에 공용 IP 주소가 포함되어 있지 않음을 확인합니다. 퍼블릭 서브넷에는 AWS Management 콘솔의 인터넷 게이트웨이에 대한 경로가 있습니다. 또한 인스턴스에는 공용 IP 주소가 있습니다.
+    - D. Evaluate the security groups and the network access control list.
+        - 기본 VPC에서 인스턴스를 시작하면 기본적으로 퍼블릭 IP 주소가 할당됩니다.
+        - 기본적으로 기본이 아닌 서브넷에서 시작된 인스턴스에는 퍼블릭 IP 주소를 할당하지 않습니다.
+        - 공개 IPv4 주소는 콘솔에 네트워크 인터페이스의 속성으로 표시되지만 NAT를 통해 기본 비공개 IPv4 주소에 매핑됩니다. 따라서 인스턴스에서 네트워크 인터페이스의 속성을 검사하면 예를 들어 ifconfig(Linux) 또는 ipconfig(Windows)를 통해 퍼블릭 IPv4 주소가 표시되지 않습니다. 인스턴스에서 인스턴스의 퍼블릭 IPv4 주소를 확인하려면 인스턴스 메타데이터를 사용하십시오
+        - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html
+- 153\. You have installed the default NACL rules. In this circumstance, the ONLY priority is to halt the onslaught. Which of the following two commands should you use?
+    - B. aws ec2 delete-network-acl-entry -network-acl-id acl-5fb84d47 -egress rule-number 100
+    - C. aws ec2 delete-network-acl-entry -network-acl-id acl-5fb84d47 -ingress rule-number 100
+        - Default NACL Inbound and Outbound as below
+            - 100 All traffic All All 0.0.0.0/0 Allow
+            - * All traffic All All 0.0.0.0/0 Deny
+- 154\. skip
+- 155\. 기밀성을 유지하기 위해 적절한 IPsec 설정 선택에 대해 아래에서 올바른 설명을 선택하십시오.
+    - B. The following protocols may be used to configure IPsec confidentiality, DES, 3DES, AES
+        - 기밀성은 암호화이다
+        - PSK(Pre Shared Key)와 RSA(리베스트/샤미르/애들먼)는 키 교환
+        - MD5와 SHA는 해싱 프로토콜
+- 156\. skip, maybe ipv6 ???
+- 157\. 귀사는 2개의 데이터 센터에 걸쳐 있는 고가용성 Direct Connect 시스템을 구현했습니다. 각 데이터 센터는 4개의 연결 LAG와 단일 일반 DX 연결로 시작되었습니다. 이 설정을 위해 얼마나 많은 LOA 서류를 찾고 완료했습니까?
+    - D. 10
+        - 각각의 새로운 물리적 연결에 대한 LOA-CFA를 다운받을 수 있다.
+        - https://docs.aws.amazon.com/directconnect/latest/UserGuide/lags.html
+- 158\. 인스턴스가 연결된 서브넷, 보안 그룹 및 VPC를 식별해야 합니다. 연결된 관리자 역할이 있는 경우에만 인스턴스의 터미널에 액세스할 수 있습니다. 명령의 어떤 구성요소를 먼저 사용하시겠습니까?
+    - B. aws ec2 describe-instances
+        - 콘솔들어가지않고도 인스턴스와 연결된 SG, VPC, Subnet 확인이 가능하군아
+- 159\. If a resource breaches any condition of an AWS Config rule that it assesses on the resource, AWS Config marks it as .
+    - B. noncompliant(비준수)
+- 160\. You are setting a CloudFront distribution and notice that your SSL is not mentioned when you attempt to connect it. What is the most probable explanation for this?
+    - C. You requested an SSL for the wrong region.
+        - CloudFront와 사용자 지정 오리진 간의 통신에 HTTPS가 필요한 경우 사용자 지정 오리진에서 SSL/TLS 인증서를 사용할 수도 있습니다.
+        - SSL/TLS 인증서를 사용하도록 Amazon CloudFront 배포를 구성하고 싶습니다.
+            - 미국 버지니아 동부로 인증서를 가져옵니다
+            - AWS Certificate Manager에 대한 권한이 누락됬습니다
+            - 키의 길이가 2048 비트를 초과했습니다
+        - https://aws.amazon.com/ko/premiumsupport/knowledge-center/install-ssl-cloudfront/
+- 161\. 
+
+
 
 - memo
 - 예를 들어 com에 대한 장애 조치 레코드를 구성합니다. 기본 별칭 레코드가 latency.example.com을 가리키고 평가 대상 상태 설정을 활성화합니다. 보조 레코드가 Amazon S3에서 호스팅되는 정적 HTML 유지 관리 페이지를 가리키도록 합니다.
