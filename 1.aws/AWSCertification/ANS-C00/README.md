@@ -1115,8 +1115,41 @@ Amazon Virtual Private Cloud(VPC)에 연결하려면 프라이빗 ASN(자율 시
             - AWS Certificate Manager에 대한 권한이 누락됬습니다
             - 키의 길이가 2048 비트를 초과했습니다
         - https://aws.amazon.com/ko/premiumsupport/knowledge-center/install-ssl-cloudfront/
-- 161\. 
-
+- 161\. 기업은 CIDR 블록 10.5.0.0/22를 사용하여 가상 사설 클라우드(VPC)에서 서비스를 실행합니다. 최종 사용자는 일부 VPC 서브넷의 IP 주소가 부족하여 추가 리소스를 제공할 수 없다고 말합니다.
+    - D. 10.5.4.0/22를 두 번째 CIDR 블록으로 VPC에 추가합니다. 새 CIDR 블록으로 새 서브넷을 만들고 새 서브넷에서 새 리소스를 프로비저닝합니다.
+        - 1\. 10.5.4.0/22 는 10.5.0.0/22 의 다음으로 사용가능한 서브넷
+        - 2\. 기존 서브넷에 새 서브넷을 할당할 수 없고, 새 서브넷을 만드는 점
+- 162\. 회사는 사내 DNS 서버를 사용하여 내부 도메인 company.com의 이름을 확인합니다. 회사는 Amazon Route 53 프라이빗 호스팅 영역인 aws.company.com을 사용하여 AWS 리소스 레코드를 확인합니다.
+회사의 가상 사설 클라우드(VPC) 내 Amazon EC2에서 실행되는 새 애플리케이션은 company.com 도메인 및 기타 AWS 리소스의 레코드를 확인해야 합니다.
+    - B. VPC의 각 서브넷에 Route 53 Resolver 아웃바운드 엔드포인트를 생성합니다. 온프레미스 DNS 서버를 가리키는 company.com에 대해 규칙 유형이 Forward인 Route 53 전달 규칙을 구성합니다. aws.company.com에 대해 규칙 유형이 System인 Route 53 전달 규칙을 구성합니다.
+        - https://aws.amazon.com/es/blogs/architecture/using-route-53-private-hosted-zones-for-cross-account-multi-region-architectures/
+- 163\. 조직에 DX 연결이 있고 DX 연결을 연결한 새 VPC 및 Private VIF를 생성했습니다. 일관성을 보장하기 위해 다른 VPC에서 구성을 복제했습니다. 새 VIF가 조인되면 두 VPC 모두에 연결 문제가 발생하기 시작했습니다. 각 VPC에 대해 동일한 CIDR을 사용하고 있지 않음을 확인했는데 문제가 될 수 있는 것은 무엇입니까?
+    - DX 하나에 privateVIF 2개를 쓰는데, 하나는 다른 VPC 구성에서 복사해서 가져옴. 중복되는 문제는?
+        - A. 두 연결 모두에 동일한 VLAN ID를 사용했습니다.
+- 164\. 이 회사는 프라이빗 가상 인터페이스(VIF)와 회사의 온프레미스 데이터 센터에 대한 VPN 링크로 구성된 AWS Direct Connect 연결을 개발했습니다. VPC에서 발생하는 트래픽에 대해 원하는 BGP 경로 선택 순서는 MOST에서 LEAST로 어떻게 됩니까?
+    - C. 가장 긴 접두사 일치, 고정 경로, Direct-Connect BGP 경로, VPN BGP 경로.
+    - https://docs.aws.amazon.com/vpn/latest/s2svpn/VPNRoutingTypes.html#vpn-route-priority
+- 165\. 사용자 지정 지표는 애플리케이션과 동일한 AWS 리전의 Amazon CloudWatch에 게시해야 합니다. 측정값에는 기밀 데이터가 포함되어 있습니다. 모든 통신은 비밀 IP 주소를 통해 수행되어야 합니다.
+    - D. 인터페이스 엔드포인트를 통해 CloudWatch에 연결합니다.
+    - https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/cloudwatch-logs-and-interface-VPC.html
+- 166\. 직장 네트워크 PC에서 www.amazon.com에 대해 192.168.10.5의 DNS 서버에 요청합니다. 쿼리가 성공하고 예상한 결과를 제공합니다. 'server.awscloud.internal'에 대한 쿼리 시간이 초과되었습니다. 응답을 받지 못할 것입니다. 'server.awscloud.internal'에 대한 성공적인 쿼리는 어떻게 활성화해야 합니까?
+    - B. enableDnsHostnames 및 enableDnsSupport에 대한 VPC 설정을 True로 구성합니다.
+        - 해당 서브넷의 dns 서버로 192.168.0.2를 활성화합니다
+        - PHZ(Privated Hosted Zone)는 Route 53에서 호스팅
+- 167\. 조직의 회사 웹 사이트는 www.acme.com 및 acme.com을 통해 액세스할 수 있어야 합니다. 이 요구 사항에 맞게 Amazon Route 53을 어떻게 구성해야 합니까?
+    - A. ELB를 대상으로 하는 ALIAS 레코드로 acme.com을 구성합니다. ELB를 대상으로 하는 ALIAS 레코드가 있는 www.acme.com.
+        - CNAME은 사용 시 비용발생
+        - example.com에 대한 CNAME 레코드를 생성할 수 없지만 www.example.com에 트래픽을 라우팅하는 example.com에 대한 별칭 레코드를 생성할 수 있습니다(www.example.com에 아직 CNAME 레코드가 없는 한 )
+        - https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html
+- 168\. *** 이 비즈니스는 개발자가 CloudFormation 템플릿을 사용하여 앱을 빌드할 수 있도록 하여 액세스 가능한 CIDR 범위를 사용하여 서브넷을 생성할 수 있기를 희망합니다.
+    - C. 서브넷 리소스 내에서 Fn::Cidr 내장 함수를 참조하는 CloudFormation 템플릿을 생성하여 사용 가능한 CIDR 범위를 선택합니다.
+        - https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-cidr.html
+- 169\. 두 개의 VPC에 대한 피어링 액세스 권한이 있습니다. VPC A가 VPC 인스턴스에 도달하도록 경로를 설정했습니다. ping을 사용하여 인스턴스에 연결할 수 없습니다. 보안 그룹과 NACL이 올바른지 확인했습니다.(ICMP 허용)
+    - A. You forgot to add a return route.
+    - Routes need to be added in both VPCs, one route to and one route back.
+- 170\. RTMP 에 대한 쿠키를 처리하도록 CloudFront를 구성할 수 없습니다.
+    - 웹 배포의 경우 CloudFront는 기본적으로 엣지 로케이션에서 객체를 캐싱할 때 쿠키를 고려하지 않습니다. 오리진이 두 개의 객체를 반환하고 Set-Cookie 헤더의 값만 다른 경우 CloudFront는 객체의 한 버전만 캐시합니다.
+    - RTMP는 HTTP가 아니며 쿠키가 없습니다.
 
 
 - memo
