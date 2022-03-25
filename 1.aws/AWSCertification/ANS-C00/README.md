@@ -1150,7 +1150,61 @@ Amazon Virtual Private Cloud(VPC)에 연결하려면 프라이빗 ASN(자율 시
 - 170\. RTMP 에 대한 쿠키를 처리하도록 CloudFront를 구성할 수 없습니다.
     - 웹 배포의 경우 CloudFront는 기본적으로 엣지 로케이션에서 객체를 캐싱할 때 쿠키를 고려하지 않습니다. 오리진이 두 개의 객체를 반환하고 Set-Cookie 헤더의 값만 다른 경우 CloudFront는 객체의 한 버전만 캐시합니다.
     - RTMP는 HTTP가 아니며 쿠키가 없습니다.
-
+- 171\. 비즈니스의 재정적 성공은 주로 고객의 데이터 세트를 정렬할 수 있는 속도에 달려 있습니다. 정렬된 결과를 빨리 제공할수록 좋습니다. 아래 표시된 옵션 중에서 비즈니스에 가장 큰 재정적 수익을 가져다 줄 이상적인 네트워크 디자인을 선택하십시오.
+    - B. 점보 프레임을 활성화하여 인스턴스 간 데이터 처리량 향상
+- 172\. 조직의 현재 네트워크 아키텍처가 확장됩니다. 완료되면 11개의 AWS 계정에 99개의 VPC가 배포됩니다(계정당 9개의 VPC).
+이제 각각 고유한 VIF(가상 네트워크 인터페이스)가 있는 9개의 가상 사설 클라우드(VPC)가 있는 단일 계정에 대한 AWS Direct Connect 연결이 있습니다.
+다음 중 조직을 성장시키면서 비용을 절감할 수 있는 개념은 무엇입니까?
+- 173\. AWS Direct Link를 통해 Amazon EC2 및 Amazon S3와 같은 퍼블릭 AWS 제품에 연결하는 데 필요한 단계는 무엇인가?
+    - A. BGP(Border Gateway Protocol) 세션마다 공용 IP 주소(/31)를 제공합니다.
+    - C. BGP(Border Gateway Protocol)를 통해 광고할 공개 경로를 제공합니다.
+    - D. 귀하가 소유하고 있는 공개 ASN(자율 시스템 번호) 또는 인터넷에서 귀하의 네트워크를 식별할 수 있는 개인 번호를 제공하십시오.
+- 174\. CloudFront가 애플리케이션을 제공한다는 사실에도 불구하고 외부 기관이 애플리케이션의 오리진 IP 주소에 액세스하여 이후 오리진을 공격할 수 있다는 두려움이 있습니다. 다음 중 원산지를 가장 잘 보호하는 옵션은 무엇입니까?
+    - B. 사용자 지정 헤더를 사용하도록 CloudFront를 구성하고 해당 헤더가 포함된 트래픽만 수락하도록 오리진의 Application Load Balancer에 대한 AWS WAF 규칙을 구성합니다.
+        - OAI는 S3용
+- 175\. 이 작업은 50분에서 600분 또는 그 이상이 소요될 수 있습니다. 사용자는 절차가 완료된 경우에만 인스턴스를 종료할 수 있는 설정을 원합니다.
+사용자는 이를 위해 CloudWatch를 어떻게 설정합니까?
+    - D. CPU 사용률이 5% 미만으로 떨어지면 인스턴스를 종료하도록 CloudWatch 작업을 구성합니다 .
+- 176\.
+    - B. 귀하의 NACL은 포트 1024, 65535 아웃바운드를 허용하지않습니다
+    - 임시포트 1024, 65535 는 리턴트래픽을 위해 아웃바운드가 필요합니다.
+- 177\.  S3 버킷은 EC2 인스턴스와 동일한 AWS 리전에 저장됩니다. 조직은 이 버킷에 대한 액세스를 애플리케이션이 있는 VPC로 제한하려고 합니다.
+    - B. 애플리케이션이 있는 VPC에 S3 VPC 엔드포인트를 배포합니다. VPC 엔드포인트에서만 액세스를 허용하는 조건으로 S3 버킷 정책을 구성합니다.
+- 178\. 사이트 방문자가 사이트에 액세스하면 깨진 이미지 링크가 표시됩니다. CloudFront가 cdn.yourdomain.com을 활용하도록 설정되어 있음을 알고 있습니다. 사용자가 이미지를 볼 수 없는 가장 가능성 있는 원인은 무엇입니까?
+    - B. CloudFront용 오리진 액세스 ID를 생성하고 이를 버킷 정책에 추가해야 합니다.
+- 179\. 다음 중 합법적인 Route 53 레코드가 아닌 것은 무엇입니까?
+    - D. BFD
+    - BFD는 양방향 포워딩 감지(Bi-directional Forwarding Detection)의 약자이며 Route 53과 관련이 없습니다.
+    - https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html
+- 180\. 비즈니스에서는 온프레미스에서 파트너가 제어하는 ​​VPC로 트래픽을 라우팅해야 합니다. 링크는 가능한 최저 비용으로 최저 지연 시간을 가져야 합니다. 연결을 위해 다음 중 무엇을 선택해야 합니까?
+    - C. 새 프라이빗 가상 인터페이스를 생성하고 기존 연결을 활용하여 파트너 VPC에 연결합니다.
+        - VPC 피어링을 통해 파트너VPC에는 접근할 수 없다. VPC피어링은 전이적이지않기때문이다
+- 181\. ***
+- 182\. *** 다음 중 AWS Direct Connect에서 AWS Direct Connect 라우터에 연결하도록 라우터를 설정하는 방법에 대한 설명으로 옳지 않은 것은 무엇입니까?
+    - B. 교차 연결 단계를 완료한 후 라우터 구성을 위한 다운로드 링크를 사용할 수 있습니다.
+    - D. 가상 인터페이스 만들기 단계에서 라우터의 일반 구성을 다운로드할 수 있습니다.
+    - A. AWS Direct Connect 연결을 위한 가상 인터페이스를 생성한 후 사용 가능한 링크에서 라우터 구성 파일을 다운로드할 수 있습니다.
+        - AWS Direct Connect를 사용하려면 AWS Direct Connect 연결을 위한 가상 인터페이스를 생성한 후 라우터 구성 파일을 다운로드하면 됩니다.
+        - https://docs.aws.amazon.com/directconnect/latest/UserGuide/create-vif.html#vif-router-config
+- 183\.  You established the records, and as a result, no other nations are able to visit your site.
+    - A. You forgot to set a default geolocation record.
+        - 기본 레코드를 생성하지 않으면 Route 53은 해당 위치의 쿼리에 대해 "무응답" 응답을 반환합니다.
+- 184\. 회사에서 프로젝트를 일시 중단하고 30개의 퍼블릭 EC2 인스턴스를 종료했습니다. 이러한 인스턴스는 인스턴스 스토어 볼륨을 사용하며 맞춤형 AMI는 포함하지 않습니다. 월 단위로 계속 청구됩니다.
+    - B. 해당 인스턴스와 연결된 탄력적 IP가 있습니다.
+- 185\. 사용자는 초당 1000개의 레코드를 수집합니다. 사용자가 사용자 지정 네임스페이스를 사용하여 CloudWatch에 데이터를 제출하려고 합니다. 
+    - A. Min, Max, Average, Sum, Sample 데이터 등의 통계 데이터를 집계하여 CloudWatch로 전송
+    - http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/publishingMetrics.html
+- 186\. 밑에거와 동일
+- 187\. 클라이언트는 개발, 테스트, 프로덕션 및 관리를 위해 많은 가상 사설 클라우드(VPC)를 생성했습니다. AWS Direct Connect는 온프레미스에서 각 VPC로의 데이터 전송을 용이하게 하도록 구성되어야 합니다. 재정적 제약으로 인해 데이터 전송 요금은 최소한으로 유지되어야 합니다.
+    - D. 총 4개의 프라이빗 VIF를 생성하고 모든 VPC 간에 VPC 피어링을 활성화합니다.
+        - Private virtual interface should not be transitive.
+- 188\. 당신은 여러 기업을 인수하고 그들의 가상 사설 클라우드를 당신의 네트워크에 통합하는 책임이 있는 지주 회사입니다. 서브넷이 동일하거나 겹치는 네트워크에 정기적으로 직면하게 됩니다.
+    - VRF 또는 가상 라우팅 및 포워딩을 사용하면 라우터에 여러 라우팅 테이블을 가질 수 있습니다.
+- 189\. ***
+    - B. AWS 리전 간에 IPsec VPN을 생성하고, 프라이빗 IP 주소를 사용하여 트래픽을 라우팅하고, 다른 리전의 VPC CIDR에 해당하는 클러스터 보안 그룹 CIDR 기반 규칙을 생성합니다.
+        - https://docs.aws.amazon.com/devicefarm/latest/developerguide/amazon-vpc-cross-region.html
+- 190\. 네트워크 엔지니어는 조직의 네트워크 및 보안 기준을 준수하기 위해 VPC 형성을 자동화해야 합니다. 또한 각 VPC의 CIDR 범위는 고유해야 합니다.
+    - A. AWS CloudFormation을 사용하여 VPC 인프라와 사용자 지정 리소스를 배포하여 외부 IPAM(IP 주소 관리) 서비스에서 CIDR 범위를 요청합니다.
 
 - memo
 - 예를 들어 com에 대한 장애 조치 레코드를 구성합니다. 기본 별칭 레코드가 latency.example.com을 가리키고 평가 대상 상태 설정을 활성화합니다. 보조 레코드가 Amazon S3에서 호스팅되는 정적 HTML 유지 관리 페이지를 가리키도록 합니다.
