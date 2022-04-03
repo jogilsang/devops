@@ -11,12 +11,16 @@
     - 서브넷마스크 치트시트
 
 - [blog-AWS Certified Advanced Networking – Speciality (ANS-C00) Exam Learning Path](https://jayendrapatil.com/aws-certified-advanced-networking-speciality-ans-c00-exam-learning-path/)
+    - [AWS Networking & Content Delivery Services Cheat Sheet](https://jayendrapatil.com/aws-certification-networking-services-cheat-sheet/)
+    - [AWS Certification – Security & Identity Services – Cheat Sheet](https://jayendrapatil.com/aws-certification-security-identity-services-cheat-sheet/)
 
 - [Amazon CloudFront Quick Reference Card](http://awsdocs.s3.amazonaws.com/CF/20130512/cf-qrc-20130512.pdf)
 
 - [The Open Guide to Amazon Web Services](https://github.com/open-guides/og-aws#aws-data-transfer-costs)
 
 - [AD 커넥터를 사용하여 온프레미스 Active Directory를 AWS에 연결하는 방법](https://aws.amazon.com/ko/blogs/security/how-to-connect-your-on-premises-active-directory-to-aws-using-ad-connector/)
+
+
 
 ---
 
@@ -1266,6 +1270,46 @@ Amazon S3에 대한 액세스를 허용하려면 어떤 절차를 따라야 합�
         - https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-troubleshooting.html
 - 210\. AWS 리전당 몇 개의 CloudTrail을 생성할 수 있습니까?
     - D. 5
+- 211\. 단일 AWS 계정에 대한 API 호출을 기록하고 계정의 로그 파일도 제공하는 AWS 유틸리티는 무엇입니까?
+    - A. CloudTrail
+- 212\. 조직에서 호스팅된 데스크톱 솔루션의 플랫폼으로 AWS WorkSpaces를 선택했습니다. 귀하의 경영진은 보안, 비용 및 신뢰성에 대해 정말로 걱정하고 있습니다.
+    - A. VPN
+    - D. AD 커넥터
+        - AD 커넥터는 온프레미스 AD를 사용하므로 가장 저렴한 방법입니다.
+- 213\. 기존 및 새로 생성된 모든 Amazon S3 버킷에서 앞으로 로깅이 활성화되도록 보장하려고 합니다. 어떤 트리거 유형을 사용해야 합니까?
+    - B. only a configuration change trigger
+- 214\. 데이터 센터와 VPC 간에 동적 VPN 연결을 설정했습니다. 라우터는 터널이 작동 중이고 BGP가 활성화되어 있음을 나타내지만 어떤 이유로 경로가 전파되지 않습니다. 문제의 가장 가능성 있는 원인은 무엇입니까?
+    - D. 경로 테이블에서 경로 전파를 "yes"로 설정하는 것을 잊었습니다.
+        - 라우팅 테이블에 BGP가 활성 상태이고 터널이 작동 중이라고 표시되면 방화벽 문제가 없는 것입니다.
+- 215\. 이 사이트는 Application Load Balancer, CloudFront, S3 및 기타 몇 가지 AWS 서비스를 사용합니다. 서버에 대한 책임은 전적으로 귀하에게 있으며 AWS 패널 또는 API에 대한 액세스 권한이 없습니다.
+웹사이트를 방문하는 IP 주소를 확인해야 합니다.
+    - D. 액세스 로그에 "X-Forwarded For"를 추가하고 액세스 로그를 봅니다.
+        - X-forwarded-For 헤더는 로드 밸런서의 패킷에 추가됩니다. ALB는 자동으로 수행합니다.
+        - X-Forwarded-For: 203.0.113.7 
+        - LogFormat "%{X-Forwarded-For}i %h %l %u
+        - https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/x-forwarded-headers.html
+- 216\. 네트워크 엔지니어는 회사의 온프레미스 방화벽의 인터넷 게이트웨이를 통해 Amazon S3로 들어오고 나가는 모든 트래픽을 금지했습니다. S3 트래픽은 Direct Connect 연결을 통해서만 전송되어야 합니다.
+현재 온프레미스 데이터 센터의 누구도 Amazon S3에 액세스할 수 없습니다.
+    - C. Direct Connect 연결에서 공용 가상 인터페이스를 구성합니다. Amazon S3로 향하는 트래픽의 기본 다음 홉으로 Direct Connect를 선택하도록 온프레미스 라우팅 테이블을 업데이트합니다.
+        - VPN 연결, VPC 피어링 연결, 전송 게이트웨이, AWS Direct Connect 연결 또는 ClassicLink의 반대쪽에 있는 리소스 VPC의 연결은 엔드포인트를 사용하여 엔드포인트 서비스의 리소스와 통신할 수 없습니다."
+        - https://aws.amazon.com/premiumsupport/knowledge-center/s3-bucket-access-direct-connect/
+        - https://aws.amazon.com/premiumsupport/knowledge-center/public-private-interface-dx/
+- 217\. 조직에서 방금 VPC에서 IPv6을 구현했습니다. 모든 인스턴스는 이제 NAT로 설정되지만 IPv6 전용으로 구성된 후에는 IPv6을 통해 인스턴스의 리소스에 액세스할 수 없었습니다.
+    - B. Configure an egress-only internet gateway.
+    - NAT는 IPv6과 호환되지 않으며 IGW는 인스턴스에 대한 전체 액세스를 허용하지만 좋지 않습니다. 송신 전용 IGW가 최상의 솔루션입니다.
+- 218\. Amazon AMI를 사용하여 설치되고 S3 버킷에 데이터를 제출하는 데 필요한 여러 EC2 인스턴스에 대한 책임은 사용자에게 있습니다. 이 데이터는 공용 인터넷을 통해 전송되어서는 안 됩니다. 또한 인스턴스를 업데이트할 수 있어야 합니다. 다음 옵션 중 귀하에게 가장 적합한 솔루션은 무엇입니까?
+    - B. S3 엔드포인트
+        - 인터넷 없이 인스턴스 업데이트가 가능하므로, NAT가 필요하지않음
+        - https://aws.amazon.com/premiumsupport/knowledge-center/ec2-al1-al2-update-yum-without-internet/
+- 219\. 금융 기관은 하이브리드 클라우드 전략을 지원하기 위해 안전한 AWS(Amazon Web Services) 네트워크 아키텍처를 개발하고 있습니다. AWS 클라우드에 배포된 시스템은 미션 중요하며 높은 수준의 가용성이 필요합니다. 이 회사는 수백 개의 가상 사설 클라우드가 필요할 것으로 예측합니다. 임시 인스턴스는 주로 DNS 확인에 따라 달라집니다.
+가용 영역 간의 격리를 유지하고 가용 영역의 손실을 견딜 수 있도록 애플리케이션을 구축해야 합니다.
+이 시나리오에서 가장 책임감 있는 DNS 구현 방법은 무엇입니까?
+    - B. 프라이빗 호스팅 영역을 생성하고 각 VPC와 공유합니다. 하이브리드 DNS에 Amazon Route 53 Resolver를 사용하십시오.
+        - 모든 VPC는 ​​프라이빗 영역을 공유합니다. Route 53 해석기는 하이브리드 DNS에 대한 가장 책임 있는 방법입니다.
+- 220\. 고유한 도메인에서 실행되는 두 개의 공개 앱이 있으며, 각 앱은 두 개의 프런트 엔드 서버와 두 개의 백 엔드 서버를 사용합니다. 두 앱 모두 가용성이 높기를 원합니다. 구성해야 하는 두 가지 선택 사항은 무엇입니까? (2개를 선택하세요.)
+    - A. Route 53: 2개의 퍼블릭 영역과 2개의 프라이빗 영역.
+    - D. 4개의 로드 밸런서: 2개의 공용 및 2개의 내부.
+        - Route 53: 공개 영역 2개와 비공개 영역 2개, 로드 밸런서 4개: 공개 영역 2개와 내부 영역 2개. 이렇게 하면 하나의 도메인이 두 개의 애플리케이션 서버에 대해 균형을 이룰 수 있으며 트래픽은 두 개의 백엔드 서버로 균형이 맞춰집니다.
 
 - memo
 - 예를 들어 com에 대한 장애 조치 레코드를 구성합니다. 기본 별칭 레코드가 latency.example.com을 가리키고 평가 대상 상태 설정을 활성화합니다. 보조 레코드가 Amazon S3에서 호스팅되는 정적 HTML 유지 관리 페이지를 가리키도록 합니다.

@@ -113,3 +113,24 @@ AWS TrustAdvisor나 AWS CostExplorer, AWS Budgets 등을 활용합니다.
 나는 아마존을 가장 성공한 회사보다도 가장 편하게 실패할 수 있는 회사로 만들고자합니다
 2016년 연례서한
 ```
+
+### 아마존 혁신의 문화: Amazon Culture of Innovation - 김상필, AWS | AWS Builders 온라인 시리즈
+> https://youtu.be/lm2gBt7J5so
+
+```sh
+# Amazon의 모토
+지구 상에서 가장 고객 중심적인 회사가 되겠다
+
+# 2016년 주주서한
+고객들은 언제나 불만족스러워한다
+(고객을 중심으로 놓고 해결책을 제시할 때, 기술을 도구로 삼는다)
+
+# Invent & Simplify
+리더들은 조직 내에서 지속적으로 혁신기회를 찾아내고
+단순화하고 정립해서 다른 조직으로 전파해야한다.
+내 아이디어에 집착하지말고, 외부에서도 새로운 아이디어를 얻어서 내재화해야한다.
+혁신을 하고자할때는 이해받을 수 있기를 기대하지말고, 오랜시간동안 참아내야한다
+
+# 고객관점의 Value Proposition
+Price, Selection, Convenience
+```
