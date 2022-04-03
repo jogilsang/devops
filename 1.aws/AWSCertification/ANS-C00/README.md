@@ -211,8 +211,8 @@ sudo dhclient -r eth0
         ethtool -i eth0
         ```
     - Multifle Flow 일경우, 최대100G
-    - Sing Flow 일경우, Placement group 내이면 최대10G
-    - Sing Flow 일경우, 그 외 최대5G
+    - Single Flow 일경우, Placement group 내이면 최대10G
+    - Single Flow 일경우, 그 외 최대5G
     
 - DPDK
     - Intel The Data Plane Development Kit
