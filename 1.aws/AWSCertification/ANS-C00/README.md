@@ -1205,6 +1205,67 @@ Amazon Virtual Private Cloud(VPC)에 연결하려면 프라이빗 ASN(자율 시
         - https://docs.aws.amazon.com/devicefarm/latest/developerguide/amazon-vpc-cross-region.html
 - 190\. 네트워크 엔지니어는 조직의 네트워크 및 보안 기준을 준수하기 위해 VPC 형성을 자동화해야 합니다. 또한 각 VPC의 CIDR 범위는 고유해야 합니다.
     - A. AWS CloudFormation을 사용하여 VPC 인프라와 사용자 지정 리소스를 배포하여 외부 IPAM(IP 주소 관리) 서비스에서 CIDR 범위를 요청합니다.
+- 191\. *** 마이그레이션 프로세스 중에 조직에서 애플리케이션 코드를 수정할 수 있어야 합니다. 하나의 응용 프로그램은 웹 표시 계층, 응용 프로그램 계층 및 데이터베이스 계층을 포함하는 고전적인 의미의 3계층 응용 프로그램입니다. 외부 호출 클라이언트 앱은 세션이 처음에 연결하는 웹 및 애플리케이션 노드 모두에 지속되어야 합니다.
+어떤 로드 밸런싱 방법이 웹 및 애플리케이션 레이어를 수평적으로 독립적으로 성장시킬 수 있습니까?
+    - B. 웹 및 애플리케이션 계층 모두에서 Application Load Balancer를 사용하여 두 계층의 대상 그룹 수준에서 세션 고정성을 설정합니다.
+        - duration-based stickness
+        - application-based stickness
+- 192\. 많은 Amazon Glacier 볼트를 모니터링하려고 합니다. 그 금고를 어떻게 감시할 겁니까?
+    - A. 사용자 지정 AWS Config 규칙을 생성합니다.
+        - 현재 AWS Config는 Amazon Glacier의 리소스를 기록하지않는다
+- 193\. skip 
+- 194\. *** 다음 중 AWS Direct Connect 가상 인터페이스를 구성한 후 수행할 수 없는 것은 무엇입니까?
+    - B. 가상 인터페이스의 지역을 변경할 수 있습니다.
+- 195\. 조직은 Amazon Route 53을 활용하여 퍼블릭 호스팅 영역의 DNS를 관리합니다. 모든 DNS 요청은 향후에 기록 및 분석되어야 합니다.
+    - C. Route 53 쿼리 로깅을 사용하여 Route 53이 수신하는 쿼리에 대한 정보를 Amazon CloudWatch Logs에 기록합니다.
+        - https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/logging-monitoring.html
+- 196\. AWS CloudTrail may be set to_____ log data from various accounts and regions into a single bucket.
+    - A. aggregate 
+- 197\. skip 
+- 198\. 이 서버에 연결하려면 www.yourname.com, ftp.yourname.com 및 mail.yourname.com URL을 사용해야 합니다. IP 주소를 변경하면 가능한 한 추가 수정이 최소화되도록 보장하려고 합니다.
+    - B. 서버의 IP 주소를 가리키는 A 레코드를 만들고 www, ftp 및 mail에 대한 CNAME 레코드를 만들고 A 레코드를 가리킵니다.
+        - 3개의 CNAME 레코드와 1개의 A 레코드가 있으면 IP가 변경되는 경우에만 A 레코드를 변경하면 됩니다.
+- 199\. skip
+- 200\. 버킷은 프라이빗 서브넷의 Amazon EC2 인스턴스에서만 액세스할 수 있어야 합니다. 프라이빗 서브넷의 EC2 인스턴스에서 Amazon S3 액세스를 허용하려면 어떻게 해야 합니까?
+    - B. S3 버킷 정책에 VPC-E 식별자를 추가합니다.
+        - A. Cannot add private CIDR to S3 bucket policy.
+- 201\. 이제 동적 BGP 전파 경로 데이터베이스에 99개의 경로가 있으며 10.1.0.0 및 10.3.0.0이라는 두 개의 경로를 더 추가하려고 합니다.
+    - A. 두 개의 경로를 요약하여 하나로 결합하여 광고합니다.
+        - 접두사 목록은 동일한 CIDR 또는 더 작은 CIDR을 Direct Connect 게이트웨이에 보급할 수 있도록 하는 필터 역할을 합니다.
+- 202\. Amazon VPC 애플리케이션 서버를 위한 네트워크 아키텍처를 구축 중입니다. 모든 애플리케이션 인스턴스는 인터넷과 온프레미스 네트워크를 통해 액세스할 수 있습니다. 온프레미스 네트워크는 AWS Direct Connect 연결을 사용하여 가상 사설 클라우드에 연결됩니다. 이러한 요구 사항을 충족하려면 라우팅을 어떻게 설계해야 합니까?
+    - D. IGW를 통해 기본 경로로 단일 라우팅 테이블을 구성합니다. AWS Direct Connect 고객 라우터에서 BGP를 통해 온프레미스 네트워크에 대한 특정 경로를 전파합니다. 라우팅 테이블을 모든 VPC 서브넷과 연결합니다.
+        - 하나의 라우팅 테이블에 2개의 기본 경로를 가질 수 없기 때문에 A는 올바르지 않습니다
+        - 서브넷은 한 번에 하나의 라우팅 테이블에만 연결할 수 있으므로 B는 올바르지 않습니다. 
+        - C는 BGP를 통해 기본 경로를 알리는 것이 의미가 없기 때문에 올바르지 않습니다. 
+- 203\. 기업의 여러 AWS 계정에서 다양한 앱이 VPC에서 작동하고 있습니다. 네트워크 엔지니어는 중앙 VPC를 생성하고 모든 애플리케이션 VPC의 VGW에 대한 동적 라우팅으로 IPSec 터널을 작동하는 한 쌍의 소프트웨어 VPN 인스턴스로 구성했습니다. 이 중앙 VPC는 ​​Direct Connect 연결을 사용하여 프라이빗 VIF를 통해 온프레미스 리소스에 연결됩니다.
+VPC 내부의 앱이 온프레미스 리소스와 상호 작용하고 사용할 수 있도록 하려면 어떤 추가 설정이 필요합니까?
+    - D. 온프레미스 라우터에서 동적 라우팅을 사용하여 소프트웨어 VPN 인스턴스로 IPSec 터널을 구성합니다.
+        - 정답은 D입니다. App VPC > 중앙 VPC > VGW > Private VIF > DX Link > LAN/DC에서 경로를 알리는 유일한 방법은 LAN/DC에서 Centeral VPC 및 BGP 라우팅으로 IPSEC VPN을 사용하는 것입니다.
+- 204\. 조직은 동적 고해상도 온라인 콘텐츠를 만듭니다. 인터넷 사용자는 스마트폰, 태블릿 및 데스크톱 컴퓨터를 포함한 다양한 장치를 통해 자료에 액세스합니다. 각 플랫폼은 다양한 시청 모드를 고려한 고유한 경험을 제공합니다. 각 플랫폼은 Amazon EC2 인스턴스의 자동 확장 전용 플릿을 활용하여 경로 기반 헤더를 기반으로 콘텐츠를 제공합니다.성능을 최대화하면서 비용을 최소화하는 서비스 조합은 무엇입니까? (2개를 선택하세요.)
+    - A. Lambda@Edge 가 있는 Amazon CloudFront
+    - E. 애플리케이션 로드 밸런서
+- 205\. NTP 서버에 장애가 발생했으며 인스턴스에 추가 NTP 서버를 제공해야 한다는 것을 알게 되었습니다.
+운영 인스턴스를 다시 시작하지 않고 정보가 전파되도록 하려면 NTP 서버 업데이트를 어디에 적용해야 합니까?
+    - A. DHCP 옵션 설정
+        - 새 DHCP 옵션 세트를 VPC와 연결하면 VPC에서 시작하는 기존 인스턴스와 모든 새 인스턴스가 이러한 옵션을 사용합니다. 인스턴스를 다시 시작하거나 다시 시작할 필요가 없습니다.
+        - VPC의 디바이스에서 사용하는 DNS 서버, 도메인 이름 또는 NTP(Network Time Protocol) 서버를 제어할 수 있습니다.
+- 206\. 네트워크가 192.168.130.130/28인 경우 서브넷당 몇 개의 서브넷과 호스트를 사용할 수 있습니까? (이 질문을 위해 AWS가 5개의 IP 주소를 예약한다는 사실은 무시하십시오)
+    - B. 서브넷 16개 또는 서브넷당 호스트 14개
+- 207\. 모든 트래픽을 공통 서비스 VPC의 계층 7 프록시로 리디렉션하도록 Amazon EC2 Windows 인스턴스 세트를 생성합니다. 이 서버의 애플리케이션은 올바르게 구성된 AWS Identity and Access Management(IAM) 역할을 통해 Amazon S3와 통신할 수 있어야 합니다. 반면 Amazon S3는 애플리케이션에 403 오류를 전송합니다.
+Amazon S3에 대한 액세스를 허용하려면 어떤 절차를 따라야 합니까?
+    - B. 인스턴스의 프록시 구성에서 169.254.169.0/24를 제외합니다.
+        - https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-proxy.html
+        - `export NO_PROXY=169.254.169.254`
+        - 연결된 IAM 역할로 시작된 Amazon EC2 인스턴스에서 프록시를 구성하는 경우 인스턴스 메타데이터 에 액세스하는 데 사용되는 주소를 제외해야 합니다.
+        - 403은 한 가지만 의미합니다(올바르게 구현된 경우). 자격 증명은 올바르지만 권한이 없습니다. 즉, 인증되었지만 권한이 부여되지 않았습니다.
+        - s3 게이트웨이 엔드포인트는 피어링 VPC 간에 공유하지 않으므로 "공용 서비스 VPC"에 엔드포인트를 추가할 의미가 없습니다.
+- 208\. Amazon Web Services Elastic Beanstalk에 대한 다음 주장 중 사실인 것은 무엇입니까?
+    - A. AWS Elastic Beanstalk는 모니터링 및 경보에 CloudWatch를 사용합니다. 즉, CloudWatch 비용은 사용하는 경보에 대해 AWS 계정에 적용됩니다.
+- 209\. 프라이빗 서브넷의 인스턴스에서 NAT 게이트웨이를 통해 특정 대상으로의 TCP 연결 중 일부는 성공하지만 일부가 실패하거나 시간 초과됨 원인 이 문제의 원인은 다음 중 하나일 수 있습니다: 대상 엔드포인트가 단편화된 TCP 패킷으로 응답 NAT 게이트웨이는 TCP 또는 ICMP에 대한 IP 단편화를 지원하지 않습니다. 자세한 내용은 NAT 게이트웨이 비교를 참조하십시오. 및 NAT 인스턴스."
+    - A. NAT 게이트웨이는 단편화된 패킷을 지원하지 않습니다.
+        - https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-troubleshooting.html
+- 210\. AWS 리전당 몇 개의 CloudTrail을 생성할 수 있습니까?
+    - D. 5
 
 - memo
 - 예를 들어 com에 대한 장애 조치 레코드를 구성합니다. 기본 별칭 레코드가 latency.example.com을 가리키고 평가 대상 상태 설정을 활성화합니다. 보조 레코드가 Amazon S3에서 호스팅되는 정적 HTML 유지 관리 페이지를 가리키도록 합니다.
