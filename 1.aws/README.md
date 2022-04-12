@@ -133,4 +133,17 @@ AWS TrustAdvisor나 AWS CostExplorer, AWS Budgets 등을 활용합니다.
 
 # 고객관점의 Value Proposition
 Price, Selection, Convenience
+
+# Single threaded Ownership
+상품의 기획, 연구개발, 운영, 피드백의 반영
+한팀이 오너십을 가지고 책임을 져야한다
+하나의 문제를 책임지고 해결할 수 있는 단일팀을 가져야
+고객 중심적인 상품혁신이 빠르게 이루어질 수 있다는 철학
+시작부터 끝까지 강력한 책임감을 가지게 된다
+
+# 아마존이 집중하는 3가지
+1. 경영 프로세스의 고객을 최우선 순위
+2. 고객의 문제를 해결해주기 위해 혁신하고 발명
+3. 인내심을 가지고 장기적인 것에 투자
+
 ```

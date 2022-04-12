@@ -680,6 +680,34 @@ sudo dhclient -r eth0
             - no-tag : global
             - NO_EXPORT
 
+
+### section17
+> Route53 :
+
+- ICANN : 국제인터넷주소관리기구
+- TLD : .com 과같은 Top Level Domain
+- SLD : example.com 과같은 Sub Level Domain
+- FQDN : Full Qualified Domain Name
+- Name Server : resolves DNS Queries
+- TTL : Time To Live의 줄임마로, DNS Resolver에 레코드가 캐시된 시간. TTL이 높으면 레코드 갱신시간이 길고, TTL이 짧으면 record 변경여부 확인을 위해 질의간격이 짧게 많이 발생한다.
+- (must know) A / AAAA / CNAME / NS
+- A : hostname to ipv4
+- AAAA : hostname to ipv6
+- CNAME : hostname to any another hostname
+    - Example: you can’t create for example.com(TLD or SLD), but you can create for www.example.com
+- Alias : hostname to an AWS Resource 
+    - enable ROOT domain(TLD or SLD) and Non Root domain
+    - You can’t set the TTL
+    - You cannot set an ALIAS record for an EC2 DNS name
+- NS : Name Servers for the hosted zone
+- public hosted zone
+- private hosted zone
+- Routing Policies - simple
+    - Can specify multiple values in the same record
+    - Can’t be associated with HealthChecks
+- You must create a CNAME record (other record types are not supported) for RDS Instance
+- You must create an Alias record for S3 endpoints
+
 ---
 
 ### examtopics
@@ -1310,6 +1338,90 @@ Amazon S3에 대한 액세스를 허용하려면 어떤 절차를 따라야 합�
     - A. Route 53: 2개의 퍼블릭 영역과 2개의 프라이빗 영역.
     - D. 4개의 로드 밸런서: 2개의 공용 및 2개의 내부.
         - Route 53: 공개 영역 2개와 비공개 영역 2개, 로드 밸런서 4개: 공개 영역 2개와 내부 영역 2개. 이렇게 하면 하나의 도메인이 두 개의 애플리케이션 서버에 대해 균형을 이룰 수 있으며 트래픽은 두 개의 백엔드 서버로 균형이 맞춰집니다.
+- 221\. *** Which course of action will be taken first?
+- 222\. VPC 마법사를 사용하여 사용자는 프라이빗 서브넷과 VPN 연결만으로 CIDR 20.0.0.0/16으로 VPC를 구성했습니다. 사용자가 프라이빗 서브넷에 있는 인스턴스에 SSH 연결을 설정하려고 합니다. 사용자는 SSH 보안 규칙을 어떻게 제공해야 합니까?
+    - C. 사용자 네트워크에서 포트 22의 인바운드 트래픽 허용
+- 223\. 조직에서 Amazon VPC 인스턴스에 대한 온프레미스 연결을 설정하도록 AWS Direct Connect를 구성했습니다. 두 개의 고유한 Direct Connect 사이트가 두 개의 서로 다른 Direct Connect 연결에 대한 종료 지점 역할을 합니다. 결국 R1과 R2(각 Direct Connect 연결 중 하나)라는 두 개의 라우터가 있습니다. R1과 R2는 연결되어 있지 않습니다. 두 라우터 모두 BGP를 통해 동일한 라우터를 VGW에 게시합니다. 각 라우터에는 상태 저장 방화벽이 장착되어 있습니다. 라우터는 VPC에서 트래픽의 일부를 걸러냅니다.
+    - A. R1에서 VGW로 라우터를 알리는 동안 BGP AS prepend 속성을 사용하여 추가 AS 번호를 추가합니다.
+    - D. BGP MED 속성을 사용하여 R1이 VGW에 알린 경로에 더 높은 MED 값을 할당합니다.
+        - Internal BGP (IBGP) sessions use a metric called the local preference
+        - 여기에 제시된 질문은 Active-Active 비대칭 라우팅입니다. 주요 관심사는 Stateful 방화벽으로 인해 VPC에서 반환되는 트래픽이 삭제된다는 것
+        - https://aws.amazon.com/blogs/networking-and-content-delivery/creating-active-passive-bgp-connections-over-aws
+- 224\. 계정에 비정상적인 요금이 청구된 후 AWS 인프라 감사를 수행하고 있습니다. AWS Config를 사용하여 구성 변경 사항을 추적합니다.
+    - C. 변경의 eventId를 사용하고 CloudTrail과 함께 참조하여 범인을 찾습니다.
+- 225\. What are two reasons for a server to have numerous IP addresses or interfaces?
+    - A. You can host multiple SSLs
+    - B. Create management networks
+        - AWS에서는 여러 I/F를 바인딩한다고 해서 속도가 빨라지지않는다
+- 226\. What are the two routing strategies that Route 53 employs? (Select two.)
+    - B. Failover
+    - C. Latency
+- 227\. 기업에서 Elastic Load Balancing을 사용하여 웹이 아닌 애플리케이션을 배포하고 있습니다. 모든 대상은 AWS Direct Connect를 사용하여 액세스할 수 있는 온프레미스 서버입니다. 조직은 응용 프로그램을 사용하는 고객의 소스 IP 주소가 프로그램의 최종 서버까지 전송되는지 확인하려고 합니다. 이 요구 사항은 어떻게 충족됩니까?
+    - C. Network Load Balancer를 사용하고 ProxyProtocol 속성을 활성화합니다.
+        - Proxy Protocol v2는 TCP 패킷 헤더에 소스 IP를 추가하는 NLB의 옵션입니다. 이는 서버가 온프레미스에 있고 ALB가 소스 IP 보존을 수행하지 않기 때문에 관련이 있습니다.
+        - https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#proxy-protocol
+        - Network Load Balancer
+            - TCP & TLS: the source IP of the client isn’t preserved, enable Proxy Protocol
+            - UDP & TCP_UDP: the source IP of the client is preserved
+- 228\. 관리자는 탄력적 IP를 프로덕션 인스턴스에 할당해야 한다고 결정합니다. 이 작업을 수행하면 웹 사이트 URL에 대한 액세스 권한이 손실됩니다.
+    - A. 원래 IP 주소는 탄력적 IP가 할당될 때 AWS로 다시 릴리스되었습니다.
+        - 새로운 인터페이스에 추가하지않는이상, EIP를 할당하면 원래 IP는 사라지며 AWS로 반환된다
+- 229\. Direct Connect 사이트에서 Direct Connect 연결을 종료하기 위한 클라이언트 라우터의 요구 사항을 고려해야 합니다.
+고객 라우터를 선택할 때 지원해야 하는 세 가지 측면은 무엇입니까?
+    - A. 802.1Q VLAN encapsulation
+    - D. BGP
+    - E. single-mode optical fiber connectivity
+- 230\. 이 기업에는 두 개의 웹 앱이 있으며 이를 별도의 분리된 가상 사설 클라우드(VPC)에서 호스팅하려고 합니다. 애플리케이션 인스턴스 간에 요청을 분산하려면 Elastic Load Balancing을 사용해야 합니다.
+보안상의 이유로 인터넷 게이트웨이는 애플리케이션 VPC에 연결하면 안 됩니다. 애플리케이션의 수신 HTTP 요청은 중앙 집중식 VPC를 통해 라우팅되어야 하며 애플리케이션의 VPC는 ​​다른 인바운드 트래픽에 노출되어서는 안 됩니다. 애플리케이션 VPC는 ​​아웃바운드 연결을 시작할 수 없습니다.
+    - D. 별도의 VPC에서 사설 NLB(Network Load Balancer) 뒤에서 애플리케이션을 실행합니다. 중앙 집중식 VPC에서 연결된 VPC 엔드포인트가 있는 AWS PrivateLink 엔드포인트 서비스로 각 NLB를 구성합니다. 각 끝점의 사설 IP 주소를 포함하는 대상 그룹을 만듭니다. 중앙 집중식 VPC에서 공용 ALB(Application Load Balancer)를 생성합니다. ALB를 통해 애플리케이션 트래픽을 해당 대상 그룹으로 라우팅하도록 호스트 기반 라우팅을 구성합니다.
+        - public을 향하고 있는 ELB는 ALB여야 하므로 A&B를 제거한다.
+        - NLB의 사설 DNS 이름에 대한 대상 그룹을 생성할 수 없습니다. ALB는 DNS 이름을 대상으로 지원하지 않으므로 C가 답이 될 수 없음을 확인하는 것 같습니다.
+        - NLBs can't have DNS names as target group, needs lambda service to do that
+- 231\. 조직에서 IPv4에서 IPv6으로 마이그레이션할 준비를 하고 있지만 공용 네트워크의 인스턴스에 공용 IPv6 주소를 할당할 때 보안에 미치는 영향에 대해 우려하고 있습니다. 이제 NAT를 사용하여 아웃바운드 트래픽을 허용합니다. 업데이트에는 아웃바운드 트래픽이 필요합니다.
+    - A. Remove any rules allowing ::/0 inbound in the security group.
+    - C. Create an egress-only internet gateway.
+        - outbound connection을 유지하고, return traffic을 받되, 외부에서 접근은 못하게설정
+        - 0.0.0.0/0은 IPv4만 차단하고 NACL에서 ::/0을 차단하면 반환 트래픽과 인스턴스 업데이트가 차단됩니다.
+- 232\. skip
+- 233\. OSI 및 TCP/IP 모델에 대한 이해를 바탕으로 다음 설명 중 옳지 않은 것을 선택하십시오.
+    - A. TCP/IP 응용 프로그램 계층은 2개의 OSI 계층에 매핑됩니다
+        - OSI 모델은 7레이어 모델입니다. TCP/IP 모델은 4계층 모델입니다.
+        - TCP/IP 응용 프로그램 계층은 상위 3개 OSI 계층(응용 프로그램, 프레젠테이션 및 세션 계층)에 매핑됩니다.
+- 234\. VPN 터널에 대해 능동/수동 HA를 구현할 때 두 가지 실행 가능한 구성 옵션이 있습니다. (2개를 선택하세요.)
+    - B. Configure AS_PATH prepending on one of the paths.
+    - D. Configure MED on one of the tunnels.
+        - 두 터널이 동일한 AS PATH 값을 갖도록 AS Path 사전 추가를 피하는 것이 좋습니다.
+        - AS PATH 값이 같으면 VPN 터널 엔드포인트 업데이트 중에 AWS가 터널에 설정하는 MED 값에 따라 터널 우선 순위가 결정됩니다.
+        - https://aws.amazon.com/ko/premiumsupport/knowledge-center/vpn-configure-tunnel-preference/
+- 235\. 부적절하게 구성된 웹 사이트의 대량 요청으로 인해 단일 애플리케이션 서버의 성능이 저하되고 있음을 발견했습니다. 나머지 요청은 부정적인 영향을 주지 않고 모든 서버에 고르게 분산됩니다. 문제를 수정하고 재발을 방지하려면 어떤 조치를 취해야 합니까?
+    - C. ELB에서 애플리케이션 서버로 포트 80만 허용하도록 보안 그룹을 업데이트합니다.
+        - 이것은 서버가 ELB의 웹 트래픽만 허용해야 한다는 자체 설명적인 설명입니다.
+        - ALB에서 ec2 인스턴스로의 액세스를 제외한 모든 액세스를 방지할 수 있습니다.
+        - NACL은 서브넷 수준에서 작동하므로 다른 EC2가 해당 서브넷에서 작동하지 못하게 할 수 있습니다. 보안 그룹은 애플리케이션에만 영향을 미칩니다.
+- 236\. 컴퓨팅 팀이 AWS(Amazon Web Services)에서 HPC(고성능 컴퓨팅) 애플리케이션을 호스팅할지 여부를 결정하고 있습니다. 팀은 애플리케이션 성능에 대해 걱정하고 있으며 다양한 네트워킹 성능 향상 대안에 대해 배우고 싶어합니다.
+    - C. Enable an MTU of 9001 in the application's operating system.
+    - D. Enable enhanced networking on the instances.
+        - VPC에서 MTU를 조절할 수 없고, 인스턴스를 쪼갠다고 해서 성능이 늘어나지않고, 클러스터 배치그룹은 단일AZ에 있어야한다.
+        - 현재 SR-IOV(단일 루트 I/O 가상화)를 사용하여 향상된 네트워킹 기능을 지원
+        - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/network_mtu.html
+        - https://aws.amazon.com/ko/getting-started/hands-on/hpc/3/
+- 237\. 기업의 IT 보안 팀은 Amazon VPC 내부의 모든 서버가 5개의 허용된 외부 IP 주소 목록에만 연결할 수 있도록 보장해야 합니다. 또한 팀은 승인되지 않은 끝점과의 연결을 설정하려고 시도하는 서버가 있는 경우 알림을 받기를 원합니다.
+이러한 요구 사항을 충족하는 측면에서 가장 비용 효율적인 접근 방식은 무엇입니까?
+    - C. 애플리케이션 서버 서브넷의 네트워크 ACL에 허용된 IP를 추가합니다. 필터를 REJECT로 설정하여 VPC 흐름 로그를 활성화합니다. 모든 이벤트의 로그 그룹에 대해 Amazon CloudWatch Logs 필터를 설정합니다. 이 지표에 대한 경보를 생성하여 보안 팀에 알립니다
+        - REJECT VPC 흐름 로그만 캡처하므로 비용 효율적입니다.
+- 238\. us-west-1 리전과 ap-southeast-2 리전에 각각 가상 사설 클라우드(VPC)를 유지 관리합니다. 데이터 센터에서 us-east-1 리전까지 네트워크 엔지니어는 AWS Direct Connect 링크를 설정했습니다. Direct Connect 게이트웨이를 참조하는 프라이빗 가상 인터페이스(VIF)를 구축하고 이를 두 VPC의 가상 프라이빗 게이트웨이에 연결합니다. 구성이 완료되면 엔지니어는 us-west-1에서 ap-southeast-2를 통해 리소스에 연결할 수 없습니다.
+    - C. ap-southeast-2와 us-west-2의 VPC 간에 VPC 피어링 연결을 설정합니다. 라우팅 테이블에 서브넷 범위를 추가합니다.
+        - Direct Connect 게이트웨이는 TransitGW가 아닌 한 VGW에 연결할 때 전이적이지 않습니다.
+        - Direct Connect 게이트웨이는 전이적이지 않습니다.
+- 239\. 거짓 또는 참: VPC는 ​​각각 여러 가용 영역에 걸쳐 있을 수 있는 수많은 서브넷으로 구성됩니다.
+    - 나. 이것은 거짓입니다.
+    - VPC는 ​​여러 가용 영역에 걸쳐 있을 수 있습니다. 반대로 서브넷은 단일 가용 영역 내에 있어야 합니다.
+- 240\. 회사는 최종 사용자의 트래픽이 최종 사용자와 지리적으로 가장 가까운 지역으로 라우팅되도록 요구합니다. 리전에서 유지 관리가 진행되면 최종 사용자가 연결로 사용하는 IP 주소를 변경하지 않고 트래픽을 다음으로 가장 가까운 리전으로 라우팅해야 합니다.
+    - D. 모든 리전 앞에 AWS Global Accelerator를 구성합니다.
+        - AWS Global Accelerator 가 제공하는 고정 IP 주소는 고객의 단일 고정 진입점 역할을 합니다.
+        - 고정 IP 주소는 사용자와 가장 가까운 엣지 로케이션에서 AWS 글로벌 네트워크로 들어오는 트래픽을 허용합니다.
+
+---
 
 - memo
 - 예를 들어 com에 대한 장애 조치 레코드를 구성합니다. 기본 별칭 레코드가 latency.example.com을 가리키고 평가 대상 상태 설정을 활성화합니다. 보조 레코드가 Amazon S3에서 호스팅되는 정적 HTML 유지 관리 페이지를 가리키도록 합니다.
