@@ -17,7 +17,7 @@ I'll show the pro when given the situation
 - [10.ansible](https://github.com/jogilsang/devops/tree/master/9.k8s)
 - [11.terraform](https://github.com/jogilsang/devops/tree/master/11.terraform)
 - [12.agile](https://github.com/jogilsang/devops/tree/master/12.agile)
-- [13.cisco](https://github.com/jogilsang/devops/tree/master/13.cisco)
+- [13.scm](https://github.com/jogilsang/devops/tree/master/13.scm)
 - [tool](https://github.com/jogilsang/devops/tree/master/tool)
 - [Reference](#reference)
 
