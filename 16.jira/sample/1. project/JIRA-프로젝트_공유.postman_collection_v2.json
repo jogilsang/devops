@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "f4df57ef-3844-4c2c-8f4c-1af957437567",
+		"name": "JIRA-프로젝트_공유",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "이슈정보얻기 (프로젝트)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// jogilsang"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "pw를 입력하세요",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "id를 입력하세요",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://jira.eland.co.kr/rest/api/3/issue/FBO3-80",
+					"protocol": "https",
+					"host": [
+						"jira",
+						"eland",
+						"co",
+						"kr"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"issue",
+						"FBO3-80"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "이슈생성 (프로젝트) _ 작업",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// jogilsang"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "pw를 입력하세요 ",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "id를 입력하세요",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fields\": {\r\n        \"project\": {\r\n             \"key\": \"프로젝트명\"  \r\n        }\r\n        ,\"issuetype\": { \r\n            \"name\": \"작업\",\r\n            \"id\": \"3\" \r\n        }\r\n        ,\"summary\": \"이슈 제목\"     \r\n        ,\"description\": \"이슈 상세내용\"\r\n        ,\"labels\": [ \r\n            \"태그\"\r\n        ]\r\n        ,\"duedate\": \"2030-12-31\"  \r\n        ,\"reporter\": {\r\n            \"name\": \"보고자\" \r\n        }\r\n        ,\"assignee\": { \r\n            \"name\": \"작업자\"\r\n        }\r\n        ,\"customfield_10004\" : \"산출물 첨부경로\" \r\n        ,\"customfield_10705\" : \"EpicLink명\"\r\n    },\r\n   \"update\":{\r\n      \"issuelinks\":[\r\n         {\r\n            \"add\":{\r\n               \"type\":{\r\n                  \"name\":\"Blocks\",\r\n                  \"inward\":\"is blocked by\",\r\n                  \"outward\":\"blocks\"\r\n               },\r\n               \"outwardIssue\":{\r\n                  \"key\":\"연결된 이슈명\"\r\n               }\r\n            }\r\n         }\r\n      ]\r\n   }\r\n}"
+				},
+				"url": {
+					"raw": "https://{url}/rest/api/2/issue/",
+					"protocol": "https",
+					"host": [
+						"{url}"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"issue",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "username",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "url",
+			"value": ""
+		}
+	]
+}
