@@ -147,3 +147,65 @@ Price, Selection, Convenience
 3. 인내심을 가지고 장기적인 것에 투자
 
 ```
+
+### AWS 고객이 주로 겪는 운영 이슈에 대한 해법 - 이범석 테크니컬 어카운트 매니저(AWS 코리아), 조성열 클라우드 서포트 엔지니어(AWS 호주)
+> https://youtu.be/b-whfv74tw4
+
+```sh
+AWS 서비스를 사용하면서 겪는 운영 이슈 발생 시
+좋은 아키텍처의 요건
+- 보안 -> private zone으로 db이동
+- 안정성 -> elb -> a-zone -> c-zone
+          master db - read replica
+		  slave db
+- 성능효율성 -> auto-scailing
+- 비용최적화
+- 운영우수성
+
+아키텍처 관점에서 해결할 수 있는 방법
+AWS 주요 서비스 사용 시 문제 해결방법
+AWS Support 를 통한 지원
+
+ec2
+- 상태확인이슈
+	- system status check
+	  - 물리적 호스트 네트워크 연결, 전원중단 
+	- instance status check
+	  - 호환되지않는 커널
+	  - 메모리 모두 사용
+	  - 파일시스템 에러
+	  - 리눅스는 커널 파라미터 파일 수정
+	  - Windows : ec2rescue를 이용한 수정
+	  - 루트 볼륨을 인스턴스에서 분리
+	  - 다른 인스턴스에 데이터 볼륨으로 연결 후 설정 파라미터 변경
+	  - 루트 볼륨 인스턴스에 연결
+    - 인스턴스 스토어 데이터는 재시작 시 삭제
+	- Cloudwatch take action 체크
+- 자동재시작이슈
+	- 예정된 이벤트  ?
+	- ec2 console 이벤트
+	- Personal Health Dashboard
+	- syslog, dmesg
+	- cloudtrail은 AWS에서 발생하는 API 콜을 모두 기록
+- 생성이슈
+- 접속이슈
+	- ACL
+	- SG
+	- Route Table
+		- VPC 바깥으로 나가는 트래픽이 0.0.0.0 모두 IGW로 나가는지 확인
+
+elb
+인스턴스 런칭, 터미네이팅, 재시작
+- 인스턴스 생성
+	- lanch configuration
+		- security group
+		- ec2 keypair
+- Scale in/out
+	- suspended 프로세스에서 launch-terminate 삭제
+	- 마지막 scaling event로부터 cool down 시간이 안지남
+		- OS부팅, 어플리케이션 배포
+	- Complete-lifesycle-action 동작여부 확인
+- cloudwatch alarm
+	- Consecutive period 동안 연속으로 threshold를 넘어서야 알람이 울림
+
+```
