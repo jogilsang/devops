@@ -3,6 +3,7 @@ Amazon Web Service for me.
 
 ### Reference
 #### 커뮤니티
+- [AWS 포럼 repost](https://repost.aws/)
 - [AWS Certified Global Community](https://aws-certification.influitive.com/forum/)
 - [The Official AWS Podcast](https://aws.amazon.com/ko/podcasts/aws-podcast/?sc_icampaign=aware_aws-podcast&sc_ichannel=ha&sc_icontent=awssm-2021&sc_iplace=blog_tile&trk=ha_awssm-2021&podcast-list.sort-by=item.additionalFields.EpisodeNum&podcast-list.sort-order=desc&awsf.episode-type=*all&awsf.tech-category-filter=*all&awsf.product-filter=*all&awsf.industry-filter=*all)
 - [AWS Gear Store](https://www.sunriseidcart.com/AWS/default.aspx)
@@ -194,7 +195,7 @@ ec2
 	- Route Table
 		- VPC 바깥으로 나가는 트래픽이 0.0.0.0 모두 IGW로 나가는지 확인
 
-elb
+asg
 인스턴스 런칭, 터미네이팅, 재시작
 - 인스턴스 생성
 	- lanch configuration
@@ -208,4 +209,24 @@ elb
 - cloudwatch alarm
 	- Consecutive period 동안 연속으로 threshold를 넘어서야 알람이 울림
 
+elb
+- HTTP 5xx errors
+  - 502 : bad gateway
+    - header 값이 malformed 된 경우
+    - elb가 백엔드 인스턴스로부터 응답을 못 받는경우
+  - 503 : Service Unavailable
+    - 인스턴스가 등록 안된경우
+    - 모든 인스턴스가 unhealty 인경우
+    - 짧은시간에 request가 급격히 들어오는경우 (수분 이내해결)
+      - 예상된 피크 트래픽인경우, Pre-warming 신청
+  - 504 Gateway timeout
+    - 인스턴스 요청처리시간이 elb Timeout보다 큰 경우
+      - laytency metric
+        - CPU Utilization, DB나 외부API와 지연가능성 확인
+      - 인스턴스가 elb의 요청을 닫을경우
+        - keep alive timeout을 elb보다 높게설정
+- Instance Out of service
+- Health Check Failure
+  - health check targetpage를 200 이 아닌 302 (Redirect) 반환 확인
+  - health check timeout이 발생할경우, keep alive timeout 설정
 ```
