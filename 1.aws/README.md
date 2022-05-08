@@ -3,11 +3,12 @@ Amazon Web Service for me.
 
 ### Reference
 #### 커뮤니티
+- [AWS 고객성공사례](https://aws.amazon.com/ko/solutions/case-studies/all/)
 - [AWS 포럼 repost](https://repost.aws/)
 - [AWS Certified Global Community](https://aws-certification.influitive.com/forum/)
 - [The Official AWS Podcast](https://aws.amazon.com/ko/podcasts/aws-podcast/?sc_icampaign=aware_aws-podcast&sc_ichannel=ha&sc_icontent=awssm-2021&sc_iplace=blog_tile&trk=ha_awssm-2021&podcast-list.sort-by=item.additionalFields.EpisodeNum&podcast-list.sort-order=desc&awsf.episode-type=*all&awsf.tech-category-filter=*all&awsf.product-filter=*all&awsf.industry-filter=*all)
 - [AWS Gear Store](https://www.sunriseidcart.com/AWS/default.aspx)
-- [AWS Resume](https://www.hiration.com/blog/aws-resume/]
+- [AWS Resume](https://www.hiration.com/blog/aws-resume/)
 - [AWS SlidesharePPT-1](https://www.slideshare.net/awskr/iac-aws-ausg-aws-community-day-online-2021)
 
 #### 기본
