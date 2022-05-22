@@ -72,6 +72,7 @@
   - sar
   - vmstat
 - [NETWORK](#network)
+  - [TCP](#tcp)
   - [ECHO > /DEV/TCP/](#echo%20>%20/dev/tcp/)
   - [NMAP](#nmap)
   - [MTR](#mtr)
@@ -1173,6 +1174,54 @@ $ ls -l /usr/share/vim/vim*/colors/
   ```
 
 ### network
+- #### tcp
+> 클라우드 기반으로 동작하는 서버들은 서버가 낼 수 있는 최대의 성능을 끌어내야한다. 이런 작업은 커널에 대한 이해가 바탕이되어야 가능하다
+
+- 1\. time wait 소켓
+    - 4way handshake에서 fin패킷 보내는 쪽 time_wait 소켓을 생성한다.
+    - `net.ipv4.ip_local_port_range`는 외부와 통신하기위한 로컬포트의 범위이다. 로컬포트가 고갈될경우, 어플리케이션 타임아웃이 발생한다.
+    ```sh
+    # 포트범위 조절
+    sysctl -w "net.ipv4.ip_local_port_range=32768 32768"
+    curl http://www.kakao.com > /dev/null
+    curl http://www.kakao.com > /dev/null
+    ```
+    - 4개의 값이 커널 내 유일하게 존재(src ip, port, dst ip,port) 한다
+    - 웹서버에서는 rw_recycle이 켜져있으면 안된다. 연결은 안되고 연결요청만 계속해서 발생하게될 수 있다
+    - timewait 소켓은 세션연결을 먼저 끊으려는 쪽에서 발생한다
+    - 클라이언트 쪽에서는 로컬포트고갈 문제가 net.ipv4.tcp_tw_reuse=1 를 설정함으로써 해결할 수 있다
+    - 서버입장에서는 net.ipv4.rw_recycle 파라미터를 통해 소켓을 회수할 수 있지만, syn패킷이 버려질 수 있다
+    - keepalive기능은 tcp 3way handshake와 time_wait를 줄일 수 있다
+    - time_wait소켓은 정상적인 Tcp연결헤제를 위해서는 반드시 필요하다
+
+- 2\. TCP keepalive 세션유지
+    - netstat -napo
+    - keepalive는 양 종단 간에 연결을 유지할 수 있고 좀비커넥션(=FIN패킷을 받지못해 정리되지 않고 남아있음)을 방지하기위해 비정상적인 소켓을 종료할 수 있도록한다
+    - http keepalive와 Tcp keepalive가 둘다 설정되어있다면, http keepalive를 우선으로 적용한다.
+    - nginx를 앞에 두는이유는 무엇일가? https 사용할경우 인증서설정과 관리등의 문제. UserAgent 확인, Referer 확인 등과같이 서비스 외적으로 설정해야하는 요소들
+    - ab툴을 이용한 테스트
+    ```sh
+    ab -n 10000 -c 1 http://server.domain.com
+    ```
+    - 세션의 rto(retransmission timeout)값을 확인
+    ```sh
+    ss -i
+    ```
+
+- 3\. TCP 재전송과 타임아웃
+- TCP 재전송과 관련된 커널 파라미터 확인하기
+    - orphan_socket : fin_wait1 상태의 소켓으로 커널에 귀속된 상태. pid다 조회되지않는다
+    - 재전송을 견디려면 ConnectionTimeout은 3초, ReadTimeout은 300ms
+    ```sh
+    sysctl -a | grep -i retries
+
+    net.ipv4.tcp_retries1
+    net.ipv4.tcp_retries2
+    net.ipv4.tcp_syn_retries
+    net.ipv4.tcp_synack_retries
+    net.ipv4.tcp_orphan_retries
+    ```
+
 - #### nmap
 `네트워크 보안 스캐너, Nmap(Network Mapper)`   
 `option`   
