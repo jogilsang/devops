@@ -4,6 +4,7 @@
   - [fileSystem](#filesystem)
   - [accessPoint](#accessPoint)
 - [unmount](#unmount)
+- [tr](#tr)
 
 ---
 
@@ -48,5 +49,9 @@ sudo umount {PATH_TO_MOUNT}
 -l :   
 -f :  
 
+---
+
+### tr
+- b'mount.nfs4: access denied by server while mounting 127.0.0.1:/'
 
 
