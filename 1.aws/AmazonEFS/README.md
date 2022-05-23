@@ -1,8 +1,8 @@
 
 ## INDEX
 - mount
-  - [fileSystem](filesystem)
-  - [accessPoint](accessPoint)
+  - [fileSystem](#filesystem)
+  - [accessPoint](#accessPoint)
 - [unmount](#unmount)
 
 ---
@@ -30,11 +30,6 @@ sudo vi /etc/fstab
 fs-08ef8eb0eea9fcab4:/ /efs efs _netdev,tls 0 0
 ```
 
-# 4. unmount
-$ sudo umount -l ~/foobar
-$ sudo umount -f ~/foobar
-
-
 ---
 
 ### accessPoint
@@ -50,6 +45,8 @@ EFS를 사용하는 대부분의 환경은 컨테이너 환경일 것이다.
 
 ### unmount
 sudo umount {PATH_TO_MOUNT}   
+-l :   
+-f :  
 
 
 
