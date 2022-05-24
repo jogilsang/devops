@@ -24,12 +24,14 @@ I'll show the pro when given the situation
 ---
 
 - ### reference
+  - [구글 SRE 무료 책](https://sre.google/books/)
   - [AWS-devops-blog](https://aws.amazon.com/ko/blogs/devops/)
   - [devops의 정의](https://www.atlassian.com/devops)
   - [애자일 선언문](https://ko.wikipedia.org/wiki/%EC%95%A0%EC%9E%90%EC%9D%BC_%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4_%EA%B0%9C%EB%B0%9C#%EC%95%A0%EC%9E%90%EC%9D%BC_%EC%84%A0%EC%96%B8%EB%AC%B8)
   - [12 factors](https://12factor.net/ko/)
   - [브렌든 그레그 블로그-리눅스성능과 관련된정보](https://www.brendangregg.com/linuxperf.html)
 
+<!-- 
 - ### certification
   - [300-910 - devops- 시스코 플랫폼](https://www.cisco.com/c/en/us/training-events/training-certifications/exams/current-list/devops-300-910.html)
-  - [Linux Professional Institute DevOps Tools Engineer](https://www.lpi.org/our-certifications/devops-overview)
+  - [Linux Professional Institute DevOps Tools Engineer](https://www.lpi.org/our-certifications/devops-overview) -->
