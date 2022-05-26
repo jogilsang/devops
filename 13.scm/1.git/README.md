@@ -10,7 +10,7 @@
 #### [3. cli](3.%20CLI)
 - [git tag](#git%20tag)
 #### [4. README](4.%20readme)
-
+#### [5. private](#private)
 ---
 
 ### 1. Doc
@@ -334,3 +334,6 @@ MIT © Yourname
 
 ### test
   #### test1
+
+#### private
+- settings - developer settings - personal access token - repo,workflow check - 패스워드로 사용
