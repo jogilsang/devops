@@ -164,4 +164,4 @@ HMAC 서명값을 포함하게 됩니다.
 ```
 ## Reference
 - [[AWS Builders] AWS IAM 을 통한 클라우드에서의 권한 관리 - 신은수, AWS Security Specialist SA](https://www.youtube.com/watch?v=A77sIwSPCsE&list=PLivYj-G6HmuJTnwclPCbgw9i6E-YZ2dVm&index=7))
-
+- [AWS IAM Hands on lab](https://whchoi98.gitbook.io/aws-iam/)
