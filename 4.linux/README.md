@@ -483,6 +483,8 @@ $ ls -l /usr/share/vim/vim*/colors/
   sudo cat secure | grep 61.74.251.71 | head -11
   ```
 
+### dmesg
+
 ### crontab
   `example`
   ```bash
