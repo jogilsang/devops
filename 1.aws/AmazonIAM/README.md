@@ -22,6 +22,7 @@
     - CloudTrail
 
 ## IAM Role
+- 신뢰하는 개체에 권한(Permission)을 부여하는 안전한 방법
 - IAM Role은 임시크레덴셜로 일정시간이 지나면 만료(Timeout)이 발생하는 Session Token이 추가됩니다
 - iam Role을 부여하는 액션 자체에도 제어가 필요합니다
 - iam Role 과 같이 임시 Credential을 쓰는경우, 일정시간이 지나면 만료되는 Session Token이 추가됩니다. 역활을 수임한다. Role을 assume 한다고 한다.
