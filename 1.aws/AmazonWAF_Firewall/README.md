@@ -72,3 +72,9 @@
     - 3\. Firewall Subnet 생성
     - 4\. Firewall 생성
     - 5\. Routing Table 편집
+
+- Stateless – Defines standard, 5-tuple criteria for examining a packet on its own, with no additional context.
+- Stateful – Defines criteria for examining a packet in the context of traffic flow and of other traffic that's related to the packet. Stateful rule groups are available in the following categories:
+    - 5-tuple – Defines standard criteria for examining a packet within the context of a traffic workflow.
+    - Domain list – Defines a list of domain names and specifies the protocol type(s) to inspect.
+    - Suricata compatible IPS rules – Defines intrusion prevention system (IPS) rules in the rule group, in an open source compatible format (e.g. Suricata, Snort).
