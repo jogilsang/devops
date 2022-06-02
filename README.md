@@ -5,7 +5,7 @@ I'll show the pro when given the situation
 ---
 
 ## INDEX
-- [1.aws](https://github.com/jogilsang/devops/tree/master/1.aws)
+- [1.aws](https://github.com/jogilsang/aws)
 - [2.docker](https://github.com/jogilsang/devops/tree/master/2.docker)
 - [3.jenkins](https://github.com/jogilsang/devops/tree/master/3.jenkins)
 - [4.linux](https://github.com/jogilsang/devops/tree/master/4.linux)
