@@ -5,6 +5,7 @@
 - [.gitignore](.gitignore)
 - [.gitignore cache deleted](.gitignore)
 - [.gitignore auto](.gitignore)
+- [접기/펼치기](#접기)
 #### [2. Install](2.%20Install)
 - [git](#git)
 #### [3. cli](3.%20CLI)
@@ -41,6 +42,14 @@ git commit -m "Fixed untracked files"
 - ### .gitignore auto
 ```
 https://www.toptal.com/developers/gitignore
+```
+
+- ### 접기/펼치기
+```html
+<details>
+  <summary> ▶ 접기 / 펼치기</summary>
+  
+</details>
 ```
 
 ### 2. Install
