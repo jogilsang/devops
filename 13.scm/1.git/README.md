@@ -64,7 +64,7 @@ sudo apt-get install git-core
 ```
 
 ### Github Command
-```
+```sh
 0. config
 git config --system --unset credential.helper
 
@@ -137,6 +137,21 @@ git push --tags // push all tags to remote repo
 
 11. Recover (복구)
 git checkout -- 파일명 // git status의 deleted 파일복구
+
+12. Reset (커밋취소)
+# 1. cancel commit, file staged
+$ git reset --soft head^
+$ git reset --soft head~1
+
+# 2. cancel commit, file unStaged
+$ git reset --mixed head^ // 기본 옵션
+$ git reset --mixed head~1
+$ git reset head^ // 위와 동일
+$ git reset head~1
+
+# 3. 2. cancel commit, file unStaged and deleted
+$ git reset --hard head^
+$ git reset --hard head~1
 ```
 
 <hr/>
