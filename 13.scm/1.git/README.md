@@ -12,6 +12,7 @@
 - [git tag](#git%20tag)
 #### [4. README](4.%20readme)
 #### [5. private](#private)
+#### [6. Achievements)](#Achievements)
 ---
 
 ### 1. Doc
@@ -198,6 +199,19 @@ developer settings
 personal access tokens
 generate new tokens - repo check
 generate token
+```
+
+#### 6. Achievements
+
+
+- yolo Achievement
+```
+Follow the below steps.
+
+Create a pull request on your own remote repository.
+Open the pull request.
+At the top right corner add a reviewer to your repository.
+Before they review your code and merge you should merge your code to the remote repository.
 ```
 
 
