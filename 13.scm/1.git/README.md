@@ -202,8 +202,11 @@ generate token
 ```
 
 #### 6. Achievements
-
-
+- Pair Extraordinaire
+```
+1. commit message added : Co-authored-by: name name@example.com
+2. pull-request -> merged
+```
 - yolo Achievement
 ```
 Follow the below steps.
