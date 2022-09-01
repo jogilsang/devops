@@ -1,7 +1,5 @@
 # devops
 
-I'll show the pro when given the situation
-
 ---
 
 ## INDEX
