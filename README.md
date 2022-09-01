@@ -1,6 +1,7 @@
 # devops
 
 study study study
+Co-authored-by: name <name@example.com>
 
 ---
 
