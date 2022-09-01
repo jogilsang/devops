@@ -8,11 +8,11 @@
 - [접기/펼치기](#접기)
 #### [2. Install](2.%20Install)
 - [git](#git)
-#### [3. cli](3.%20CLI)
+#### [3. cli](#3.%20CLI)
 - [git tag](#git%20tag)
-#### [4. README](4.%20readme)
-#### [5. private](#private)
-#### [6. Achievements)](#Achievements)
+#### [4. README](#4.%20readme)
+#### [5. private](#5.%20private)
+#### [6. Achievements)](#6.%20Achievements)
 ---
 
 ### 1. Doc
