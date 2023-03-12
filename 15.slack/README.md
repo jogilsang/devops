@@ -25,6 +25,8 @@
         - [슬랙Slack - 웹서버 헬스체크, 상태체크 알림, shell script](https://blog.naver.com/jogilsang/222112043252)
         - [슬랙Slack - 다중 웹서버 헬스체크 및 복구감지, shell script](https://blog.naver.com/jogilsang/222271094712)
 - App
+    - rss feed
+        - [슬랙Slack - RSS 피드 알림받기, AWS 서비스 상태 및 소식](https://blog.naver.com/jogilsang/223042143007)
     - datadog
         - [슬랙Slack - 데이터독 서비스 자체에 대한 status 확인하기, 이슈 health 알림받기
 ](https://blog.naver.com/jogilsang/223042056203)
