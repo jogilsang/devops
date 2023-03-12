@@ -25,6 +25,9 @@
         - [슬랙Slack - 웹서버 헬스체크, 상태체크 알림, shell script](https://blog.naver.com/jogilsang/222112043252)
         - [슬랙Slack - 다중 웹서버 헬스체크 및 복구감지, shell script](https://blog.naver.com/jogilsang/222271094712)
 - App
+    - datadog
+        - [슬랙Slack - 데이터독 서비스 자체에 대한 status 확인하기, 이슈 health 알림받기
+](https://blog.naver.com/jogilsang/223042056203)
     - google
         - [슬랙Slack - 팀 일정 알림사용하기, Google Calendar](https://blog.naver.com/jogilsang/222535054576)
     - jenkins
