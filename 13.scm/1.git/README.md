@@ -92,14 +92,14 @@ git commit -m "update"
 git push -f origin master
 
 5. (Specify path or folder Download, 특정경로,특정폴더)
-mkdir RecyclerViewKotlin
-cd RecyclerViewKotlin
-git init RecyclerViewKotlin
-cd RecyclerViewKotlin
-git config core.sparseCheckout true
-git remote add -f origin https://github.com/android/views-widgets-samples.git
-echo "RecyclerViewKotlin/" >> .git/info/sparse-checkout
-git pull origin master
+cd /usr/local/share/
+sudo mkdir sysbench
+sudo git init
+cd sysbench
+sudo git config core.sparseCheckout true
+sudo git remote add -f origin https://github.com/akopytov/sysbench.git
+sudo sh -c 'echo "src/lua" >> .git/info/sparse-checkout'
+sudo git pull origin master
 
 6. Download
 git clone [git address]
